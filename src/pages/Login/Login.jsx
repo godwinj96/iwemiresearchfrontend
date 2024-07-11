@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/iwemi logo.png'
 import Navbar from '../../components/NavBar/NavBar';
+import supabase from '../../supaBaseClient';
+import { GlobalStateContext } from '../../Context/GlobalState';
 
 const Login = () => {
-
+  const {query, setQuery, setPapers, queryHero, setQueryHero, search,setSearch, bookClicked, setBookClicked, loggedIn,setLoggedIn} = useContext(GlobalStateContext)
 
 
   const [email, setEmail] = useState("");
@@ -17,6 +19,18 @@ const Login = () => {
   }
   const ForgotPassword = () => {
     navigate('/Forgot-Password')
+  }
+
+  const handleLogin = async()=>{
+    const {user,error} = await supabase.auth.signIn({
+      email,password
+    });
+
+    if(error){
+      console.error('Error loggin in:', error.message)
+    } else{
+      console.log('User logged in:', user)
+    }
   }
 
 
@@ -97,6 +111,11 @@ const Login = () => {
                   <button
                     type="submit"
                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    onClick={()=>{
+                      setLoggedIn(true);
+                      handleLogin()
+                    }}
+                    
                   >
                     Sign in
                   </button>

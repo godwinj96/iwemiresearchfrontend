@@ -74,7 +74,7 @@ const Footer = () => {
                         </li>
                     </ul>
                     <div className='flex'>
-                      <Currency />
+                     
                     <Language />  
                     </div>
                     

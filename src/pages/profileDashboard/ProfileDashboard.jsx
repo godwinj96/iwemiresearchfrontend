@@ -4,6 +4,8 @@ import Footer from '../../components/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
 
+import supabase from '../../supaBaseClient'
+
 const ProfileDashboard = () => {
 
   const {query, setQuery, setPapers, queryHero, setQueryHero, search,setSearch, bookClicked, setBookClicked, loggedIn,setLoggedIn} = useContext(GlobalStateContext)
@@ -54,6 +56,14 @@ const ProfileDashboard = () => {
     }
     //handle file upload confirmation logic here
     alert(`File ${selectedFile.name} confirm for upload.`)
+  }
+
+  const handleLogout = async() => {
+     const { error } = await supabase.auth.signOut()
+     if(error){
+      console.error('Error logging out:', error.message)
+    } 
+    
   }
 
   const renderContent = () => {
@@ -315,6 +325,7 @@ const ProfileDashboard = () => {
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Are you sure you want to log out ? <a href="" onClick={(e)=>{
               e.preventDefault();
+              handleLogout()
               setLoggedIn(false)
             }}>Confirm and log out</a> </h3>
              <p className="mb-2">From your profile page you can view your{' '}

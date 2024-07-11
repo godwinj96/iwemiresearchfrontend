@@ -69,8 +69,6 @@ const Home = () => {
       {/**carousel */}
 
 
-      <Carousel />
-
 
 
       <section class="dark:bg-gray-900 features ">

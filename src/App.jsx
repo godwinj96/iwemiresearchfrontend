@@ -1,4 +1,5 @@
 import './index.css'
+import React from 'react'
 
 import Home from './pages/Home/Home'
 
@@ -16,15 +17,23 @@ import ForgotPassword from './pages/profileDashboard/ForgotPassword'
 import SignUpPublish from './pages/Login/SignUpPublish'
 import Terms from './pages/Terms/Terms'
 import PrivacyPolicy from './pages/Terms/PrivacyPolicy'
+import { supabase } from '@supabase/auth-ui-shared'
+import ProtectedRoute from './components/ProtectedComponent'
+import Journals from './pages/Journals/Journals'
+import Thesis from './pages/Thesis/Thesis'
+import ConferencePapers from './pages/Conference Papers/ConferencePapers'
+import AcademicTextbooks from './pages/Academic Textbooks/AcademicTextbooks'
 
 
 function App() {
 
 
+
+
   return (
     <GlobalStateProvider>
       <Routes>        
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/signup-Publisher' element={<SignUpPublish/>}/>
@@ -33,10 +42,14 @@ function App() {
           <Route path='/contact' element={<Contact />}/>
           <Route path='/about' element={<About />}/>
           <Route path='/FAQs' element={<Faq />}/>
-          <Route path='/Profile-dashboard' element={<ProfileDashboard />}/>   
+          <Route path='/Profile-dashboard' element={<ProtectedRoute element = {<ProfileDashboard />} />}/>   
           <Route path='/Forgot-Password' element={<ForgotPassword />}/>   
           <Route path='/terms&Conditions' element={<Terms />}/>   
           <Route path='/privcay-Policy' element={<PrivacyPolicy />}/>   
+          <Route path='/journals' element={<Journals />}/>   
+          <Route path='/thesis&Dissertations' element={<Thesis />}/>   
+          <Route path='/conference-Papers' element={<ConferencePapers />}/>   
+          <Route path='/academic-Textbooks' element={<AcademicTextbooks />}/>   
 
       </Routes>
     </GlobalStateProvider>     
