@@ -1,5 +1,9 @@
 import './index.css'
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
+=======
+import React from 'react'
+>>>>>>> 96e449d92079fb2689026b1312f808dcd3b7962a
 
 import Home from './pages/Home/Home'
 
