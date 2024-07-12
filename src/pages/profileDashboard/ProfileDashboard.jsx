@@ -3,8 +3,7 @@ import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
-
-import supabase from '../../supaBaseClient'
+import { supabase } from '../../supaBaseClient'
 
 const ProfileDashboard = () => {
 
@@ -19,6 +18,9 @@ const ProfileDashboard = () => {
 
   const catalogue = () => {
     navigate('/research-resources')
+  }
+  const home = () => {
+    navigate('/')
   }
 
 
@@ -137,10 +139,10 @@ const ProfileDashboard = () => {
             <button className="make-order bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 "
               onClick={(e) => {
                 e.preventDefault();
-                catalogue()
+                home()
               }}
             >
-              Browse Research resources
+              Return to home 
             </button>
           </div>
         );

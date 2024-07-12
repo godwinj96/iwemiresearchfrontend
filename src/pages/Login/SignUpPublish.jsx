@@ -3,6 +3,7 @@ import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/NavBar/NavBar';
 import logo from '../../assets/iwemi logo.png'
+import { supabase } from '../../supaBaseClient';
 
 const SignUpPublish = () => {
 

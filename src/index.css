@@ -42,8 +42,28 @@ body {
 }
 
 .nav-search{
-  margin-left: 20px;
-  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.nav-search-form {
+
+}
+
+.nav-search-div .pointer-events-none {
+  height: 45px;
+}
+
+.nav-search-div input{
+  padding-bottom: 0;
+  padding-top: 0;
+  height: 50px !important;
+}
+
+.nav-search-div button{
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 @media (min-width:768px) and (max-width:1024px) {
@@ -334,10 +354,11 @@ body {
       height: 25px;
       width: 250px;
       border-radius: 8px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
   }
   .get-started{
-      padding: 20px 25px;
+    
+      padding: 17px 25px;
       width: 250px;
       margin-left: 0;
   }
@@ -351,15 +372,13 @@ body {
 }
 
 .get-started{
-  padding: 20px 20px;
+  padding: 16px 20px;
   
 }
 
 .hero-section{
   background-color: #1F2937;
   background-image: linear-gradient(to right, #1F2937, #21314d);
-  
-
 }
 
 .features{
@@ -371,9 +390,15 @@ body {
   
 }
 
-@media (min-width:1024px) {
+@media (min-width:1024px) and (max-width: 1440px) {
   .features-text{
     margin-left: 7rem;
+  }
+}
+
+@media (min-width:1440px) {
+  .features-text{
+    margin-left: 15rem;
   }
 }
 
@@ -1687,6 +1712,14 @@ div.relative:hover .dropdown-menu{
   gap: 100px;
 }
 
+.each{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px; /* Optional: for rounded corners */
+  background-color: #fff; 
+}
+
 .each-t {
   margin-top: 40px;
   text-align: center;
@@ -2093,13 +2126,18 @@ div.relative:hover .dropdown-menu{
 
 .thesis-content .sidebar{
  margin-left: -30px;
- height:100%
+ height:100%;
+ background-color: #f8f8f8;
 }
 
 .type-sidebar-left{
-  background-color:#bbbaba;
+  background-color:#f8f8f8;
   padding: 10px 15px;
   margin-bottom: 20px;
+}
+
+.type-sidebar-left:hover{
+  background-color: white;
 }
 
 .type-category{
@@ -2184,10 +2222,23 @@ div.relative:hover .dropdown-menu{
 .next-button{
   display: flex;
   justify-content: right;
-  transition: color 0.2s;
+  transition: color 0.3s;
 }
 .next-button :hover{
   color: rgb(244, 180, 61);
+  text-decoration: underline;
+}
+
+.see-more-button{
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: -30px;
+  justify-content: right;
+  transition: color 0.3s;
+}
+
+.see-more-button :hover{
+  color: #1D4ED8;
   text-decoration: underline;
 }
 

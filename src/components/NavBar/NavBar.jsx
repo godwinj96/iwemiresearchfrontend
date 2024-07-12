@@ -1,6 +1,6 @@
 // src/components/Navbar.js
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import search_icon from '../../assets/search-icon.png'
 import logo from '../../assets/iwemi logo.png'
@@ -17,11 +17,28 @@ const Navbar = () => {
   const [showProfile, setShowProfile] = useState(false)
   const [showNoti, setShowNoti] = useState(false)
   const [registerDropdown, setRegisterDropdown] = useState(false)
-
+  const menuRef = useRef(null)
+  const menuMenuRef = useRef(null)
 
   const toggleMenu = () => {
     setMenu(!menu)
   }
+  const handleClickOutside = (e) => {
+    if (menuRef.current && !menuRef.current.contains(e.target) && !menuMenuRef.current.contains(e.target)) {
+      setMenu(false);
+    }
+  }
+
+  useEffect(() => {
+    if (menu) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [menu]);
 
   const toggleDropdown = (e) => {
     e.preventDefault()
@@ -143,15 +160,18 @@ const Navbar = () => {
               </div>
             }
             <button
+              ref={menuRef}
               data-collapse-toggle="mobile-menu-2"
               type="button"
               className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100
                             focus:outline-none focus:ring-2 focus:ring-gray-200 
                                 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              aria-controls="mobile-menu-2" aria-expanded="false">
+              aria-controls="mobile-menu-2" aria-expanded={menu}
+              onClick={toggleMenu}
+            >
 
               <span className="sr-only">Open main menu</span>
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onClick={toggleMenu}><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1
                                 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 
                                 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" ></path></svg>
               <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onClick={toggleMenu}><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 
@@ -159,7 +179,7 @@ const Navbar = () => {
                                 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
 
             </button>
-            {menu && <div className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
+            {menu && <div id='mobile-menu-2' ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
               <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
                 e.preventDefault();
                 home();
@@ -263,22 +283,26 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <div className="flex items-center">
-                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                    </svg>
 
-                    {location.pathname === "/" ? (
-                      <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
-                        Home
-                      </span>
-                    ) : (
+
+
+                  {location.pathname === "/" ? (
+                    <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
+
+                    </span>
+                  ) : (
+
+                    <div className="flex items-center">
+                      <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                      </svg>
                       <Link to={`/${lastPath}`} className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         {lastPath.charAt(0).toUpperCase() + lastPath.slice(1)}
                       </Link>
+                      </div>
                     )}
 
-                  </div>
+                   
                 </li>
 
               </ol>
@@ -286,16 +310,16 @@ const Navbar = () => {
           </div>
           <div className='nav-search'>
 
-            <form class="max-w-md mx-auto ">
-              <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-              <div class="relative">
+            <form class="max-w-md mx-auto nav-search-form">
+
+              <div class="relative nav-search-div">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                   </svg>
                 </div>
-                <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-                <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                <input type="search" id="default-search" class="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
+                <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
               </div>
             </form>
 

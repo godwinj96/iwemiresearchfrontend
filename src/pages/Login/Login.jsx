@@ -3,11 +3,11 @@ import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/iwemi logo.png'
 import Navbar from '../../components/NavBar/NavBar';
-import supabase from '../../supaBaseClient';
+import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
 
-const Login = () => {
-  const {query, setQuery, setPapers, queryHero, setQueryHero, search,setSearch, bookClicked, setBookClicked, loggedIn,setLoggedIn} = useContext(GlobalStateContext)
+const Login = (setToken) => {
+  const { query, setQuery, setPapers, queryHero, setQueryHero, search, setSearch, bookClicked, setBookClicked, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
 
 
   const [email, setEmail] = useState("");
@@ -21,16 +21,28 @@ const Login = () => {
     navigate('/Forgot-Password')
   }
 
-  const handleLogin = async()=>{
-    const {user,error} = await supabase.auth.signIn({
-      email,password
-    });
+  const handleLogin = async (e) => {
+   
 
-    if(error){
-      console.error('Error loggin in:', error.message)
-    } else{
-      console.log('User logged in:', user)
+    try {
+      e.preventDefault()
+      const { user, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      console.log(user)
+      
+      console.log(loggedIn)
+      setToken(user)
+      navigate('/')
+      if (error) throw error
+      
+    } catch (error) {
+
     }
+
+
   }
 
 
@@ -43,7 +55,7 @@ const Login = () => {
         <section className=" dark:bg-gray-900 login dark">
           <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0 login-div">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white logo-link">
-                <img className=" h-8 mr-2" src={logo} alt="logo" />   
+              <img className=" h-8 mr-2" src={logo} alt="logo" />
             </a>
 
             <div className="w-full bg-white rounded-lg shadow dark:border  sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 login-box">
@@ -51,7 +63,7 @@ const Login = () => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Sign in to your account
                 </h1>
-                <form className="space-y-4 md:space-y-6" action="#">
+                <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
                   <div>
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Your email
@@ -90,7 +102,7 @@ const Login = () => {
                           aria-describedby="remember"
                           type="checkbox"
                           className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                          required
+                          
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -100,7 +112,7 @@ const Login = () => {
                       </div>
                     </div>
                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                      onClick={(e)=>{
+                      onClick={(e) => {
                         e.preventDefault();
                         ForgotPassword()
                       }}
@@ -111,11 +123,11 @@ const Login = () => {
                   <button
                     type="submit"
                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    onClick={()=>{
+                    onClick={() => {
                       setLoggedIn(true);
                       handleLogin()
                     }}
-                    
+
                   >
                     Sign in
                   </button>

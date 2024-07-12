@@ -8,7 +8,7 @@ const GlobalStateProvider = ({children}) => {
     const [papers, setPapers] = useState([])
     const [search,setSearch] = useState(false)
     const [bookClicked, setBookClicked] = useState(false)
-    const[loggedIn,setLoggedIn] = useState(true)
+    const[loggedIn,setLoggedIn] = useState(false)
 
     const fetchPapers = async()=>{
         

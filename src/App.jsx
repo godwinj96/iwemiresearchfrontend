@@ -1,5 +1,5 @@
 import './index.css'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Home from './pages/Home/Home'
 
@@ -17,7 +17,7 @@ import ForgotPassword from './pages/profileDashboard/ForgotPassword'
 import SignUpPublish from './pages/Login/SignUpPublish'
 import Terms from './pages/Terms/Terms'
 import PrivacyPolicy from './pages/Terms/PrivacyPolicy'
-import { supabase } from '@supabase/auth-ui-shared'
+import { supabase } from './supaBaseClient'
 import ProtectedRoute from './components/ProtectedComponent'
 import Journals from './pages/Journals/Journals'
 import Thesis from './pages/Thesis/Thesis'
@@ -28,13 +28,24 @@ import AcademicTextbooks from './pages/Academic Textbooks/AcademicTextbooks'
 function App() {
 
 
+  const [token,setToken] = useState(false)
+  if(token){
+    sessionStorage.setItem('token', JSON.stringify(token))
+  }
 
+  useEffect(()=>{
+    if (sessionStorage.getItem('token')) {
+      let user = JSON.parse(sessionStorage.getItem('token'))
+      setToken(user)
+    }
+
+  }, [])
 
   return (
     <GlobalStateProvider>
       <Routes>        
           <Route path="/" element={<Home />} />
-          <Route path='/login' element={<Login/>}/>
+          <Route path='/login' element={<Login setToken={setToken}/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/signup-Publisher' element={<SignUpPublish/>}/>
           <Route path='/dashboard' element={<Dashboard />}/>
@@ -42,7 +53,7 @@ function App() {
           <Route path='/contact' element={<Contact />}/>
           <Route path='/about' element={<About />}/>
           <Route path='/FAQs' element={<Faq />}/>
-          <Route path='/Profile-dashboard' element={<ProtectedRoute element = {<ProfileDashboard />} />}/>   
+          <Route path='/Profile-dashboard' element={<ProfileDashboard/>} />   
           <Route path='/Forgot-Password' element={<ForgotPassword />}/>   
           <Route path='/terms&Conditions' element={<Terms />}/>   
           <Route path='/privcay-Policy' element={<PrivacyPolicy />}/>   
