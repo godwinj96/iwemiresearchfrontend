@@ -24,6 +24,9 @@ import Thesis from './pages/Thesis/Thesis'
 import ConferencePapers from './pages/Conference Papers/ConferencePapers'
 import AcademicTextbooks from './pages/Academic Textbooks/AcademicTextbooks'
 
+import ResetPassword from './pages/profileDashboard/ResetPassword'
+import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
+
 
 function App() {
 
@@ -47,11 +50,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path='/login' element={<Login setToken={setToken}/>}/>
           <Route path='/signup' element={<SignUp/>}/>
+          <Route path='/Forgot-Password' element={<ForgotPassword/>}/>
+          <Route path='/reset-Password' element={<ResetPassword/>}/>
           <Route path='/signup-Publisher' element={<SignUpPublish/>}/>
           <Route path='/dashboard' element={<Dashboard />}/>
           <Route path='/research-resources' element={<Catalogue />}/>
           <Route path='/contact' element={<Contact />}/>
           <Route path='/about' element={<About />}/>
+          <Route path='/shopping-Cart' element={<ShoppingCart />}/>
           <Route path='/FAQs' element={<Faq />}/>
           <Route path='/Profile-dashboard' element={<ProfileDashboard/>} />   
           <Route path='/Forgot-Password' element={<ForgotPassword />}/>   

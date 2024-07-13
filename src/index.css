@@ -450,6 +450,7 @@ body {
  display: flex; 
  flex-direction: column;
  height: 100px;
+ object-fit: cover;
 }
 
 .secton-imgs{
@@ -459,6 +460,9 @@ body {
   margin-right: 10px;
 }
 
+.payment-logo{
+  object-fit: cover;
+}
 
 
 .secton-imgs-long{
@@ -809,6 +813,13 @@ hr{
 .login-container{
   display: flex;
   flex-direction: column;
+}
+
+.forgot-password-page, .reset-page{
+  background-image: url('./assets/signup-background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .login-page{
@@ -1726,6 +1737,13 @@ div.relative:hover .dropdown-menu{
   margin-bottom: 90px;
 }
 
+.each a{
+  transition: color 0.5s;
+}
+.each a:hover{
+  text-decoration: underline;
+  color: #21314d;
+}
 
 .each-t .num{
   color: #d4d4d4;
@@ -2242,3 +2260,66 @@ div.relative:hover .dropdown-menu{
   text-decoration: underline;
 }
 
+
+/*home book cards*/
+.book-image{
+  height: 100%;
+  width: 100%;
+  justify-content: left;
+}
+
+
+@media (min-width: 1024px) {
+ 
+  .home-bookcards-heading{
+    
+  }
+
+  .home-bookcards p{
+   margin-top: 0;
+  }
+
+  .home-bookcards .right{
+   padding-top: 25px;
+   gap: 2px;
+  }
+  .home-bookcards .right h3{
+    margin-bottom: 10px;
+    line-height: 20px;
+    font-weight: 700;
+  }
+  
+ 
+  .home-bookcards .right p{
+    margin-bottom: 10px;
+  }
+ 
+}
+
+
+
+.home-bookcards .right h3:hover{
+  text-decoration: underline;
+  color: #22334b;
+}
+
+.home-bookcards .right h3{
+  margin-bottom: 10px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+
+.home-bookcards .right p{
+  margin-bottom: 10px;
+}
+
+.home-bookcards .right{
+  padding-top: 25px;
+  gap: 2px;
+ }
+ .home-bookcards .right h3{
+   margin-bottom: 10px;
+   line-height: 20px;
+   font-weight: 700;
+ }

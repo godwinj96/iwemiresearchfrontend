@@ -56,6 +56,11 @@ export default {
           'Segoe UI Symbol', 
           'Noto Color Emoji'
         ]
+      },
+      gap:{
+        '18':'4.5rem',
+        '20':'5rem',
+        '25':'6.5rem'
       }
     }
   },

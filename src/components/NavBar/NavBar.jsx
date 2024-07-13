@@ -6,7 +6,7 @@ import search_icon from '../../assets/search-icon.png'
 import logo from '../../assets/iwemi logo.png'
 import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
-import NavBar2 from './NavBar2';
+import { FiShoppingCart } from "react-icons/fi";
 
 
 const Navbar = () => {
@@ -63,6 +63,9 @@ const Navbar = () => {
   const home = () => {
     navigate('/')
   }
+  const cart = () => {
+    navigate('/shopping-Cart')
+  }
   const catalogue = () => {
     navigate('/research-resources')
   }
@@ -107,7 +110,7 @@ const Navbar = () => {
             {loggedIn ?
               <>
                 <div class="icons">
-                  <div>
+                  <div className='0'>
                     <svg class="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
                     </svg>
@@ -116,6 +119,19 @@ const Navbar = () => {
                     <p className="text-gray-700 text-xs sm:text-sm md:text-base lg:text-lg">No new notifications</p>
                   </div>
                 )} */}
+                  </div>
+
+
+                  <div className='Icon'>
+                    <a href=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        cart()
+                      }}
+                    >
+                      <FiShoppingCart size={22} color='white' />
+                    </a>
+
                   </div>
 
 
@@ -140,10 +156,21 @@ const Navbar = () => {
               :
               <div className='flex nav-buttons'>
                 <div>
+                  <a href=""
+                    onClick={(e) => {
+                      e.preventDefault();
+                      cart()
+                    }}
+                  >
+                    <FiShoppingCart size={22} color='white' />
+                  </a>
+
+                </div>
+                <div>
                   <a
                     href=""
                     onClick={loginClick}
-                    className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 log-in">
+                    className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 ms-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 log-in">
                     Log in
                   </a>
                 </div>
@@ -299,10 +326,10 @@ const Navbar = () => {
                       <Link to={`/${lastPath}`} className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         {lastPath.charAt(0).toUpperCase() + lastPath.slice(1)}
                       </Link>
-                      </div>
-                    )}
+                    </div>
+                  )}
 
-                   
+
                 </li>
 
               </ol>
