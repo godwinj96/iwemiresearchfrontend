@@ -4,9 +4,10 @@ import Footer from '../../components/Footer/Footer'
 import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
+import BookCards from '../../components/BookCards/BookCards';
 
 
-const Journals = () => {
+const SearchPage = () => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -176,9 +177,7 @@ const Journals = () => {
     const [isOpen,setIsOpen] = useState(false)
 
     const toggleSidebar=()=>{
-        
-        setIsOpen(!isOpen)
-        console.log(isOpen)
+        setIsOpen(true)
     }
 
 
@@ -241,7 +240,7 @@ const Journals = () => {
             <div className="thesis type flex flex-col items-center">
                 <div className="thesis-hero flex items-center w-full">
                     <h1>
-                        Journals
+                        Search Page
                     </h1>
                 </div>
                 <div className="empty w-full">
@@ -1173,146 +1172,10 @@ const Journals = () => {
 
                             <div className="type-papers flex flex-col">
 
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download' onClick={(e)=>{
-
-                                        }}>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
+                                <BookCards />
+                                <BookCards />
+                                <BookCards />
+                                <BookCards />
 
 
 
@@ -1329,4 +1192,4 @@ const Journals = () => {
     )
 }
 
-export default Journals
+export default SearchPage

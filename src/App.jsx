@@ -8,7 +8,7 @@ import Login from './pages/Login/Login'
 import SignUp from './pages/Login/SignUp'
 import Dashboard from './pages/Dashboard/Dashboard'
 import GlobalStateProvider from './Context/GlobalState'
-import Catalogue from './pages/Catalogue/Catalogue'
+import Catalogue from './pages/Catalogue/SearchPage'
 import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Faq from './pages/FAQs/Faq'
@@ -26,6 +26,8 @@ import AcademicTextbooks from './pages/Academic Textbooks/AcademicTextbooks'
 
 import ResetPassword from './pages/profileDashboard/ResetPassword'
 import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
+import Checkout from './pages/ShoppingCart/Checkout'
+import SearchPage from './pages/Catalogue/SearchPage'
 
 
 function App() {
@@ -54,10 +56,11 @@ function App() {
           <Route path='/reset-Password' element={<ResetPassword/>}/>
           <Route path='/signup-Publisher' element={<SignUpPublish/>}/>
           <Route path='/dashboard' element={<Dashboard />}/>
-          <Route path='/research-resources' element={<Catalogue />}/>
+          <Route path='/search-page' element={<SearchPage />}/>
           <Route path='/contact' element={<Contact />}/>
           <Route path='/about' element={<About />}/>
           <Route path='/shopping-Cart' element={<ShoppingCart />}/>
+          <Route path='/checkout' element={<Checkout />}/>
           <Route path='/FAQs' element={<Faq />}/>
           <Route path='/Profile-dashboard' element={<ProfileDashboard/>} />   
           <Route path='/Forgot-Password' element={<ForgotPassword />}/>   

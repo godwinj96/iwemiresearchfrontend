@@ -19,6 +19,7 @@
     "@mui/joy": "^5.0.0-beta.47",
     "@mui/material": "^5.15.21",
     "@supabase/supabase-js": "^2.44.3",
+    "axios": "^1.7.2",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
     "http-proxy-middleware": "^3.0.0",

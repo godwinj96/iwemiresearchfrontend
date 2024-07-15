@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStateContext } from '../../Context/GlobalState'
+import axios from 'axios'
+
+
 
 const BookCards = () => {
 
-    const{ papers,setBookedClicked } = useContext(GlobalStateContext)
+    const { papers, setBookedClicked } = useContext(GlobalStateContext)
 
     /*useEffect(()=>{
         if(query.trim() !== ''){
@@ -13,50 +16,39 @@ const BookCards = () => {
         }
     }, [query])*/
 
-    const truncateText = (text,length)=>{
-        if(text.length <=length) return text;
-        return text.substring(0,length) +'...'
+    const truncateText = (text, length) => {
+        if (text.length <= length) return text;
+        return text.substring(0, length) + '...'
     }
-    
 
-  return (
-    <div className='book-cards'>
-        
-        {papers.map((paper)=>(
-            <div className='flex flex-col paper' key={paper.paperId}>
-            <div className='book-top flex'>
-                <div className='left flex flex-col'>
-                    <span className='book-title' onClick={(e)=>{e.preventDefault();setBookedClicked(true)}}>{paper.title}</span>
-                    <div className='flex book-publish'>
-                        <a href="#">{paper.publicationTypes}</a>
-                        <span>{paper.publicationDate}</span>
-                    </div>
-                    <div>
-                        {paper.authors.map((author)=>{<span>{author.name}</span>})}
-                        
-                    </div>
-                    <div className='abstract'>
-                        <p>{ truncateText(paper.abstract,150)}</p>
-                    </div>
+
+    return (
+        <div className='book-cards'>
+            <div className='each flex'>
+                <div className="papers-left ">
+                    <h3>Journal Articles</h3>
+                    <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
+                    <text>
+                        <span>Sean Matt</span>{'  '},
+                        <span>Christopher Columbus</span> ,
+                        <span>Reggie Jackson</span>
+                    </text>
+
+                    <p className="abstract">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
+                        animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
+                        blanditiis ab vitae.
+                    </p>
                 </div>
-                <div className='right'>
-                    <img src="" alt="" />
-                </div>
-            </div>
-            <div className='book-bottom flex justify-between'>
-                <div className='left'>
-                    <button>Download</button>
-                </div>
-                <div className='right'>
-                    <button>Cite this work</button>
+                <div className="papers-right flex flex-col">
+                    <button>Cite</button>
+                    <button>Save</button>
+                    <button className='download'>Download</button>
                 </div>
             </div>
         </div>
-
-        ))} 
-        
-    </div>
-  )
+    )
 }
 
 export default BookCards
