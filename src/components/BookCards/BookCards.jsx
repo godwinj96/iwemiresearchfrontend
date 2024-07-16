@@ -28,6 +28,9 @@ const BookCards = () => {
                 <div className="papers-left ">
                     <h3>Journal Articles</h3>
                     <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
+                    <span className="published-date">
+                        June 2024
+                    </span>
                     <text>
                         <span>Sean Matt</span>{'  '},
                         <span>Christopher Columbus</span> ,

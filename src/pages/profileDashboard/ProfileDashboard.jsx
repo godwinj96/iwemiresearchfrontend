@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import { supabase } from '../../supaBaseClient'
-import stripe_img from'../../assets/stripe.png'
-import interswitch_img from'../../assets/interswitch.png'
-import flutterwave_img from'../../assets/flutterwave.png'
+import stripe_img from '../../assets/stripe.png'
+import interswitch_img from '../../assets/interswitch.png'
+import flutterwave_img from '../../assets/flutterwave.png'
 
 const ProfileDashboard = () => {
 
@@ -19,8 +19,28 @@ const ProfileDashboard = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [uploadedOption, setUploadedOption] = useState('')//initial radio state
   const [isOptionSelected, setIsOptionSelected] = useState(false)
+  const [isPopover, setIsPopover] = useState(false)
 
   const navigate = useNavigate()
+  const timerRef = useRef(null)
+
+  const handleMouseEnter = () => {
+
+    timerRef.current = setTimeout(() => {
+      setIsPopover(true);
+    }, 150)
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(timerRef.current)
+    setIsPopover(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timerRef.current)
+    }
+  }, [])
 
   const catalogue = () => {
     navigate('/research-resources')
@@ -62,26 +82,34 @@ const ProfileDashboard = () => {
     setIsModalOpen(false)
   }
 
-  const handleUploadConfirm = async() => {
-    if(selectedFile){
+  const handleUploadConfirm = async () => {
+    if (selectedFile) {
       toggleUploadModal()
-    } else{
+    } else {
       alert('Please select a file to upload')
     }
-    
+
   }
 
   const handleFinaliseUpload = () => {
-    if (uploadedOption) {
-      const newFile ={
-        name:selectedFile.name,
-        size:(selectedFile.size /1024).toFixed(2) + 'KB',
+    if (uploadedOption === 'subscriptionBased') {
+      const newFile = {
+        name: selectedFile.name,
+        size: (selectedFile.size / 1024).toFixed(2) + 'KB',
         date: new Date().toLocaleString(),
         option: uploadedOption
       };
       setUploadedFiles([...uploadedFiles, newFile])
       closeUploadModal()
-    } else{
+    } else if(uploadedOption === 'openAccess'){
+        const product = {
+          name: 'Open Access Product',
+          price: 100
+        };
+        localStorage.setItem('product', JSON.stringify(product))
+        navigate('/payment', {state:{ products: [product] }})
+    } 
+    else {
       alert('Please select an option before finalising option')
     }
   }
@@ -206,6 +234,7 @@ const ProfileDashboard = () => {
                         <span className="ml-2 text-gray-700 dark:text-gray-300">Open-Access</span>
 
                       </label>
+                      
                       <label className="inline-flex items-center ml-6">
                         <input
                           type="radio"
@@ -220,6 +249,11 @@ const ProfileDashboard = () => {
                         <span className="ml-2 text-gray-700 dark:text-gray-300">Subscriptiopn based</span>
                       </label>
                     </div>
+                    {isOptionSelected && uploadedOption === 'openAccess' && (
+                        <div className="mt-2 text-gray-700 dark:text-gray-300">
+                          A sum of $100 is to be paid...click finalise to begin payment
+                        </div>
+                      )}
 
 
 
@@ -229,14 +263,42 @@ const ProfileDashboard = () => {
                     <button
                       onClick={handleFinaliseUpload}
                       type="button"
-                      className={`text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center ${
-                        !isOptionSelected ? 'opacity-50 cursor-not-allowed' : ''
-                      }`}
+                      className={`text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center ${!isOptionSelected ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
                       disabled={!isOptionSelected} // Disable button if no option is selected
-                      >
+                    >
                       Finalise Upload
                     </button>
-                    
+
+                    <div className='relative inline-block'>
+                      <p class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                        Don't know what those words mean?
+                        <button
+                          onMouseEnter={handleMouseEnter}
+                          onMouseLeave={handleMouseLeave}
+                          className='relative ml-2'
+                          type="button">
+                          <svg class="w-4 h-4 ms-2 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd">
+                            </path>
+                          </svg>
+                          <span class="sr-only">Show information</span>
+                        </button>
+                      </p>
+                      {isPopover && (<div role="tooltip" class="absolute z-10  inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-1 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                        <div class="p-3 ">
+                          <h3 class="font-semibold text-gray-900 dark:text-white">Open Access</h3>
+                          <p>Means that you pay $100 for upload and people can access your resource for free</p>
+                          <h3 class="font-semibold text-gray-900 dark:text-white">Subscription based</h3>
+                          <p>You upload for free and people have to pay to access your resouces. 40% of that money will be sent back you</p>
+
+                        </div>
+                        <div data-popper-arrow></div>
+                      </div>)}
+                    </div>
+
+
+
                   </div>
                 </div>
               </div>
@@ -316,16 +378,16 @@ const ProfileDashboard = () => {
                     </button>
 
                     <button type="button" className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 me-2 mb-2 payment-button">
-                    <img src={flutterwave_img} className='w-10 h-3 payment-logo' alt="" />
+                      <img src={flutterwave_img} className='w-10 h-3 payment-logo' alt="" />
                       Check out with Flutterwave
                     </button>
 
                     <button type="button" className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 payment-button">
-                    <img src={interswitch_img} className='w-10 h-3 payment-logo' alt="" />
-                       Pay with Interswitch
+                      <img src={interswitch_img} className='w-10 h-3 payment-logo' alt="" />
+                      Pay with Interswitch
                     </button>
 
-                    
+
 
 
 

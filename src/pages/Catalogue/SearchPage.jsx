@@ -8,230 +8,264 @@ import BookCards from '../../components/BookCards/BookCards';
 
 
 const SearchPage = () => {
-
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const [isEachCategoryOpen, setIsEachCategoryOpen] = useState({
-        agriculture: false,
-        arts: false,
-        biologicalSciences: false,
-        administration: false,
-        dentistry: false,
-        engineering: false,
-        environmentalSciences: false,
-        healthSciences: false,
-        law: false,
-        medicalSciences: false,
-        pharmaceuticalSciences: false,
-        physicalSciences: false,
-        socialSciences: false,
-        veterinaryMedicine: false,
-    })
-
-
-    const [checkboxValues, setCheckboxValues] = useState({
-        agriculturalEconomics: false,
-        agriculturalExtension: false,
-        agronomy: false,
-        animalScience: false,
-        cropScience: false,
-        foodScience: false,
-        fisheries: false,
-        forestry: false,
-        homeScience: false,
-        soilScience: false,
-        archeology: false,
-        arabicStudies: false,
-        christianStudies: false,
-        englishStudies: false,
-        fineArts: false,
-        foreignLanguages: false,
-        history: false,
-        linguistics: false,
-        massCommunication: false,
-        music: false,
-        theatreStudies: false,
-        biochemistry: false,
-        botany: false,
-        microbiology: false,
-        marineBiology: false,
-        cellBiology: false,
-        zoology: false,
-        accountancy: false,
-        actuarialScience: false,
-        businessAdministration: false,
-        businessManagement: false,
-        bankingFinance: false,
-        hospitalityTourism: false,
-        marketing: false,
-        insurance: false,
-        industrialRelations: false,
-        childDentalHealth: false,
-        maxillofacialSurgery: false,
-        preventiveDentistry: false,
-        restorativeDentistry: false,
-        adultEducation: false,
-        artsEducation: false,
-        educationAccountancy: false,
-        educationComputerScience: false,
-        educationEconomics: false,
-        educationMathematics: false,
-        educationPhysics: false,
-        educationReligiousStudies: false,
-        educationSocialScience: false,
-        educationBiology: false,
-        educationChemistry: false,
-        educationEnglish: false,
-        educationFrench: false,
-        educationGeography: false,
-        educationPoliticalScience: false,
-        educationalFoundations: false,
-        educationalPsychology: false,
-        healthEducation: false,
-        libraryScience: false,
-        scienceEducation: false,
-        socialScienceEducation: false,
-        vocationalEducation: false,
-        religion: false,
-        igboLinguistics: false,
-        agriculturalEngineering: false,
-        civilEngineering: false,
-        chemicalEngineering: false,
-        computerEngineering: false,
-        electricalEngineering: false,
-        electronicEngineering: false,
-        marineEngineering: false,
-        mechanicalEngineering: false,
-        metallurgicalEngineering: false,
-        petroleumEngineering: false,
-        systemsEngineering: false,
-        structuralEngineering: false,
-        productionEngineering: false,
-        architecture: false,
-        estateManagement: false,
-        quantitySurveying: false,
-        building: false,
-        geoinformatics: false,
-        urbanPlanning: false,
-        healthAdministration: false,
-        medicalLaboratory: false,
-        medicalRadiography: false,
-        medicalRehabilitation: false,
-        nursingSciences: false,
-        commercialLaw: false,
-        internationalLaw: false,
-        privateLaw: false,
-        anatomy: false,
-        anesthesia: false,
-        chemicalPathology: false,
-        communityMedicine: false,
-        dermatology: false,
-        hematology: false,
-        medicalBiochemistry: false,
-        medicalMicrobiology: false,
-        medicine: false,
-        morbidAnatomy: false,
-        obstetrics: false,
-        ophthalmology: false,
-        otolaryngology: false,
-        pediatrics: false,
-        pharmacology: false,
-        physiology: false,
-        radiationMedicine: false,
-        surgery: false,
-        psychologicalMedicine: false,
-        clinicalPharmacy: false,
-        pharmaceuticalChemistry: false,
-        pharmaceuticalTechnology: false,
-        pharmaceutics: false,
-        pharmacognosy: false,
-        departmentPharmacology: false,
-        computerScience: false,
-        geology: false,
-        mathematics: false,
-        physicsAstronomy: false,
-        geophysics: false,
-        industrialChemistry: false,
-        statistics: false,
-        economics: false,
-        geography: false,
-        philosophy: false,
-        politicalScience: false,
-        psychology: false,
-        publicAdministration: false,
-        socialWork: false,
-        sociology: false,
-        veterinaryPhysiology: false,
-        veterinaryAnatomy: false,
-        animalHealth: false,
-        veterinaryParasitology: false,
-        veterinaryPathology: false,
-        veterinaryPublicHealth: false,
-        veterinarySurgery: false,
-        veterinaryMedicine: false,
-        veterinaryObstetrics: false,
-        veterinaryTeachingHospital: false,
-
-    });
-
-    const [isOpen,setIsOpen] = useState(false)
-
-    const toggleSidebar=()=>{
-        setIsOpen(true)
-    }
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isEachCategoryOpen, setIsEachCategoryOpen] = useState({
+      agriculture: false,
+      arts: false,
+      biologicalSciences: false,
+      administration: false,
+      dentistry: false,
+      engineering: false,
+      environmentalSciences: false,
+      healthSciences: false,
+      law: false,
+      medicalSciences: false,
+      pharmaceuticalSciences: false,
+      physicalSciences: false,
+      socialSciences: false,
+      veterinaryMedicine: false,
+  })
 
 
-    const dropdownRef = useRef(null)
+  const [checkboxValues, setCheckboxValues] = useState({
+      agriculturalEconomics: false,
+      agriculturalExtension: false,
+      agronomy: false,
+      animalScience: false,
+      cropScience: false,
+      foodScience: false,
+      fisheries: false,
+      forestry: false,
+      homeScience: false,
+      soilScience: false,
+      archeology: false,
+      arabicStudies: false,
+      christianStudies: false,
+      englishStudies: false,
+      fineArts: false,
+      foreignLanguages: false,
+      history: false,
+      linguistics: false,
+      massCommunication: false,
+      music: false,
+      theatreStudies: false,
+      biochemistry: false,
+      botany: false,
+      microbiology: false,
+      marineBiology: false,
+      cellBiology: false,
+      zoology: false,
+      accountancy: false,
+      actuarialScience: false,
+      businessAdministration: false,
+      businessManagement: false,
+      bankingFinance: false,
+      hospitalityTourism: false,
+      marketing: false,
+      insurance: false,
+      industrialRelations: false,
+      childDentalHealth: false,
+      maxillofacialSurgery: false,
+      preventiveDentistry: false,
+      restorativeDentistry: false,
+      adultEducation: false,
+      artsEducation: false,
+      educationAccountancy: false,
+      educationComputerScience: false,
+      educationEconomics: false,
+      educationMathematics: false,
+      educationPhysics: false,
+      educationReligiousStudies: false,
+      educationSocialScience: false,
+      educationBiology: false,
+      educationChemistry: false,
+      educationEnglish: false,
+      educationFrench: false,
+      educationGeography: false,
+      educationPoliticalScience: false,
+      educationalFoundations: false,
+      educationalPsychology: false,
+      healthEducation: false,
+      libraryScience: false,
+      scienceEducation: false,
+      socialScienceEducation: false,
+      vocationalEducation: false,
+      religion: false,
+      igboLinguistics: false,
+      agriculturalEngineering: false,
+      civilEngineering: false,
+      chemicalEngineering: false,
+      computerEngineering: false,
+      electricalEngineering: false,
+      electronicEngineering: false,
+      marineEngineering: false,
+      mechanicalEngineering: false,
+      metallurgicalEngineering: false,
+      petroleumEngineering: false,
+      systemsEngineering: false,
+      structuralEngineering: false,
+      productionEngineering: false,
+      architecture: false,
+      estateManagement: false,
+      quantitySurveying: false,
+      building: false,
+      geoinformatics: false,
+      urbanPlanning: false,
+      healthAdministration: false,
+      medicalLaboratory: false,
+      medicalRadiography: false,
+      medicalRehabilitation: false,
+      nursingSciences: false,
+      commercialLaw: false,
+      internationalLaw: false,
+      privateLaw: false,
+      anatomy: false,
+      anesthesia: false,
+      chemicalPathology: false,
+      communityMedicine: false,
+      dermatology: false,
+      hematology: false,
+      medicalBiochemistry: false,
+      medicalMicrobiology: false,
+      medicine: false,
+      morbidAnatomy: false,
+      obstetrics: false,
+      ophthalmology: false,
+      otolaryngology: false,
+      pediatrics: false,
+      pharmacology: false,
+      physiology: false,
+      radiationMedicine: false,
+      surgery: false,
+      psychologicalMedicine: false,
+      clinicalPharmacy: false,
+      pharmaceuticalChemistry: false,
+      pharmaceuticalTechnology: false,
+      pharmaceutics: false,
+      pharmacognosy: false,
+      departmentPharmacology: false,
+      computerScience: false,
+      geology: false,
+      mathematics: false,
+      physicsAstronomy: false,
+      geophysics: false,
+      industrialChemistry: false,
+      statistics: false,
+      economics: false,
+      geography: false,
+      philosophy: false,
+      politicalScience: false,
+      psychology: false,
+      publicAdministration: false,
+      socialWork: false,
+      sociology: false,
+      veterinaryPhysiology: false,
+      veterinaryAnatomy: false,
+      animalHealth: false,
+      veterinaryParasitology: false,
+      veterinaryPathology: false,
+      veterinaryPublicHealth: false,
+      veterinarySurgery: false,
+      veterinaryMedicine: false,
+      veterinaryObstetrics: false,
+      veterinaryTeachingHospital: false,
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+  });
+
+  const [isOpen,setIsOpen] = useState(false)
+
+  const toggleSidebar=()=>{
+      
+      setIsOpen(!isOpen)
+      console.log(isOpen)
+      if (isOpen){
+          removeBackdrop()
+      }
+  }
+
+
+  const dropdownRef = useRef(null)
+  const buttonRef = useRef(null)
+  const menuRef = useRef(null)
+
+  const removeBackdrop = () => {
+      const backdrop = document.querySelector('div[drawer-backdrop]');
+      if (backdrop) {
+        backdrop.remove();
+      }
     };
 
-    const categoryDropDown = () => {
-        setIsCategoryOpen(!isCategoryOpen)
-    }
+  const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+  };
 
-    const eachCategoryDropDown = (category) => {
-        setIsEachCategoryOpen((prevState) => ({
-            ...prevState,
-            [category]: !prevState[category],
-        }))
-    }
+  const categoryDropDown = () => {
+      setIsCategoryOpen(!isCategoryOpen)
+  }
 
-    const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setIsDropdownOpen(false);
+  const eachCategoryDropDown = (category) => {
+      setIsEachCategoryOpen((prevState) => ({
+          ...prevState,
+          [category]: !prevState[category],
+      }))
+  }
+
+  const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsDropdownOpen(false);
+      }
+  };
+
+  const handleClickOutsideMenu = (e) => {
+    if (isOpen) {
+        if (buttonRef.current && !buttonRef.current.contains(e.target) && menuRef.current && !menuRef.current.contains(e.target)) {
+            setIsOpen(false)
+            removeBackdrop()
         }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-
-        const handleResize = ()=>{
-            if(window.innerWidth>=1200){
-                setIsOpen(true)
-            } else{
-                
-            }
-        }
-        window.addEventListener('resize', handleResize)
-        handleResize()
-
-
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    const handleCheckboxChange = (e) => {
-        const { id, checked } = e.target
-        setCheckboxValues((prevState) => ({
-            ...prevState,
-            [id]: checked,
-        }))
     }
+
+}
+
+  useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutsideMenu);
+      
+
+      const handleResize = ()=>{
+          if(window.innerWidth>=1200){
+              setIsOpen(true)
+              removeBackdrop()
+          } else{
+              
+          }
+      }
+      window.addEventListener('resize', handleResize)
+      handleResize()
+
+
+
+      return () => {
+          window.removeEventListener('resize', handleResize)
+          document.removeEventListener('mousedown', handleClickOutside);
+          document.removeEventListener('mousedown', handleClickOutsideMenu);
+      };
+  }, []);
+
+  useEffect(() => {
+      if (!isOpen) {
+        removeBackdrop();
+      }
+    }, [isOpen]);
+
+  const handleCheckboxChange = (e) => {
+      const { id, checked } = e.target
+      setCheckboxValues((prevState) => ({
+          ...prevState,
+          [id]: checked,
+      }))
+  }
+
 
 
     return (

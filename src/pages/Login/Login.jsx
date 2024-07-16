@@ -12,7 +12,8 @@ const Login = ({ setToken }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false)
+  const [showconfirmPassword, setShowconfirmPassword] = useState(false)
   const navigate = useNavigate()
 
   const signUp = () => {
@@ -41,12 +42,17 @@ const Login = ({ setToken }) => {
         password,
       });
 
-      setLoggedIn(true)
-      navigate('/')
-      setToken(user)
+
       console.log(user)
       console.log(loggedIn)
-      if (error) throw error
+      if (error) {
+        throw error;
+
+      } else {
+        setLoggedIn(true)
+        navigate('/')
+        setToken(user)
+      }
 
 
 
@@ -56,6 +62,13 @@ const Login = ({ setToken }) => {
     }
 
 
+  }
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
+  const toggleConfirmPasswordVisibility = () => {
+    setShowconfirmPassword(!showconfirmPassword)
   }
 
 
@@ -92,12 +105,12 @@ const Login = ({ setToken }) => {
                       required
                     />
                   </div>
-                  <div>
+                  <div className='relative'>
                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Password
                     </label>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       name="password"
@@ -106,6 +119,13 @@ const Login = ({ setToken }) => {
                       className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute inset-y-0 right-0 px-3 mt-6 text-white flex items-center text-sm leading-5"
+                    >
+                      {showPassword ? 'Hide' : 'Show'}
+                    </button>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-start">

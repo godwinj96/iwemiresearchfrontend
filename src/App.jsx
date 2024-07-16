@@ -28,6 +28,8 @@ import ResetPassword from './pages/profileDashboard/ResetPassword'
 import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
 import Checkout from './pages/ShoppingCart/Checkout'
 import SearchPage from './pages/Catalogue/SearchPage'
+import ClickedBook from './pages/Dashboard/ClickedBook'
+import Payment from './pages/Payment/Payment'
 
 
 function App() {
@@ -50,6 +52,8 @@ function App() {
     <GlobalStateProvider>
       <Routes>        
           <Route path="/" element={<Home />} />
+          <Route path="/payment" element={<Payment />} />
+
           <Route path='/login' element={<Login setToken={setToken}/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/Forgot-Password' element={<ForgotPassword/>}/>
@@ -57,6 +61,7 @@ function App() {
           <Route path='/signup-Publisher' element={<SignUpPublish/>}/>
           <Route path='/dashboard' element={<Dashboard />}/>
           <Route path='/search-page' element={<SearchPage />}/>
+          <Route path='clicked' element={<ClickedBook />}/>
           <Route path='/contact' element={<Contact />}/>
           <Route path='/about' element={<About />}/>
           <Route path='/shopping-Cart' element={<ShoppingCart />}/>

@@ -173,16 +173,28 @@ const Journals = () => {
 
     });
 
-    const [isOpen,setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
-    const toggleSidebar=()=>{
-        
+    const toggleSidebar = () => {
+
         setIsOpen(!isOpen)
         console.log(isOpen)
+        if (isOpen) {
+            removeBackdrop()
+        }
     }
 
 
     const dropdownRef = useRef(null)
+    const buttonRef = useRef(null)
+    const menuRef = useRef(null)
+
+    const removeBackdrop = () => {
+        const backdrop = document.querySelector('div[drawer-backdrop]');
+        if (backdrop) {
+            backdrop.remove();
+        }
+    };
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -205,14 +217,27 @@ const Journals = () => {
         }
     };
 
+    const handleClickOutsideMenu = (e) => {
+        if (isOpen) {
+            if (buttonRef.current && !buttonRef.current.contains(e.target) && menuRef.current && !menuRef.current.contains(e.target)) {
+                setIsOpen(false)
+                removeBackdrop()
+            }
+        }
+
+    }
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutsideMenu);
 
-        const handleResize = ()=>{
-            if(window.innerWidth>=1200){
+
+        const handleResize = () => {
+            if (window.innerWidth >= 1200) {
                 setIsOpen(true)
-            } else{
-                
+                removeBackdrop()
+            } else {
+
             }
         }
         window.addEventListener('resize', handleResize)
@@ -223,8 +248,15 @@ const Journals = () => {
         return () => {
             window.removeEventListener('resize', handleResize)
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutsideMenu);
         };
     }, []);
+
+    useEffect(() => {
+        if (!isOpen) {
+            removeBackdrop();
+        }
+    }, [isOpen]);
 
     const handleCheckboxChange = (e) => {
         const { id, checked } = e.target
@@ -247,23 +279,24 @@ const Journals = () => {
                 <div className="empty w-full">
 
                 </div>
-                <div className="thesis-content flex ">
-                    <div className="sidebar flex flex-col relative items-center justify-center">
+                <div className="thesis-content flex  ">
+                    <div className="sidebar flex flex-col   relative">
 
-                        <button 
-                        onClick={toggleSidebar}
-                        data-drawer-target="sidebar-multi-level-sidebar" 
-                        data-drawer-toggle="sidebar-multi-level-sidebar" 
-                        aria-controls="sidebar-multi-level-sidebar" 
-                        type="button" 
-                        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
+                        <button
+                            ref={buttonRef}
+                            onClick={toggleSidebar}
+                            data-drawer-target="sidebar-multi-level-sidebar"
+                            data-drawer-toggle="sidebar-multi-level-sidebar"
+                            aria-controls="sidebar-multi-level-sidebar"
+                            type="button"
+                            class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
                         focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
                             <span class="sr-only">Open sidebar</span>
-                            <HiMenuAlt2 size={24}  />
-                            
+                            <HiMenuAlt2 size={24} />
+
                         </button>
 
-                        <aside id="sidebar-multi-level-sidebar" class={`w-64 h-screen transition-transform ${isOpen? 'translate-x-0' : '-translate-x-full'} `} aria-label="Sidebar">
+                        <aside ref={menuRef} id="sidebar-multi-level-sidebar" class={` w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 top-0'} `} aria-label="Sidebar">
                             <div class="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
                                 <ul class="space-y-2 font-medium">
 
@@ -1239,7 +1272,7 @@ const Journals = () => {
                                     <div className="papers-right flex flex-col">
                                         <button>Cite</button>
                                         <button>Save</button>
-                                        <button className='download' onClick={(e)=>{
+                                        <button className='download' onClick={(e) => {
 
                                         }}>Download</button>
                                     </div>
