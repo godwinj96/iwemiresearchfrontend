@@ -4,10 +4,14 @@ import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GiNewspaper } from "react-icons/gi"
+import { useLocation } from 'react-router-dom'
 
 const ClickedBook = () => {
   const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
+  const location = useLocation()
+
+  const { book } = location.state || {}
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -24,10 +28,7 @@ const ClickedBook = () => {
               </div>
 
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nobis cum. Recusandae tempora amet ipsa,
-                minus est voluptatem, accusantium corporis ad pariatur earum nihil corrupti voluptatibus rem dolor praesentium ullam?Lorem
-                ipsum dolor sit amet consectetur, adipisicing elit. Rerum aliquam libero perspiciatis sed? Pariatur aperiam esse accusamus
-                quaerat. Aspernatur mollitia sunt laboriosam dicta. Voluptate nemo, ullam enim velit iste numquam?
+                {book.description}
               </p>
 
             </div>
@@ -119,7 +120,7 @@ const ClickedBook = () => {
                 <h2 className=''> This research paper isn't cited in any other research material</h2>
                 <p>Note:This is based on the research resources in our database </p>
               </div>
-              
+
             </div>
           </div>
         );
@@ -127,6 +128,8 @@ const ClickedBook = () => {
         return null;
     }
   };
+
+  
 
 
   return (
@@ -140,16 +143,16 @@ const ClickedBook = () => {
             </div>
 
             <h1 className='clicked-book-title'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.
+              {book.title}
             </h1>
             <span className="published-date">
-              June 2024
+              {book.date}
             </span>
             <br />
             <text className='clicked-authors'>
-              <span>Sean Matt</span>.
-              <span>Christopher Columbus</span>.
-              <span>Reggie Jackson</span>
+              {book.authors.map((author, index) => (
+                <span key={index}>{author}{index < book.authors.length - 1 ? ', ' : ''}</span>
+              ))}
             </text>
 
 

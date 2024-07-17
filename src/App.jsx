@@ -32,21 +32,43 @@ import ClickedBook from './pages/Dashboard/ClickedBook'
 import Payment from './pages/Payment/Payment'
 
 
+
 function App() {
+  const [user, setUser] = useState(null);
 
-
-  const [token,setToken] = useState(false)
-  if(token){
-    sessionStorage.setItem('token', JSON.stringify(token))
-  }
+  
 
   useEffect(()=>{
-    if (sessionStorage.getItem('token')) {
-      let user = JSON.parse(sessionStorage.getItem('token'))
-      setToken(user)
+    const checkSession = async()=>{
+      const storedSession = localStorage.getItem('supabase_session')
+      if (storedSession) {
+        const parsedSession = JSON.parse(storedSession)
+        setUser(parsedSession.user)
+      } else{
+        const {data,error} = await supabase.auth.getSession()
+        if (data?.session) {
+           setUser(data.session.user)
+           localStorage.setItem('supabase_session', JSON.stringify(data.session))
+        }
+      }
     }
 
-  }, [])
+    checkSession()
+
+    const {data:authListener} = supabase.auth.onAuthStateChange((event,session)=>{
+      if (session) {
+        setUser(session.user)
+        localStorage.setItem('supabase_session', JSON.stringify(session))
+      } else{
+        setUser(null);
+        localStorage.removeItem('supabase_session')
+      }
+    });
+
+    return()=>{
+      authListener.subscription.unsubscribe()
+    }
+  },[])
 
   return (
     <GlobalStateProvider>
@@ -54,14 +76,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/payment" element={<Payment />} />
 
-          <Route path='/login' element={<Login setToken={setToken}/>}/>
+          <Route path='/login' element={<Login />}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/Forgot-Password' element={<ForgotPassword/>}/>
           <Route path='/reset-Password' element={<ResetPassword/>}/>
           <Route path='/signup-Publisher' element={<SignUpPublish/>}/>
           <Route path='/dashboard' element={<Dashboard />}/>
           <Route path='/search-page' element={<SearchPage />}/>
-          <Route path='clicked' element={<ClickedBook />}/>
+          <Route path='book/:id' element={<ClickedBook />}/>
           <Route path='/contact' element={<Contact />}/>
           <Route path='/about' element={<About />}/>
           <Route path='/shopping-Cart' element={<ShoppingCart />}/>

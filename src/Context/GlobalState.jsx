@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { supabase } from '../supaBaseClient';
 
 export const GlobalStateContext = createContext();
 
@@ -9,6 +10,15 @@ const GlobalStateProvider = ({children}) => {
     const [search,setSearch] = useState(false)
     const [bookClicked, setBookClicked] = useState(false)
     const[loggedIn,setLoggedIn] = useState(false)
+    const [user, setUser] = useState(null);
+
+   
+
+
+
+
+
+
 
     const fetchPapers = async()=>{
         
@@ -46,7 +56,9 @@ const GlobalStateProvider = ({children}) => {
       setBookClicked,
       loggedIn,
       setLoggedIn,
-      fetchPapers
+      fetchPapers,
+      user,
+      setUser
     }
 
   return (

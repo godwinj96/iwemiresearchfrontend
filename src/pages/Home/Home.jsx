@@ -5,13 +5,78 @@ import content1 from '../../assets/content-1.webp'
 import content4 from '../../assets/content-4.webp'
 import content2 from '../../assets/content-2.jpg'
 import content3 from '../../assets/content-3.jpg'
+import bookImage from '../../assets/thesis-test2.jpg'
 
 import Carousel from '../../components/Carousel/Carousel'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { useNavigate } from 'react-router-dom'
+
+
+const books = [
+  {
+    id: 1,
+    title: "Change and Stability in Thesis and Dissertation Writing",
+    date: "June 2024",
+    authors: ["John Doe", "Jane Smith"],
+
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
+    image: bookImage
+  },
+  {
+    id: 2,
+    title: "Change and Stability in Thesis and Dissertation Writing",
+    date: "June 2024",
+    authors: ["John Doe", "Jane Smith"],
+
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
+    image: bookImage
+  },
+  {
+    id: 3,
+    title: "Change and Stability in Thesis and Dissertation Writing",
+    date: "June 2024",
+    authors: ["John Doe", "Jane Smith"],
+
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
+    image: bookImage
+  },
+  {
+    id: 4,
+    title: "Change and Stability in Thesis and Dissertation Writing",
+    date: "June 2024",
+    authors: ["John Doe", "Jane Smith"],
+
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
+    image: bookImage
+  },
+  {
+    id: 5,
+    title: "Change and Stability in Thesis and Dissertation Writing",
+    date: "June 2024",
+    authors: ["John Doe", "Jane Smith"],
+
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
+    image: bookImage
+  },
+
+  // Add more books here...
+];
 
 
 const Home = () => {
 
+  const navigate = useNavigate()
+  const academic = () => {
+    navigate('/academic-Textbooks')
+  }
+  const thesis = () => {
+    navigate('/thesis&Dissertations')
+  }
+
+  
+  const journals = () => {
+    navigate('/journals')
+  }
 
 
 
@@ -83,14 +148,18 @@ const Home = () => {
             <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
           </div>
           <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-            
-            <HomeBookCards />
-            <HomeBookCards />
-            <HomeBookCards />
-            <HomeBookCards />
+
+            {books.slice(0,4).map(book => (
+              <HomeBookCards key={book.id} book={book}
+               />
+            ))}
           </div>
           <div className="see-more-button">
-            <a href="">See more {'>'}</a>
+            <a href="" onClick={(e)=>{
+              e.preventDefault();
+              academic()
+        
+            }}>See more {'>'}</a>
           </div>
         </div>
       </section>
@@ -102,16 +171,19 @@ const Home = () => {
             <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
           </div>
           <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
-           
-            <HomeBookCards />
-            <HomeBookCards />
-            <HomeBookCards />
-            <HomeBookCards />
-           
-         
+
+          {books.slice(0,4).map(book => (
+              <HomeBookCards key={book.id} book={book} />
+            ))}
+
+
           </div>
           <div className="see-more-button">
-            <a href="">See more {'>'}</a>
+            <a href="" onClick={(e)=>{
+              e.preventDefault();
+              thesis()
+        
+            }}>See more {'>'}</a>
           </div>
         </div>
       </section>
@@ -123,14 +195,17 @@ const Home = () => {
             <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
           </div>
           <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-       
-            <HomeBookCards />
-            <HomeBookCards />
-            <HomeBookCards />
-            <HomeBookCards />
+
+          {books.slice(0,4).map(book => (
+              <HomeBookCards key={book.id} book={book} />
+            ))}
           </div>
           <div className="see-more-button">
-            <a href="">See more {'>'}</a>
+            <a href="" onClick={(e)=>{
+              e.preventDefault();
+              academic()
+        
+            }}>See more {'>'}</a>
           </div>
         </div>
       </section>

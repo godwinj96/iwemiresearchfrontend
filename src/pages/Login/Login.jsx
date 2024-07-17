@@ -7,7 +7,7 @@ import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
 
 const Login = ({ setToken }) => {
-  const { query, setQuery, setPapers, queryHero, setQueryHero, search, setSearch, bookClicked, setBookClicked, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
+  const { user, setUser, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
 
 
   const [email, setEmail] = useState("");
@@ -37,21 +37,25 @@ const Login = ({ setToken }) => {
 
     try {
 
-      const { user, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
 
-      console.log(user)
+      console.log(data.user)
+      console.log(data)
       console.log(loggedIn)
       if (error) {
         throw error;
 
       } else {
+        setUser(data.user)
+        
+        localStorage.setItem('supabase_session', JSON.stringify(data.session))
         setLoggedIn(true)
         navigate('/')
-        setToken(user)
+        
       }
 
 

@@ -10,7 +10,7 @@ import flutterwave_img from '../../assets/flutterwave.png'
 
 const ProfileDashboard = () => {
 
-  const { query, setQuery, setPapers, queryHero, setQueryHero, search, setSearch, bookClicked, setBookClicked, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
+  const { user,setUser , bookClicked, setBookClicked, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
 
   const [activeTab, setActiveTab] = useState('profile')
   const [selectedFile, setSelectedFile] = useState(null)
@@ -115,6 +115,8 @@ const ProfileDashboard = () => {
   }
 
   const handleLogout = async () => {
+    await supabase.auth.signOut()
+    setUser(null)
     sessionStorage.removeItem('token')
     setLoggedIn(false)
     home()

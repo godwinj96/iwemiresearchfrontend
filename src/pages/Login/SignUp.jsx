@@ -39,7 +39,7 @@ const SignUp = () => {
     }
 
     try {
-      const { user, error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
