@@ -6,8 +6,11 @@ import { useNavigate } from 'react-router-dom'
 const ShoppingCart = () => {
     const navigate = useNavigate()
 
-    const checkout=()=>{
-        navigate('/checkout')
+    const payment=()=>{
+        navigate('/payment')
+    }
+    const home=()=>{
+        navigate('/')
     }
 
     return (
@@ -403,8 +406,7 @@ const ShoppingCart = () => {
                                     </div>
 
                                     <a href="" onClick={(e)=>{
-                                        e.preventDefault()
-                                        checkout()
+                                        payment()
                                     }} class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Checkout</a>
 
                                     <div class="flex items-center justify-center gap-2">

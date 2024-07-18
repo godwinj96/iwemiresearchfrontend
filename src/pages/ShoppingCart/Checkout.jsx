@@ -1,159 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
+import Currency from '../../components/Currency/Currency'
+import logo from '../../assets/flutterwave.png'
 
 const Checkout = () => {
+
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [country, setCountry] = useState('')
+  const [company, setCompany] = useState('')
+
+
+
+  const handlePaymentMethodChange = (method)=>{
+    setSelectedPaymentMethod(method)
+    setFormDisabled(method!=='form')
+}
+const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('interswitch') //'form', 'interswitch', 'stripe', 'flutterwave
+
+
   return (
     <div>
       <Navbar />
-      <div className="checkout">
-        <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-          <form action="#" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <section class="bg-white dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
 
-
-            <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
-              <div class="min-w-0 flex-1 space-y-8">
-                <div class="space-y-4">
-                  <h2 class="text-xl font-semibold text-gray-900 dark:text-white">User Details</h2>
-
-                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                      <label for="your_name" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Your name </label>
-                      <input type="text" id="your_name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Bonnie Green" required />
-                    </div>
-
-                    <div>
-                      <label for="your_email" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Your email* </label>
-                      <input type="email" id="your_email" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="name@flowbite.com" required />
-                    </div>
-
-                    <div>
-                      <div class="mb-2  items-center gap-2">
-                        <label for="select-country-input-3" class="block text-sm font-medium text-gray-900 dark:text-white mb-3"> Country </label>
-                        <input type="text" id="your_country" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Your country..." />
-                      </div>
-
-                    </div>
-
-
-                    <div>
-                      <label for="company_name" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Company name </label>
-                      <input type="text" id="company_name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Flowbite LLC" required />
-                    </div>
-
-                   
-
-                  
-                  </div>
-                </div>
-
-                <div class="space-y-4">
-                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Payment</h3>
-
-                  <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                      <div class="flex items-start">
-                        <div class="flex h-5 items-center">
-                          <input id="credit-card" aria-describedby="credit-card-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
-                        </div>
-
-                        <div class="ms-4 text-sm">
-                          <label for="credit-card" class="font-medium leading-none text-gray-900 dark:text-white"> Credit Card </label>
-                          <p id="credit-card-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Pay with your credit card</p>
-                        </div>
-                      </div>
-
-                      <div class="mt-4 flex items-center gap-2">
-                        <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Delete</button>
-
-                        <div class="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                        <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Edit</button>
-                      </div>
-                    </div>
-
-                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                      <div class="flex items-start">
-                        <div class="flex h-5 items-center">
-                          <input id="pay-on-delivery" aria-describedby="pay-on-delivery-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
-                        </div>
-
-                        <div class="ms-4 text-sm">
-                          <label for="pay-on-delivery" class="font-medium leading-none text-gray-900 dark:text-white"> Payment on delivery </label>
-                          <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">+$15 payment processing fee</p>
-                        </div>
-                      </div>
-
-                      <div class="mt-4 flex items-center gap-2">
-                        <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Delete</button>
-
-                        <div class="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                        <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Edit</button>
-                      </div>
-                    </div>
-
-                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                      <div class="flex items-start">
-                        <div class="flex h-5 items-center">
-                          <input id="paypal-2" aria-describedby="paypal-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
-                        </div>
-
-                        <div class="ms-4 text-sm">
-                          <label for="paypal-2" class="font-medium leading-none text-gray-900 dark:text-white"> Paypal account </label>
-                          <p id="paypal-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Connect to your account</p>
-                        </div>
-                      </div>
-
-                      <div class="mt-4 flex items-center gap-2">
-                        <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Delete</button>
-
-                        <div class="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                        <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Edit</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-                <div>
-                  <label for="voucher" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Enter a gift card, voucher or promotional code </label>
-                  <div class="flex max-w-md items-center gap-4">
-                    <input type="text" id="voucher" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" required />
-                    <button type="button" class="flex items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Apply</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
-                <div class="flow-root">
-                  <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
-                    <dl class="flex items-center justify-between gap-4 py-3">
-                      <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
-                      <dd class="text-base font-medium text-gray-900 dark:text-white">$8,094.00</dd>
-                    </dl>
-
-                   
-
-                    <dl class="flex items-center justify-between gap-4 py-3">
-                      <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                      <dd class="text-base font-bold text-gray-900 dark:text-white">$8,392.00</dd>
-                    </dl>
-                  </div>
-                </div>
-
-                <div class="space-y-3">
-                  <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Payment</button>
-
-                  <p class="text-sm font-normal text-gray-500 dark:text-gray-400">One or more items in your cart require an account. <a href="#" title="" class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Sign in or create an account now.</a>.</p>
-                </div>
+          <div class=" lg:mt-0 lg:col-span-5 lg:flex">
+            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup" />
+          </div>
+          <div class="mr-auto place-self-center lg:col-span-7">
+            <div className="mt-4 lg:mt-0">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Or pay with:</h3>
+              <div className="flex gap-4">
+                <button type="button" onClick={() => handlePaymentMethodChange('interswitch')} className={`btn ${selectedPaymentMethod === 'interswitch' ? 'btn-primary' : 'btn-secondary'}`}>Interswitch</button>
+                <button type="button" onClick={() => handlePaymentMethodChange('stripe')} className={`btn ${selectedPaymentMethod === 'stripe' ? 'btn-primary' : 'btn-secondary'}`}>Stripe</button>
+                <button type="button" onClick={() => handlePaymentMethodChange('flutterwave')} className={`btn ${selectedPaymentMethod === 'flutterwave' ? 'btn-primary' : 'btn-secondary'}`}>Flutterwave</button>
               </div>
             </div>
-          </form>
-        </section>
-      </div>
+            <div class="mt-6 grow sm:mt-8 lg:mt-0">
+                                    <div class="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
+                                        <div class="space-y-2">
+                                            {products.map((product, index) => (
+                                                <dl key={index} class="flex items-center justify-between gap-4">
+                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">{product.name}</dt>
+                                                    <dd class="text-base font-medium text-gray-900 dark:text-white">${product.price}</dd>
+                                                </dl>
+                                            ))}
+                                        </div>
+
+                                        <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                            <dt class="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
+                                            <dd class="text-base font-bold text-gray-900 dark:text-white" value={totals} onChange={(e) => { setTotal(e.target.value) }}>${total.toFixed(2)}</dd>
+                                        </dl>
+                                    </div>
+
+                                    <div class="mt-6 flex items-center justify-center gap-8">
+                                        <img
+                                            src="https://stripe.com/img/v3/home/twitter.png"
+                                            alt="Stripe Logo"
+                                            className="h-8"
+                                        />
+                                        <img
+                                            src={logo}
+                                            alt="Flutterwave Logo"
+                                            className="h-8"
+                                        />
+                                        <img class="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
+                                        <img class="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg" alt="" />
+                                    </div>
+                                </div>
+          </div>
+        </div>
+      </section>
       <div className='dark'>
         <Footer />
       </div>

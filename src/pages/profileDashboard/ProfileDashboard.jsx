@@ -7,10 +7,11 @@ import { supabase } from '../../supaBaseClient'
 import stripe_img from '../../assets/stripe.png'
 import interswitch_img from '../../assets/interswitch.png'
 import flutterwave_img from '../../assets/flutterwave.png'
+import { toast } from 'react-toastify'
 
 const ProfileDashboard = () => {
 
-  const { user,setUser , bookClicked, setBookClicked, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
+  const { user, setUser, bookClicked, setBookClicked, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
 
   const [activeTab, setActiveTab] = useState('profile')
   const [selectedFile, setSelectedFile] = useState(null)
@@ -20,6 +21,15 @@ const ProfileDashboard = () => {
   const [uploadedOption, setUploadedOption] = useState('')//initial radio state
   const [isOptionSelected, setIsOptionSelected] = useState(false)
   const [isPopover, setIsPopover] = useState(false)
+
+  const [title, setTitle] = useState('')
+  const [authors, setAuthors] = useState('')
+  const [date, setDate] = useState('')
+  const [yearP, setYearP] = useState('')
+  const [type, setType] = useState('')
+  const [abstract, setAbstract] = useState('')
+
+
 
   const navigate = useNavigate()
   const timerRef = useRef(null)
@@ -83,6 +93,14 @@ const ProfileDashboard = () => {
   }
 
   const handleUploadConfirm = async () => {
+
+
+
+
+
+
+
+
     if (selectedFile) {
       toggleUploadModal()
     } else {
@@ -91,24 +109,117 @@ const ProfileDashboard = () => {
 
   }
 
-  const handleFinaliseUpload = () => {
+  const handleFinaliseUpload = async () => {
+
+    if (selectedFile) {
+      let fileUrl = ''
+
+      //extracting file name
+      const fileExt = selectedFile.name.split('.').pop()
+      //genrating a unique filename by appending current timestamp to file extension
+      const fileName = `${Date.now()}.${fileExt}`
+      const filePath = `public/${fileName}`
+
+      console.log(filePath)
+      console.log(selectedFile)
+
+
+
+      const { data, error } = await supabase.storage
+        .from('book_file')
+        .upload(filePath, selectedFile, {
+          cacheControl: '3600',
+          upsert: true
+        })
+
+      if (error) {
+        console.error('Error uploading file:', error);
+        alert(error)
+        return
+      }
+
+      fileUrl = `https://moozotwbqobybcbidade.supabase.co/storage/v1/object/${filePath}`
+      console.log(fileUrl)
+    }
+
+
+
     if (uploadedOption === 'subscriptionBased') {
-      const newFile = {
-        name: selectedFile.name,
-        size: (selectedFile.size / 1024).toFixed(2) + 'KB',
-        date: new Date().toLocaleString(),
-        option: uploadedOption
-      };
-      setUploadedFiles([...uploadedFiles, newFile])
-      closeUploadModal()
-    } else if(uploadedOption === 'openAccess'){
-        const product = {
-          name: 'Open Access Product',
-          price: 100
+      const formData = new FormData()
+      formData.append('title', title);
+      formData.append('author', authors);
+      //formData.append('date', date);
+      //formData.append('type', type);
+      formData.append('drm', 2);
+      formData.append('resource', selectedFile);
+      //formData.append('access', uploadedOption);
+
+      const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
+
+      try {
+        const response = await fetch('https://app.editionguard.com/api/v2/book', {
+          method: 'POST',
+          headers: {
+            'accept': 'application/json',
+            'Authorization': `Token ${token}`
+          },
+          body: formData
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to upload the book')
+        }
+        const data = await response.json()
+        console.log('Upload successful: ', data)
+
+        const newFile = {
+          name: selectedFile.name,
+          size: (selectedFile.size / 1024).toFixed(2) + 'KB',
+          date: new Date().toLocaleString(),
+          option: uploadedOption
         };
-        localStorage.setItem('product', JSON.stringify(product))
-        navigate('/payment', {state:{ products: [product] }})
-    } 
+        setUploadedFiles([...uploadedFiles, newFile])
+        closeUploadModal()
+
+      } catch (error) {
+        console.error('Error uploading book:', error)
+        alert('Failed to upload book. Please try again')
+      }
+
+
+    } else if (uploadedOption === 'openAccess') {
+
+
+      const { data, error } = await supabase
+        .from('api_book')
+        .insert([
+          {
+            name: title,
+            author: authors,
+            year_published: yearP,
+            date_uploaded: date,
+            category: type,
+            file_url: fileUrl,
+            is_open_access: true,
+
+          }
+        ])
+
+      if (error) {
+        toast.error('Error pushinf field names to databse', error)
+      } else {
+        console.log('FIeld names pushed to supabase:', data)
+      }
+
+
+
+      const product = {
+        name: 'Open Access Product',
+        price: 100
+      };
+      localStorage.setItem('product', JSON.stringify(product))
+      navigate('/payment', { state: { products: [product] } })
+    }
     else {
       alert('Please select an option before finalising option')
     }
@@ -117,7 +228,7 @@ const ProfileDashboard = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut()
     setUser(null)
-    sessionStorage.removeItem('token')
+    localStorage.removeItem('supabaseSession')
     setLoggedIn(false)
     home()
   }
@@ -142,6 +253,41 @@ const ProfileDashboard = () => {
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Uploads</h3>
+
+            <form>
+              <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                  <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                  <input onChange={(e) => setTitle(e.target.value)} value={title} name='title' type="text" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                </div>
+
+                <div>
+                  <label for="authors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Authors</label>
+                  <input type="text" value={authors} onChange={(e) => setAuthors(e.target.value)} id="authors" name='authors' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+                </div>
+                <div>
+                  <label for="datePublished" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Upload</label>
+                  <input type="text" value={date} onChange={(e) => setDate(e.target.value)} id="datePublished" name='datePublished' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+                </div>
+                <div>
+                  <label for="datePublished" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year Published</label>
+                  <input type="text" value={yearP} onChange={(e) => setYearP(e.target.value)} id="yearPublished" name='yearPublished' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+                </div>
+                <div>
+                  <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                  <input type="text" value={type} onChange={(e) => setType(e.target.value)} id="type" name='type' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Is it a journal, thesis...?" required />
+                </div>
+                <div>
+                  <label for="abstract" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abstract</label>
+                  <textarea type="text" value={abstract} onChange={(e) => setAbstract(e.target.value)} id="abstract" name='type' class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your abstract here..." required />
+                </div>
+
+              </div>
+
+
+              {/*<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+           */} </form>
+
             {uploadedFiles.length === 0 ? (
               <p>You haven't uploaded any research resource/document</p>
             ) : (
@@ -236,7 +382,7 @@ const ProfileDashboard = () => {
                         <span className="ml-2 text-gray-700 dark:text-gray-300">Open-Access</span>
 
                       </label>
-                      
+
                       <label className="inline-flex items-center ml-6">
                         <input
                           type="radio"
@@ -252,10 +398,10 @@ const ProfileDashboard = () => {
                       </label>
                     </div>
                     {isOptionSelected && uploadedOption === 'openAccess' && (
-                        <div className="mt-2 text-gray-700 dark:text-gray-300">
-                          A sum of $100 is to be paid...click finalise to begin payment
-                        </div>
-                      )}
+                      <div className="mt-2 text-gray-700 dark:text-gray-300">
+                        A sum of $100 is to be paid...click finalise to begin payment
+                      </div>
+                    )}
 
 
 

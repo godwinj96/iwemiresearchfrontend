@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/iwemi logo.png'
 import Currency from '../Currency/Currency';
 import Language from '../Langauge/Language';
+import { GlobalStateContext } from '../../Context/GlobalState';
 
 const Footer = () => {
+
+    const {currency,handleCurrencyChange} = useContext(GlobalStateContext)
 
     const navigate = useNavigate()
 
@@ -75,7 +78,8 @@ const Footer = () => {
                     </ul>
                     <div className='flex'>
                      
-                    <Language />  
+                    <Language /> 
+                    <Currency onCurrencyChange={handleCurrencyChange} /> 
                     </div>
                     
                     <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

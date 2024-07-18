@@ -16,9 +16,17 @@ const Navbar = () => {
   const [menu, setMenu] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
   const [showNoti, setShowNoti] = useState(false)
+ 
   const [registerDropdown, setRegisterDropdown] = useState(false)
   const menuRef = useRef(null)
   const menuMenuRef = useRef(null)
+
+
+  //api
+  const applyFilters =()=>{
+    setFilters({query})
+  }
+
 
   const toggleMenu = () => {
     setMenu(!menu)
@@ -348,8 +356,12 @@ const Navbar = () => {
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                   </svg>
                 </div>
-                <input type="search" id="default-search" class="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
-                <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                <input value={query} onChange={(e)=>{setQuery(e.target.value)}} type="search" id="default-search" class="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
+                <button 
+                type="submit" 
+                class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  onClick={applyFilters}
+                >Search</button>
               </div>
             </form>
 

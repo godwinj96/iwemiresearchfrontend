@@ -5,9 +5,12 @@ import logo from '../../assets/iwemi logo.png'
 import Navbar from '../../components/NavBar/NavBar';
 import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
+import { toast, ToastContainer } from 'react-toastify';
+import { Toast } from 'flowbite-react';
+
 
 const Login = ({ setToken }) => {
-  const { user, setUser, loggedIn, setLoggedIn } = useContext(GlobalStateContext)
+  const { loggedIn, setLoggedIn } = useContext(GlobalStateContext)
 
 
   const [email, setEmail] = useState("");
@@ -45,17 +48,17 @@ const Login = ({ setToken }) => {
 
       console.log(data.user)
       console.log(data)
-      console.log(loggedIn)
+
       if (error) {
         throw error;
 
       } else {
-        setUser(data.user)
-        
-        localStorage.setItem('supabase_session', JSON.stringify(data.session))
         setLoggedIn(true)
+        console.log(loggedIn)
         navigate('/')
-        
+        localStorage.setItem('supabase_session', JSON.stringify(data.session))
+
+
       }
 
 
@@ -63,6 +66,7 @@ const Login = ({ setToken }) => {
 
     } catch (error) {
       console.error("Error loggin in:", error)
+      toast.error('Login failed. Please check your credentials')
     }
 
 
@@ -165,6 +169,7 @@ const Login = ({ setToken }) => {
                   >
                     Sign in
                   </button>
+
                   <div>
                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                       New to Iwemi Research?{" "}

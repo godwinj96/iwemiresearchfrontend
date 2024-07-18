@@ -2693,3 +2693,16 @@ div.relative:hover .dropdown-menu {
   font-weight: 400;
   margin-left: 10px;
 }
+
+
+/*payment*/
+
+.payment-page{
+  
+}
+
+.payment-page h1{
+  font-size: 30px;
+ font-weight: 600;
+  text-align: center;
+}
