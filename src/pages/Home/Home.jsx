@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import content1 from '../../assets/content-1.webp'
@@ -10,7 +10,9 @@ import bookImage from '../../assets/thesis-test2.jpg'
 import Carousel from '../../components/Carousel/Carousel'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { useNavigate } from 'react-router-dom'
-
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { GlobalStateContext } from '../../Context/GlobalState'
 
 const books = [
   {
@@ -64,6 +66,7 @@ const books = [
 
 
 const Home = () => {
+  // {book, setBook} = useContext(GlobalStateContext)
 
   const navigate = useNavigate()
   const academic = () => {
@@ -77,6 +80,14 @@ const Home = () => {
   const journals = () => {
     navigate('/journals')
   }
+
+  useEffect(()=>{
+    AOS.init({
+      duration:1000,
+      easing:'ease-in-out',
+      once:true
+    })
+  },[])
 
 
 
@@ -99,7 +110,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-gray-900 content-section">
+      <section className="bg-white dark:bg-gray-900 content-section" data-aos="fade-up">
         <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl flex flex-col">
           <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400 section-info justify-center flex flex-col">
             <h2 className="mb-4  tracking-tight font-extrabold text-gray-900 dark:text-white">Promoting access to African Research</h2>
@@ -137,7 +148,7 @@ const Home = () => {
 
 
 
-      <section class="dark:bg-gray-900 features ">
+      <section class="dark:bg-gray-900 features " data-aos="fade-up">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
@@ -153,14 +164,14 @@ const Home = () => {
           <div className="see-more-button">
             <a href="" onClick={(e)=>{
               e.preventDefault();
-              academic()
+              journals()
         
             }}>See more {'>'}</a>
           </div>
         </div>
       </section>
       <hr className="border-t border-gray-300" />
-      <section class="dark:bg-gray-900 features ">
+      <section class="dark:bg-gray-900 features " data-aos="fade-up">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
@@ -184,7 +195,7 @@ const Home = () => {
         </div>
       </section>
       <hr className="border-t border-gray-300" />
-      <section class="dark:bg-gray-900 features ">
+      <section class="dark:bg-gray-900 features " data-aos="fade-up">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
           <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Papers</h2>
@@ -232,7 +243,7 @@ const Home = () => {
       </section>*/}
       <hr className="border-t border-gray-300" />
 
-      <section className=" dark:bg-gray-900 newsletter">
+      <section className=" dark:bg-gray-900 newsletter" data-aos="fade-up">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 flex justify-center">
           <div className="max-w-screen-md w-full">
             <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Sign up for our newsletter</h2>

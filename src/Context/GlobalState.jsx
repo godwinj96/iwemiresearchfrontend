@@ -12,32 +12,33 @@ export const GlobalStateProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState(null);
   const [filters, setFilters] = useState({})
-  const [currency,setCurrency] = useState({ code: 'NGN', name: 'Nigerian Naira', number: 566 })
+  const [currency, setCurrency] = useState({ code: 'NGN', name: 'Nigerian Naira', number: 566 })
+  const [book, setBook] = useState({})
 
-    const handleCurrencyChange = (newCurrency)=>{
-        setCurrency(newCurrency)
-    }
+  const handleCurrencyChange = (newCurrency) => {
+    setCurrency(newCurrency)
+  }
 
 
   useEffect(() => {
-    const checkSession =async () => {
+    const checkSession = async () => {
       try {
         //retrieving current session
         const { data, error } = await supabase.auth.getSession()
         if (error) {
           throw error
         }
-        
+
         console.log(loggedIn)
         if (data) {
           console.log(data)
           console.log('User is logged in:', data.session.user)
           setUser(data.session.user)
-           console.log(user)
-           setLoggedIn(true)
+          console.log(user)
+          setLoggedIn(true)
           //store session in local storage for pesistence
           localStorage.setItem('supabaseSession', JSON.stringify(data))
-          
+
 
         } else {
           console.log('No user session found')
@@ -86,7 +87,7 @@ export const GlobalStateProvider = ({ children }) => {
           throw new Error(`HTTP error! status:${response.status}`)
         }
 
-        const data = await response.json()      
+        const data = await response.json()
         const dataObject = Object.values(data)
         const booksArray = dataObject[3]
         setPapers(booksArray)
@@ -109,35 +110,40 @@ export const GlobalStateProvider = ({ children }) => {
         const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
         const detailUrl = `https://app.editionguard.com/api/v2/book/${bookId}`;
 
-      const response = await fetch(detailUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Token ${token}`,
-          'Content-Type': 'application/json'
+        const response = await fetch(detailUrl, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status:${response.status}`)
         }
-      })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status:${response.status}`)
-      }
+        const bookDetails = await response.json()
+        console.log(`Details for Book ID ${bookId}`, bookDetails)
+        setBook((prevDetails) => ({
+          ...prevDetails,
+          [bookId]: book
+        }))
 
-      const bookDetails =  await response.json()
-      console.log(`Details for Book ID ${bookId}`, bookDetails)
       } catch (error) {
         const detailUrl = `https://app.editionguard.com/api/v2/book/${bookId}`;
 
-      const response = await fetch(detailUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Token ${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
+        const response = await fetch(detailUrl, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
 
-      const bookDetails =  await response.json()
-      console.log(`Detaisl for Book ID ${bookId}`, bookDetails)
+        const bookDetails = await response.json()
+        console.log(`Detaisl for Book ID ${bookId}`, bookDetails)
       }
-      
+
 
     }
 
@@ -169,11 +175,13 @@ export const GlobalStateProvider = ({ children }) => {
     setFilters,
     currency,
     setCurrency,
-    handleCurrencyChange
+    handleCurrencyChange,
+    book,
+    setBook
   }
 
   return (
-    <GlobalStateContext.Provider value={ value }>
+    <GlobalStateContext.Provider value={value}>
       {children}
     </GlobalStateContext.Provider>
   )

@@ -35,10 +35,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-function App() {
-  const {loggedIn, setLoggedIn} = useContext(GlobalStateContext)
- 
 
+function App() {
   return (
     <GlobalStateProvider>
       <ToastContainer theme='dark' />
