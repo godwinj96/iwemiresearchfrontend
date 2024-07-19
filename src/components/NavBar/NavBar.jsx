@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import search_icon from '../../assets/search-icon.png'
-import logo from '../../assets/iwemi logo.png'
+import logo from '../../assets/new iwemi.png'
 import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
 import { FiShoppingCart } from "react-icons/fi";
@@ -108,13 +108,13 @@ const Navbar = () => {
 
   return (
     <header className='dark'>
-      <nav class=" border-gray-200  new-nav">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <nav class=" border-gray-200  new-nav ">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 top-nav">
           <a href="" onClick={(e) => {
                 e.preventDefault();
                 home();
-              }} class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src={logo} class="h-8" alt="Flowbite Logo" />
+              }} class="flex  space-x-3 rtl:space-x-reverse">
+            <img src={logo} class="h-20" alt="Flowbite Logo" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
           <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -166,17 +166,7 @@ const Navbar = () => {
               </>
               :
               <div className='flex nav-buttons'>
-                <div>
-                  <a href=""
-                    onClick={(e) => {
-                      e.preventDefault();
-                      cart()
-                    }}
-                  >
-                    <FiShoppingCart size={22} color='white' />
-                  </a>
-
-                </div>
+             
                 <div>
                   <a
                     href=""
@@ -203,7 +193,7 @@ const Navbar = () => {
               type="button"
               className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100
                             focus:outline-none focus:ring-2 focus:ring-gray-200 
-                                dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 main-menu-button"
               aria-controls="mobile-menu-2" aria-expanded={menu}
               onClick={toggleMenu}
             >

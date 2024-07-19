@@ -104,11 +104,7 @@ const Home = () => {
           <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400 section-info justify-center flex flex-col">
             <h2 className="mb-4  tracking-tight font-extrabold text-gray-900 dark:text-white">Promoting access to African Research</h2>
             <div className="content-section-p font-semibold">
-              <p className="mb-4 ">We are strategists, designers and developers.
-                Innovators and problem solvers. Small enough to be simple and quick,
-                but big enough to deliver the scope you want at the pace you need.
-                Small enough to be simple and quick, but big enough to deliver the scope
-                you want at the pace you need.</p>
+              <p className="mb-4 "> Iwemi Research, your premier destination for rich African research and intellectual material. Our mission is to partner with institutions across Africa to deliver a comprehensive portal, making African research accessible worldwide.</p>
             </div>
 
 
@@ -145,7 +141,7 @@ const Home = () => {
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
-            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
+            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
           </div>
           <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
@@ -168,7 +164,7 @@ const Home = () => {
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
-            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
+            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
           </div>
           <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
 
@@ -192,7 +188,7 @@ const Home = () => {
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
           <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Papers</h2>
-            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
+            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
           </div>
           <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 

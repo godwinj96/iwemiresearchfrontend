@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/iwemi logo.png'
+import logo from '../../assets/new iwemi.png'
 import Currency from '../Currency/Currency';
 import Language from '../Langauge/Language';
 import { GlobalStateContext } from '../../Context/GlobalState';
@@ -34,9 +34,9 @@ const Footer = () => {
                 <div class="mx-auto max-w-screen-xl text-center">
                     <a href="#" class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
 
-                        <img src={logo} className="mr-3 h-8" alt="FlowBite Logo" />
+                        <img src={logo} className="mr-3 h-40" alt="FlowBite Logo" />
                     </a>
-                    <p class="my-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with gloabl institutions</p>
+                    <p class="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with gloabl institutions</p>
                     <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
                         <li>
                             <a href="" onClick={(e) => {
@@ -82,7 +82,7 @@ const Footer = () => {
                     <Currency onCurrencyChange={handleCurrencyChange} /> 
                     </div>
                     
-                    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+                    <hr className="mb-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
                     <div className="sm:flex sm:items-center sm:justify-between footer-socials">
                         <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com" className="hover:underline">Iwemi™</a>. All Rights Reserved.</span>
                         <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">

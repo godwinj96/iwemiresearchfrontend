@@ -17,7 +17,7 @@ const HomeBookCards = ({ book }) => {
     return (
         <div className='home-bookcards'>
             <div role="status" class="space-y-8  md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
-                <div class="flex-shrink-0  h-64 bg-gray-300 rounded overflow-hidden ">
+                <div class="flex-shrink-0  h-64 rounded overflow-hidden items-center flex justify-center">
                     <img src={book.image} alt="" className='book-image' />
                 </div>
                 <div class="flex flex-col right">

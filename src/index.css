@@ -67,6 +67,22 @@ body,html{
   padding-bottom: 7px;
 }
 
+.top-nav img{
+  height: 130px !important;
+  width: 80px;
+}
+.top-nav{
+  padding-bottom: 0 !important;
+}
+
+.sub-navbar{
+  margin-top: 0 !important;
+}
+
+@media (max-width) {
+  
+}
+
 @media (min-width:768px) and (max-width:1024px) {
   .breadcrumb {
     margin-left: 25% !important
@@ -172,7 +188,17 @@ body,html{
   }
 
   .get {
-    display: none;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .log-in{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .main-menu-button{
+    margin-left: 0 !important;
+    margin-right: 5px !important
   }
 
 }
@@ -206,9 +232,7 @@ body,html{
     margin-right: 10px !important;
   }
 
-  .get {
-    display: none;
-  }
+  
 
 
 
@@ -759,7 +783,7 @@ footer li :hover {
 
   header,
   .hero-section,
-  .newsletter,
+  
   footer {
     margin-right: -20px;
 
@@ -2532,6 +2556,12 @@ div.relative:hover .dropdown-menu {
   justify-content: left;
 }
 
+
+@media (max-width:768px) {
+  .book-image{
+    width: 50%;
+  }
+}
 
 @media (min-width: 1024px) {
 
