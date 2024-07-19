@@ -153,8 +153,12 @@ const Payment = () => {
                 <div class=" max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
                     <div class="mr-auto place-self-center lg:col-span-7 flex flex-col items-center gap-16">
                         <div className="mt-4 lg:mt-0 flex flex-col gap-8">
+                            <div>
                             <h1>How would you like to pay?</h1>
-                            <div className="flex gap-4 ">
+                            <text>All transactions are secured and encrypted</text>
+                           
+                            </div>
+                             <div className="flex gap-4 ">
                                 <button
                                     type="button"
                                     onClick={checkoutInterswitch}
