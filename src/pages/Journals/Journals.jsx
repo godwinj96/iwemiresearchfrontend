@@ -4,6 +4,7 @@ import Footer from '../../components/Footer/Footer'
 import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { supabase } from '../../supaBaseClient';
 
 
 const Journals = () => {
@@ -172,6 +173,32 @@ const Journals = () => {
         veterinaryTeachingHospital: false,
 
     });
+    const [journals, setJournals] = useState([]);
+
+    useEffect(() => {
+        const fetchJournals = async () => {
+            const { data, error } = await supabase
+                .from('api_book')
+                .select('*')
+                .eq('category_id', 1)
+
+            if (error) {
+                toast.error(error)
+                console.log(error)
+            } else {
+                setJournals(data)
+                console.log(data)
+            }
+        }
+
+        fetchJournals()
+        
+
+    }, [])
+
+
+
+
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -1206,123 +1233,31 @@ const Journals = () => {
 
                             <div className="type-papers flex flex-col">
 
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
+                                {journals.map((journal) => (
+                                    <div className='each flex' key={journal.id}>
+                                        <div className="papers-left ">
+                                            <h3>Journal Articles</h3>
+                                            <h1> <a href="" >{journal.name}</a>  </h1>
+                                            <h5>{journal.year_published}</h5>
+                                            <text>
+                                                <span>{journal.author}</span>{'  '}
+                                                
+                                            </text>
 
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
+                                            <p className="abstract">
+                                               {journal.abstract}
+                                            </p>
+                                        </div>
+                                        <div className="papers-right flex flex-col">
+                                            <button>Cite</button>
+                                            <button>Save</button>
+                                            <button className='download'>Download</button>
+                                        </div>
                                     </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download' onClick={(e) => {
-
-                                        }}>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
-
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
+                                ))
+                                }
+                                
+                                
                                 <div className='each flex'>
                                     <div className="papers-left ">
                                         <h3>Journal Articles</h3>

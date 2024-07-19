@@ -1775,8 +1775,13 @@ div.relative:hover .dropdown-menu {
   padding: 16px;
   margin: 16px 0;
   border-radius: 8px;
+  
   /* Optional: for rounded corners */
   background-color: #fff;
+}
+
+.thesis .type-papers .each{
+  justify-content: space-between;
 }
 
 .each-t {

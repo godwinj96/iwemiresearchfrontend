@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/flutterwave.png'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import interswitch_img from "../../assets/interswitch.png"
 import stripe_img from '../../assets/stripe.png'
+import { supabase } from '../../supaBaseClient'
+import { toast } from 'react-toastify'
 
 const Payment = () => {
-
     const { user, setUser, currency } = useContext(GlobalStateContext)
+
+    const navigate = useNavigate()
 
     const [totals, setTotal] = useState('')
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState() //'form', 'interswitch', 'stripe', 'flutterwave
@@ -33,7 +36,7 @@ const Payment = () => {
 
     const checkoutInterswitch = () => {
         if (user) {
-             const merchantCode = 'YOUR_MERCHANT_CODE';
+            const merchantCode = 'YOUR_MERCHANT_CODE';
             const payItemId = 'YOUR_PAY_ITEM_ID';
             const transRef = randomReference();
 
@@ -41,19 +44,19 @@ const Payment = () => {
                 merchant_code: merchantCode,
                 pay_item_id: payItemId,
                 txn_ref: transRef,
-                amount:1000,
+                amount: 1000,
                 cust_id: user.email,
-                currency: currency,
+                currency:566,
                 site_redirect_url: window.location.origin,
                 onComplete: paymentCallback,
                 mode: 'TEST'//change to live for production
             }
-   
+            console.log(currency.code)
             window.webpayCheckout(paymentRequest)//initiates payemnt request
 
         }
     }
-                        
+
     const randomReference = () => {
         const length = 10;
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -67,6 +70,7 @@ const Payment = () => {
     const paymentCallback = (response) => {
         if (response !== null) {
             alert(response.desc); // Handle response as per your application's needs
+            handlePaymentSuccess()
         }
     };
 
@@ -77,28 +81,67 @@ const Payment = () => {
     const checkoutFlutterwave = () => {
         // Flutterwave checkout logic
         FlutterwaveCheckout({
-            public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
-            tx_ref: "titanic-48981487343MDI0NzMx",
-            amount: 54600,
-            currency: "NGN",
+            public_key: "FLWPUBK_TEST-b75bbc29cfa52f6fac40a2280c3b5787-X",
+            tx_ref: `titanic-${Date.now()}`,
+            amount: totals,
+            currency: `${currency.code}`,
             payment_options: "card, mobilemoneyghana, ussd",
-            redirect_url: "https://glaciers.titanic.com/handle-flutterwave-payment",
+            callback: function (payment) {
+                verifyTransactionOnBackend(payment.id)
+            },
+            onclose: function(incomplete){
+                if (incomplete) {
+                    alert('Payment was not completed')
+                }
+            },
             meta: {
-              consumer_id: 23,
-              consumer_mac: "92a3-912ba-1192a",
+                consumer_id: 23,
+                consumer_mac: "92a3-912ba-1192a",
             },
             customer: {
-              email: "rose@unsinkableship.com",
-              phone_number: "08102909304",
-              name: "Rose DeWitt Bukater",
+                email: `${user.email}`,
+                // name: "Rose DeWitt Bukater",
             },
             customizations: {
-              title: "The Titanic Store",
-              description: "Payment for an awesome cruise",
-              logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+                title: "Iwemi Research",
+                description: "Payment for research material",
+                logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
             }
-          });
+        });
     };
+
+    const verifyTransactionOnBackend = (transactionId)=>{
+        setTimeout(function () {
+            window.verified = true;
+
+        }, 200)
+    }
+
+    const handlePaymentSuccess=async()=>{
+        const formData = JSON.parse(localStorage.getItem('formData'))
+
+        const { data, error} = await supabase
+            .from('api_book')
+            .insert([
+                {
+                    name:formData.title,
+                    author: formData.authors,
+                    year_published: formData.yearP,
+                    date_uploaded: formData.date,
+                    category: formData.type,
+                    file_url: formData.fileUrl,
+                    is_open_access: true,
+                }
+            ])
+        
+        if (error) {
+            toast.error('Error uploading')
+        } else{
+            toast.error('Book uploaded successfully')
+            localStorage.removeItem('formData')
+            navigate('/')
+        }
+    }
 
 
 

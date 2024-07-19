@@ -12,16 +12,11 @@ export const GlobalStateProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState(null);
   const [filters, setFilters] = useState({})
-  const [currency,setCurrency] = useState(566)
+  const [currency,setCurrency] = useState({ code: 'NGN', name: 'Nigerian Naira', number: 566 })
 
     const handleCurrencyChange = (newCurrency)=>{
         setCurrency(newCurrency)
     }
-
- 
-   
-
-
 
 
   useEffect(() => {
@@ -127,7 +122,7 @@ export const GlobalStateProvider = ({ children }) => {
       }
 
       const bookDetails =  await response.json()
-      console.log(`Detaisl for Book ID ${bookId}`, bookDetails)
+      console.log(`Details for Book ID ${bookId}`, bookDetails)
       } catch (error) {
         const detailUrl = `https://app.editionguard.com/api/v2/book/${bookId}`;
 

@@ -111,35 +111,45 @@ const ProfileDashboard = () => {
 
   const handleFinaliseUpload = async () => {
 
-    if (selectedFile) {
-      let fileUrl = ''
 
-      //extracting file name
-      const fileExt = selectedFile.name.split('.').pop()
-      //genrating a unique filename by appending current timestamp to file extension
-      const fileName = `${Date.now()}.${fileExt}`
-      const filePath = `public/${fileName}`
+    let fileUrl = ''
 
-      console.log(filePath)
-      console.log(selectedFile)
+    //extracting file name
+    const fileExt = selectedFile.name.split('.').pop()
+    //genrating a unique filename by appending current timestamp to file extension
+    const fileName = `${Date.now()}.${fileExt}`
+    const filePath = `public/${fileName}`
+
+    console.log(filePath)
+    console.log(selectedFile)
 
 
 
-      const { data, error } = await supabase.storage
-        .from('book_file')
-        .upload(filePath, selectedFile, {
-          cacheControl: '3600',
-          upsert: true
-        })
+    const { data, error } = await supabase.storage
+      .from('book_file')
+      .upload(filePath, selectedFile, {
+        cacheControl: '3600',
+        upsert: true
+      })
 
-      if (error) {
-        console.error('Error uploading file:', error);
-        alert(error)
-        return
-      }
+    if (error) {
+      console.error('Error uploading file:', error);
+      alert(error)
+      return
+    }
 
-      fileUrl = `https://moozotwbqobybcbidade.supabase.co/storage/v1/object/${filePath}`
-      console.log(fileUrl)
+    fileUrl = `https://moozotwbqobybcbidade.supabase.co/storage/v1/object/${filePath}`
+    console.log(fileUrl)
+
+    ///storing file info for later use in other components
+    const formData = {
+      title,
+      authors,
+      yearP,
+      date: new Date().toISOString,
+      type,
+      fileUrl,
+      uploadedOption
     }
 
 
@@ -189,8 +199,9 @@ const ProfileDashboard = () => {
 
     } else if (uploadedOption === 'openAccess') {
 
+      localStorage.setItem('formData', JSON.stringify(formData))
 
-      const { data, error } = await supabase
+      /**const { data, error } = await supabase
         .from('api_book')
         .insert([
           {
@@ -209,7 +220,8 @@ const ProfileDashboard = () => {
         toast.error('Error pushinf field names to databse', error)
       } else {
         console.log('FIeld names pushed to supabase:', data)
-      }
+      } */
+      
 
 
 
