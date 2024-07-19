@@ -2739,5 +2739,29 @@ div.relative:hover .dropdown-menu {
 .payment-page h1{
   font-size: 30px;
  font-weight: 600;
-  text-align: center;
+  
+}
+
+.payment-text{
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-text text{
+  color: rgb(201, 200, 200);
+  font-weight: 500;
+}
+
+.payment-page button{
+  background-color: rgb(249, 249, 249);
+  transition: all 0.3s;
+  width: 60%;
+}
+
+.payment-page button:hover{
+  background-color: rgb(219, 219, 219);
+}
+
+.payment-page .product-bar{
+  width: 60%;
 }

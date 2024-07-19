@@ -46,7 +46,7 @@ const Payment = () => {
                 txn_ref: transRef,
                 amount: 1000,
                 cust_id: user.email,
-                currency:566,
+                currency: 566,
                 site_redirect_url: window.location.origin,
                 onComplete: paymentCallback,
                 mode: 'TEST'//change to live for production
@@ -89,7 +89,7 @@ const Payment = () => {
             callback: function (payment) {
                 verifyTransactionOnBackend(payment.id)
             },
-            onclose: function(incomplete){
+            onclose: function (incomplete) {
                 if (incomplete) {
                     alert('Payment was not completed')
                 }
@@ -110,21 +110,21 @@ const Payment = () => {
         });
     };
 
-    const verifyTransactionOnBackend = (transactionId)=>{
+    const verifyTransactionOnBackend = (transactionId) => {
         setTimeout(function () {
             window.verified = true;
 
         }, 200)
     }
 
-    const handlePaymentSuccess=async()=>{
+    const handlePaymentSuccess = async () => {
         const formData = JSON.parse(localStorage.getItem('formData'))
 
-        const { data, error} = await supabase
+        const { data, error } = await supabase
             .from('api_book')
             .insert([
                 {
-                    name:formData.title,
+                    name: formData.title,
                     author: formData.authors,
                     year_published: formData.yearP,
                     date_uploaded: formData.date,
@@ -133,10 +133,10 @@ const Payment = () => {
                     is_open_access: true,
                 }
             ])
-        
+
         if (error) {
             toast.error('Error uploading')
-        } else{
+        } else {
             toast.error('Book uploaded successfully')
             localStorage.removeItem('formData')
             navigate('/')
@@ -151,18 +151,18 @@ const Payment = () => {
             <Navbar />
             <section class=" dark:bg-gray-900 dark payment-page">
                 <div class=" max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-                    <div class="mr-auto place-self-center lg:col-span-7 flex flex-col items-center gap-16">
+                    <div class="mr-auto place-self-center lg:col-span-7 flex flex-col gap-16">
                         <div className="mt-4 lg:mt-0 flex flex-col gap-8">
-                            <div>
-                            <h1>How would you like to pay?</h1>
-                            <text>All transactions are secured and encrypted</text>
-                           
+                            <div className='payment-text'>
+                                <h1>How would you like to pay?</h1>
+                                <text>All transactions are secured and encrypted</text>
+
                             </div>
-                             <div className="flex gap-4 ">
+                            <div className="flex gap-4 flex-col">
                                 <button
                                     type="button"
                                     onClick={checkoutInterswitch}
-                                    className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-transform duration-300 bg-gray-200 text-gray-700  hover:scale-105`}
+                                    className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-transform duration-300  text-gray-700  hover:scale-105`}
                                 >
                                     <img src={interswitch_img} alt="Interswitch Logo" className="h-6 w-6" />
                                     Interswitch
@@ -170,7 +170,7 @@ const Payment = () => {
                                 <button
                                     type="button"
                                     onClick={checkoutStripe}
-                                    className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 bg-gray-200 text-gray-700 hover:scale-105`}
+                                    className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
                                 >
                                     <img src={stripe_img} alt="Stripe Logo" className="h-6 w-6" />
                                     Stripe
@@ -178,14 +178,14 @@ const Payment = () => {
                                 <button
                                     type="button"
                                     onClick={checkoutFlutterwave}
-                                    className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 bg-gray-200 text-gray-700 hover:scale-105`}
+                                    className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
                                 >
                                     <img src={logo} alt="Flutterwave Logo" className="h-6 w-6" />
                                     Flutterwave
                                 </button>
                             </div>
                         </div>
-                        <div class="mt-6 grow sm:mt-8 lg:mt-0">
+                        <div class="mt-6 grow sm:mt-8 lg:mt-0 product-bar">
                             <div class="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
                                 <div class="space-y-2">
                                     {products.map((product, index) => (
@@ -196,7 +196,7 @@ const Payment = () => {
                                     ))}
                                 </div>
 
-                                <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
                                     <dt class="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
                                     <dd class="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>${total.toFixed(2)}</dd>
                                 </dl>
