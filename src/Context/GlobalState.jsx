@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../supaBaseClient';
+import { toast } from 'react-toastify';
 
 export const GlobalStateContext = createContext();
 
@@ -14,10 +15,36 @@ export const GlobalStateProvider = ({ children }) => {
   const [filters, setFilters] = useState({})
   const [currency, setCurrency] = useState({ code: 'NGN', name: 'Nigerian Naira', number: 566 })
   const [book, setBook] = useState({})
+  const [openAccessPapers, setOpenAcessPapers] = useState([])
+
 
   const handleCurrencyChange = (newCurrency) => {
     setCurrency(newCurrency)
   }
+
+
+  useEffect(()=>{
+      //fetching from supabase
+      const fetchOpenAccessPapers = async () =>{
+        const { data, error } = await supabase
+          .from('api_book')
+          .select('*')
+
+
+          if (error) {
+            toast.error(error)
+          } else{
+            console.log(data)
+            setOpenAcessPapers(data)
+            
+          }
+      }
+
+     
+
+      fetchOpenAccessPapers()
+  },[])
+
 
 
   useEffect(() => {
@@ -68,6 +95,8 @@ export const GlobalStateProvider = ({ children }) => {
 
 
   useEffect(() => {
+    //books from edition guard
+    //subscription based books
     const fetchPapers = async () => {
       const url = new URL(`https://app.editionguard.com/api/v2/book`)
       const params = new URLSearchParams(filters)
@@ -90,7 +119,7 @@ export const GlobalStateProvider = ({ children }) => {
         const data = await response.json()
         const dataObject = Object.values(data)
         const booksArray = dataObject[3]
-        setPapers(booksArray)
+        setPapers(booksArray)//papers
         console.log(data)
         console.log(booksArray)
         console.log(dataObject)

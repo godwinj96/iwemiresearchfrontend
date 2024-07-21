@@ -293,6 +293,47 @@ const Journals = () => {
         }))
     }
 
+    const [filters, setFilters] = useState({
+        citationCount:false,
+        name:false,
+        createdOn: false
+    })
+
+    const handleFitlerChange =(e)=>{
+        const {name,checked} = e.target;
+        setFilters((prevFilters)=>({
+            ...prevFilters,
+            [name]: checked,
+        }))
+    }
+
+    const a = ''
+    const g = ''
+
+   
+    
+
+
+    const applyFilters = (books) =>{
+        let filteredBooks = [...books]
+
+        if (filters.name) {
+            filteredBooks.sort((a,b)=> a.name.toString().localeCompare(b.name.toString()))
+        }
+
+        if (filters.createdOn) {
+            filteredBooks.sort((a, b) => new Date(b.year_published) - new Date(a.year_published));
+        }
+
+        if (filters.citationCount) {
+            filteredBooks.sort((a, b) => b.citationCount - a.citationCount);
+        }
+        
+        return filteredBooks
+    }
+
+    const filteredPapers = applyFilters(journals)
+    console.log(journals);
 
     return (
         <div>
@@ -1206,21 +1247,33 @@ const Journals = () => {
                                     </h6>
                                     <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
                                         <li class="flex items-center">
-                                            <input id="apple" type="checkbox" value=""
+                                            <input 
+                                            name = "citationCount"
+                                            checked = {filters.citationCount}
+                                            onChange={handleFitlerChange}
+                                            id="apple" type="checkbox" value=""
                                                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                             <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                Name: Z to A
+                                               Citation Count
                                             </label>
                                         </li>
                                         <li class="flex items-center">
-                                            <input id="apple" type="checkbox" value=""
+                                            <input 
+                                            name='name'
+                                            checked = {filters.name}
+                                            onChange={handleFitlerChange}
+                                            id="" type="checkbox" value=""
                                                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                             <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 Name: A to Z
                                             </label>
                                         </li>
                                         <li class="flex items-center">
-                                            <input id="fitbit" type="checkbox" value=""
+                                            <input 
+                                            name='createdOn'
+                                            checked = {filters.createdOn}
+                                            onChange={handleFitlerChange}
+                                            id="fitbit" type="checkbox" value=""
                                                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                             <label for="fitbit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 Created On
@@ -1233,7 +1286,7 @@ const Journals = () => {
 
                             <div className="type-papers flex flex-col">
 
-                                {journals.map((journal) => (
+                                {filteredPapers.map((journal) => (
                                     <div className='each flex' key={journal.id}>
                                         <div className="papers-left ">
                                             <h3>Journal Articles</h3>

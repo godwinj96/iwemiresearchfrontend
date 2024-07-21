@@ -221,7 +221,7 @@ const ProfileDashboard = () => {
       } else {
         console.log('FIeld names pushed to supabase:', data)
       } */
-      
+
 
 
 
@@ -250,7 +250,8 @@ const ProfileDashboard = () => {
       case 'profile':
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hello UserName (not user@email.com?
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hello {user.user_metadata.firstName} {user.user_metadata.lastName} 
+               (not {user.user_metadata.email} ?
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('logout') }}>Log out</a> )
             </h3>
             <p className="mb-2">From your profile page you can view your{' '}
@@ -279,7 +280,16 @@ const ProfileDashboard = () => {
                 </div>
                 <div>
                   <label for="datePublished" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Upload</label>
-                  <input type="text" value={date} onChange={(e) => setDate(e.target.value)} id="datePublished" name='datePublished' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+                  <div class="relative max-w-sm">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3  pointer-events-none">
+                      <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                      </svg>
+                    </div>
+                    <input
+                      value={date} onChange={(e) => setDate(e.target.value)}
+                      id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
+                  </div>
                 </div>
                 <div>
                   <label for="datePublished" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year Published</label>
@@ -289,6 +299,9 @@ const ProfileDashboard = () => {
                   <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
                   <input type="text" value={type} onChange={(e) => setType(e.target.value)} id="type" name='type' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Is it a journal, thesis...?" required />
                 </div>
+
+
+
                 <div>
                   <label for="abstract" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abstract</label>
                   <textarea type="text" value={abstract} onChange={(e) => setAbstract(e.target.value)} id="abstract" name='type' class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your abstract here..." required />
