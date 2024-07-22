@@ -296,7 +296,7 @@ const ProfileDashboard = () => {
     switch (activeTab) {
       case 'profile':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
             {user && user.user_metadata && (<h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hello {user.user_metadata.firstName} {user.user_metadata.lastName}
               (not {user.user_metadata.email} ?
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('logout') }}>Log out</a> )
@@ -311,7 +311,7 @@ const ProfileDashboard = () => {
         );
       case 'uploads':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Uploads</h3>
 
             <form>
@@ -655,7 +655,7 @@ const ProfileDashboard = () => {
         );
       case 'orders':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Orders</h3>
             <p>No order has been made yet</p>
             <button className="make-order bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 "
@@ -670,7 +670,7 @@ const ProfileDashboard = () => {
         );
       case 'paymentMethods':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Payment Methods</h3>
             <p>No saved Methods found</p>
             <button
@@ -721,7 +721,7 @@ const ProfileDashboard = () => {
 
                     <button type="button" className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-800 dark:bg-white dark:border-gray-700 dark:text-gray-900 dark:hover:bg-gray-200 me-2 mb-2 payment-button">
                       <img src={stripe_img} className='w-10 h-3 payment-logo' alt="" />
-                      Pay with Stripes
+                      Pay with Stripe
                     </button>
 
                     <button type="button" className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 me-2 mb-2 payment-button">
@@ -763,7 +763,7 @@ const ProfileDashboard = () => {
         );
       case 'accountDetails':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Account Details</h3>
 
 
@@ -843,7 +843,7 @@ const ProfileDashboard = () => {
         );
       case 'logout':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Are you sure you want to log out ? <a href="" onClick={(e) => {
               e.preventDefault();
               handleLogout()
@@ -873,7 +873,7 @@ const ProfileDashboard = () => {
         </div>
         <div className="profile-page-content">
 
-          <div className="md:flex">
+          <div className="md:flex sm:">
             <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
               <li>
                 <a href="#" className={`inline-flex items-center px-4 py-3 ${activeTab === 'profile' ? 'text-white bg-blue-700 dark:bg-blue-600' : 'rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white'} w-full`} onClick={() => setActiveTab('profile')} aria-current={activeTab === 'profile' ? 'page' : undefined}>

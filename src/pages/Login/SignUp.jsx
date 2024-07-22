@@ -82,7 +82,7 @@ const SignUp = () => {
       <Navbar />
       <div className="signup-page">
         <section className=" dark:bg-gray-900 dark">
-          <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <div className="flex flex-col items-center justify-center px-6 py-10  mx-auto md:min-h-screen lg:py-2">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
               <img className=" h-8 mr-2" src={logo} alt="logo" />
             </a>

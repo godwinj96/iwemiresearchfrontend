@@ -109,14 +109,19 @@ const Navbar = () => {
   return (
     <header className='dark'>
       <nav className=" border-gray-200  new-nav ">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 top-nav">
+        <div className="w-full flex  items-center justify-between mx-auto top-nav">
+
+          
           <a href="" onClick={(e) => {
                 e.preventDefault();
                 home();
               }} className="flex  space-x-3 rtl:space-x-reverse">
-            <img src={logo} className="h-20" alt="Flowbite Logo" />
+            <img src={logo} className="h-" alt="Flowbite Logo"  width={100} height={130}/>
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
+
+
+          
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {loggedIn ?
               <>
@@ -165,7 +170,7 @@ const Navbar = () => {
                 {/*              <a href='' className='dasboard-profile text-white' >Profile</a>*/}
               </>
               :
-              <div className='flex nav-buttons'>
+              <div className='flex nav-buttons ml-5'>
              
                 <div>
                   <a
@@ -235,6 +240,9 @@ const Navbar = () => {
               }} >Academic Papers</a>
             </div>}
           </div>
+
+          
+
           <div className="items-center justify-between hidden w-full  lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               <li>
@@ -296,9 +304,15 @@ const Navbar = () => {
 
 
             </ul>
+            
+            
+
           </div>
+
+            
+
         </div>
-        <div className="sub-navbar flex">
+        {/* <div className="sub-navbar flex">
           <div className='breadcrumb'>
             <nav className="flex  dark" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -336,30 +350,13 @@ const Navbar = () => {
               </ol>
             </nav>
           </div>
-          <div className='nav-search'>
-
-            <form className="max-w-md mx-auto nav-search-form">
-
-              <div className="relative nav-search-div">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                  </svg>
-                </div>
-                <input value={query} onChange={(e)=>{setQuery(e.target.value)}} type="search" id="default-search" className="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
-                <button 
-                type="submit" 
-                className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  onClick={applyFilters}
-                >Search</button>
-              </div>
-            </form>
-
-          </div>
-        </div>
-
+          
+        </div> */}
+        
 
       </nav>
+
+      
 
       <hr className='grey' />
     </header>
