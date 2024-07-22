@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GiNewspaper } from "react-icons/gi"
 import { useLocation } from 'react-router-dom'
+import { supabase } from '../../supaBaseClient'
 
 const ClickedBook = () => {
   const { search, setSearch } = useContext(GlobalStateContext)
@@ -12,6 +13,36 @@ const ClickedBook = () => {
   const location = useLocation()
 
   const { book } = location.state || {}
+
+  const [similarBooks,setSimilarBooks] = useState([])
+ 
+  useEffect(() => {
+    const fetchSimilarBooks = async () => {
+        const { data, error } = await supabase
+            .from('api_book')
+            .select('*')
+            
+
+        if (error) {
+            toast.error(error)
+            console.log(error)
+        } else {
+            setSimilarBooks(data)
+            console.log(data)
+        }
+    }
+
+    fetchSimilarBooks()
+}, []) 
+
+
+  const categoryMap = {
+    1: 'Journal',
+    2: 'Thesis & Dissertation',
+    3: 'Academic TextBook',
+    4: 'Conference Paper'
+    // add more categories as needed
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -28,7 +59,7 @@ const ClickedBook = () => {
               </div>
 
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {book.description}
+                {book.abstract}
               </p>
 
             </div>
@@ -37,14 +68,9 @@ const ClickedBook = () => {
                 Similar Products
               </div>
               <div className='flex flex-col gap-10 similar-products'>
-                <hr className='bg-black' />
-                <HomeBookCards />
-                <hr className='bg-black' />
-                <HomeBookCards />
-                <hr className='bg-black' />
-                <HomeBookCards />
-                <hr className='bg-black' />
-                <HomeBookCards />
+              {similarBooks.slice(0,4).map(book => (
+              <HomeBookCards key={book.id} book={book} />
+            ))}
 
               </div>
 
@@ -104,6 +130,16 @@ const ClickedBook = () => {
             <div className="abstract-heading">
               All References
             </div>
+            <div className="citation-content flex flex-col justify-content items-center">
+              <div className='mb-6'>
+                <GiNewspaper size={60} />
+              </div>
+              <div>
+                <h2 className=''> This research paper isn't cited in any other research material</h2>
+                <p>Note:This is based on the research resources in our database </p>
+              </div>
+
+            </div>
           </div>
         );
       case 'citations':
@@ -139,20 +175,18 @@ const ClickedBook = () => {
         <div className='each flex'>
           <div className="papers-left ">
             <div className='flex clicked-book-type'>
-              <h3>Journal </h3>
+              <h3>{categoryMap[book.category_id]}</h3>
             </div>
 
             <h1 className='clicked-book-title'>
-              {book.title}
+              {book.name}
             </h1>
             <span className="published-date">
-              {book.date}
+              Year Published : {book.year_published}
             </span>
             <br />
             <text className='clicked-authors'>
-              {book.authors.map((author, index) => (
-                <span key={index}>{author}{index < book.authors.length - 1 ? ', ' : ''}</span>
-              ))}
+              {book.author}
             </text>
 
 
@@ -215,11 +249,23 @@ const ClickedBook = () => {
                 </button>
               </li>
             </ul>
-            <div className="papers-right clicked-book-button flex ">
-              <button>Cite</button>
-              <button>Save</button>
-              <button className='download'>Download</button>
-            </div>
+           
+            {book.is_open_access ? (
+                <div className="papers-right clicked-book-button flex ">
+                    <button>Cite</button>
+                    <button>Save</button>
+                    <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
+                        <button className='download'>Download</button>
+                    </a>
+                </div>
+            ) : (
+                <div className="papers-right clicked-book-button flex ">
+                    <button>Cite</button>
+                    <button>Save</button>
+                    <button className='download' onClick={() => handleAddToCart(paper)}>Add to Cart</button>
+                    <button className='download'>Buy Now and Download</button>
+                </div>
+            )}
           </div>
           <div id="default-tab-content">
             {renderTabContent()}
