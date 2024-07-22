@@ -91,7 +91,7 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }, [])
 
-  useEffect(() => {
+  /**  useEffect(() => {
     //books from edition guard
     //subscription based books
     const fetchPapers = async () => {
@@ -202,7 +202,8 @@ export const GlobalStateProvider = ({ children }) => {
     if (openAccessPapers.length && papers.length) {
       mergeAndShufflePapers()
     }
-  },[openAccessPapers, papers])
+  },[openAccessPapers, papers]) */
+
 
 
 

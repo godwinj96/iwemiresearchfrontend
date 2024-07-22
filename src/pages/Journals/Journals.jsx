@@ -331,8 +331,8 @@ const Journals = () => {
     
     const {state,dispatch} = useCart()
 
-    const handleAddToCart = (journal)=>{
-        dispatch({type: 'ADD_TO_CART', payload: journal})
+    const handleAddToCart = (item)=>{
+        dispatch({type: 'ADD_TO_CART', payload: item})
        // toast.error('Added to Shopping Cart')
        alert('Added to Shopping Cart')
     }
