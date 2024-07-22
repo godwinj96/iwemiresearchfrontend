@@ -6,7 +6,7 @@ import Navbar from '../../components/NavBar/NavBar';
 import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import { toast, ToastContainer } from 'react-toastify';
-import { Toast } from 'flowbite-react';
+
 
 
 const Login = ({ setToken }) => {
@@ -23,46 +23,32 @@ const Login = ({ setToken }) => {
     setLoggedIn(false)
     navigate('/signup')
   }
-  const terms = () => {
-    navigate('/terms&Conditions')
-  }
 
   const ForgotPassword = () => {
     navigate('/Forgot-Password')
-  }
-
-  const home = () => {
-    navigate('/')
   }
 
   const handleLogin = async (e) => {
     e.preventDefault()
 
     try {
-
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-
       console.log(data.user)
       console.log(data)
 
       if (error) {
-        throw error;
+        console.log(error.message)
 
       } else {
         setLoggedIn(true)
         console.log(loggedIn)
         navigate('/')
         localStorage.setItem('supabase_session', JSON.stringify(data.session))
-
-
       }
-
-
-
 
     } catch (error) {
       console.error("Error loggin in:", error)
@@ -75,11 +61,6 @@ const Login = ({ setToken }) => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
-  const toggleConfirmPasswordVisibility = () => {
-    setShowconfirmPassword(!showconfirmPassword)
-  }
-
-
 
   return (
     <div className='login-container'>

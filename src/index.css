@@ -2752,7 +2752,7 @@ div.relative:hover .dropdown-menu {
   flex-direction: column;
 }
 
-.payment-text text{
+.payment-text span{
   color: rgb(201, 200, 200);
   font-weight: 500;
 }
