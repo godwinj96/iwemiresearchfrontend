@@ -47,7 +47,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/payment" element={<Payment />} />
-
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/Forgot-Password' element={<ForgotPassword />} />
@@ -69,7 +68,6 @@ function App() {
           <Route path='/thesis&Dissertations' element={<Thesis />} />
           <Route path='/conference-Papers' element={<ConferencePapers />} />
           <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
-
         </Routes>
       </GlobalStateProvider>
     </CurrencyProvider>

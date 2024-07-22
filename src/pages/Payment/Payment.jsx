@@ -158,7 +158,7 @@ const Payment = () => {
                         <div className="mt-4 lg:mt-0 flex flex-col gap-8">
                             <div className='payment-text'>
                                 <h1>How would you like to pay?</h1>
-                                <text>All transactions are secured and encrypted</text>
+                                <span>All transactions are secured and encrypted</span>
 
                             </div>
                             <div className="flex gap-4 flex-col">
