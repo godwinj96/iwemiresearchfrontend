@@ -62,6 +62,7 @@ export const GlobalStateProvider = ({ children }) => {
         if (data) {
           console.log(data)
           console.log('User is logged in:', data.session.user)
+          console.log( data.session.user.email)
           setUser(data.session.user)
           console.log(user)
           setLoggedIn(true)
