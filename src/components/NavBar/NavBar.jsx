@@ -109,7 +109,7 @@ const Navbar = () => {
   return (
     <header className='dark'>
       <nav className=" border-gray-200  new-nav ">
-        <div className="w-full flex  items-center justify-between mx-auto top-nav">
+        <div className="w-full flex  items-center justify-between mx-auto top-nav pr-8">
 
           
           <a href="" onClick={(e) => {
@@ -170,7 +170,7 @@ const Navbar = () => {
                 {/*              <a href='' className='dasboard-profile text-white' >Profile</a>*/}
               </>
               :
-              <div className='flex nav-buttons ml-5'>
+              <div className='flex nav-buttons mr-5'>
              
                 <div>
                   <a
