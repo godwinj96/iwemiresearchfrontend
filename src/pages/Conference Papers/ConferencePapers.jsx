@@ -5,6 +5,8 @@ import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { supabase } from '../../supaBaseClient';
+import { useCart } from '../../Context/CartContext';
+import BookItem from '../../components/BookCards/BookItem';
 
 const ConferencePapers = () => {
 
@@ -173,13 +175,13 @@ const ConferencePapers = () => {
 
     });
 
-    const [isOpen,setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
-    const toggleSidebar=()=>{
-        
+    const toggleSidebar = () => {
+
         setIsOpen(!isOpen)
         console.log(isOpen)
-        if (isOpen){
+        if (isOpen) {
             removeBackdrop()
         }
     }
@@ -192,9 +194,9 @@ const ConferencePapers = () => {
     const removeBackdrop = () => {
         const backdrop = document.querySelector('div[drawer-backdrop]');
         if (backdrop) {
-          backdrop.remove();
+            backdrop.remove();
         }
-      };
+    };
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -230,14 +232,14 @@ const ConferencePapers = () => {
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         document.addEventListener('mousedown', handleClickOutsideMenu);
-        
 
-        const handleResize = ()=>{
-            if(window.innerWidth>=1200){
+
+        const handleResize = () => {
+            if (window.innerWidth >= 1200) {
                 setIsOpen(true)
                 removeBackdrop()
-            } else{
-                
+            } else {
+
             }
         }
         window.addEventListener('resize', handleResize)
@@ -254,9 +256,9 @@ const ConferencePapers = () => {
 
     useEffect(() => {
         if (!isOpen) {
-          removeBackdrop();
+            removeBackdrop();
         }
-      }, [isOpen]);
+    }, [isOpen]);
 
     const handleCheckboxChange = (e) => {
         const { id, checked } = e.target
@@ -287,29 +289,29 @@ const ConferencePapers = () => {
         }
 
         fetchConference()
-        
+
 
     }, [])
 
     const [filters, setFilters] = useState({
-        citationCount:false,
-        name:false,
+        citationCount: false,
+        name: false,
         createdOn: false
     })
 
-    const handleFitlerChange =(e)=>{
-        const {name,checked} = e.target;
-        setFilters((prevFilters)=>({
+    const handleFitlerChange = (e) => {
+        const { name, checked } = e.target;
+        setFilters((prevFilters) => ({
             ...prevFilters,
             [name]: checked,
         }))
     }
 
-    const applyFilters = (books) =>{
+    const applyFilters = (books) => {
         let filteredBooks = [...books]
 
         if (filters.name) {
-            filteredBooks.sort((a,b)=> a.name.toString().localeCompare(b.name.toString()))
+            filteredBooks.sort((a, b) => a.name.toString().localeCompare(b.name.toString()))
         }
 
         if (filters.createdOn) {
@@ -319,20 +321,30 @@ const ConferencePapers = () => {
         if (filters.citationCount) {
             filteredBooks.sort((a, b) => b.citationCount - a.citationCount);
         }
-        
+
         return filteredBooks
     }
 
     const filteredPapers = applyFilters(conference)
 
+    const { state, dispatch } = useCart()
 
-  return (
-    <div>
+    const handleAddToCart = (item) => {
+        dispatch({ type: 'ADD_TO_CART', payload: item })
+        // toast.error('Added to Shopping Cart')
+        alert('Added to Shopping Cart')
+    }
+
+
+
+
+    return (
+        <div>
             <Navbar />
             <div className="thesis type flex flex-col items-center">
                 <div className="thesis-hero flex items-center w-full">
                     <h1>
-                    Conference Papers
+                        Conference Papers
                     </h1>
                 </div>
                 <div className="empty w-full">
@@ -341,21 +353,21 @@ const ConferencePapers = () => {
                 <div className="thesis-content flex  ">
                     <div className="sidebar flex flex-col   relative">
 
-                        <button 
-                        ref={buttonRef}
-                        onClick={toggleSidebar}
-                        data-drawer-target="sidebar-multi-level-sidebar" 
-                        data-drawer-toggle="sidebar-multi-level-sidebar" 
-                        aria-controls="sidebar-multi-level-sidebar" 
-                        type="button" 
-                        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
+                        <button
+                            ref={buttonRef}
+                            onClick={toggleSidebar}
+                            data-drawer-target="sidebar-multi-level-sidebar"
+                            data-drawer-toggle="sidebar-multi-level-sidebar"
+                            aria-controls="sidebar-multi-level-sidebar"
+                            type="button"
+                            className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
                         focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
                             <span className="sr-only">Open sidebar</span>
-                            <HiMenuAlt2 size={24}  />
-                            
+                            <HiMenuAlt2 size={24} />
+
                         </button>
 
-                        <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform ${isOpen? 'translate-x-0' : '-translate-x-full fixed left-0 top-0'} `} aria-label="Sidebar">
+                        <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 top-0'} `} aria-label="Sidebar">
                             <div className="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
                                 <ul className="space-y-2 font-medium">
 
@@ -1219,7 +1231,7 @@ const ConferencePapers = () => {
                     <div className="thesis-papers ">
 
                         <section className="  dark dark:bg-gray-900 p-3 sm:p-5">
-                        <div ref={dropdownRef}>
+                            <div ref={dropdownRef}>
                                 <button
                                     onClick={toggleDropdown}
                                     id="filterDropdownButton" data-dropdown-toggle="filterDropdown" className="w-full dark md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
@@ -1238,33 +1250,33 @@ const ConferencePapers = () => {
                                     </h6>
                                     <ul className="space-y-2 text-sm" aria-labelledby="dropdownDefault">
                                         <li className="flex items-center">
-                                            <input 
-                                            name = "citationCount"
-                                            checked = {filters.citationCount}
-                                            onChange={handleFitlerChange}
-                                            id="apple" type="checkbox" value=""
+                                            <input
+                                                name="citationCount"
+                                                checked={filters.citationCount}
+                                                onChange={handleFitlerChange}
+                                                id="apple" type="checkbox" value=""
                                                 className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                             <label htmlFor="apple" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                               Citation Count
+                                                Citation Count
                                             </label>
                                         </li>
                                         <li className="flex items-center">
-                                            <input 
-                                            name='name'
-                                            checked = {filters.name}
-                                            onChange={handleFitlerChange}
-                                            id="" type="checkbox" value=""
+                                            <input
+                                                name='name'
+                                                checked={filters.name}
+                                                onChange={handleFitlerChange}
+                                                id="" type="checkbox" value=""
                                                 className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                             <label htmlFor="apple" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 Name: A to Z
                                             </label>
                                         </li>
                                         <li className="flex items-center">
-                                            <input 
-                                            name='createdOn'
-                                            checked = {filters.createdOn}
-                                            onChange={handleFitlerChange}
-                                            id="fitbit" type="checkbox" value=""
+                                            <input
+                                                name='createdOn'
+                                                checked={filters.createdOn}
+                                                onChange={handleFitlerChange}
+                                                id="fitbit" type="checkbox" value=""
                                                 className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                             <label htmlFor="fitbit" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 Created On
@@ -1276,36 +1288,12 @@ const ConferencePapers = () => {
                             </div>
                             <div className="type-papers flex flex-col">
 
-                            {filteredPapers.map((conference) => (
-                                    <div className='each flex' key={conference.id}>
-                                        <div className="papers-left ">
-                                            <h3>Conference Papers</h3>
-                                            <h1> <a href="" >{conference.name}</a>  </h1>
-                                            <h5>{conference.year_published}</h5>
-                                            <text>
-                                                <span>{conference.author}</span>{'  '}
-
-                                            </text>
-
-                                            <p className="abstract">
-                                                {conference.abstract}
-                                            </p>
-                                        </div>
-                                        {conference.is_open_access ? (<div className="papers-right flex flex-col">
-                                            <button>Cite</button>
-                                            <button>Save</button>
-                                            <a href={conference.file_url} target='_blank' rel='noopener noreferrer'>
-                                                <button className='download'>Download</button>    
-                                            </a>
-                                        </div>) : (
-                                            <div className="papers-right flex flex-col">
-                                                <button>Cite</button>
-                                                <button>Save</button>
-                                                <button className='download'>Add to Cart</button>
-                                                <button className='download'>Buy Now and Download</button>
-                                            </div>
-                                        )}
-                                    </div>
+                                {filteredPapers.map((conference) => (
+                                    <BookItem
+                                        key={conference.id}
+                                        paper={conference}
+                                        handleAddToCart={handleAddToCart}
+                                    />
                                 ))
                                 }
 
@@ -1321,7 +1309,7 @@ const ConferencePapers = () => {
             </div>
             <Footer />
         </div>
-  )
+    )
 }
 
 export default ConferencePapers

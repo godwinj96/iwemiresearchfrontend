@@ -24,6 +24,12 @@ const ShoppingCart = () => {
        alert('Added to Shopping Cart')
     }
 
+    const handleCheckout = () => {
+        // Implement your checkout logic here
+        dispatch({ type: 'CLEAR_CART' });
+    };
+    
+
     const navigate = useNavigate()
 
     const payment=()=>{

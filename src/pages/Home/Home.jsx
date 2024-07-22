@@ -15,60 +15,12 @@ import 'aos/dist/aos.css'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import { supabase } from '../../supaBaseClient'
 
-const books = [
-  {
-    id: 1,
-    title: "Change and Stability in Thesis and Dissertation Writing",
-    date: "June 2024",
-    authors: ["John Doe", "Jane Smith"],
 
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
-    image: bookImage
-  },
-  {
-    id: 2,
-    title: "Change and Stability in Thesis and Dissertation Writing",
-    date: "June 2024",
-    authors: ["John Doe", "Jane Smith"],
-
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
-    image: bookImage
-  },
-  {
-    id: 3,
-    title: "Change and Stability in Thesis and Dissertation Writing",
-    date: "June 2024",
-    authors: ["John Doe", "Jane Smith"],
-
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
-    image: bookImage
-  },
-  {
-    id: 4,
-    title: "Change and Stability in Thesis and Dissertation Writing",
-    date: "June 2024",
-    authors: ["John Doe", "Jane Smith"],
-
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
-    image: bookImage
-  },
-  {
-    id: 5,
-    title: "Change and Stability in Thesis and Dissertation Writing",
-    date: "June 2024",
-    authors: ["John Doe", "Jane Smith"],
-
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus blanditiis ab vitae.",
-    image: bookImage
-  },
-
-  // Add more books here...
-];
 
 
 const Home = () => {
-  // {book, setBook} = useContext(GlobalStateContext)
-  /** const [book, setBook] = useState
+ const [books,setBooks] = useState([])
+ 
   useEffect(() => {
     const fetchBooks = async () => {
         const { data, error } = await supabase
@@ -80,15 +32,13 @@ const Home = () => {
             toast.error(error)
             console.log(error)
         } else {
-            setJournals(data)
+            setBooks(data)
             console.log(data)
         }
     }
 
-    fetchJournals()
-
-
-}, []) */
+    fetchBooks()
+}, []) 
  
 
   const navigate = useNavigate()

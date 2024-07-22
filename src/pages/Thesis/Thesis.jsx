@@ -5,6 +5,8 @@ import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { supabase } from '../../supaBaseClient';
+import { useCart } from '../../Context/CartContext';
+import BookItem from '../../components/BookCards/BookItem';
 
 const Thesis = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -321,6 +323,16 @@ const Thesis = () => {
     }
 
     const filteredPapers = applyFilters(thesis)
+
+    const {state,dispatch} = useCart()
+
+    const handleAddToCart = (item)=>{
+        dispatch({type: 'ADD_TO_CART', payload: item})
+       // toast.error('Added to Shopping Cart')
+       alert('Added to Shopping Cart')
+    }
+
+
 
 
     return (
@@ -1275,35 +1287,11 @@ const Thesis = () => {
                             <div className="type-papers flex flex-col">
 
                             {filteredPapers.map((thesis) => (
-                                    <div className='each flex' key={thesis.id}>
-                                        <div className="papers-left ">
-                                            <h3>Thesis & Dissertation </h3>
-                                            <h1> <a href="" >{thesis.name}</a>  </h1>
-                                            <h5>{thesis.year_published}</h5>
-                                            <text>
-                                                <span>{thesis.author}</span>{'  '}
-
-                                            </text>
-
-                                            <p className="abstract">
-                                                {thesis.abstract}
-                                            </p>
-                                        </div>
-                                        {thesis.is_open_access ? (<div className="papers-right flex flex-col">
-                                            <button>Cite</button>
-                                            <button>Save</button>
-                                            <a href={thesis.file_url} target='_blank' rel='noopener noreferrer'>
-                                                <button className='download'>Download</button>    
-                                            </a>
-                                        </div>) : (
-                                            <div className="papers-right flex flex-col">
-                                                <button>Cite</button>
-                                                <button>Save</button>
-                                                <button className='download'>Add to Cart</button>
-                                                <button className='download'>Buy Now and Download</button>
-                                            </div>
-                                        )}
-                                    </div>
+                                    <BookItem 
+                                    key={thesis.id}
+                                    paper={thesis}
+                                    handleAddToCart={handleAddToCart}
+                                    />
                                 ))
                                 }
 

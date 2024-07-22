@@ -7,11 +7,13 @@ import logo from '../../assets/new iwemi.png'
 import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
 import { FiShoppingCart } from "react-icons/fi";
+import { useCart } from '../../Context/CartContext';
 
 
 const Navbar = () => {
   const { query, setQuery, setPapers, queryHero, setQueryHero, search, setSearch, bookClicked, setBookClicked, loggedIn, setLoggedIn, fetchPapers } = useContext(GlobalStateContext)
-
+  const {state} = useCart()
+  console.log(state.count)
 
   const [menu, setMenu] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
@@ -138,7 +140,7 @@ const Navbar = () => {
                   </div>
 
 
-                  <div className='Icon'>
+                  <div className='Icon cart-icon'>
                     <a href=""
                       onClick={(e) => {
                         e.preventDefault();
@@ -147,8 +149,9 @@ const Navbar = () => {
                     >
                       <FiShoppingCart size={22} color='white' />
                     </a>
-
+                      <span className="cartcount">{state.count}</span>
                   </div>
+                  
 
 
                   <div>

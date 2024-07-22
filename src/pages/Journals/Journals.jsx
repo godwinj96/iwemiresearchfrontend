@@ -7,6 +7,7 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { supabase } from '../../supaBaseClient';
 import { useCart } from '../../Context/CartContext';
 import { toast } from 'react-toastify';
+import BookItem from '../../components/BookCards/BookItem';
 
 
 const Journals = () => {
@@ -1236,11 +1237,11 @@ const Journals = () => {
                                 <button
                                     onClick={toggleDropdown}
                                     id="filterDropdownButton" data-dropdown-toggle="filterDropdown" className="w-full dark md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-4 w-4 mr-2 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                                         <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
                                     </svg>
                                     Filter
-                                    <svg className="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <svg className="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path clipRule="evenodd" fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                                     </svg>
                                 </button>
@@ -1291,36 +1292,11 @@ const Journals = () => {
                             <div className="type-papers flex flex-col">
 
                                 {filteredPapers.map((journal) => (
-                                    <div className='each flex' key={journal.id}>
-                                        <div className="papers-left ">
-                                            <h3>Journal Articles</h3>
-                                            <h1> <a href="" >{journal.name}</a>  </h1>
-                                            <h5>{journal.year_published}</h5>
-                                            <text>
-                                                <span>{journal.author}</span>{'  '}
-
-                                            </text>
-
-                                            <p className="abstract">
-                                                {journal.abstract}
-                                            </p>
-                                        </div>
-                                        {journal.is_open_access ? (<div className="papers-right flex flex-col">
-                                            <button>Cite</button>
-                                            <button>Save</button>
-                                            <a href={journal.file_url} target='_blank' rel='noopener noreferrer'>
-                                                <button className='download'>Download</button>    
-                                            </a>
-                                            
-                                        </div>) : (
-                                            <div className="papers-right flex flex-col">
-                                                <button>Cite</button>
-                                                <button>Save</button>
-                                                <button className='download' onClick={()=>handleAddToCart(journal)}>Add to Cart</button>
-                                                <button className='download'>Buy Now and Download</button>
-                                            </div>
-                                        )}
-                                    </div>
+                                    <BookItem 
+                                    key={journal.id}
+                                    paper={journal}
+                                    handleAddToCart={handleAddToCart}
+                                    />
                                 ))
                                 }
 

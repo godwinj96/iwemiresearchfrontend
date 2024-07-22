@@ -5,6 +5,8 @@ import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { supabase } from '../../supaBaseClient';
+import { useCart } from '../../Context/CartContext';
+import BookItem from '../../components/BookCards/BookItem';
 
 
 const AcademicTextbooks = () => {
@@ -320,6 +322,16 @@ const AcademicTextbooks = () => {
     }
 
     const filteredPapers = applyFilters(academic)
+
+    const { state, dispatch } = useCart()
+
+    const handleAddToCart = (item) => {
+        dispatch({ type: 'ADD_TO_CART', payload: item })
+        // toast.error('Added to Shopping Cart')
+        alert('Added to Shopping Cart')
+    }
+
+
 
     return (
         <div>
@@ -1234,36 +1246,12 @@ const AcademicTextbooks = () => {
 
                             <div className="type-papers flex flex-col">
 
-                            {filteredPapers.map((academic) => (
-                                    <div className='each flex' key={academic.id}>
-                                        <div className="papers-left ">
-                                            <h3>Academic Textbooks</h3>
-                                            <h1> <a href="" >{academic.name}</a>  </h1>
-                                            <h5>{academic.year_published}</h5>
-                                            <text>
-                                                <span>{academic.author}</span>{'  '}
-
-                                            </text>
-
-                                            <p className="abstract">
-                                                {academic.abstract}
-                                            </p>
-                                        </div>
-                                        {academic.is_open_access ? (<div className="papers-right flex flex-col">
-                                            <button>Cite</button>
-                                            <button>Save</button>
-                                            <a href={academic.file_url} target='_blank' rel='noopener noreferrer'>
-                                                <button className='download'>Download</button>    
-                                            </a>
-                                        </div>) : (
-                                            <div className="papers-right flex flex-col">
-                                                <button>Cite</button>
-                                                <button>Save</button>
-                                                <button className='download'>Add to Cart</button>
-                                                <button className='download'>Buy Now and Download</button>
-                                            </div>
-                                        )}
-                                    </div>
+                                {filteredPapers.map((academic) => (
+                                    <BookItem
+                                        key={academic.id}
+                                        paper={academic}
+                                        handleAddToCart={handleAddToCart}
+                                    />
                                 ))
                                 }
 
