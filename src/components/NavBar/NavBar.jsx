@@ -123,7 +123,7 @@ const Navbar = () => {
                 <div className="icons">
                   <div className='0'>
                     <svg className="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
-                      <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
                     </svg>
                     {/*{showNoti && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
@@ -151,7 +151,7 @@ const Navbar = () => {
                       e.preventDefault();
                       profileDashboard();
                     }}>
-                      <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10 10 0 0112 15a10 10 0 016.879 2.804M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A10 10 0 0112 15a10 10 0 016.879 2.804M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     {/*{showProfile && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
@@ -189,12 +189,12 @@ const Navbar = () => {
             }
             <button
               ref={menuRef}
-              data-collapse-toggle="mobile-menu-2"
+              
               type="button"
               className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100
                             focus:outline-none focus:ring-2 focus:ring-gray-200 
                                 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 main-menu-button"
-              aria-controls="mobile-menu-2" aria-expanded={menu}
+              aria-expanded={menu}
               onClick={toggleMenu}
             >
 
@@ -207,7 +207,7 @@ const Navbar = () => {
                                 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
 
             </button>
-            {menu && <div id='mobile-menu-2' ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
+            {menu && <div  ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
               <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
                 e.preventDefault();
                 home();
@@ -322,7 +322,7 @@ const Navbar = () => {
 
                     <div className="flex items-center">
                       <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                       </svg>
                       <Link to={`/${lastPath}`} className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         {lastPath.charAt(0).toUpperCase() + lastPath.slice(1)}
@@ -343,7 +343,7 @@ const Navbar = () => {
               <div className="relative nav-search-div">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                   </svg>
                 </div>
                 <input value={query} onChange={(e)=>{setQuery(e.target.value)}} type="search" id="default-search" className="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
