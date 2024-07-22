@@ -32,42 +32,50 @@ import ClickedBook from './pages/Dashboard/ClickedBook'
 import Payment from './pages/Payment/Payment'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { CurrencyProvider } from './Context/CurrencyContext'
+import CartProvider from './Context/CartContext'
 
 
 
 
 function App() {
   return (
-    <GlobalStateProvider>
-      <ToastContainer theme='dark' />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/payment" element={<Payment />} />
+    <CartProvider>
+      <CurrencyProvider>
+      <GlobalStateProvider>
+        <ToastContainer theme='dark' />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/payment" element={<Payment />} />
 
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/Forgot-Password' element={<ForgotPassword />} />
-        <Route path='/reset-Password' element={<ResetPassword />} />
-        <Route path='/signup-Publisher' element={<SignUpPublish />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/search-page' element={<SearchPage />} />
-        <Route path='book/:id' element={<ClickedBook />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/shopping-Cart' element={<ShoppingCart />} />
-        <Route path='/checkout' element={<Checkout />} />
-        <Route path='/FAQs' element={<Faq />} />
-        <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
-        <Route path='/Forgot-Password' element={<ForgotPassword />} />
-        <Route path='/terms&Conditions' element={<Terms />} />
-        <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
-        <Route path='/journals' element={<Journals />} />
-        <Route path='/thesis&Dissertations' element={<Thesis />} />
-        <Route path='/conference-Papers' element={<ConferencePapers />} />
-        <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/Forgot-Password' element={<ForgotPassword />} />
+          <Route path='/reset-Password' element={<ResetPassword />} />
+          <Route path='/signup-Publisher' element={<SignUpPublish />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/search-page' element={<SearchPage />} />
+          <Route path='book/:id' element={<ClickedBook />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/shopping-Cart' element={<ShoppingCart />} />
+          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/FAQs' element={<Faq />} />
+          <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
+          <Route path='/Forgot-Password' element={<ForgotPassword />} />
+          <Route path='/terms&Conditions' element={<Terms />} />
+          <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
+          <Route path='/journals' element={<Journals />} />
+          <Route path='/thesis&Dissertations' element={<Thesis />} />
+          <Route path='/conference-Papers' element={<ConferencePapers />} />
+          <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
 
-      </Routes>
-    </GlobalStateProvider>
+        </Routes>
+      </GlobalStateProvider>
+    </CurrencyProvider>
+    </CartProvider>
+    
+
   )
 }
 

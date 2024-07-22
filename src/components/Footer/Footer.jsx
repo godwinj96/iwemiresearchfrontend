@@ -30,14 +30,14 @@ const Footer = () => {
 
     return (
         <div>
-            <footer class="p-4  md:p-8 lg:p-10 dark:bg-gray-800">
-                <div class="mx-auto max-w-screen-xl text-center">
-                    <a href="#" class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
+            <footer className="p-4  md:p-8 lg:p-10 dark:bg-gray-800">
+                <div className="mx-auto max-w-screen-xl text-center">
+                    <a href="#" className="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
 
                         <img src={logo} className="mr-3 h-40" alt="FlowBite Logo" />
                     </a>
-                    <p class="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with gloabl institutions</p>
-                    <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+                    <p className="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with gloabl institutions</p>
+                    <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
                         <li>
                             <a href="" onClick={(e) => {
                                 e.preventDefault();

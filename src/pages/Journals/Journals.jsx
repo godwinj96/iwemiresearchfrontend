@@ -5,6 +5,8 @@ import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { supabase } from '../../supaBaseClient';
+import { useCart } from '../../Context/CartContext';
+import { toast } from 'react-toastify';
 
 
 const Journals = () => {
@@ -192,7 +194,7 @@ const Journals = () => {
         }
 
         fetchJournals()
-        
+
 
     }, [])
 
@@ -294,31 +296,24 @@ const Journals = () => {
     }
 
     const [filters, setFilters] = useState({
-        citationCount:false,
-        name:false,
+        citationCount: false,
+        name: false,
         createdOn: false
     })
 
-    const handleFitlerChange =(e)=>{
-        const {name,checked} = e.target;
-        setFilters((prevFilters)=>({
+    const handleFitlerChange = (e) => {
+        const { name, checked } = e.target;
+        setFilters((prevFilters) => ({
             ...prevFilters,
             [name]: checked,
         }))
     }
 
-    const a = ''
-    const g = ''
-
-   
-    
-
-
-    const applyFilters = (books) =>{
+    const applyFilters = (books) => {
         let filteredBooks = [...books]
 
         if (filters.name) {
-            filteredBooks.sort((a,b)=> a.name.toString().localeCompare(b.name.toString()))
+            filteredBooks.sort((a, b) => a.name.toString().localeCompare(b.name.toString()))
         }
 
         if (filters.createdOn) {
@@ -328,12 +323,21 @@ const Journals = () => {
         if (filters.citationCount) {
             filteredBooks.sort((a, b) => b.citationCount - a.citationCount);
         }
-        
+
         return filteredBooks
     }
 
     const filteredPapers = applyFilters(journals)
-    console.log(journals);
+    
+    const {state,dispatch} = useCart()
+
+    const handleAddToCart = (journal)=>{
+        dispatch({type: 'ADD_TO_CART', payload: journal})
+       // toast.error('Added to Shopping Cart')
+       alert('Added to Shopping Cart')
+    }
+
+
 
     return (
         <div>
@@ -357,41 +361,41 @@ const Journals = () => {
                             data-drawer-toggle="sidebar-multi-level-sidebar"
                             aria-controls="sidebar-multi-level-sidebar"
                             type="button"
-                            class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
+                            className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
                         focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
-                            <span class="sr-only">Open sidebar</span>
+                            <span className="sr-only">Open sidebar</span>
                             <HiMenuAlt2 size={24} />
 
                         </button>
 
-                        <aside ref={menuRef} id="sidebar-multi-level-sidebar" class={` w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 top-0'} `} aria-label="Sidebar">
-                            <div class="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
-                                <ul class="space-y-2 font-medium">
+                        <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 top-0'} `} aria-label="Sidebar">
+                            <div className="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
+                                <ul className="space-y-2 font-medium">
 
 
                                     <li>
-                                        <div onClick={categoryDropDown} class="flex items-center  text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group type-sidebar-left">
-                                            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                                        <div onClick={categoryDropDown} className="flex items-center  text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group type-sidebar-left">
+                                            <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                                 <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                                             </svg>
-                                            <span class="flex-1 ms-3 whitespace-nowrap">Category</span>
+                                            <span className="flex-1 ms-3 whitespace-nowrap">Category</span>
                                             <span>{isCategoryOpen ? <IoIosArrowDown /> : <IoIosArrowForward />}</span>
 
                                         </div>
                                         {isCategoryOpen && (
                                             <ul className='type-category' >
-                                                <li class="flex flex-col  mb-4 " onClick={() => eachCategoryDropDown('agriculture')}>
+                                                <li className="flex flex-col  mb-4 " onClick={() => eachCategoryDropDown('agriculture')}>
                                                     <div className='flex items-center  hover:bg-gray-100 dark:hover:bg-gray-700  '>
-                                                        <input id="checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label for="checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Agriculture</label>
+                                                        <input id="checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                        <label htmlFor="checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Agriculture</label>
                                                         <span className='ml-6'>{isEachCategoryOpen.agriculture ? '▼' : '>'}</span>
                                                     </div>
                                                     {isEachCategoryOpen.agriculture &&
                                                         (<div className='ms-3'>
                                                             <ul className="">
-                                                                <li class="flex items-center mb-4">
-                                                                    <input id="agriculture-checkbox" type="checkbox" checked={checkboxValues.agriculture} onChange={handleCheckboxChange} value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                                    <label htmlFor="agriculture-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Agriculture</label>
+                                                                <li className="flex items-center mb-4">
+                                                                    <input id="agriculture-checkbox" type="checkbox" checked={checkboxValues.agriculture} onChange={handleCheckboxChange} value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
+                                                                    <label htmlFor="agriculture-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Agriculture</label>
                                                                 </li>
                                                                 <li className="flex items-center mb-4">
                                                                     <input id="agriculturalEconomics" type="checkbox" checked={checkboxValues.agriculturalEconomics} onChange={handleCheckboxChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
@@ -1162,54 +1166,54 @@ const Journals = () => {
                                             </ul>)}
                                     </li>
                                     <li>
-                                        <div class="flex items-center  text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group type-sidebar-left">
-                                            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                                        <div className="flex items-center  text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group type-sidebar-left">
+                                            <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                                 <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                                             </svg>
-                                            <span class="flex-1 ms-3 whitespace-nowrap">Access Type</span>
+                                            <span className="flex-1 ms-3 whitespace-nowrap">Access Type</span>
                                         </div>
 
-                                        <div class="flex items-center mb-4 ms-4">
-                                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                            <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Open-Access</label>
+                                        <div className="flex items-center mb-4 ms-4">
+                                            <input id="default-radio-1" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label htmlFor="default-radio-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Open-Access</label>
                                         </div>
-                                        <div class="flex items-center ms-4">
-                                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                            <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Non Open-Access</label>
+                                        <div className="flex items-center ms-4">
+                                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label htmlFor="default-radio-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Non Open-Access</label>
                                         </div>
 
                                     </li>
                                     {/** <li>
-                                        <div class="flex items-center  text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group type-sidebar-left">
-                                            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                                        <div className="flex items-center  text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group type-sidebar-left">
+                                            <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                                 <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                                             </svg>
-                                            <span class="flex-1 ms-3 whitespace-nowrap">Language</span>
+                                            <span className="flex-1 ms-3 whitespace-nowrap">Language</span>
 
                                         </div>
-                                        <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                                <div class="flex items-center ps-3">
-                                                    <input id="vue-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                                    <label for="vue-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">English</label>
+                                        <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                                <div className="flex items-center ps-3">
+                                                    <input id="vue-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                    <label htmlFor="vue-checkbox" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">English</label>
                                                 </div>
                                             </li>
-                                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                                <div class="flex items-center ps-3">
-                                                    <input id="react-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                                    <label for="react-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">French</label>
+                                            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                                <div className="flex items-center ps-3">
+                                                    <input id="react-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                    <label htmlFor="react-checkbox" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">French</label>
                                                 </div>
                                             </li>
-                                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                                <div class="flex items-center ps-3">
-                                                    <input id="angular-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                                    <label for="angular-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Espanol</label>
+                                            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                                <div className="flex items-center ps-3">
+                                                    <input id="angular-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                    <label htmlFor="angular-checkbox" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Espanol</label>
                                                 </div>
                                             </li>
-                                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                                <div class="flex items-center ps-3">
-                                                    <input id="laravel-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                                    <label for="laravel-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Laravel</label>
+                                            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                                <div className="flex items-center ps-3">
+                                                    <input id="laravel-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                    <label htmlFor="laravel-checkbox" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Laravel</label>
                                                 </div>
                                             </li>
                                         </ul>
@@ -1227,55 +1231,55 @@ const Journals = () => {
                     </div>
                     <div className="thesis-papers ">
 
-                        <section class="  dark dark:bg-gray-900 p-3 sm:p-5">
+                        <section className="  dark dark:bg-gray-900 p-3 sm:p-5">
                             <div ref={dropdownRef}>
                                 <button
                                     onClick={toggleDropdown}
-                                    id="filterDropdownButton" data-dropdown-toggle="filterDropdown" class="w-full dark md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
+                                    id="filterDropdownButton" data-dropdown-toggle="filterDropdown" className="w-full dark md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
                                     </svg>
                                     Filter
-                                    <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <svg className="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path clip-rule="evenodd" fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                                     </svg>
                                 </button>
 
-                                {isDropdownOpen && <div id="filterDropdown" class="z-10 w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
+                                {isDropdownOpen && <div id="filterDropdown" className="z-10 w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <h6 className="mb-3 text-sm font-medium text-gray-900 dark:text-white">
                                         Sort by:
                                     </h6>
-                                    <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-                                        <li class="flex items-center">
-                                            <input 
-                                            name = "citationCount"
-                                            checked = {filters.citationCount}
-                                            onChange={handleFitlerChange}
-                                            id="apple" type="checkbox" value=""
-                                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                            <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                               Citation Count
+                                    <ul className="space-y-2 text-sm" aria-labelledby="dropdownDefault">
+                                        <li className="flex items-center">
+                                            <input
+                                                name="citationCount"
+                                                checked={filters.citationCount}
+                                                onChange={handleFitlerChange}
+                                                id="apple" type="checkbox" value=""
+                                                className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                            <label htmlFor="apple" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                Citation Count
                                             </label>
                                         </li>
-                                        <li class="flex items-center">
-                                            <input 
-                                            name='name'
-                                            checked = {filters.name}
-                                            onChange={handleFitlerChange}
-                                            id="" type="checkbox" value=""
-                                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                            <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        <li className="flex items-center">
+                                            <input
+                                                name='name'
+                                                checked={filters.name}
+                                                onChange={handleFitlerChange}
+                                                id="" type="checkbox" value=""
+                                                className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                            <label htmlFor="apple" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 Name: A to Z
                                             </label>
                                         </li>
-                                        <li class="flex items-center">
-                                            <input 
-                                            name='createdOn'
-                                            checked = {filters.createdOn}
-                                            onChange={handleFitlerChange}
-                                            id="fitbit" type="checkbox" value=""
-                                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                            <label for="fitbit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        <li className="flex items-center">
+                                            <input
+                                                name='createdOn'
+                                                checked={filters.createdOn}
+                                                onChange={handleFitlerChange}
+                                                id="fitbit" type="checkbox" value=""
+                                                className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                            <label htmlFor="fitbit" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 Created On
                                             </label>
                                         </li>
@@ -1294,46 +1298,32 @@ const Journals = () => {
                                             <h5>{journal.year_published}</h5>
                                             <text>
                                                 <span>{journal.author}</span>{'  '}
-                                                
+
                                             </text>
 
                                             <p className="abstract">
-                                               {journal.abstract}
+                                                {journal.abstract}
                                             </p>
                                         </div>
-                                        <div className="papers-right flex flex-col">
+                                        {journal.is_open_access ? (<div className="papers-right flex flex-col">
                                             <button>Cite</button>
                                             <button>Save</button>
-                                            <button className='download'>Download</button>
-                                        </div>
+                                            <a href={journal.file_url} target='_blank' rel='noopener noreferrer'>
+                                                <button className='download'>Download</button>    
+                                            </a>
+                                            
+                                        </div>) : (
+                                            <div className="papers-right flex flex-col">
+                                                <button>Cite</button>
+                                                <button>Save</button>
+                                                <button className='download' onClick={()=>handleAddToCart(journal)}>Add to Cart</button>
+                                                <button className='download'>Buy Now and Download</button>
+                                            </div>
+                                        )}
                                     </div>
                                 ))
                                 }
-                                
-                                
-                                <div className='each flex'>
-                                    <div className="papers-left ">
-                                        <h3>Journal Articles</h3>
-                                        <h1> <a href="" >Lorem ipsum dolor sit amet consectetur adipisicing elit-voluptate quibusdam vel vero.</a>  </h1>
-                                        <text>
-                                            <span>Sean Matt</span>{'  '},
-                                            <span>Christopher Columbus</span> ,
-                                            <span>Reggie Jackson</span>
-                                        </text>
 
-                                        <p className="abstract">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Distinctio, possimus sint! Ipsam ex repellat expedita atque laboriosam
-                                            animi quod dolores beatae architecto, aliquam ipsa eos neque accusamus
-                                            blanditiis ab vitae.
-                                        </p>
-                                    </div>
-                                    <div className="papers-right flex flex-col">
-                                        <button>Cite</button>
-                                        <button>Save</button>
-                                        <button className='download'>Download</button>
-                                    </div>
-                                </div>
 
 
 

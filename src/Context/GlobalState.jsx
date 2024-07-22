@@ -13,14 +13,11 @@ export const GlobalStateProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState(null);
   const [filters, setFilters] = useState({})
-  const [currency, setCurrency] = useState({ code: 'NGN', name: 'Nigerian Naira', number: 566 })
+ 
   const [book, setBook] = useState({})
   const [openAccessPapers, setOpenAcessPapers] = useState([])
+  const [allPapers,setAllPapers ] = useState([])
 
-
-  const handleCurrencyChange = (newCurrency) => {
-    setCurrency(newCurrency)
-  }
 
 
   useEffect(()=>{
@@ -34,8 +31,13 @@ export const GlobalStateProvider = ({ children }) => {
           if (error) {
             toast.error(error)
           } else{
+            const updatedData = data.map(book=>({
+              ...book,
+              openAccess:true
+            }))
             console.log(data)
-            setOpenAcessPapers(data)
+            console.log(updatedData )
+            setOpenAcessPapers(updatedData)
             
           }
       }
@@ -46,7 +48,7 @@ export const GlobalStateProvider = ({ children }) => {
   },[])
 
 
-
+//getting user sesh
   useEffect(() => {
     const checkSession = async () => {
       try {
@@ -89,11 +91,6 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }, [])
 
-
-
-
-
-
   useEffect(() => {
     //books from edition guard
     //subscription based books
@@ -119,6 +116,10 @@ export const GlobalStateProvider = ({ children }) => {
         const data = await response.json()
         const dataObject = Object.values(data)
         const booksArray = dataObject[3]
+        const updatedBooksArray = booksArray.map(book=>({
+          ...book,
+          openAccess: false
+        }))
         setPapers(booksArray)//papers
         console.log(data)
         console.log(booksArray)
@@ -152,12 +153,13 @@ export const GlobalStateProvider = ({ children }) => {
         }
 
         const bookDetails = await response.json()
-        console.log(`Details for Book ID ${bookId}`, bookDetails)
+       // console.log(`Details for Book ID ${bookId}`, bookDetails)
+        
         setBook((prevDetails) => ({
           ...prevDetails,
           [bookId]: book
         }))
-
+        //console.log(book)
       } catch (error) {
         const detailUrl = `https://app.editionguard.com/api/v2/book/${bookId}`;
 
@@ -183,6 +185,25 @@ export const GlobalStateProvider = ({ children }) => {
 
   }, [filters])
 
+  useEffect(()=>{
+    const mergeAndShufflePapers = ()=>{
+     const  demoAllPapers = [...openAccessPapers,...papers]
+
+      for (let i = demoAllPapers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [demoAllPapers[i], demoAllPapers[j]] = [demoAllPapers[j], demoAllPapers[i]];
+      }
+
+      console.log(demoAllPapers)
+      setAllPapers(demoAllPapers)
+      
+    }
+
+    if (openAccessPapers.length && papers.length) {
+      mergeAndShufflePapers()
+    }
+  },[openAccessPapers, papers])
+
 
 
   const value = {
@@ -202,9 +223,6 @@ export const GlobalStateProvider = ({ children }) => {
     user,
     setUser,
     setFilters,
-    currency,
-    setCurrency,
-    handleCurrencyChange,
     book,
     setBook
   }

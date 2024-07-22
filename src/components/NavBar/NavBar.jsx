@@ -108,22 +108,22 @@ const Navbar = () => {
 
   return (
     <header className='dark'>
-      <nav class=" border-gray-200  new-nav ">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 top-nav">
+      <nav className=" border-gray-200  new-nav ">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 top-nav">
           <a href="" onClick={(e) => {
                 e.preventDefault();
                 home();
-              }} class="flex  space-x-3 rtl:space-x-reverse">
-            <img src={logo} class="h-20" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
+              }} className="flex  space-x-3 rtl:space-x-reverse">
+            <img src={logo} className="h-20" alt="Flowbite Logo" />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
-          <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {loggedIn ?
               <>
-                <div class="icons">
+                <div className="icons">
                   <div className='0'>
-                    <svg class="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
+                    <svg className="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
+                      <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
                     </svg>
                     {/*{showNoti && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
@@ -147,11 +147,11 @@ const Navbar = () => {
 
 
                   <div>
-                    <svg class="Icon user-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseLeave={() => { setShowProfile(false) }} onMouseEnter={() => { setShowProfile(true) }} onClick={(e) => {
+                    <svg className="Icon user-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseLeave={() => { setShowProfile(false) }} onMouseEnter={() => { setShowProfile(true) }} onClick={(e) => {
                       e.preventDefault();
                       profileDashboard();
                     }}>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10 10 0 0112 15a10 10 0 016.879 2.804M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10 10 0 0112 15a10 10 0 016.879 2.804M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     {/*{showProfile && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
@@ -235,7 +235,7 @@ const Navbar = () => {
               }} >Academic Papers</a>
             </div>}
           </div>
-          <div class="items-center justify-between hidden w-full  lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
+          <div className="items-center justify-between hidden w-full  lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               <li>
                 <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 
@@ -321,8 +321,8 @@ const Navbar = () => {
                   ) : (
 
                     <div className="flex items-center">
-                      <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                      <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                       </svg>
                       <Link to={`/${lastPath}`} className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         {lastPath.charAt(0).toUpperCase() + lastPath.slice(1)}
@@ -338,18 +338,18 @@ const Navbar = () => {
           </div>
           <div className='nav-search'>
 
-            <form class="max-w-md mx-auto nav-search-form">
+            <form className="max-w-md mx-auto nav-search-form">
 
-              <div class="relative nav-search-div">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+              <div className="relative nav-search-div">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                   </svg>
                 </div>
-                <input value={query} onChange={(e)=>{setQuery(e.target.value)}} type="search" id="default-search" class="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
+                <input value={query} onChange={(e)=>{setQuery(e.target.value)}} type="search" id="default-search" className="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="Search..." required />
                 <button 
                 type="submit" 
-                class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   onClick={applyFilters}
                 >Search</button>
               </div>

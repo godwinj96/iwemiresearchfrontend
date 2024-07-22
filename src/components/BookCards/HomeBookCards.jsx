@@ -16,11 +16,11 @@ const HomeBookCards = ({ book }) => {
 
     return (
         <div className='home-bookcards'>
-            <div role="status" class="space-y-8  md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
-                <div class="flex-shrink-0  h-64 rounded overflow-hidden items-center flex justify-center">
+            <div role="status" className="space-y-8  md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
+                <div className="flex-shrink-0  h-64 rounded overflow-hidden items-center flex justify-center">
                     <img src={book.image} alt="" className='book-image' />
                 </div>
-                <div class="flex flex-col right">
+                <div className="flex flex-col right">
                     <h3 className="home-bookcards-heading  text-gray-800">
                         <Link to={`/book/${book.id}`} state={{ book }}>
                             {book.title}

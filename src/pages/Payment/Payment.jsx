@@ -8,9 +8,12 @@ import interswitch_img from "../../assets/interswitch.png"
 import stripe_img from '../../assets/stripe.png'
 import { supabase } from '../../supaBaseClient'
 import { toast } from 'react-toastify'
+import iwemi_logo from '../../assets/new iwemi.png'
+import { useCurrency } from '../../Context/CurrencyContext'
 
 const Payment = () => {
-    const { user, setUser, currency } = useContext(GlobalStateContext)
+    const { user, setUser } = useContext(GlobalStateContext)
+    const { currencyCode } = useCurrency()
 
     const navigate = useNavigate()
 
@@ -36,22 +39,22 @@ const Payment = () => {
 
     const checkoutInterswitch = () => {
         if (user) {
-            const merchantCode = 'YOUR_MERCHANT_CODE';
-            const payItemId = 'YOUR_PAY_ITEM_ID';
+            const merchantCode = 'MX68314';
+            const payItemId = 'Default_Payable_MX68314';
             const transRef = randomReference();
 
             const paymentRequest = {
                 merchant_code: merchantCode,
                 pay_item_id: payItemId,
                 txn_ref: transRef,
-                amount: 1000,
+                amount: Number(total),
                 cust_id: user.email,
                 currency: 566,
                 site_redirect_url: window.location.origin,
                 onComplete: paymentCallback,
-                mode: 'TEST'//change to live for production
+                mode: 'LIVE'//change to live for production
             }
-            console.log(currency.code)
+            
             window.webpayCheckout(paymentRequest)//initiates payemnt request
 
         }
@@ -81,19 +84,11 @@ const Payment = () => {
     const checkoutFlutterwave = () => {
         // Flutterwave checkout logic
         FlutterwaveCheckout({
-            public_key: "FLWPUBK_TEST-b75bbc29cfa52f6fac40a2280c3b5787-X",
-            tx_ref: `titanic-${Date.now()}`,
-            amount: totals,
-            currency: `${currency.code}`,
+            public_key: "FLWPUBK-8d47ef6a8ee32b71f792a60461269335-X",
+            tx_ref: `txref-${Date.now()}`,
+            amount: Number(total),
+            currency: `${currencyCode}`,
             payment_options: "card, mobilemoneyghana, ussd",
-            callback: function (payment) {
-                verifyTransactionOnBackend(payment.id)
-            },
-            onclose: function (incomplete) {
-                if (incomplete) {
-                    alert('Payment was not completed')
-                }
-            },
             meta: {
                 consumer_id: 23,
                 consumer_mac: "92a3-912ba-1192a",
@@ -105,8 +100,16 @@ const Payment = () => {
             customizations: {
                 title: "Iwemi Research",
                 description: "Payment for research material",
-                logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
-            }
+                logo: { iwemi_logo },
+            },
+            callback: function (payment) {
+                verifyTransactionOnBackend(payment.id)
+            },
+            onclose: function (incomplete) {
+                if (incomplete) {
+                    alert('Payment was not completed')
+                }
+            },
         });
     };
 
@@ -149,9 +152,9 @@ const Payment = () => {
     return (
         <div>
             <Navbar />
-            <section class=" dark:bg-gray-900 dark payment-page">
-                <div class=" max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-                    <div class="mr-auto place-self-center lg:col-span-7 flex flex-col gap-16">
+            <section className=" dark:bg-gray-900 dark payment-page">
+                <div className=" max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+                    <div className="mr-auto place-self-center lg:col-span-7 flex flex-col gap-16">
                         <div className="mt-4 lg:mt-0 flex flex-col gap-8">
                             <div className='payment-text'>
                                 <h1>How would you like to pay?</h1>
@@ -185,24 +188,24 @@ const Payment = () => {
                                 </button>
                             </div>
                         </div>
-                        <div class="mt-6 grow sm:mt-8 lg:mt-0 product-bar">
-                            <div class="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
-                                <div class="space-y-2">
+                        <div className="mt-6 grow sm:mt-8 lg:mt-0 product-bar">
+                            <div className="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
+                                <div className="space-y-2">
                                     {products.map((product, index) => (
-                                        <dl key={index} class="flex items-center justify-between gap-4">
-                                            <dt class="text-base font-normal text-gray-500 dark:text-gray-400">{product.name}</dt>
-                                            <dd class="text-base font-medium text-gray-900 dark:text-white">${product.price}</dd>
+                                        <dl key={index} className="flex items-center justify-between gap-4">
+                                            <dt className="text-base font-normal text-gray-500 dark:text-gray-400">{product.name}</dt>
+                                            <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {product.price}</dd>
                                         </dl>
                                     ))}
                                 </div>
 
-                                <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
-                                    <dt class="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
-                                    <dd class="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>${total.toFixed(2)}</dd>
+                                <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
+                                    <dt className="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
+                                    <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {total.toFixed(2)}</dd>
                                 </dl>
                             </div>
 
-                            <div class="mt-6 flex items-center justify-center gap-8">
+                            <div className="mt-6 flex items-center justify-center gap-8">
                                 <img
                                     src="https://stripe.com/img/v3/home/twitter.png"
                                     alt="Stripe Logo"
@@ -213,8 +216,8 @@ const Payment = () => {
                                     alt="Flutterwave Logo"
                                     className="h-8"
                                 />
-                                <img class="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
-                                <img class="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg" alt="" />
+                                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
+                                <img className="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg" alt="" />
                             </div>
                         </div>
                     </div>

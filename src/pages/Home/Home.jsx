@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import content1 from '../../assets/content-1.webp'
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { GlobalStateContext } from '../../Context/GlobalState'
+import { supabase } from '../../supaBaseClient'
 
 const books = [
   {
@@ -67,6 +68,28 @@ const books = [
 
 const Home = () => {
   // {book, setBook} = useContext(GlobalStateContext)
+  /** const [book, setBook] = useState
+  useEffect(() => {
+    const fetchBooks = async () => {
+        const { data, error } = await supabase
+            .from('api_book')
+            .select('*')
+            
+
+        if (error) {
+            toast.error(error)
+            console.log(error)
+        } else {
+            setJournals(data)
+            console.log(data)
+        }
+    }
+
+    fetchJournals()
+
+
+}, []) */
+ 
 
   const navigate = useNavigate()
   const academic = () => {
@@ -148,13 +171,13 @@ const Home = () => {
 
 
 
-      <section class="dark:bg-gray-900 features " data-aos="fade-up">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-          <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
-            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
+      <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+          <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
           </div>
-          <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+          <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
             {books.slice(0,4).map(book => (
               <HomeBookCards key={book.id} book={book}
@@ -171,13 +194,13 @@ const Home = () => {
         </div>
       </section>
       <hr className="border-t border-gray-300" />
-      <section class="dark:bg-gray-900 features " data-aos="fade-up">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-          <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
-            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
+      <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+          <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
           </div>
-          <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
+          <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
 
           {books.slice(0,4).map(book => (
               <HomeBookCards key={book.id} book={book} />
@@ -195,13 +218,13 @@ const Home = () => {
         </div>
       </section>
       <hr className="border-t border-gray-300" />
-      <section class="dark:bg-gray-900 features " data-aos="fade-up">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
-          <div class="max-w-screen-md mb-8 lg:mb-16 features-text">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Papers</h2>
-            <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
+      <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
+          <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Papers</h2>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
           </div>
-          <div class="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+          <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
           {books.slice(0,4).map(book => (
               <HomeBookCards key={book.id} book={book} />

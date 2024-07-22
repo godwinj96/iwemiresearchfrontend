@@ -1,4 +1,5 @@
 @import 'flowbite';
+@import 'react-datepicker/dist/react-datepicker.css';
 
 
 @tailwind base;
@@ -2040,6 +2041,10 @@ div.relative:hover .dropdown-menu {
 .profile-container {
   gap: 100px;
   background-color: #f2f2f2;
+  background-image: url('.//assets/carousel-3.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .profile-page {
