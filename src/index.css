@@ -69,8 +69,9 @@ body,html{
 }
 
 .top-nav img{
-  height: 130px !important;
-  width: 80px;
+  /* height: 130px !important; */
+  width: 100px;
+  margin-left: 30px;
 }
 .top-nav{
   padding-bottom: 0 !important;
@@ -336,7 +337,7 @@ body,html{
   }
 
   .nav-logo {
-    height: 40px;
+    /* height: 40px; */
   }
 
   .contact-container {}
@@ -875,14 +876,18 @@ hr {
 
 .forgot-password-page,
 .reset-page {
-  background-image: url('./assets/signup-background.webp');
+  background-image:  linear-gradient(45deg,
+  #d05c03d9,
+  #08529cd6), url('./assets/signup-background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .login-page {
-  background-image: url('./assets/signup-background.webp');
+  background-image:  linear-gradient(45deg,
+  #d05c03d9,
+  #08529cd6), url('./assets/signup-background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1019,10 +1024,13 @@ hr {
 
 /*sign up*/
 .signup-page {
-  background-image: url('./assets/signup-background.webp');
+  background-image:  linear-gradient(45deg,
+  #d05c03d9,
+  #08529cd6), url('./assets/signup-background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  min-height: fit-content;
 }
 
 
@@ -2041,7 +2049,9 @@ div.relative:hover .dropdown-menu {
 .profile-container {
   gap: 100px;
   background-color: #f2f2f2;
-  background-image: url('.//assets/carousel-3.jpeg');
+  background-image: linear-gradient(45deg,
+  #d05c03d9,
+  #08529cd6), url('.//assets/carousel-3.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2232,7 +2242,9 @@ div.relative:hover .dropdown-menu {
 
 /*thesis*/
 .thesis-hero {
-  background-image: url('.//assets/carousel-3.jpeg');
+  background-image:  linear-gradient(45deg,
+  #d05c03d9,
+  #08529cd6), url('.//assets/carousel-3.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
