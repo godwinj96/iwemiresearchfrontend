@@ -2758,6 +2758,15 @@ div.relative:hover .dropdown-menu {
   width: 90%
 }
 
+.book-price{
+  border:  1px solid rgb(230, 230, 230);
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(123, 103, 103, 0.1);
+}
+
+
 /* Media Queries */
 @media (max-width: 1439px) {
   .clicked-book {

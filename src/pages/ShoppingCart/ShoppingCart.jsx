@@ -11,6 +11,9 @@ const ShoppingCart = () => {
     const { currencyCode } = useCurrency()
     const {state, dispatch} = useCart()
 
+    const originalPrice = state.items.reduce((acc,item)=> acc + item.price * item.quantity, 0)
+    const total = originalPrice
+
     const handleRemoveFromCart = (index) => {
         dispatch({ type: 'REMOVE_FROM_CART', payload: index });
     };
@@ -27,6 +30,8 @@ const ShoppingCart = () => {
     const handleCheckout = () => {
         // Implement your checkout logic here
         dispatch({ type: 'CLEAR_CART' });
+        navigate('/payment', {state : { products: state.items, total}})
+        
     };
     
 
@@ -75,7 +80,7 @@ const ShoppingCart = () => {
                                                     </button>
                                                 </div>
                                                 <div className="text-end md:order-4 md:w-32">
-                                                    <p className="text-base font-bold text-gray-900 dark:text-white">{currencyCode}1,499</p>
+                                                    <p className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {item.price}</p>
                                                 </div>
                                             </div>
 
@@ -110,7 +115,7 @@ const ShoppingCart = () => {
                                         <div className="space-y-2">
                                             <dl className="flex items-center justify-between gap-4">
                                                 <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
-                                                <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode}7,592.00</dd>
+                                                <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {originalPrice.toFixed(2)}</dd>
                                             </dl>
 
                     
@@ -118,13 +123,11 @@ const ShoppingCart = () => {
 
                                         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                             <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                            <dd className="text-base font-bold text-gray-900 dark:text-white">{currencyCode}8,191.00</dd>
+                                            <dd className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {total.toFixed(2)}</dd>
                                         </dl>
                                     </div>
 
-                                    <a href="" onClick={(e)=>{
-                                        payment()
-                                    }} className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Checkout</a>
+                                    <button href="" onClick={handleCheckout} className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Checkout</button>
 
                                     <div className="flex items-center justify-center gap-2">
                                         <span className="text-sm font-normal text-gray-500 dark:text-gray-400"> or </span>

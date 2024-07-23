@@ -8,7 +8,7 @@ const getInitialCartState = () => {
 
     return {
         items: cartItems ? JSON.parse(cartItems) : [],
-        count: cartCount ? JSON.parse(cartCount) : 0,
+        count: cartCount ? JSON.parse(cartItems).reduce((acc, item)=> acc + item.quantity,0) : 0,
     };
 };
 

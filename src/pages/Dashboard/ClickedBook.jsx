@@ -6,11 +6,14 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GiNewspaper } from "react-icons/gi"
 import { useLocation, useParams } from 'react-router-dom'
 import { supabase } from '../../supaBaseClient'
+import { useCurrency } from '../../Context/CurrencyContext'
+import { useCart } from '../../Context/CartContext'
 
 const ClickedBook = () => {
   const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
   const location = useLocation()
+  const { currencyCode } = useCurrency()
 
   const {id} = useParams()
 
@@ -53,6 +56,7 @@ const ClickedBook = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+  const {state,dispatch} = useCart()
 
   const handleAddToCart = (item) => {
     dispatch({ type: 'ADD_TO_CART', payload: item })
@@ -223,8 +227,9 @@ const ClickedBook = () => {
               <div className="papers-right clicked-book-button flex flex-col ">
                 <button>Cite</button>
                 <button>Save</button>
-                <button className='download' onClick={() => handleAddToCart(paper)}>Add to Cart</button>
+                <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
                 <button className='download'>Buy Now and Download</button>
+                <span className="book-price">{currencyCode} {book.price}</span>
               </div>
             )}
           </div>

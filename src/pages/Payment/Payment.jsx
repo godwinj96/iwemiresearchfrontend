@@ -30,6 +30,7 @@ const Payment = () => {
 
     const location = useLocation()
     const products = location.state?.products || [];
+    const cartTotal = location.state?.totalPrice || 0
 
 
     // Calculate total price
@@ -201,7 +202,7 @@ const Payment = () => {
 
                                 <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
                                     <dt className="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
-                                    <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {total.toFixed(2)}</dd>
+                                    <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {cartTotal.toFixed(2)}</dd>
                                 </dl>
                             </div>
 
