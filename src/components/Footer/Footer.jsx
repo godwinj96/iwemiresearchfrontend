@@ -36,7 +36,7 @@ const Footer = () => {
 
                         <img src={logo} className="mr-3 h-40" alt="FlowBite Logo" />
                     </a>
-                    <p className="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with gloabl institutions</p>
+                    <p className="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with global institutions</p>
                     <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
                         <li>
                             <a href="" onClick={(e) => {
