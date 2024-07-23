@@ -1294,7 +1294,7 @@ const Journals = () => {
                                 {filteredPapers.map((journal) => (
                                     <BookItem 
                                     key={journal.id}
-                                    paper={journal}
+                                    book={journal}
                                     handleAddToCart={handleAddToCart}
                                     />
                                 ))

@@ -1249,7 +1249,7 @@ const AcademicTextbooks = () => {
                                 {filteredPapers.map((academic) => (
                                     <BookItem
                                         key={academic.id}
-                                        paper={academic}
+                                        book={academic}
                                         handleAddToCart={handleAddToCart}
                                     />
                                 ))

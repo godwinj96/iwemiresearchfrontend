@@ -2414,6 +2414,10 @@ div.relative:hover .dropdown-menu {
   margin-bottom: 10px;
 }
 
+.papers-left .category-heading{
+  border-color: orange !important;
+}
+
 .papers-left h1 {
   font-size: 25px;
   margin-bottom: 10px;

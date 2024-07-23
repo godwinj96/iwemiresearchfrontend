@@ -1289,7 +1289,7 @@ const Thesis = () => {
                             {filteredPapers.map((thesis) => (
                                     <BookItem 
                                     key={thesis.id}
-                                    paper={thesis}
+                                    book={thesis}
                                     handleAddToCart={handleAddToCart}
                                     />
                                 ))

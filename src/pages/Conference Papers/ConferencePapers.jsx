@@ -1291,7 +1291,7 @@ const ConferencePapers = () => {
                                 {filteredPapers.map((conference) => (
                                     <BookItem
                                         key={conference.id}
-                                        paper={conference}
+                                        book={conference}
                                         handleAddToCart={handleAddToCart}
                                     />
                                 ))
