@@ -2712,7 +2712,7 @@ div.relative:hover .dropdown-menu {
 .clicked-similar-products{
   justify-content: flex-start;
   background-color: white;
-  max-width: 700px;
+  max-width: 750px;
  
 }
   
@@ -2729,6 +2729,10 @@ div.relative:hover .dropdown-menu {
 .similar-products .home-bookcards{
   border-bottom: 2px solid rgb(245, 245, 245);
   padding: 15px 20px;
+}
+
+.abstract-text{
+  width: 450px;
 }
 
 #comments,#citations,#references{

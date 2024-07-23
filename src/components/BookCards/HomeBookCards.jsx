@@ -28,7 +28,7 @@ const HomeBookCards = ({ book }) => {
                     <p className="text-sm text-gray-600">
                         {book.author}
                     </p>
-                    <p className="text-gray-700">{book.abstract}</p>
+                    <p className="text-gray-700 text-sm md:text-base lg:text-lg leading-relaxed max-h-32 overflow-hidden abstract-text">{book.abstract}</p>
                 </div>
 
             </div>
