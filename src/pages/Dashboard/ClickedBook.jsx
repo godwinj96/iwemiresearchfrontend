@@ -4,13 +4,15 @@ import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GiNewspaper } from "react-icons/gi"
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { supabase } from '../../supaBaseClient'
 
 const ClickedBook = () => {
   const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
   const location = useLocation()
+
+  const {id} = useParams()
 
   const { book } = location.state || {}
 
@@ -35,6 +37,10 @@ const ClickedBook = () => {
     fetchSimilarBooks()
   }, [])
 
+  const filteredBooks = similarBooks.filter(book => book.id !== location.state?.id)
+
+
+
 
   const categoryMap = {
     1: 'Journal',
@@ -47,6 +53,12 @@ const ClickedBook = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const handleAddToCart = (item) => {
+    dispatch({ type: 'ADD_TO_CART', payload: item })
+    // toast.error('Added to Shopping Cart')
+    alert('Added to Shopping Cart')
+}
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -63,15 +75,19 @@ const ClickedBook = () => {
               </p>
 
             </div>
-            <div className="clicked-similar-products mt-20 mb-20 flex flex-col ">
-              <div className='hr flex'>
+            <div className="clicked-similar-products mt-20 mb-20 flex flex-col mr-5 ">
+              <div className='hr flex mb-6'>
                 Similar Products
               </div>
-              <div className='flex flex-col gap-10 similar-products'>
-                {similarBooks.slice(0, 4).map(book => (
-                  <HomeBookCards key={book.id} book={book} />
-                ))}
+              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-1 md:gap-12 md:space-y-0 similar-products">
 
+                {filteredBooks.slice(0, 6).map(book => (
+                  <>
+                    <HomeBookCards key={book.id} book={book} />
+                    <hr />
+                  </>
+
+                ))}
               </div>
 
             </div>
@@ -195,24 +211,24 @@ const ClickedBook = () => {
 
           </div>
           <div>
-             {book.is_open_access ? (
-                <div className="papers-right clicked-book-button flex flex-col">
-                    <button>Cite</button>
-                    <button>Save</button>
-                    <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
-                        <button className='download'>Download</button>
-                    </a>
-                </div>
+            {book.is_open_access ? (
+              <div className="papers-right clicked-book-button flex flex-col">
+                <button>Cite</button>
+                <button>Save</button>
+                <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
+                  <button className='download'>Download</button>
+                </a>
+              </div>
             ) : (
-                <div className="papers-right clicked-book-button flex flex-col ">
-                    <button>Cite</button>
-                    <button>Save</button>
-                    <button className='download' onClick={() => handleAddToCart(paper)}>Add to Cart</button>
-                    <button className='download'>Buy Now and Download</button>
-                </div>
+              <div className="papers-right clicked-book-button flex flex-col ">
+                <button>Cite</button>
+                <button>Save</button>
+                <button className='download' onClick={() => handleAddToCart(paper)}>Add to Cart</button>
+                <button className='download'>Buy Now and Download</button>
+              </div>
             )}
           </div>
-         
+
         </div>
 
         <div className="clicked-book-content flex flex-col ">

@@ -71,7 +71,7 @@ const Home = () => {
         <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
           <div className="mt-4 md:mt-0">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Africa's finest research platform</h2>
-            <p className="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">You can get the best research materials from top african institutions</p>
+            <p className="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">Get the best research materials from Top African Institutions</p>
             <input type="email" placeholder="Enter your e-mail address" className="input-emails" />
             <a href="#" className="inline-flex items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 get-started">
               Get started
@@ -125,7 +125,7 @@ const Home = () => {
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
-            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
           </div>
           <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
@@ -148,7 +148,7 @@ const Home = () => {
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
-            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
           </div>
           <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
 
@@ -172,7 +172,7 @@ const Home = () => {
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
           <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Textbooks</h2>
-            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlocak long term value and drive academic and intellectual growth</p>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
           </div>
           <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
