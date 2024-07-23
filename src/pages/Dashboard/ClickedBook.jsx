@@ -14,26 +14,26 @@ const ClickedBook = () => {
 
   const { book } = location.state || {}
 
-  const [similarBooks,setSimilarBooks] = useState([])
- 
+  const [similarBooks, setSimilarBooks] = useState([])
+
   useEffect(() => {
     const fetchSimilarBooks = async () => {
-        const { data, error } = await supabase
-            .from('api_book')
-            .select('*')
-            
+      const { data, error } = await supabase
+        .from('api_book')
+        .select('*')
 
-        if (error) {
-            toast.error(error)
-            console.log(error)
-        } else {
-            setSimilarBooks(data)
-            console.log(data)
-        }
+
+      if (error) {
+        toast.error(error)
+        console.log(error)
+      } else {
+        setSimilarBooks(data)
+        console.log(data)
+      }
     }
 
     fetchSimilarBooks()
-}, []) 
+  }, [])
 
 
   const categoryMap = {
@@ -68,9 +68,9 @@ const ClickedBook = () => {
                 Similar Products
               </div>
               <div className='flex flex-col gap-10 similar-products'>
-              {similarBooks.slice(0,4).map(book => (
-              <HomeBookCards key={book.id} book={book} />
-            ))}
+                {similarBooks.slice(0, 4).map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))}
 
               </div>
 
@@ -165,34 +165,56 @@ const ClickedBook = () => {
     }
   };
 
-  
+
 
 
   return (
     <div className='flex flex-col justify-between clicked-container'>
       <Navbar />
-      <div className="clicked-book flex flex-col items-center  justify-center">
-        <div className='each flex'>
-          <div className="papers-left ">
-            <div className='flex clicked-book-type'>
-              <h3>{categoryMap[book.category_id]}</h3>
+      <div className="clicked-book flex flex-col  ">
+        <div className='flex items-center'>
+          <div className='each flex'>
+            <div className="papers-left ">
+              <div className='flex clicked-book-type'>
+                <h3>{categoryMap[book.category_id]}</h3>
+              </div>
+
+              <h1 className='clicked-book-title'>
+                {book.name}
+              </h1>
+              <span className="published-date">
+                Year Published : {book.year_published}
+              </span>
+              <br />
+              <text className='clicked-authors'>
+                {book.author}
+              </text>
+
+
             </div>
 
-            <h1 className='clicked-book-title'>
-              {book.name}
-            </h1>
-            <span className="published-date">
-              Year Published : {book.year_published}
-            </span>
-            <br />
-            <text className='clicked-authors'>
-              {book.author}
-            </text>
-
-
           </div>
-
+          <div>
+             {book.is_open_access ? (
+                <div className="papers-right clicked-book-button flex flex-col">
+                    <button>Cite</button>
+                    <button>Save</button>
+                    <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
+                        <button className='download'>Download</button>
+                    </a>
+                </div>
+            ) : (
+                <div className="papers-right clicked-book-button flex flex-col ">
+                    <button>Cite</button>
+                    <button>Save</button>
+                    <button className='download' onClick={() => handleAddToCart(paper)}>Add to Cart</button>
+                    <button className='download'>Buy Now and Download</button>
+                </div>
+            )}
+          </div>
+         
         </div>
+
         <div className="clicked-book-content flex flex-col ">
           <div className="mb-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
             <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
@@ -249,23 +271,8 @@ const ClickedBook = () => {
                 </button>
               </li>
             </ul>
-           
-            {book.is_open_access ? (
-                <div className="papers-right clicked-book-button flex ">
-                    <button>Cite</button>
-                    <button>Save</button>
-                    <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
-                        <button className='download'>Download</button>
-                    </a>
-                </div>
-            ) : (
-                <div className="papers-right clicked-book-button flex ">
-                    <button>Cite</button>
-                    <button>Save</button>
-                    <button className='download' onClick={() => handleAddToCart(paper)}>Add to Cart</button>
-                    <button className='download'>Buy Now and Download</button>
-                </div>
-            )}
+
+
           </div>
           <div id="default-tab-content">
             {renderTabContent()}

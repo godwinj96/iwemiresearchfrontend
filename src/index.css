@@ -2651,6 +2651,7 @@ div.relative:hover .dropdown-menu {
   padding-top: 40px;
   margin-left: 0px;
   background-color: rgb(245, 245, 245);
+  padding-left: 400px;
 }
 .clicked-book .each{
   padding: 16px;
@@ -2659,7 +2660,8 @@ div.relative:hover .dropdown-menu {
   /* Optional: for rounded corners */
   background-color: #fff;
   border-bottom: 1px solid rgb(192, 192, 192);
-  flex:1
+  flex:1;
+  max-width: 700px
 }
 
 .clicked-book .each h3{
@@ -2710,7 +2712,7 @@ div.relative:hover .dropdown-menu {
 .clicked-similar-products{
   justify-content: flex-start;
   background-color: white;
-
+  max-width: 700px;
  
 }
   

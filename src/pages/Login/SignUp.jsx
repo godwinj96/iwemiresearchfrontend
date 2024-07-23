@@ -47,7 +47,8 @@ const SignUp = () => {
             firstName,
             lastName,
             confirmpassword
-          }
+          },
+          emailRedirectTo :'iwemiresearch.org/login'
         }
       });
       alert("Check your email for verification link")
