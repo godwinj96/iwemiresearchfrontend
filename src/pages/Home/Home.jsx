@@ -53,6 +53,9 @@ const Home = () => {
   const journals = () => {
     navigate('/journals')
   }
+  const conference = () => {
+    navigate('/conference-Papers')
+  }
 
   useEffect(()=>{
     AOS.init({
@@ -192,6 +195,27 @@ const Home = () => {
 
 
       <hr className="border-t border-gray-300" />
+      <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
+          <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Conference Papers</h2>
+            <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
+          </div>
+          <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+
+          {books.slice(0,4).map(book => (
+              <HomeBookCards key={book.id} book={book} />
+            ))}
+          </div>
+          <div className="see-more-button">
+            <a href="" onClick={(e)=>{
+              e.preventDefault();
+             conference()
+        
+            }}>See more {'>'}</a>
+          </div>
+        </div>
+      </section>
 
 
       {/**<section className="bg-white dark:bg-gray-900 store-section w-full">
