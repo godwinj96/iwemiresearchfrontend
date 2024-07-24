@@ -8,25 +8,34 @@ import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
 import { FiShoppingCart } from "react-icons/fi";
 import { useCart } from '../../Context/CartContext';
+import { FaSearch } from "react-icons/fa";
 
 
 const Navbar = () => {
   const { query, setQuery, setPapers, queryHero, setQueryHero, search, setSearch, bookClicked, setBookClicked, loggedIn, setLoggedIn, fetchPapers } = useContext(GlobalStateContext)
-  const {state} = useCart()
-  console.log(state.count)
+  const { state } = useCart()
+  
 
   const [menu, setMenu] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
   const [showNoti, setShowNoti] = useState(false)
- 
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const searchRef = useRef(null)
+
   const [registerDropdown, setRegisterDropdown] = useState(false)
   const menuRef = useRef(null)
   const menuMenuRef = useRef(null)
 
 
   //api
-  const applyFilters =()=>{
-    setFilters({query})
+  const applyFilters = () => {
+    setFilters({ query })
+  }
+
+  const handleSearchOutside = (e) => {
+    if (searchRef.current && !searchRef.current.contains(e.target)) {
+      setIsSearchOpen(false)
+    }
   }
 
 
@@ -45,10 +54,21 @@ const Navbar = () => {
     } else {
       document.removeEventListener('click', handleClickOutside);
     }
+    if (isSearchOpen) {
+      document.addEventListener('mousedown', handleSearchOutside)
+    } else {
+      document.removeEventListener('mousedown', handleSearchOutside);
+    }
+
+
+
     return () => {
       document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('mousedown', handleSearchOutside);
+
+
     };
-  }, [menu]);
+  }, [menu, isSearchOpen]);
 
   const toggleDropdown = (e) => {
     e.preventDefault()
@@ -113,17 +133,17 @@ const Navbar = () => {
       <nav className=" border-gray-200  new-nav ">
         <div className="w-full flex  items-center justify-between mx-auto top-nav pr-8">
 
-          
+
           <a href="" onClick={(e) => {
-                e.preventDefault();
-                home();
-              }} className="flex  space-x-3 rtl:space-x-reverse">
-            <img src={logo} className="h-" alt="Flowbite Logo"  width={100} height={130}/>
+            e.preventDefault();
+            home();
+          }} className="flex  space-x-3 rtl:space-x-reverse">
+            <img src={logo} className="h-" alt="Flowbite Logo" width={100} height={130} />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
 
 
-          
+
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {loggedIn ?
               <>
@@ -140,6 +160,20 @@ const Navbar = () => {
                   </div>
 
 
+                  <div className='Icon search-icon'>
+                    <a href=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsSearchOpen(true)
+                      }}
+                    >
+                      <FaSearch size={20} />
+                    </a>
+                   
+
+
+
+                  </div>
                   <div className='Icon cart-icon'>
                     <a href=""
                       onClick={(e) => {
@@ -149,9 +183,9 @@ const Navbar = () => {
                     >
                       <FiShoppingCart size={22} color='white' />
                     </a>
-                      <span className="cartcount">{state.count}</span>
+                    <span className="cartcount">{state.count}</span>
                   </div>
-                  
+
 
 
                   <div>
@@ -174,7 +208,18 @@ const Navbar = () => {
               </>
               :
               <div className='flex nav-buttons mr-5'>
-             
+                <div className='Icon search-icon'>
+                  <a href=""
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                    }}
+                  >
+                    <FaSearch size={20} />
+                  </a>
+
+                </div>
+
                 <div>
                   <a
                     href=""
@@ -197,7 +242,7 @@ const Navbar = () => {
             }
             <button
               ref={menuRef}
-              
+
               type="button"
               className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100
                             focus:outline-none focus:ring-2 focus:ring-gray-200 
@@ -215,7 +260,7 @@ const Navbar = () => {
                                 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
 
             </button>
-            {menu && <div  ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
+            {menu && <div ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
               <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
                 e.preventDefault();
                 home();
@@ -244,7 +289,7 @@ const Navbar = () => {
             </div>}
           </div>
 
-          
+
 
           <div className="items-center justify-between hidden w-full  lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
@@ -307,12 +352,15 @@ const Navbar = () => {
 
 
             </ul>
-            
-            
+
+
 
           </div>
 
-            
+         {/** where i thinnk navbar shld be
+          * <div>io</div>*/ }
+
+
 
         </div>
         {/* <div className="sub-navbar flex">
@@ -355,11 +403,11 @@ const Navbar = () => {
           </div>
           
         </div> */}
-        
+
 
       </nav>
 
-      
+
 
       <hr className='grey' />
     </header>

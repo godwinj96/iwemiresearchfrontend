@@ -7,6 +7,7 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { supabase } from '../../supaBaseClient';
 import { useCart } from '../../Context/CartContext';
 import BookItem from '../../components/BookCards/BookItem';
+import { toast } from 'react-toastify';
 
 const Thesis = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -328,8 +329,7 @@ const Thesis = () => {
 
     const handleAddToCart = (item)=>{
         dispatch({type: 'ADD_TO_CART', payload: item})
-       // toast.error('Added to Shopping Cart')
-       alert('Added to Shopping Cart')
+        toast.success('Added to Shopping Cart')
     }
 
 

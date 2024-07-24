@@ -1,10 +1,16 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import { GlobalStateContext } from './GlobalState';
 
 const CartContext = createContext()
 
+//const {user} = useContext(GlobalStateContext)
+const userId = localStorage.getItem('userId')
+
+
 const getInitialCartState = () => {
-    const cartItems = localStorage.getItem('cartItems');
-    const cartCount = localStorage.getItem('cartCount');
+   
+    const cartItems = localStorage.getItem(`${userId}_cartItems`);
+    const cartCount = localStorage.getItem(`${userId}_cartCount`);
 
     return {
         items: cartItems ? JSON.parse(cartItems) : [],
@@ -75,9 +81,13 @@ const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, initialState)
 
     useEffect(() => {
-        localStorage.setItem('cartItems', JSON.stringify(state.items))
-        localStorage.setItem('cartCount', JSON.stringify(state.count))
+        localStorage.setItem(`${userId}_cartItems`, JSON.stringify(state.items))
+        localStorage.setItem(`${userId}_cartCount`, JSON.stringify(state.count))
+
     }, [state.items, state.count])
+   
+
+    
 
     return (
         <CartContext.Provider value={{ state, dispatch }}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/iwemi logo.png'
@@ -10,14 +10,15 @@ import { toast, ToastContainer } from 'react-toastify';
 
 
 const Login = ({ setToken }) => {
-  const { loggedIn, setLoggedIn } = useContext(GlobalStateContext)
+  const { loggedIn, setLoggedIn, user, setUser } = useContext(GlobalStateContext)
 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false)
-  const [showconfirmPassword, setShowconfirmPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
   const navigate = useNavigate()
+  const userId = localStorage.getItem('userId')
 
   const signUp = () => {
     setLoggedIn(false)
@@ -27,6 +28,16 @@ const Login = ({ setToken }) => {
   const ForgotPassword = () => {
     navigate('/Forgot-Password')
   }
+
+  useEffect(()=>{
+    const storedEmail = localStorage.getItem(`${userId}_email`)
+    const storedPassword = localStorage.getItem(`${userId}_password`)
+    if (storedEmail && storedPassword) {
+      setEmail(storedEmail)
+      setPassword(storedPassword)
+      setRememberMe(true)
+    }
+  },[])
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -42,9 +53,18 @@ const Login = ({ setToken }) => {
 
       if (error) {
         console.log(error.message)
+        toast.error('Login failed. Please check your credentials')
 
       } else {
+        if (rememberMe) {
+          localStorage.setItem(`${userId}_email`, email)
+          localStorage.setItem(`${userId}_password`, password)
+        } else{
+          localStorage.removeItem(`${userId}_email`)
+          localStorage.removeItem(`${userId}_password`)
+        }
         setLoggedIn(true)
+        setUser(user)
         console.log(loggedIn)
         navigate('/')
         localStorage.setItem('supabase_session', JSON.stringify(data.session))
@@ -124,7 +144,8 @@ const Login = ({ setToken }) => {
                           aria-describedby="remember"
                           type="checkbox"
                           className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-
+                          checked={rememberMe}
+                          onChange={(e)=>setRememberMe(e.target.checked)}
                         />
                       </div>
                       <div className="ml-3 text-sm">

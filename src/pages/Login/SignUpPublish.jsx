@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/NavBar/NavBar';
 import logo from '../../assets/iwemi logo.png'
 import { supabase } from '../../supaBaseClient';
+import { GlobalStateContext } from '../../Context/GlobalState';
 
 const SignUpPublish = () => {
-
 
   const [publisherName, setPublisherName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,6 +14,7 @@ const SignUpPublish = () => {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false)
   const [showconfirmPassword, setShowconfirmPassword] = useState(false)
+  const {user,setUser} = useContext(GlobalStateContext)
 
 
   const togglePasswordVisibility = () => {
@@ -55,6 +56,8 @@ const SignUpPublish = () => {
         }
       });
       alert("Check your email for verification link")
+      //localStorage.setItem('userId', user.id)
+
       navigate('/login')
       if (error) throw error
     } catch (error) {
