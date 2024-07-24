@@ -296,22 +296,34 @@ const ProfileDashboard = () => {
     switch (activeTab) {
       case 'profile':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
-            {user && user.user_metadata && (<h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hello {user.user_metadata.firstName} {user.user_metadata.lastName}
-              (not {user.user_metadata.email} ?
-              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('logout') }}>Log out</a> )
-            </h3>)}
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg  sm:max-w-[30vw]">
+            {user && user.user_metadata && (<h1 className="text-[24px] font-bold text-gray-900 dark:text-white mb-8">Hello, {user.user_metadata.firstName}!
+              {/* {user.user_metadata.lastName} */}
+            </h1>)}
+
+              
+
+
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('paymentMethods') }}>manage payment methods</a> , and {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and acount details</a>
             </p>
 
+
+            <p className='mt-10'>(Not  
+              <span className='font-bold'> {user.user_metadata.email}</span>
+              ?)</p>
+
+              <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>
+              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('logout') }}>Log out</a>
+              </button>
+
           </div>
         );
       case 'uploads':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:min-w-sm">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Uploads</h3>
 
             <form>
