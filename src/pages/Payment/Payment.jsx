@@ -30,10 +30,10 @@ const Payment = () => {
 
     const location = useLocation()
     const products = location.state?.products || [];
-    const cartTotal = location.state?.totalPrice || 0
+    const total = location.state?.total || 0
 
     // Calculate total price
-    const total = products.reduce((sum, product) => sum + product.price, 0);
+    //const total = products.reduce((sum, product) => sum + product.price, 0);
 
 
 
@@ -47,7 +47,7 @@ const Payment = () => {
                 merchant_code: merchantCode,
                 pay_item_id: payItemId,
                 txn_ref: transRef,
-                amount: Number(total),
+                amount: Number(total*100),
                 cust_id: user.email,
                 currency: 566,
                 site_redirect_url: window.location.origin,
@@ -138,13 +138,15 @@ const Payment = () => {
             ])
 
         if (error) {
-            toast.error('Error uploading')
+            toast.error('Payment failed')
         } else {
             toast.error('Book uploaded successfully')
             localStorage.removeItem('formData')
             navigate('/')
         }
     }
+
+    
 
 
 
@@ -193,7 +195,7 @@ const Payment = () => {
                                 <div className="space-y-2">
                                     {products.map((product, index) => (
                                         <dl key={index} className="flex items-center justify-between gap-4">
-                                            <dt className="text-base font-normal text-gray-500 dark:text-gray-400">{product.name}</dt>
+                                            <dt className="text-base font-normal text-gray-500 dark:text-gray-400">{product.quantity}x {product.name}</dt>
                                             <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {product.price}</dd>
                                         </dl>
                                     ))}
@@ -201,7 +203,7 @@ const Payment = () => {
 
                                 <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
                                     <dt className="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
-                                    <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {cartTotal.toFixed(2)}</dd>
+                                    <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {total.toFixed(2)}</dd>
                                 </dl>
                             </div>
 
