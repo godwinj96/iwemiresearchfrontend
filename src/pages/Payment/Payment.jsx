@@ -32,7 +32,6 @@ const Payment = () => {
     const products = location.state?.products || [];
     const cartTotal = location.state?.totalPrice || 0
 
-
     // Calculate total price
     const total = products.reduce((sum, product) => sum + product.price, 0);
 
