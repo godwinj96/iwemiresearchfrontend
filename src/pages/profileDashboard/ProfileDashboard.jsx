@@ -300,7 +300,7 @@ const ProfileDashboard = () => {
     switch (activeTab) {
       case 'profile':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg  sm:max-w-[30vw]">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[40vw]">
             {user && user.user_metadata && (<h1 className="text-[24px] font-bold text-gray-900 dark:text-white mb-8">Hello, {user.user_metadata.firstName}!
               {/* {user.user_metadata.lastName} */}
             </h1>)}
@@ -324,7 +324,7 @@ const ProfileDashboard = () => {
         );
       case 'uploads':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:min-w-sm">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Uploads</h3>
 
             <form>
@@ -1001,7 +1001,7 @@ const ProfileDashboard = () => {
         );
       case 'orders':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Orders</h3>
             <p>No order has been made yet</p>
             <button className="make-order bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 "
@@ -1016,7 +1016,7 @@ const ProfileDashboard = () => {
         );
       case 'paymentMethods':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Payment Methods</h3>
             <p>No saved Methods found</p>
             <button
@@ -1109,7 +1109,7 @@ const ProfileDashboard = () => {
         );
       case 'accountDetails':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[40vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Account Details</h3>
 
 
@@ -1189,17 +1189,25 @@ const ProfileDashboard = () => {
         );
       case 'logout':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-[1037px] sm:max-w-sm">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Are you sure you want to log out ? <a href="" onClick={(e) => {
-              e.preventDefault();
-              handleLogout()
-              setLoggedIn(false)
-            }}>Confirm and log out</a> </h3>
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[30vw]">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Are you sure you want to log out ? </h3>
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('paymentMethods') }}>manage payment methods</a> , and {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and acount details</a>
-            </p>
+              </p>
+
+
+              <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>
+                  
+                  <a href="" onClick={(e) => {
+                    e.preventDefault();
+                    handleLogout()
+                    setLoggedIn(false)}}>
+                      Confirm and log out
+                  </a> 
+              </button>
+
           </div>
         );
       default:
