@@ -12,7 +12,7 @@ import { SearchBar } from '../SearchBar/components/SearchBar.jsx'
 
 
 const Navbar = () => {
-  const { query, setQuery, setPapers, queryHero, setQueryHero, search, setSearch, bookClicked, setBookClicked, loggedIn, setLoggedIn, fetchPapers } = useContext(GlobalStateContext)
+  const { query, setQuery, setPapers, bookClicked, setBookClicked, loggedIn, setLoggedIn, fetchPapers } = useContext(GlobalStateContext)
   const { state } = useCart()
   
 

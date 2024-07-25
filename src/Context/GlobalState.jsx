@@ -8,7 +8,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [query, setQuery] = useState('')
   const [queryHero, setQueryHero] = useState('')
   const [papers, setPapers] = useState([])
-  const [search, setSearch] = useState(false)
+  const [results, setResults] = useState([]);
   const [bookClicked, setBookClicked] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState(null);
@@ -221,8 +221,8 @@ export const GlobalStateProvider = ({ children }) => {
     setPapers,
     queryHero,
     setQueryHero,
-    search,
-    setSearch,
+    results,
+    setResults,
     bookClicked,
     setBookClicked,
     loggedIn,

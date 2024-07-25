@@ -9,6 +9,8 @@ import { useCart } from '../../Context/CartContext';
 import { toast } from 'react-toastify';
 import BookItem from '../../components/BookCards/BookItem';
 
+const ITEMS_PER_PAGE = 15
+
 
 const Journals = () => {
 
@@ -176,28 +178,54 @@ const Journals = () => {
         veterinaryTeachingHospital: false,
 
     });
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
     const [journals, setJournals] = useState([]);
 
     useEffect(() => {
         const fetchJournals = async () => {
-            const { data, error } = await supabase
-                .from('api_book')
-                .select('*')
-                .eq('category_id', 1)
+            try {
+                const { data, error } = await supabase
+                    .from('api_book')
+                    .select('*')
+                    .eq('category_id', 1)
+                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
 
-            if (error) {
-                toast.error(error)
-                console.log(error)
-            } else {
+                if (error) {
+                    toast.error(error)
+                    //console.log(error)
+                }
+
+
+                const { count, error: countError } = await supabase
+                    .from('api_book')
+                    .select('id', { count: 'exact' })
+                    .eq('category_id', 1)
+
+                if (countError) {
+                    toast.error('Error fetching journal count')
+                    console.log(countError)
+                    return
+                }
+
                 setJournals(data)
-                console.log(data)
+                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
+
+                console.log('journal', data)
+                console.log('count', count)
+            } catch (error) {
+                console.error('Error in fetchJournals:', error);
             }
+
+
+
+
         }
 
         fetchJournals()
 
 
-    }, [])
+    }, [currentPage, ITEMS_PER_PAGE])
 
 
 
@@ -329,13 +357,24 @@ const Journals = () => {
     }
 
     const filteredPapers = applyFilters(journals)
-    
-    const {state,dispatch} = useCart()
 
-    const handleAddToCart = (item)=>{
-        dispatch({type: 'ADD_TO_CART', payload: item})
+    const { state, dispatch } = useCart()
+
+    const handleAddToCart = (item) => {
+        dispatch({ type: 'ADD_TO_CART', payload: item })
         toast.success('Added to Shopping Cart')
     }
+
+    const handleNextPage = () => {
+        if (currentPage < totalPage) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
 
 
@@ -1291,10 +1330,10 @@ const Journals = () => {
                             <div className="type-papers flex flex-col">
 
                                 {filteredPapers.map((journal) => (
-                                    <BookItem 
-                                    key={journal.id}
-                                    book={journal}
-                                    handleAddToCart={handleAddToCart}
+                                    <BookItem
+                                        key={journal.id}
+                                        book={journal}
+                                        handleAddToCart={handleAddToCart}
                                     />
                                 ))
                                 }
@@ -1303,8 +1342,19 @@ const Journals = () => {
 
 
                             </div>
-                            <div className="next-button">
-                                <a href="">Next {'>'}</a>
+                            <span>Page {currentPage} of {totalPage}</span>
+                            <div className="next-button flex gap-10">
+                                <button
+                                    onClick={handlePreviousPage}
+                                    disabled={currentPage === 1}
+                                >
+                                    {'< Previous'}
+                                </button>
+                                {''}
+                                <button
+                                    onClick={handleNextPage}
+                                    disabled={currentPage === totalPage}
+                                >Next {'>'}</button>
                             </div>
                         </section>
                     </div>

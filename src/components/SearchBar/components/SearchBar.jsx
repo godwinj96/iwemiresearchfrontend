@@ -1,10 +1,12 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import {
   Container,
   IconMagnifyingGlass,
   IconRightArrow,
   SearchInput,
 } from "./styles"
+import { GlobalStateContext } from '../../../Context/GlobalState';
+import { supabase } from '../../../supaBaseClient';
 
 // function SearchBar() {
 
@@ -41,9 +43,24 @@ export const SearchBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const showSearchInput = isHovered  || isFocused; 
+  const [searchInput, setSearchInput] = useState('')
+  const { results, setResults} = useContext(GlobalStateContext)
 
-  console.log(isHovered)
-  console.log(isFocused)
+  const handleSearch = async()=>{
+    if (searchInput.trim() === '') {
+      setResults([])
+      return;
+    }
+
+    const {data, error} = await supabase
+      .from('api_book')
+      .select('*')
+      .ilike('name', `${searchInput}`)
+
+  }
+
+  //console.log(isHovered)
+  //console.log(isFocused)
 
   useEffect(() => {
     targetRef.current.value = "";
@@ -57,10 +74,14 @@ export const SearchBar = () => {
       onBlur={() => setIsFocused(false)}
       hover = {showSearchInput}
     >
-        <SearchInput className='focus:outline-none' ref={targetRef} showSearchInput={showSearchInput}/>
+        <SearchInput className='focus:outline-none' ref={targetRef} showSearchInput={showSearchInput} placeholder='Search...' value={searchInput} onChange={(e)=>setSearchInput(e.target.value)} onKeyDown={(e)=>{
+          if(e.key === 'Enter'){
+            handleSearch()
+          }
+        }}  />
         {showSearchInput ? 
         
-          <IconRightArrow  /> : 
+          <IconRightArrow /> : 
           
           <IconMagnifyingGlass 
           />}

@@ -10,7 +10,7 @@ import { useCurrency } from '../../Context/CurrencyContext'
 import { useCart } from '../../Context/CartContext'
 
 const ClickedBook = () => {
-  const { search, setSearch } = useContext(GlobalStateContext)
+ // const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
   const location = useLocation()
   const { currencyCode } = useCurrency()
