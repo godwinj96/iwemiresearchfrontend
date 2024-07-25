@@ -8,6 +8,7 @@ import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
 import { FiShoppingCart } from "react-icons/fi";
 import { useCart } from '../../Context/CartContext';
+import { SearchBar } from '../SearchBar/components/SearchBar.jsx'
 
 
 const Navbar = () => {
@@ -106,6 +107,9 @@ const Navbar = () => {
     navigate('/journals')
   }
 
+ 
+
+  
 
 
   return (
@@ -118,7 +122,7 @@ const Navbar = () => {
                 e.preventDefault();
                 home();
               }} className="flex  space-x-3 rtl:space-x-reverse">
-            <img src={logo} className="h-" alt="Flowbite Logo"  width={100} height={130}/>
+            <img src={logo} className="" alt="Flowbite Logo"  width={100} height={130}/>
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
 
@@ -128,15 +132,21 @@ const Navbar = () => {
             {loggedIn ?
               <>
                 <div className="icons">
+
+                  
+      {/* --------------- Search Bar Component -------------- */}
+
+                  <SearchBar />
+
                   <div className='0'>
-                    <svg className="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
+                    <svg className="Icon notification-icon relative"  fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
                     </svg>
                     {/*{showNoti && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
                     <p className="text-gray-700 text-xs sm:text-sm md:text-base lg:text-lg">No new notifications</p>
                   </div>
-                )} */}
+                  )} */}
                   </div>
 
 
