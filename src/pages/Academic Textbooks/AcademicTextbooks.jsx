@@ -9,6 +9,7 @@ import { useCart } from '../../Context/CartContext';
 import BookItem from '../../components/BookCards/BookItem';
 import { toast } from 'react-toastify';
 
+const ITEMS_PER_PAGE = 15
 
 const AcademicTextbooks = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -178,6 +179,10 @@ const AcademicTextbooks = () => {
 
     const [isOpen, setIsOpen] = useState(false)
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+   
+
     const toggleSidebar = () => {
 
         setIsOpen(!isOpen)
@@ -276,25 +281,48 @@ const AcademicTextbooks = () => {
     const [academic, setAcademic] = useState([]);
 
     useEffect(() => {
-        const fetchAcademic = async () => {
-            const { data, error } = await supabase
-                .from('api_book')
-                .select('*')
-                .eq('category_id', 3)
 
-            if (error) {
-                toast.error(error)
-                console.log(error)
-            } else {
+
+        const fetchAcademic = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('api_book')
+                    .select('*')
+                    .eq('category_id', 3)
+                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
+
+                if (error) {
+                    toast.error(error)
+                    //console.log(error)
+                }
+
+
+                const { count, error: countError } = await supabase
+                    .from('api_book')
+                    .select('id', { count: 'exact' })
+                    .eq('category_id', 3)
+
+                if (countError) {
+                    toast.error('Error fetching academicT count')
+                    console.log(countError)
+                    return
+                }
+
                 setAcademic(data)
-                console.log(data)
+                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
+
+                console.log('academicT', data)
+                console.log('count', count)
+            } catch (error) {
+                console.error('Error in academicT:', error);
             }
+            
         }
 
         fetchAcademic()
 
 
-    }, [])
+    }, [currentPage, ITEMS_PER_PAGE])
 
     const handleFitlerChange = (e) => {
         const { name, checked } = e.target;
@@ -331,6 +359,18 @@ const AcademicTextbooks = () => {
         // toast.error('Added to Shopping Cart')
         toast.success('Added to Shopping Cart')
     }
+
+    const handleNextPage = () => {
+        if (currentPage < totalPage) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
 
 
 
@@ -1259,8 +1299,19 @@ const AcademicTextbooks = () => {
 
 
                             </div>
-                            <div className="next-button">
-                                <a href="">Next {'>'}</a>
+                            <span>Page {currentPage} of {totalPage}</span>
+                            <div className="next-button flex gap-10">
+                                <button
+                                    onClick={handlePreviousPage}
+                                    disabled={currentPage === 1}
+                                >
+                                    {'< Previous'}
+                                </button>
+                                {''}
+                                <button
+                                    onClick={handleNextPage}
+                                    disabled={currentPage === totalPage}
+                                >Next {'>'}</button>
                             </div>
                         </section>
                     </div>

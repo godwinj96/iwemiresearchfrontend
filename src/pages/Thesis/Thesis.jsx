@@ -9,6 +9,8 @@ import { useCart } from '../../Context/CartContext';
 import BookItem from '../../components/BookCards/BookItem';
 import { toast } from 'react-toastify';
 
+const ITEMS_PER_PAGE = 2
+
 const Thesis = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -176,6 +178,9 @@ const Thesis = () => {
     });
 
     const [isOpen, setIsOpen] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+    //const [journals, setJournals] = useState([]);
 
     const toggleSidebar = () => {
 
@@ -272,24 +277,45 @@ const Thesis = () => {
 
     useEffect(() => {
         const fetchThesis = async () => {
-            const { data, error } = await supabase
-                .from('api_book')
-                .select('*')
-                .eq('category_id', 2)
+            try {
+                const { data, error } = await supabase
+                    .from('api_book')
+                    .select('*')
+                    .eq('category_id', 2)
+                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
 
-            if (error) {
-                toast.error(error)
-                console.log(error)
-            } else {
+                if (error) {
+                    toast.error(error)
+                    //console.log(error)
+                }
+
+
+                const { count, error: countError } = await supabase
+                    .from('api_book')
+                    .select('id', { count: 'exact' })
+                    .eq('category_id', 2)
+
+                if (countError) {
+                    toast.error('Error fetching thesis count')
+                    console.log(countError)
+                    return
+                }
+
                 setThesis(data)
-                console.log(data)
+                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
+
+                console.log('thesis', data)
+                console.log('count', count)
+            } catch (error) {
+                console.error('Error in fetch Thesis:', error);
             }
+
         }
 
         fetchThesis()
 
 
-    }, [])
+    }, [currentPage, ITEMS_PER_PAGE])
 
     const [filters, setFilters] = useState({
         citationCount: false,
@@ -325,13 +351,24 @@ const Thesis = () => {
 
     const filteredPapers = applyFilters(thesis)
 
-    const {state,dispatch} = useCart()
+    const { state, dispatch } = useCart()
 
-    const handleAddToCart = (item)=>{
-        dispatch({type: 'ADD_TO_CART', payload: item})
+    const handleAddToCart = (item) => {
+        dispatch({ type: 'ADD_TO_CART', payload: item })
         toast.success('Added to Shopping Cart')
     }
 
+
+    const handleNextPage = () => {
+        if (currentPage < totalPage) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
 
 
@@ -1286,19 +1323,30 @@ const Thesis = () => {
 
                             <div className="type-papers flex flex-col">
 
-                            {filteredPapers.map((thesis) => (
-                                    <BookItem 
-                                    key={thesis.id}
-                                    book={thesis}
-                                    handleAddToCart={handleAddToCart}
+                                {filteredPapers.map((thesis) => (
+                                    <BookItem
+                                        key={thesis.id}
+                                        book={thesis}
+                                        handleAddToCart={handleAddToCart}
                                     />
                                 ))
                                 }
 
 
                             </div>
-                            <div className="next-button">
-                                <a href="">Next {'>'}</a>
+                            <span>Page {currentPage} of {totalPage}</span>
+                            <div className="next-button flex gap-10">
+                                <button
+                                    onClick={handlePreviousPage}
+                                    disabled={currentPage === 1}
+                                >
+                                    {'< Previous'}
+                                </button>
+                                {''}
+                                <button
+                                    onClick={handleNextPage}
+                                    disabled={currentPage === totalPage}
+                                >Next {'>'}</button>
                             </div>
                         </section>
                     </div>

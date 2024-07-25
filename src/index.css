@@ -2593,6 +2593,7 @@ div.relative:hover .dropdown-menu {
 .next-button :hover {
   color: rgb(244, 180, 61);
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .see-more-button {

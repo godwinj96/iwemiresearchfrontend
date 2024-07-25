@@ -9,6 +9,8 @@ import { useCart } from '../../Context/CartContext';
 import BookItem from '../../components/BookCards/BookItem';
 import { toast } from 'react-toastify';
 
+const ITEMS_PER_PAGE = 15
+
 const ConferencePapers = () => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -176,6 +178,10 @@ const ConferencePapers = () => {
 
     });
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+  //  const [journals, setJournals] = useState([]);
+
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleSidebar = () => {
@@ -275,24 +281,46 @@ const ConferencePapers = () => {
 
     useEffect(() => {
         const fetchConference = async () => {
-            const { data, error } = await supabase
-                .from('api_book')
-                .select('*')
-                .eq('category_id', 4)
 
-            if (error) {
-                toast.error(error)
-                console.log(error)
-            } else {
+            try {
+                const { data, error } = await supabase
+                    .from('api_book')
+                    .select('*')
+                    .eq('category_id', 4)
+                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
+
+                if (error) {
+                    toast.error(error)
+                    //console.log(error)
+                }
+
+
+                const { count, error: countError } = await supabase
+                    .from('api_book')
+                    .select('id', { count: 'exact' })
+                    .eq('category_id', 4)
+
+                if (countError) {
+                    toast.error('Error fetching conference count')
+                    console.log(countError)
+                    return
+                }
+
                 setConference(data)
-                console.log(data)
+                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
+
+                console.log('acadmeicP', data)
+                console.log('count', count)
+            } catch (error) {
+                console.error('Error in conference:', error);
             }
+
         }
 
         fetchConference()
 
 
-    }, [])
+    }, [currentPage, ITEMS_PER_PAGE])
 
     const [filters, setFilters] = useState({
         citationCount: false,
@@ -336,6 +364,17 @@ const ConferencePapers = () => {
         toast.success('Added to Shopping Cart')
     }
 
+
+    const handleNextPage = () => {
+        if (currentPage < totalPage) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
 
 
@@ -1301,8 +1340,19 @@ const ConferencePapers = () => {
 
 
                             </div>
-                            <div className="next-button">
-                                <a href="">Next {'>'}</a>
+                            <span>Page {currentPage} of {totalPage}</span>
+                            <div className="next-button flex gap-10">
+                                <button
+                                    onClick={handlePreviousPage}
+                                    disabled={currentPage === 1}
+                                >
+                                    {'< Previous'}
+                                </button>
+                                {''}
+                                <button
+                                    onClick={handleNextPage}
+                                    disabled={currentPage === totalPage}
+                                >Next {'>'}</button>
                             </div>
                         </section>
                     </div>
