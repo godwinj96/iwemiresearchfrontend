@@ -7,7 +7,7 @@ import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
 
 const SignUp = () => {
-  const { setLoggedIn } = useContext(GlobalStateContext)
+  const { setLoggedIn,user } = useContext(GlobalStateContext)
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -52,6 +52,7 @@ const SignUp = () => {
         }
       });
       alert("Check your email for verification link")
+     
       navigate('/login')
       if (error) throw error
     } catch (error) {

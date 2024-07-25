@@ -135,7 +135,9 @@ const ProfileDashboard = () => {
       date,
       type,
       uploadedOption,
-      fileUrl
+      fileUrl,
+      category,
+      subcategory
     }
 
 
@@ -292,6 +294,8 @@ const ProfileDashboard = () => {
     home()
   }
 
+  console.log(user)
+
   const renderContent = () => {
     switch (activeTab) {
       case 'profile':
@@ -301,9 +305,6 @@ const ProfileDashboard = () => {
               {/* {user.user_metadata.lastName} */}
             </h1>)}
 
-              
-
-
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('paymentMethods') }}>manage payment methods</a> , and {' '}
@@ -311,13 +312,13 @@ const ProfileDashboard = () => {
             </p>
 
 
-            <p className='mt-10 w-20'>(Not  
-              <span className='font-bold '> {user.user_metadata.email}</span>
-              ?)</p>
+            {user && user.user_metadata && (<p className='mt-10'>(Not
+              <span className='font-bold'> {user.user_metadata.email}</span>
+              ?)</p>)}
 
-              <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>
+            <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('logout') }}>Log out</a>
-              </button>
+            </button>
 
           </div>
         );

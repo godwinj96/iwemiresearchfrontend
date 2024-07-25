@@ -52,8 +52,12 @@ export const GlobalStateProvider = ({ children }) => {
   useEffect(() => {
     const checkSession = async () => {
       try {
+        //wait 
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+
         //retrieving current session
         const { data, error } = await supabase.auth.getSession()
+        console.log(data)
         if (error) {
           throw error
         }
@@ -62,12 +66,12 @@ export const GlobalStateProvider = ({ children }) => {
         if (data) {
           console.log(data)
           console.log('User is logged in:', data.session.user)
-          console.log( data.session.user.email)
+         
           setUser(data.session.user)
-          console.log(user)
           setLoggedIn(true)
           //store session in local storage for pesistence
           localStorage.setItem('supabaseSession', JSON.stringify(data))
+          localStorage.setItem(`userId`,data.session.user.id)
 
 
         } else {
@@ -82,14 +86,16 @@ export const GlobalStateProvider = ({ children }) => {
         console.error('Error fetching session:', error.message)
       }
     }
-    checkSession()
+    
 
-    const storedSession = localStorage.getItem('supabaseSesion')
+    const storedSession = localStorage.getItem('supabaseSession')
     if (storedSession) {
       const session = JSON.parse(storedSession)
       setUser(session.session.user)
       console.log(session.session.user)
-    }
+    } 
+
+    checkSession()//check fro session if not found in local storage
   }, [])
 
   /**  useEffect(() => {

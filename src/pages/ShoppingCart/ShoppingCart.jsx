@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import { useCurrency } from '../../Context/CurrencyContext'
 import { useCart } from '../../Context/CartContext'
+import { toast } from 'react-toastify'
 
 const ShoppingCart = () => {
     const {user, setUser} = useContext(GlobalStateContext)
@@ -24,7 +25,7 @@ const ShoppingCart = () => {
     const handleAddToCart = (item)=>{
         dispatch({type: 'ADD_TO_CART', payload: item})
        // toast.error('Added to Shopping Cart')
-       alert('Added to Shopping Cart')
+       toast.success('Added to Shopping Cart')
     }
 
     const handleCheckout = () => {
