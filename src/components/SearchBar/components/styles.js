@@ -21,9 +21,9 @@ export const Container =styled.div`
   border:none;
   outline: none;
 
-  ${({hover}) =>
+  ${({$hover}) =>
 
-    hover && 
+    $hover && 
     css`
       width: 200px;
       // -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.74);
@@ -53,7 +53,7 @@ export const SearchInput = styled.input`
   transition: all 0.5s;
 
 
-  display: ${(props) => (props.showSearchInput ? 'block' : 'none')}
+  display: ${(props) => (props.$showSearchInput ? 'block' : 'none')}
 
 `;
 

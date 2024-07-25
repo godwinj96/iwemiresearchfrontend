@@ -4,7 +4,7 @@ export const SearchIcon = (props) => {
   return (
     
     <svg 
-        class="w-6 h-6 text-white dark:text-white" 
+        className="w-6 h-6 text-white dark:text-white" 
         aria-hidden="true" 
         xmlns="http://www.w3.org/2000/svg" 
         width="24" 
@@ -14,7 +14,7 @@ export const SearchIcon = (props) => {
         {...props}
     >
             <title>Search Icon</title>
-        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+        <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
     </svg>
 
   )

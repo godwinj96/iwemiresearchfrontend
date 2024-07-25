@@ -42,8 +42,7 @@ export const SearchBar = () => {
   const [isFocused, setIsFocused] = useState(false);
   const showSearchInput = isHovered  || isFocused; 
 
-  console.log(isHovered)
-  console.log(isFocused)
+  
 
   useEffect(() => {
     targetRef.current.value = "";
@@ -55,9 +54,9 @@ export const SearchBar = () => {
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
-      hover = {showSearchInput}
+      $hover = {showSearchInput}
     >
-        <SearchInput className='focus:outline-none' ref={targetRef} showSearchInput={showSearchInput}/>
+        <SearchInput className='focus:outline-none' ref={targetRef} $showSearchInput={showSearchInput}/>
         {showSearchInput ? 
         
           <IconRightArrow  /> : 
