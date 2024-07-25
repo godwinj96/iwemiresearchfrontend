@@ -169,7 +169,7 @@ const Navbar = () => {
                   </div>
 
 
-                  <div className='Icon search-icon'>
+                  {/* <div className='Icon search-icon'>
                     <a href=""
                       onClick={(e) => {
                         e.preventDefault();
@@ -182,7 +182,7 @@ const Navbar = () => {
 
 
 
-                  </div>
+                  </div> */}
                   <div className='Icon cart-icon'>
                     <a href=""
                       onClick={(e) => {
@@ -217,17 +217,9 @@ const Navbar = () => {
               </>
               :
               <div className='flex nav-buttons mr-5'>
-                <div className='Icon search-icon'>
-                  <a href=""
-                    onClick={(e) => {
-                      e.preventDefault();
+                  
+                  <SearchBar />
 
-                    }}
-                  >
-                    <FaSearch size={20} />
-                  </a>
-
-                </div>
 
                 <div>
                   <a

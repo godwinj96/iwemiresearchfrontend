@@ -57,7 +57,7 @@ export const SearchBar = () => {
       onBlur={() => setIsFocused(false)}
       hover = {showSearchInput}
     >
-        <SearchInput ref={targetRef} showSearchInput={showSearchInput}/>
+        <SearchInput className='focus:outline-none' ref={targetRef} showSearchInput={showSearchInput}/>
         {showSearchInput ? 
         
           <IconRightArrow  /> : 

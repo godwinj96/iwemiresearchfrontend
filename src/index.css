@@ -120,7 +120,7 @@ body,html{
 
 @media (max-width:1024px) {
   .nav-buttons {
-    margin-top: 7px;
+    margin-top: 0px;
   }
 }
 

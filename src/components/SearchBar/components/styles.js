@@ -50,6 +50,9 @@ export const SearchInput = styled.input`
   -webkit-appearance: none;
   appearance: none;
 
+  transition: all 0.5s;
+
+
   display: ${(props) => (props.showSearchInput ? 'block' : 'none')}
 
 `;
@@ -69,6 +72,9 @@ export const IconRightArrow = styled(ArrowRight)`
   // fill: white;
   z-index: 10;
   align-self: flex-end;
+
+  transition: all 0.5s;
+
   // justtify-self: center;
 
 `;
