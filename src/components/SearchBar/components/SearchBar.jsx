@@ -82,7 +82,7 @@ export const SearchBar = () => {
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
-      hover = {showSearchInput}
+      $hover = {showSearchInput}
     >
         <SearchInput className='focus:outline-none' ref={targetRef} showSearchInput={showSearchInput} placeholder='Search...' value={searchInput} onChange={(e)=>setSearchInput(e.target.value)} onKeyDown={(e)=>{
           if(e.key === 'Enter'){
