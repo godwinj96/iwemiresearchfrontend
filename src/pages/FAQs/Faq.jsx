@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
+import { useLocation } from 'react-router-dom'
+import { GlobalStateContext } from '../../Context/GlobalState'
+import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const Faq = () => {
-
+    const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
+    const location = useLocation()
+    //reset search on route change
+    useEffect(()=>{
+      setIsSearch(false)
+      setResults([])
+    },[location])
 
   return (
     <div>
         <Navbar />
-        <div className="faqs ">
+       {isSearch ?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+            </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
+              ) : (
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+              )}
+            </div>
+          </div>
+        </section>)
+        :
+        (<div className="faqs ">
             <section class=" dark:bg-gray-900 ">
                 <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Frequently asked questions</h2>
@@ -82,7 +108,7 @@ const Faq = () => {
                     </div>
                 </div>
             </section>
-        </div>
+        </div>)}
         <div className='dark'>
             <Footer />
         </div>

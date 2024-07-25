@@ -13,6 +13,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState(null);
   const [filters, setFilters] = useState({})
+  const [isSearch,setIsSearch] = useState(false)
  
   const [book, setBook] = useState({})
   const [openAccessPapers, setOpenAcessPapers] = useState([])
@@ -232,7 +233,9 @@ export const GlobalStateProvider = ({ children }) => {
     setUser,
     setFilters,
     book,
-    setBook
+    setBook,
+    isSearch,
+    setIsSearch
   }
 
   return (

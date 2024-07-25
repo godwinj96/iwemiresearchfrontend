@@ -44,9 +44,13 @@ export const SearchBar = () => {
   const [isFocused, setIsFocused] = useState(false);
   const showSearchInput = isHovered  || isFocused; 
   const [searchInput, setSearchInput] = useState('')
-  const { results, setResults} = useContext(GlobalStateContext)
+  const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
+
+  console.log(isSearch)
 
   const handleSearch = async()=>{
+    setIsSearch(true)
+
     if (searchInput.trim() === '') {
       setResults([])
       return;
@@ -55,8 +59,14 @@ export const SearchBar = () => {
     const {data, error} = await supabase
       .from('api_book')
       .select('*')
-      .ilike('name', `${searchInput}`)
+      .ilike('name', `%${searchInput}%`)
 
+      if (error) {
+        console.error('Error searching:', error)
+        setIsSearch(false)
+      } else{
+        setResults(data)
+      }
   }
 
   //console.log(isHovered)
@@ -80,8 +90,9 @@ export const SearchBar = () => {
           }
         }}  />
         {showSearchInput ? 
-        
-          <IconRightArrow /> : 
+          
+          
+          <IconRightArrow  /> : 
           
           <IconMagnifyingGlass 
           />}

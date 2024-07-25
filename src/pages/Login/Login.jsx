@@ -1,17 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/iwemi logo.png'
 import Navbar from '../../components/NavBar/NavBar';
 import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import { toast, ToastContainer } from 'react-toastify';
+import HomeBookCards from '../../components/BookCards/HomeBookCards';
 
 
 
 const Login = ({ setToken }) => {
-  const { loggedIn, setLoggedIn, user, setUser } = useContext(GlobalStateContext)
+  const { loggedIn, setLoggedIn, user, setUser,results, setResults,isSearch,setIsSearch } = useContext(GlobalStateContext)
 
+ 
+  const location = useLocation()
+  //reset search on route change
+  useEffect(()=>{
+    setIsSearch(false)
+    setResults([])
+  },[location])
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,8 +93,24 @@ const Login = ({ setToken }) => {
   return (
     <div className='login-container'>
       <Navbar />
-
-      <div className='login-page'>
+      {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+            </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
+              ) : (
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+              )}
+            </div>
+          </div>
+        </section>)
+      :
+      (<div className='login-page'>
         <section className=" dark:bg-gray-900 login dark">
           <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0 login-div">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white logo-link">
@@ -196,7 +220,7 @@ const Login = ({ setToken }) => {
 
           </div>
         </section>
-      </div>
+      </div>)}
 
       <div className='dark'>
         <Footer />

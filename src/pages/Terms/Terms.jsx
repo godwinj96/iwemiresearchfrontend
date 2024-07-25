@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from '../../components/Footer/Footer'
+import { GlobalStateContext } from '../../Context/GlobalState'
+import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const Terms = () => {
+
+    const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
+    const location = useLocation()
+    //reset search on route change
+    useEffect(()=>{
+      setIsSearch(false)
+      setResults([])
+    },[location])
 
     const navigate = useNavigate()
 
@@ -15,8 +25,24 @@ const Terms = () => {
     return (
         <div className='terms'>
             <Navbar />
-            
-            <div className="terms-container">
+            {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+            </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
+              ) : (
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+              )}
+            </div>
+          </div>
+        </section>)
+            :
+            (<div className="terms-container">
                 <h1 className="terms-title">Terms & Conditions</h1>
                 <p>Welcome To Iwemi.Com, A Website Owned And Operated By Retail Development And Investment Company Limited</p>
                 <p>The Following Is An Agreement Between You And RDIC ("Iwemi.Com") Which Governs The Use Of This Web Site And Any Web Page Which Is A Part Of This Web Site And Your Purchase Of Any Product Or Service Through The Use Of This Web Site.</p>
@@ -81,7 +107,7 @@ const Terms = () => {
                 <p>If You Have Any Questions Or Concerns About This Agreement Or This Web Site, Please Contact Iwemi.Com At Info@Iwemi.Com Or By Mail At Retail Development And Investment Company Limited, 1234 Main Street, Los Angeles, CA 90001.</p>
 
                 <p>By Using This Web Site, You Acknowledge That You Have Read And Understand This Agreement And Agree To Be Bound By Its Terms And Conditions.</p>
-            </div>
+            </div>)}
             <div className='dark'>
                 <Footer />
             </div>

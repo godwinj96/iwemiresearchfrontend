@@ -13,6 +13,13 @@ const ClickedBook = () => {
  // const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
   const location = useLocation()
+  const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
+  
+  //reset search on route change
+  useEffect(()=>{
+    setIsSearch(false)
+    setResults([])
+  },[location])
   const { currencyCode } = useCurrency()
 
   const {id} = useParams()
@@ -191,7 +198,24 @@ const ClickedBook = () => {
   return (
     <div className='flex flex-col justify-between clicked-container'>
       <Navbar />
-      <div className="clicked-book flex flex-col  ">
+      {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+            </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
+              ) : (
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+              )}
+            </div>
+          </div>
+        </section>)
+      :
+      (<div className="clicked-book flex flex-col  ">
         <div className='flex items-center'>
           <div className='each flex'>
             <div className="papers-left ">
@@ -301,7 +325,7 @@ const ClickedBook = () => {
 
         </div>
 
-      </div>
+      </div>)}
       <div className='dark'>
         <Footer />
       </div>

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import Home from './pages/Home/Home'
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Login from './pages/Login/Login'
 import SignUp from './pages/Login/SignUp'
 import Dashboard from './pages/Dashboard/Dashboard'
@@ -39,6 +39,15 @@ import CartProvider from './Context/CartContext'
 
 
 function App() {
+
+  const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
+  const location = useLocation()
+  //reset search on route change
+  useEffect(()=>{
+    setIsSearch(false)
+    setResults([])
+  },[location])
+
   return (
     <CartProvider>
       <CurrencyProvider>
