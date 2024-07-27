@@ -10,14 +10,14 @@ import CartProvider from './Context/CartContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-  <CartProvider>
-     <CurrencyProvider>
-      <GlobalStateProvider>
-        <App />
-      </GlobalStateProvider>
-    </CurrencyProvider>
-  </CartProvider>
-   
+    <CartProvider>
+      <CurrencyProvider>
+        <GlobalStateProvider>
+          <App />
+        </GlobalStateProvider>
+      </CurrencyProvider>
+    </CartProvider>
+
 
 
   </BrowserRouter>,

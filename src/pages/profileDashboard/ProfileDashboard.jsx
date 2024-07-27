@@ -213,6 +213,247 @@ const ProfileDashboard = () => {
       }
 
 
+      //i did it maunally
+      let discipline_id = null;
+
+      if (subcategory === 'Agriculture') {
+        discipline_id = 1;
+      } else if (subcategory === 'Agricultural Economics') {
+        discipline_id = 2;
+      } else if (subcategory === 'Agricultural Extension') {
+        discipline_id = 3;
+      } else if (subcategory === 'Agronomy') {
+        discipline_id = 4;
+      } else if (subcategory === 'Animal Science') {
+        discipline_id = 5;
+      } else if (subcategory === 'Crop Science') {
+        discipline_id = 6;
+      } else if (subcategory === 'Food Science and Technology') {
+        discipline_id = 7;
+      } else if (subcategory === 'Fisheries') {
+        discipline_id = 8;
+      } else if (subcategory === 'Forest Resources Management (Forestry)') {
+        discipline_id = 9;
+      } else if (subcategory === 'Home Science, Nutrition and Dietetics') {
+        discipline_id = 10;
+      } else if (subcategory === 'Soil Science') {
+        discipline_id = 11;
+      } else if (subcategory === 'Archeology and Tourism') {
+        discipline_id = 12;
+      } else if (subcategory === 'Arabic and Islamic Studies') {
+        discipline_id = 13;
+      } else if (subcategory === 'Christian Religious Studies') {
+        discipline_id = 14;
+      } else if (subcategory === 'English and Literary Studies') {
+        discipline_id = 15;
+      } else if (subcategory === 'Fine and Applied Arts (Creative Arts)') {
+        discipline_id = 16;
+      } else if (subcategory === 'Foreign Languages and Literature') {
+        discipline_id = 17;
+      } else if (subcategory === 'History and International Studies') {
+        discipline_id = 18;
+      } else if (subcategory === 'Linguistics and Nigerian Languages') {
+        discipline_id = 19;
+      } else if (subcategory === 'Mass Communication (Communication and Language Arts)') {
+        discipline_id = 20;
+      } else if (subcategory === 'Music') {
+        discipline_id = 21;
+      } else if (subcategory === 'Theatre and Film Studies') {
+        discipline_id = 22;
+      } else if (subcategory === 'Biochemistry') {
+        discipline_id = 23;
+      } else if (subcategory === 'Botany') {
+        discipline_id = 24;
+      } else if (subcategory === 'Microbiology') {
+        discipline_id = 25;
+      } else if (subcategory === 'Marine Biology') {
+        discipline_id = 26;
+      } else if (subcategory === 'Cell Biology & Genetics') {
+        discipline_id = 27;
+      } else if (subcategory === 'Zoology') {
+        discipline_id = 28;
+      } else if (subcategory === 'Accountancy') {
+        discipline_id = 29;
+      } else if (subcategory === 'Actuarial Science') {
+        discipline_id = 30;
+      } else if (subcategory === 'Business Administration') {
+        discipline_id = 31;
+      } else if (subcategory === 'Business Management') {
+        discipline_id = 32;
+      } else if (subcategory === 'Banking and Finance') {
+        discipline_id = 33;
+      } else if (subcategory === 'Hospitality and Tourism') {
+        discipline_id = 34;
+      } else if (subcategory === 'Marketing') {
+        discipline_id = 35;
+      } else if (subcategory === 'Insurance') {
+        discipline_id = 36;
+      } else if (subcategory === 'Industrial Relations and Personnel Management') {
+        discipline_id = 37;
+      } else if (subcategory === 'Child Dental Health') {
+        discipline_id = 38;
+      } else if (subcategory === 'Oral and Maxillofacial Surgery') {
+        discipline_id = 39;
+      } else if (subcategory === 'Preventive Dentistry') {
+        discipline_id = 40;
+      } else if (subcategory === 'Restorative Dentistry') {
+        discipline_id = 41;
+      } else if (subcategory === 'Adult Education and Extra-Mural Studies') {
+        discipline_id = 42;
+      } else if (subcategory === 'Arts Education') {
+        discipline_id = 43;
+      } else if (subcategory === 'Education & Accountancy') {
+        discipline_id = 44;
+      } else if (subcategory === 'Education & Computer Science') {
+        discipline_id = 45;
+      } else if (subcategory === 'Education & Economics') {
+        discipline_id = 46;
+      } else if (subcategory === 'Education & Mathematics') {
+        discipline_id = 47;
+      } else if (subcategory === 'Education & Physics') {
+        discipline_id = 48;
+      } else if (subcategory === 'Education & Religious Studies') {
+        discipline_id = 49;
+      } else if (subcategory === 'Education & Social Science') {
+        discipline_id = 50;
+      } else if (subcategory === 'Education And Chemistry') {
+        discipline_id = 51;
+      } else if (subcategory === 'Education And English Language') {
+        discipline_id = 52;
+      } else if (subcategory === 'Education And French') {
+        discipline_id = 53;
+      } else if (subcategory === 'Education And Geography/Physics') {
+        discipline_id = 54;
+      } else if (subcategory === 'Education And Political Science') {
+        discipline_id = 55;
+      } else if (subcategory === 'Educational Foundations') {
+        discipline_id = 56;
+      } else if (subcategory === 'Educational / Psychology Guidance And Counselling') {
+        discipline_id = 57;
+      } else if (subcategory === 'Health and Physical Education') {
+        discipline_id = 58;
+      } else if (subcategory === 'Library and Information Science') {
+        discipline_id = 59;
+      } else if (subcategory === 'Science Education') {
+        discipline_id = 60;
+      } else if (subcategory === 'Social Sciences Education') {
+        discipline_id = 61;
+      } else if (subcategory === 'Vocational Teacher Education (Technical Education)') {
+        discipline_id = 62;
+      } else if (subcategory === 'Religion') {
+        discipline_id = 63;
+      } else if (subcategory === 'Igbo Linguistics') {
+        discipline_id = 64;
+      } else if (subcategory === 'Agricultural and Bioresources Engineering') {
+        discipline_id = 65;
+      } else if (subcategory === 'Civil Engineering') {
+        discipline_id = 66;
+      } else if (subcategory === 'Chemical Engineering') {
+        discipline_id = 67;
+      } else if (subcategory === 'Computer Engineering') {
+        discipline_id = 68;
+      } else if (subcategory === 'Electrical Engineering') {
+        discipline_id = 69;
+      } else if (subcategory === 'Electronic Engineering') {
+        discipline_id = 70;
+      } else if (subcategory === 'Marine Engineering') {
+        discipline_id = 71;
+      } else if (subcategory === 'Mechanical Engineering') {
+        discipline_id = 72;
+      } else if (subcategory === 'Metallurgical and Materials Engineering') {
+        discipline_id = 73;
+      } else if (subcategory === 'Petroleum and Gas Engineering') {
+        discipline_id = 74;
+      } else if (subcategory === 'Structural Engineering') {
+        discipline_id = 75;
+      } else if (subcategory === 'Production and Industrial Engineering') {
+        discipline_id = 76;
+      } else if (subcategory === 'Architecture') {
+        discipline_id = 77;
+      } else if (subcategory === 'Estate Management') {
+        discipline_id = 78;
+      } else if (subcategory === 'Quantity Surveying') {
+        discipline_id = 79;
+      } else if (subcategory === 'Geoinformatics and Surveying') {
+        discipline_id = 80;
+      } else if (subcategory === 'Urban and Regional Planning') {
+        discipline_id = 81;
+      } else if (subcategory === 'Health Administration and Management') {
+        discipline_id = 82;
+      } else if (subcategory === 'Medical Laboratory Sciences') {
+        discipline_id = 83;
+      } else if (subcategory === 'Medical Radiography and Radiological Sciences') {
+        discipline_id = 84;
+      } else if (subcategory === 'Medical Rehabilitation') {
+        discipline_id = 85;
+      } else if (subcategory === 'Nursing Sciences') {
+        discipline_id = 86;
+      } else if (subcategory === 'Commercial and Property Law') {
+        discipline_id = 87;
+      } else if (subcategory === 'International and Jurisprudence') {
+        discipline_id = 88;
+      } else if (subcategory === 'Private and Public Law') {
+        discipline_id = 89;
+      } else if (subcategory === 'Anatomy') {
+        discipline_id = 90;
+      } else if (subcategory === 'Anesthesia') {
+        discipline_id = 91;
+      } else if (subcategory === 'Chemical Pathology') {
+        discipline_id = 92;
+      } else if (subcategory === 'Community Medicine') {
+        discipline_id = 93;
+      } else if (subcategory === 'Dermatology') {
+        discipline_id = 94;
+      } else if (subcategory === 'Hematology and Immunology') {
+        discipline_id = 95;
+      } else if (subcategory === 'Medical Biochemistry') {
+        discipline_id = 96;
+      } else if (subcategory === 'Medical Microbiology') {
+        discipline_id = 97;
+      } else if (subcategory === 'Medicine') {
+        discipline_id = 98;
+      } else if (subcategory === 'Morbid Anatomy') {
+        discipline_id = 99;
+      } else if (subcategory === 'Obstetrics and Gynecology') {
+        discipline_id = 100;
+      }
+
+      let subcategory_id = null;
+
+      if (category === 'Agriculture') {
+        subcategory_id = 1;
+      } else if (category === 'Arts') {
+        subcategory_id = 2;
+      } else if (category === 'Biological Sciences') {
+        subcategory_id = 3;
+      } else if (category === 'Administration') {
+        subcategory_id = 4;
+      } else if (category === 'Dentistry') {
+        subcategory_id = 5;
+      } else if (category === 'Education') {
+        subcategory_id = 6;
+      } else if (category === 'Engineering') {
+        subcategory_id = 7;
+      } else if (category === 'Environmental Sciences') {
+        subcategory_id = 8;
+      } else if (category === 'Health & Science Technology') {
+        subcategory_id = 9;
+      } else if (category === 'Law') {
+        subcategory_id = 10;
+      } else if (category === 'Medical Sciences') {
+        subcategory_id = 11;
+      } else if (category === 'Pharmaceutical Sciences') {
+        subcategory_id = 12;
+      } else if (category === 'Physical Sciences') {
+        subcategory_id = 13;
+      } else if (category === 'Social Sciences') {
+        subcategory_id = 14;
+      } else if (category === 'Veterinary Medicine') {
+        subcategory_id = 15;
+      }
+
+
+
 
 
       let categoryId = null
@@ -228,6 +469,8 @@ const ProfileDashboard = () => {
       }
 
 
+
+
       try {
         const { data, error } = await supabase
           .from('api_book')
@@ -239,6 +482,8 @@ const ProfileDashboard = () => {
               year_published: yearP,
               date_uploaded: date,
               category_id: categoryId,
+              subcategory_id : subcategory_id,
+              discipline_id:discipline_id,
               is_open_access: false,
               file_url: fileUrl,
             }

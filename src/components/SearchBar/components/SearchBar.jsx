@@ -69,8 +69,8 @@ export const SearchBar = () => {
       }
   }
 
-  //console.log(isHovered)
-  //console.log(isFocused)
+  console.log(isHovered)
+  console.log(isFocused)
 
   useEffect(() => {
     targetRef.current.value = "";
