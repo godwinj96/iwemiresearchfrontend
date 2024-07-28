@@ -11,16 +11,14 @@ import { toast } from 'react-toastify'
 import iwemi_logo from '../../assets/new iwemi.png'
 import { useCurrency } from '../../Context/CurrencyContext'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { Resend } from 'resend';
 
 const Payment = () => {
 
     const { results, setResults, isSearch, setIsSearch, user, setUser } = useContext(GlobalStateContext)
 
     //reset search on route change
-    useEffect(() => {
-        setIsSearch(false)
-        setResults([])
-    }, [location])
+
     const { currencyCode } = useCurrency()
 
     const navigate = useNavigate()
@@ -33,17 +31,21 @@ const Payment = () => {
         const storedProduct = localStorage.getItem('product')
         if (storedProduct) {
             const parsedProduct = JSON.parse(storedProduct)
+            setTotal(parsedProduct.price)
         }
     }, [])
 
     const location = useLocation()
     const products = location.state?.products || [];
     const total = location.state?.total || 0
-
+    const fromUploadPage = location.state?.fromUploadPage || false
     // Calculate total price
     //const total = products.reduce((sum, product) => sum + product.price, 0);
 
-
+    useEffect(() => {
+        setIsSearch(false)
+        setResults([])
+    }, [location])
 
     const checkoutInterswitch = () => {
         if (user) {
@@ -90,68 +92,145 @@ const Payment = () => {
     };
 
     const checkoutFlutterwave = () => {
-        // Flutterwave checkout logic
-        FlutterwaveCheckout({
-            public_key: "FLWPUBK-8d47ef6a8ee32b71f792a60461269335-X",
-            tx_ref: `txref-${Date.now()}`,
-            amount: Number(total),
-            currency: `${currencyCode}`,
-            payment_options: "card, mobilemoneyghana, ussd",
-            meta: {
-                consumer_id: 23,
-                consumer_mac: "92a3-912ba-1192a",
-            },
-            customer: {
-                email: `${user.email}`,
-                // name: "Rose DeWitt Bukater",
-            },
-            customizations: {
-                title: "Iwemi Research",
-                description: "Payment for research material",
-                logo: { iwemi_logo },
-            },
-            callback: function (payment) {
-                verifyTransactionOnBackend(payment.id)
-            },
-            onclose: function (incomplete) {
-                if (incomplete) {
-                    alert('Payment was not completed')
-                }
-            },
-        });
+
+        const paymentAmt = Number(total)
+        if (paymentAmt === 0) {
+            handlePaymentSuccess()
+            toast.success('No payment needed')
+            toast.success('Check mail for more details')
+        } else {
+            // Flutterwave checkout logic
+            FlutterwaveCheckout({
+                public_key: "FLWPUBK-8d47ef6a8ee32b71f792a60461269335-X",
+                tx_ref: `txref-${Date.now()}`,
+                amount: paymentAmt,
+                currency: `${currencyCode}`,
+                payment_options: "card, mobilemoneyghana, ussd",
+                meta: {
+                    consumer_id: 23,
+                    consumer_mac: "92a3-912ba-1192a",
+                },
+                customer: {
+                    email: `${user.email}`,
+                    // name: "Rose DeWitt Bukater",
+                },
+                customizations: {
+                    title: "Iwemi Research",
+                    description: "Payment for research material",
+                    logo: { iwemi_logo },
+                },
+                callback: function (payment) {
+                    verifyTransactionOnBackend(payment.id)
+                    handlePaymentSuccess()
+                },
+                onclose: function (incomplete) {
+                    if (incomplete) {
+                        alert('Payment was not completed')
+                    }
+                },
+            });
+        }
+
     };
 
     const verifyTransactionOnBackend = (transactionId) => {
         setTimeout(function () {
             window.verified = true;
-
         }, 200)
     }
 
     const handlePaymentSuccess = async () => {
-        const formData = JSON.parse(localStorage.getItem('formData'))
+        if (fromUploadPage) {
+            const formData = JSON.parse(localStorage.getItem('openFormData'))
 
-        const { data, error } = await supabase
-            .from('api_book')
-            .insert([
-                {
-                    name: formData.title,
-                    author: formData.authors,
-                    year_published: formData.yearP,
-                    date_uploaded: formData.date,
-                    category: formData.type,
-                    file_url: formData.fileUrl,
-                    is_open_access: true,
-                }
-            ])
+            const { data, error } = await supabase
+                .from('api_book')
+                .insert([
+                    {
+                        name: formData.title,
+                        author: formData.authors,
+                        year_published: formData.yearP,
+                        date_uploaded: formData.date,
+                        category_id: formData.categoryId,
+                        subcategory_id: formData.subcategory_id,
+                        discipline_id: formData.discipline_id,
+                        file_url: formData.fileUrl,
+                        is_open_access: true,
+                    }
+                ])
 
-        if (error) {
-            toast.error('Payment failed')
-        } else {
-            toast.error('Book uploaded successfully')
-            localStorage.removeItem('formData')
-            navigate('/')
+            if (error) {
+                toast.error('Payment failed')
+            } else {
+                toast.success('Book uploaded successfully')
+                localStorage.removeItem('openFormData')
+                navigate('/')
+            }
         }
+
+        /*
+        *1st trial
+        const emailResponse = await fetch('https://moozotwbqobybcbidade.functions.supabase.co/send-payment-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer 567d8a3126a302116a96787726b2a2aade446a8b9e7d48994509b30eab7ffa05`
+            },
+            body: JSON.stringify({
+                email: user.email,
+                paymentDetails: {
+                    amount: total,
+                    date: new Date(),
+                    //products: products
+                }
+            })
+        })
+
+        const emailData = await emailResponse.json()
+        if (emailResponse.ok) {
+            console.log('Email sent successfully:', emailData)
+            navigate('/')
+        } else {
+            console.error('failed to send email:', emailData)
+        } */
+
+            /**
+             * 2nd trial
+             * const paymentDetails = {
+            amount: 100, // Example amount
+            date: new Date().toISOString()
+        };
+
+        const service_key = '9154f4a620dde6574de77da68e65fd31fed7932262db8430426028d89edae17a'
+
+        try {
+            const response = await fetch('https://moozotwbqobybcbidade.supabase.co/functions/v1/send-payment-email', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${service_key}`,
+                    'Content-Type': 'application/json',
+
+                },
+                body: JSON.stringify({
+                    from: 'onboarding@resend.dev',
+                    to: user.email,
+                    subject: 'Payment Success',
+                    html: '<strong>Your payment was successful!</strong>',
+                  }),
+            });
+
+            if (!result.ok) {
+                throw new Error('Failed to send email')
+            }
+            const result = await response.json();
+            
+            console.log('Email sent succesfully:', result)
+            
+
+        } catch (error) {
+            console.error('Unexpected error:', error);
+        } */
+        
     }
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
@@ -10,6 +10,7 @@ import BookItem from '../../components/BookCards/BookItem';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
+import { GlobalStateContext } from '../../Context/GlobalState';
 
 const ITEMS_PER_PAGE = 2
 
