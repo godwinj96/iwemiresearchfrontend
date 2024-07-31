@@ -216,40 +216,89 @@ const Payment = () => {
 
                 //we are calling it twice to get the downloaded links and being able to use in the email content
                 const emailContent = `<html>
-            <body>
-                <div class="container">
-                    <h1>Thank you for your purchase!</h1>
-                    <p>Dear ${user.user_metadata.firstName} ${user.user_metadata.lastName},</p>
-                    <p>Thank you for purchasing from our store. Below are the details of your order:</p>
-                    <table>
+    <head>
+        <style>
+            .container {
+                width: 80%;
+                margin: 0 auto;
+                text-align: center;
+                font-family: Arial, sans-serif;
+            }
+            .header {
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+            .content {
+                border: 1px solid #ccc;
+                border-top: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            .footer {
+                font-size: 0.8em;
+                color: #555;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            a {
+                color: #1a73e8;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">Iwemi Research</div>
+            <div class="content">
+                <h1>Thank you for your purchase!</h1>
+                <p>Dear ${user.user_metadata.firstName} ${user.user_metadata.lastName},</p>
+                <p>Thank you for purchasing from our store. Below are the details of your order:</p>
+                <table>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Download Link</th>
+                    </tr>
+                    ${products.map((product, index) => `
                         <tr>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Download Link</th>
+                            <td>${product.name}</td>
+                            <td>${product.quantity}</td>
+                            <td>${currencyCode} ${product.price}</td>
+                            <td><a href="${downloadLinks[index]}" class="download-link">Download your research material here!</a></td>
                         </tr>
-                        ${products.map((product, index) => `
-                            <tr>
-                                <td>${product.name}</td>
-                                <td>${product.quantity}</td>
-                                <td>${currencyCode} ${product.price}</td>
-                                <td><a href="${downloadLinks[index]}" class="download-link">Download your reaserch material here!</a></td>
-                            </tr>
-                        `).join('')}
-                    </table>
-                    <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
-                    <p>Best regards,</p>
-                    <p>Iwemi Reseach</p>
-                    <div class="footer">
-                        <p>This email was sent to ${user.email} because you made a purchase on our website. If you did not make this purchase, please contact our support team immediately.</p>
-                    </div>
-                </div>
-            </body>
-        </html>`
+                    `).join('')}
+                </table>
+                <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
+                <p>Best regards,</p>
+                <p>Iwemi Research</p>
+            </div>
+            <div class="footer">
+                <p>This email was sent to ${user.email} because you made a purchase on our website. If you did not make this purchase, please contact our support team immediately.</p>
+            </div>
+        </div>
+    </body>
+</html>`
+
                 //request body
                 const requestBody_again = new FormData()
                 requestBody_again.append('book_list', JSON.stringify(bookList))
-                requestBody_again.append('email', 'nkemkaomeiza@gmail.com')
+                requestBody_again.append('email', user.email)
                 requestBody_again.append('full_name', `${user.user_metadata.firstName} ${user.user_metadata.lastName}`)
                 requestBody_again.append('reply_to', 'support@iwemiresearch.org')
                 requestBody_again.append('email_template', emailContent)
@@ -266,18 +315,14 @@ const Payment = () => {
 
                 const data = await response_again.json()
                 console.log('data is ready:', data)
-
-
-
-
-
-                
             } catch (error) {
                 console.error('Error getting book links:', error);
                 //alert('Failed to get book links. Please try again');
             }
+            alert('Payment Successfull!')
             navigate('/')
-            toast.success('Payment was succeful')
+            toast.success('Payment was successful!')
+
         }
 
 
