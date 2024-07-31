@@ -96,8 +96,8 @@ const Payment = () => {
         const paymentAmt = Number(total)
         if (paymentAmt === 0) {
             handlePaymentSuccess()
-            toast.success('No payment needed')
-            toast.success('Check mail for more details')
+            //toast.success('No payment needed')
+            //toast.success('Check mail for more details')
         } else {
             // Flutterwave checkout logic
             FlutterwaveCheckout({
@@ -166,7 +166,120 @@ const Payment = () => {
                 localStorage.removeItem('openFormData')
                 navigate('/')
             }
+
+            navigate('/')
+            toast.success('Payment was succeful')
+        } else {
+            /**using editionguard */
+            const bookList = products.map(product => ({
+                resource_id: product.resource_id,
+                quantity: product.quantity
+            }))
+
+
+            //request body
+            const requestBody = new FormData()
+            requestBody.append('book_list', JSON.stringify(bookList))
+            requestBody.append('email', 'nkemka@gmail.com')
+            requestBody.append('full_name', `${user.user_metadata.firstName} ${user.user_metadata.lastName}`)
+            requestBody.append('reply_to', 'support@iwemiresearch.org')
+            //requestBody.append('email_template', emailContent)
+
+            const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
+            try {
+                const response = await fetch('https://app.editionguard.com/api/v2/deliver-book-links', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Token ${token}`
+                    },
+                    body: requestBody
+                })
+
+                const responseText = await response.text();
+                console.log('Response Text:', responseText);
+
+                if (!response.ok) {
+                    throw new Error('Failed to get the book links');
+                }
+
+                const linkRegex = /<a href=(https:\/\/app\.editionguard\.com\/download\/.*?)>/g;
+                const downloadLinks = [];
+                let match;
+                while ((match = linkRegex.exec(responseText)) !== null) {
+                    downloadLinks.push(match[1]);
+                }
+
+                if (downloadLinks.length === 0) {
+                    throw new Error('Download links not found in the response');
+                }
+
+                //we are calling it twice to get the downloaded links and being able to use in the email content
+                const emailContent = `<html>
+            <body>
+                <div class="container">
+                    <h1>Thank you for your purchase!</h1>
+                    <p>Dear ${user.user_metadata.firstName} ${user.user_metadata.lastName},</p>
+                    <p>Thank you for purchasing from our store. Below are the details of your order:</p>
+                    <table>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Download Link</th>
+                        </tr>
+                        ${products.map((product, index) => `
+                            <tr>
+                                <td>${product.name}</td>
+                                <td>${product.quantity}</td>
+                                <td>${currencyCode} ${product.price}</td>
+                                <td><a href="${downloadLinks[index]}" class="download-link">Download your reaserch material here!</a></td>
+                            </tr>
+                        `).join('')}
+                    </table>
+                    <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
+                    <p>Best regards,</p>
+                    <p>Iwemi Reseach</p>
+                    <div class="footer">
+                        <p>This email was sent to ${user.email} because you made a purchase on our website. If you did not make this purchase, please contact our support team immediately.</p>
+                    </div>
+                </div>
+            </body>
+        </html>`
+                //request body
+                const requestBody_again = new FormData()
+                requestBody_again.append('book_list', JSON.stringify(bookList))
+                requestBody_again.append('email', 'nkemkaomeiza@gmail.com')
+                requestBody_again.append('full_name', `${user.user_metadata.firstName} ${user.user_metadata.lastName}`)
+                requestBody_again.append('reply_to', 'support@iwemiresearch.org')
+                requestBody_again.append('email_template', emailContent)
+
+
+                const response_again = await fetch('https://app.editionguard.com/api/v2/deliver-book-links', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Token ${token}`
+                    },
+                    body: requestBody_again
+                })
+
+                const data = await response_again.json()
+                console.log('data is ready:', data)
+
+
+
+
+
+                
+            } catch (error) {
+                console.error('Error getting book links:', error);
+                //alert('Failed to get book links. Please try again');
+            }
+            navigate('/')
+            toast.success('Payment was succeful')
         }
+
 
         /*
         *1st trial
@@ -194,43 +307,47 @@ const Payment = () => {
             console.error('failed to send email:', emailData)
         } */
 
-            /**
-             * 2nd trial
-             * const paymentDetails = {
-            amount: 100, // Example amount
-            date: new Date().toISOString()
-        };
+        /**
+         * 2nd trial
+         * const paymentDetails = {
+        amount: 100, // Example amount
+        date: new Date().toISOString()
+    };
 
-        const service_key = '9154f4a620dde6574de77da68e65fd31fed7932262db8430426028d89edae17a'
+    const service_key = '9154f4a620dde6574de77da68e65fd31fed7932262db8430426028d89edae17a'
 
-        try {
-            const response = await fetch('https://moozotwbqobybcbidade.supabase.co/functions/v1/send-payment-email', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${service_key}`,
-                    'Content-Type': 'application/json',
+    try {
+        const response = await fetch('https://moozotwbqobybcbidade.supabase.co/functions/v1/send-payment-email', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${service_key}`,
+                'Content-Type': 'application/json',
 
-                },
-                body: JSON.stringify({
-                    from: 'onboarding@resend.dev',
-                    to: user.email,
-                    subject: 'Payment Success',
-                    html: '<strong>Your payment was successful!</strong>',
-                  }),
-            });
+            },
+            body: JSON.stringify({
+                from: 'onboarding@resend.dev',
+                to: user.email,
+                subject: 'Payment Success',
+                html: '<strong>Your payment was successful!</strong>',
+              }),
+        });
 
-            if (!result.ok) {
-                throw new Error('Failed to send email')
-            }
-            const result = await response.json();
-            
-            console.log('Email sent succesfully:', result)
-            
-
-        } catch (error) {
-            console.error('Unexpected error:', error);
-        } */
+        if (!result.ok) {
+            throw new Error('Failed to send email')
+        }
+        const result = await response.json();
         
+        console.log('Email sent succesfully:', result)
+        
+
+    } catch (error) {
+        console.error('Unexpected error:', error);
+    } */
+
+        //api calling to get the links for each drm book
+        //links would be in email
+
+
     }
 
 

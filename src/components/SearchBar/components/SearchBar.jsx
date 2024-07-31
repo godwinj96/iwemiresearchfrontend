@@ -84,14 +84,12 @@ export const SearchBar = () => {
       onBlur={() => setIsFocused(false)}
       $hover = {showSearchInput}
     >
-        <SearchInput className='focus:outline-none' ref={targetRef} showSearchInput={showSearchInput} placeholder='Search...' value={searchInput} onChange={(e)=>setSearchInput(e.target.value)} onKeyDown={(e)=>{
+        <SearchInput className='focus:outline-none' ref={targetRef} $showSearchInput={showSearchInput} placeholder='Search...' value={searchInput} onChange={(e)=>setSearchInput(e.target.value)} onKeyDown={(e)=>{
           if(e.key === 'Enter'){
             handleSearch()
           }
         }}  />
         {showSearchInput ? 
-          
-          
           <IconRightArrow  /> : 
           
           <IconMagnifyingGlass 

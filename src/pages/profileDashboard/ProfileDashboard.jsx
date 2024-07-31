@@ -431,6 +431,7 @@ const ProfileDashboard = () => {
       //formData.append('access', uploadedOption);
 
       const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
+      let resourceId = null
 
       try {
         const response = await fetch('https://app.editionguard.com/api/v2/book', {
@@ -450,6 +451,8 @@ const ProfileDashboard = () => {
         const data = await response.json()
         console.log('Upload successful: ', data)
 
+        resourceId = data.resource_id
+
         const newFile = {
           name: selectedFile.name,
           size: (selectedFile.size / 1024).toFixed(2) + 'KB',
@@ -459,36 +462,24 @@ const ProfileDashboard = () => {
         setUploadedFiles([...uploadedFiles, newFile])
         closeUploadModal()
 
-      } catch (error) {
-        console.error('Error uploading book:', error)
-        alert('Failed to upload book. Please try again')
-      }
+        console.log('Selected file:', selectedFile);
+        console.log('File path:', filePath);
 
+        const { data: storageData, error: storageError } = await supabase
+          .storage
+          .from('book_file')
+          .upload(filePath, selectedFile, {
+            cacheControl: '3600',
+            upsert: true
+          })
 
+        if (storageError) {
+          toast.error('Error uploading file:', storageError);
+          alert(storageError)
+          return
+        }
 
-
-      const { data, error } = await supabase
-        .storage
-        .from('book_file')
-        .upload(filePath, selectedFile, {
-          cacheControl: '3600',
-          upsert: true
-        })
-
-      if (error) {
-        toast.error('Error uploading file:', error);
-        alert(error)
-        return
-      }
-
-
-
-
-
-
-
-      try {
-        const { data, error } = await supabase
+        const { data: dbData, error: dbError } = await supabase
           .from('api_book')
           .insert([
             {
@@ -498,22 +489,28 @@ const ProfileDashboard = () => {
               year_published: yearP,
               date_uploaded: date,
               category_id: categoryId,
-              subcategory_id: subcategory_id,
+              sub_category_id: subcategory_id,
               discipline_id: discipline_id,
               is_open_access: false,
               file_url: fileUrl,
+              resource_id: resourceId
             }
           ])
 
 
-        if (error) {
-          toast.error('Error pushinf field names to databse', error)
+        if (dbError) {
+          toast.error('Error pushing field names to databse', dbError)
+          console.log(dbError)
         } else {
-          console.log('FIeld names pushed to supabase:', data)
+          console.log('Field names pushed to supabase:', data)
+          toast.error('Upload succesful')
         }
+
       } catch (error) {
-        console.log(error)
+        console.error('Error uploading book:', error)
+        alert('Failed to upload book. Please try again')
       }
+
 
 
     } else if (uploadedOption === 'openAccess') {
@@ -546,12 +543,12 @@ const ProfileDashboard = () => {
 
       const product = {
         name: 'Open Access Product',
-        quantity:1,
+        quantity: 1,
         price: 159600,
-        total:159600
+        total: 159600
       };
       localStorage.setItem('product', JSON.stringify(product))
-      navigate('/payment', { state: { products: [product],total: 159600, fromUploadPage:true} })
+      navigate('/payment', { state: { products: [product], total: 159600, fromUploadPage: true } })
     }
     else {
       alert('Please select an option before finalising option')
@@ -566,7 +563,7 @@ const ProfileDashboard = () => {
     home()
   }
 
-  console.log(user)
+  //console.log(user)
 
   const renderContent = () => {
     switch (activeTab) {
@@ -983,7 +980,7 @@ const ProfileDashboard = () => {
                       <option value="Radiation Medicine">Radiation Medicine</option>
                       <option value="Surgery">Surgery</option>
                       <option value="Psychological Medicine">Psychological Medicine</option>
-                      <option value="Child Dental Health">Child Dental Health</option>
+                      {/**<option value="Child Dental Health">Child Dental Health</option>*/}
                     </select>
                   </div>
                 )}
