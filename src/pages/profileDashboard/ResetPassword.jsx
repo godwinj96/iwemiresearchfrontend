@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import logo from '../../assets/iwemi logo.png'
@@ -23,7 +23,14 @@ const ResetPassword = () => {
             setError('Password do not match')
             return
         }
-        const { user, error } = await supabase.auth.updateUser({
+
+        /**
+         *  const { user, error } = await supabase.auth.updateUser({
+            password: newPass
+        })
+         */
+       
+        const { error } = await supabase.auth.updateUser({
             password: newPass
         })
 

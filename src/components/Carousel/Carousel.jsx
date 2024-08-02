@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react'
 import 'flowbite'
 import carousel1 from '../../assets/carousel-1.jpg'

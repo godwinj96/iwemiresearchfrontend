@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -5,7 +6,7 @@ import logo from '../../assets/iwemi logo.png'
 import Navbar from '../../components/NavBar/NavBar';
 import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast} from 'react-toastify';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 
 

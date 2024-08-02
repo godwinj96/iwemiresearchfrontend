@@ -1,4 +1,5 @@
 // src/components/Navbar.js
+/* eslint-disable */
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';

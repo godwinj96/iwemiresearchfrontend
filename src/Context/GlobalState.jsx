@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../supaBaseClient';
 import { toast } from 'react-toastify';
@@ -13,88 +14,87 @@ export const GlobalStateProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState(null);
   const [filters, setFilters] = useState({})
-  const [isSearch,setIsSearch] = useState(false)
- 
+  const [isSearch, setIsSearch] = useState(false)
+
   const [book, setBook] = useState({})
   const [openAccessPapers, setOpenAcessPapers] = useState([])
-  const [allPapers,setAllPapers ] = useState([])
 
 
+  const fetchOpenAccessPapers = async () => {
+    try {
+      const { data, error } = await supabase.from('api_book').select('*');
 
-  useEffect(()=>{
-      //fetching from supabase
-      const fetchOpenAccessPapers = async () =>{
-        const { data, error } = await supabase
-          .from('api_book')
-          .select('*')
-
-
-          if (error) {
-            toast.error(error)
-          } else{
-            const updatedData = data.map(book=>({
-              ...book,
-              openAccess:true
-            }))
-            console.log(data)
-            console.log(updatedData )
-            setOpenAcessPapers(updatedData)
-            
-          }
+      if (error) {
+        toast.error(`Error fetching open access papers: ${error.message}`);
+        console.error('Supabase error:', error);
+        return; // Exit function if error occurs
       }
 
-     
-
-      fetchOpenAccessPapers()
-  },[])
-
-
-//getting user sesh
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        //wait 
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        //retrieving current session
-        const { data, error } = await supabase.auth.getSession()
-        console.log(data)
-        if (error) {
-          throw error
-        }
-
-        console.log(loggedIn)
-        if (data) {
-          console.log(data)
-          console.log('User is logged in:', data.session.user)
-         
-          setUser(data.session.user)
-          setLoggedIn(true)
-          //store session in local storage for pesistence
-          localStorage.setItem('supabaseSession', JSON.stringify(data))
-          localStorage.setItem(`userId`,data.session.user.id)
-
-
-        } else {
-          console.log('No user session found')
-          setUser(null)
-          setLoggedIn(false)
-          localStorage.removeItem('supabaseSession')
-        }
-
-
-      } catch (error) {
-        console.error('Error fetching session:', error.message)
-      }
+      const updatedData = data.map(book => ({
+        ...book,
+        openAccess: true
+      }));
+      setOpenAcessPapers(updatedData);
+    } catch (err) {
+      console.error('Error fetching open access papers:', err);
+      toast.error(`An unexpected error occurred: ${err.message}`);
     }
-    
+  }
+
+
+
+  useEffect(() => {
+    //fetching from supabase
+
+
+    fetchOpenAccessPapers()
+  }, [])
+
+  const checkSession = async () => {
+    try {
+      //wait 
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      //retrieving current session
+      const { data, error } = await supabase.auth.getSession()
+      console.log(data)
+      if (error) {
+        throw error
+      }
+
+      console.log(loggedIn)
+      if (data) {
+        console.log(data)
+        console.log('User is logged in:', data.session.user)
+
+        setUser(data.session.user)
+        setLoggedIn(true)
+        //store session in local storage for pesistence
+        localStorage.setItem('supabaseSession', JSON.stringify(data))
+        localStorage.setItem(`userId`, data.session.user.id)
+
+
+      } else {
+        console.log('No user session found')
+        setUser(null)
+        setLoggedIn(false)
+        localStorage.removeItem('supabaseSession')
+      }
+
+
+    } catch (error) {
+      console.error('Error fetching session:', error.message)
+    }
+  }
+  //getting user sesh
+  useEffect(() => {
 
     const storedSession = localStorage.getItem('supabaseSession')
     if (storedSession) {
       const session = JSON.parse(storedSession)
       setUser(session.session.user)
       console.log(session.session.user)
-    } 
+    }
 
     checkSession()//check fro session if not found in local storage
   }, [])

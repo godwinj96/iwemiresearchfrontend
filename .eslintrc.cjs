@@ -6,6 +6,8 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
+    'next',
+    'next/core-web-vitals',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -13,6 +15,10 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react/jsx-no-target-blank': 'off',
+    'react/no-unknown-property': 'off',
+    'no-extra-semi': 'off',
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

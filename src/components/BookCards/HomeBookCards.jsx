@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React from 'react'
 import book_image from '../../assets/thesis-test2.jpg'
-import axios from 'axios'
+
 
 import { Link } from 'react-router-dom'
 

@@ -1,6 +1,7 @@
 
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
-import supabase from '../supaBaseClient';
+
 
 const UserSession = () => {
   

@@ -1,35 +1,24 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
-import { useNavigate } from 'react-router-dom'
+
 import logo from '../../assets/iwemi logo.png'
 import { supabase } from '../../supaBaseClient'
 
 const ForgotPassword = () => {
 
-  const navigate = useNavigate()
-
-  const ForgotPassword = () => {
-    navigate('/Forgot-Password')
-  }
-
-  const terms = () => {
-    navigate('/terms&Conditions')
-  }
-
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [newPass, setNewPass] = useState("")
-  const [confirmPass, setConfirmPass] = useState("")
+
 
 
   const handleResetLink = async (e) => {
     e.preventDefault()
     setError('')
     setMessage('')
-
-    const { user, error } = await supabase.auth.resetPasswordForEmail(email, {
+    //user
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: 'http://localhost:5173/reset-Password'
     })
 

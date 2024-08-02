@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -10,13 +10,13 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const ShoppingCart = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, setUser } = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
     const location = useLocation()
     //reset search on route change
     useEffect(() => {
         setIsSearch(false)
         setResults([])
-    }, [location])
+    }, [location, setIsSearch, setResults])
     //const {} = useContext(GlobalStateContext)
     const { currencyCode } = useCurrency()
     const { state, dispatch } = useCart()
@@ -47,9 +47,7 @@ const ShoppingCart = () => {
 
     const navigate = useNavigate()
 
-    const payment = () => {
-        navigate('/payment')
-    }
+
     const home = () => {
         navigate('/')
     }
@@ -83,8 +81,9 @@ const ShoppingCart = () => {
                                 <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
                                     <div className="space-y-6">
 
-                                        {state.items.map((item, index) => (<div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-                                            <div key={index} className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                                        {state.items.map((item, index) =>
+                                        (<div key={index} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+                                            <div  className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                                 <a href="#" className="shrink-0 md:order-1">
                                                     <img className="h-20 w-20 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="imac image" />
                                                     <img className="hidden h-20 w-20 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="imac image" />

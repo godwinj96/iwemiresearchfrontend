@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation} from 'react-router-dom'
 import Footer from '../../components/Footer/Footer'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
@@ -13,14 +13,7 @@ const Terms = () => {
     useEffect(()=>{
       setIsSearch(false)
       setResults([])
-    },[location])
-
-    const navigate = useNavigate()
-
-    const terms = () => {
-        navigate('/terms&Conditions')
-    }
-
+    },[location,setIsSearch,setResults])
 
     return (
         <div className='terms'>
@@ -45,7 +38,7 @@ const Terms = () => {
             (<div className="terms-container">
                 <h1 className="terms-title">Terms & Conditions</h1>
                 <p>Welcome To Iwemi.Com, A Website Owned And Operated By Retail Development And Investment Company Limited</p>
-                <p>The Following Is An Agreement Between You And RDIC ("Iwemi.Com") Which Governs The Use Of This Web Site And Any Web Page Which Is A Part Of This Web Site And Your Purchase Of Any Product Or Service Through The Use Of This Web Site.</p>
+                <p>The Following Is An Agreement Between You And RDIC (&quot;Iwemi.Com&quot;) Which Governs The Use Of This Web Site And Any Web Page Which Is A Part Of This Web Site And Your Purchase Of Any Product Or Service Through The Use Of This Web Site.</p>
 
                 <h2>1. ACCEPTANCE OF THE TERMS AND CONDITIONS OF THIS AGREEMENT.</h2>
                 <p>Your Use Of This Web Site, Including Visiting Any Page Which Is A Part Of This Web Site, And Your Purchase Of Any Product Or Service Through The Use Of This Web Site Constitute Your Acceptance Of The Terms And Conditions Of This Agreement. You Understand And Acknowledge That Your Use Of This Web Site And Your Purchase Of Any Product Or Service Through The Use Of This Web Site Are Conditioned On Your Prior Acceptance Of The Terms Of This Agreement. You Agree To Use This Web Site Solely In Accordance And Compliance With The Terms Of This Agreement.</p>
@@ -74,7 +67,7 @@ const Terms = () => {
                 <h2>6. CONTENT SUBMITTED BY YOU.</h2>
                 <p>You Agree That All Content Submitted By You For Inclusion, Use Or Distribution On This Web Site Shall Be In Accordance With And In Compliance With The Proper Usage Requirements Contained In Section 4 Of This Agreement.</p>
                 <p>By Submitting Content To Iwemi.Com For Inclusion, Use Or Distribution On This Web Site, You Warrant, Represent, And Agree That (A) You Have The Authority To Grant The Rights To Such Content Which Are Being Granted Hereunder; (B) You Own And/Or Control All Rights In And To Such Content; And (C) Such Content Is In Compliance With The Proper Use Requirements Contained In Section 4 Of This Agreement.</p>
-                <p>You Will Be Solely Responsible And Liable For Any Claims, Costs, And Damages Arising From Any Infringement Of Copyright, Trademark, Patent Or Other Proprietary Rights And Any Other Claims, Costs, And Damages Arising From Iwemi.Com's Inclusion, Use Or Distribution Of All Content Submitted By You. Iwemi.Com Neither Assumes, Has, Or Will Have Any Responsibility Or Liability For Any Claims, Costs, And Damages Arising From Any Infringement Of Copyright, Trademark, Patent Or Other Proprietary Rights Or Any Other Claims, Costs, And Damages Arising From Iwemi.Com's Inclusion, Use Or Distribution Of All Content Submitted By You.</p>
+                <p>You Will Be Solely Responsible And Liable For Any Claims, Costs, And Damages Arising From Any Infringement Of Copyright, Trademark, Patent Or Other Proprietary Rights And Any Other Claims, Costs, And Damages Arising From Iwemi.Com&apos;s Inclusion, Use Or Distribution Of All Content Submitted By You. Iwemi.Com Neither Assumes, Has, Or Will Have Any Responsibility Or Liability For Any Claims, Costs, And Damages Arising From Any Infringement Of Copyright, Trademark, Patent Or Other Proprietary Rights Or Any Other Claims, Costs, And Damages Arising From Iwemi.Com&apos;s Inclusion, Use Or Distribution Of All Content Submitted By You.</p>
                 <p>You Hereby Grant To Iwemi.Com, And Its Affiliated, Subsidiary And Related Companies, A Royalty-Free, Perpetual, Irrevocable, Unlimited, Worldwide Right And License To Use, Reproduce, Publish, Translate, Sublicense, Copy, And Distribute All Such Content Submitted By You, In Whole Or In Part, And/Or To Incorporate Such Content In Other Works In Any Form, Media, Or Technology Now Known Or Hereafter Developed For The Full Term Of Any Copyright That May Exist In Such Content.</p>
 
                 <h2>7. CLAIMS OF INTELLECTUAL PROPERTY INFRINGEMENT.</h2>
@@ -85,22 +78,22 @@ const Terms = () => {
                     <li>A Description Of Where The Material That Is Alleged To Be Infringing Is Located On This Web Site.</li>
                     <li>Your Address, Telephone Number, And Email Address.</li>
                     <li>A Statement By You That You Have A Good Faith Belief That The Disputed Use Is Not Authorized By The Intellectual Property Owner, Its Agent, Or The Law.</li>
-                    <li>A Statement By You, Made Under Penalty Of Perjury, That The Above Information In Your Notice Is Accurate And That You Are The Intellectual Property Owner Or Authorized To Act On The Intellectual Property Owner's Behalf.</li>
+                    <li>A Statement By You, Made Under Penalty Of Perjury, That The Above Information In Your Notice Is Accurate And That You Are The Intellectual Property Owner Or Authorized To Act On The Intellectual Property Owner&apos;s Behalf.</li>
                 </ol>
 
                 <h2>8. DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY.</h2>
                 <p>YOU EXPRESSLY AGREE THAT YOUR USE OF THIS WEB SITE AND THE PURCHASE OF ANY PRODUCT OR SERVICE THROUGH THE USE OF THIS WEB SITE IS AT YOUR SOLE RISK. IWEMI.COM DOES NOT WARRANT OR GUARANTEE THAT THIS WEB SITE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE, NOR DOES IWEMI.COM MAKE ANY WARRANTY OR GUARANTEE AS TO THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THIS WEB SITE OR AS TO THE ACCURACY OR RELIABILITY OF ANY INFORMATION OBTAINED THROUGH THIS WEB SITE. YOU UNDERSTAND AND AGREE THAT ANY MATERIAL AND/OR DATA DOWNLOADED OR OTHERWISE OBTAINED THROUGH THE USE OF THIS WEB SITE IS DONE AT YOUR OWN DISCRETION AND RISK AND THAT YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR COMPUTER SYSTEM OR LOSS OF DATA THAT RESULTS FROM THE DOWNLOAD OF SUCH MATERIAL AND/OR DATA. IWEMI.COM IS NOT RESPONSIBLE FOR ANY CONTENT OR MATERIAL POSTED BY ANY THIRD PARTY ON THIS WEB SITE.</p>
-                <p>IWEMI.COM IS PROVIDING THIS WEB SITE AND THE CONTENT OF THIS WEB SITE ON AN "AS IS" BASIS AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, WITH RESPECT TO THIS WEB SITE OR ITS CONTENT, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL IWEMI.COM BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY DAMAGES OF ANY KIND ARISING OUT OF OR RELATING TO THE USE OF THIS WEB SITE, INCLUDING, WITHOUT LIMITATION, ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, LOSS OF DATA, OR LOSS OF USE, EVEN IF IWEMI.COM HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+                <p>IWEMI.COM IS PROVIDING THIS WEB SITE AND THE CONTENT OF THIS WEB SITE ON AN &quot;AS IS&quot; BASIS AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, WITH RESPECT TO THIS WEB SITE OR ITS CONTENT, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL IWEMI.COM BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY DAMAGES OF ANY KIND ARISING OUT OF OR RELATING TO THE USE OF THIS WEB SITE, INCLUDING, WITHOUT LIMITATION, ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, LOSS OF DATA, OR LOSS OF USE, EVEN IF IWEMI.COM HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
 
                 <h2>9. INDEMNIFICATION.</h2>
-                <p>You Agree To Indemnify, Defend, And Hold Harmless Iwemi.Com And Its Directors, Officers, Employees, Agents, Subsidiaries, Affiliates, And Licensors From And Against Any And All Claims, Costs, And Expenses, Including Reasonable Attorneys' Fees, Arising Out Of Or Relating To Your Use Of This Web Site Or The Purchase Of Any Product Or Service Through The Use Of This Web Site.</p>
+                <p>You Agree To Indemnify, Defend, And Hold Harmless Iwemi.Com And Its Directors, Officers, Employees, Agents, Subsidiaries, Affiliates, And Licensors From And Against Any And All Claims, Costs, And Expenses, Including Reasonable Attorneys&apos; Fees, Arising Out Of Or Relating To Your Use Of This Web Site Or The Purchase Of Any Product Or Service Through The Use Of This Web Site.</p>
 
                 <h2>10. MISCELLANEOUS.</h2>
                 <p>A. This Agreement Constitutes The Entire Agreement Between You And Iwemi.Com Governing Your Use Of This Web Site And The Purchase Of Any Product Or Service Through The Use Of This Web Site.</p>
                 <p>B. If Any Provision Of This Agreement Is Found To Be Invalid Or Unenforceable By A Court Of Competent Jurisdiction, Such Provision Shall Be Severed From The Remainder Of This Agreement, Which Will Remain In Full Force And Effect.</p>
                 <p>C. This Agreement Shall Be Governed By And Construed In Accordance With The Laws Of The State Of California, Without Regard To Its Conflict Of Law Provisions.</p>
                 <p>D. Any Dispute Arising Out Of Or Relating To This Agreement, Your Use Of This Web Site, Or The Purchase Of Any Product Or Service Through The Use Of This Web Site Shall Be Brought Exclusively In The State Or Federal Courts Located In Los Angeles County, California, And You Consent To The Jurisdiction Of Such Courts For Such Purposes.</p>
-                <p>E. Iwemi.Com's Failure To Enforce Any Right Or Provision Of This Agreement Shall Not Be Deemed A Waiver Of Such Right Or Provision.</p>
+                <p>E. Iwemi.Com&apos;s Failure To Enforce Any Right Or Provision Of This Agreement Shall Not Be Deemed A Waiver Of Such Right Or Provision.</p>
                 <p>F. You Agree That Regardless Of Any Statute Or Law To The Contrary, Any Claim Or Cause Of Action Arising Out Of Or Relating To The Use Of This Web Site Or This Agreement Must Be Filed Within One (1) Year After Such Claim Or Cause Of Action Arose Or Be Forever Barred.</p>
 
                 <h2>11. CONTACT INFORMATION.</h2>

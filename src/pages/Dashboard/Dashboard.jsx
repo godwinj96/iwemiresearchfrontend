@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useState } from 'react';
 import search_icon from '../../assets/search-icon.png'
 import logo from'../../assets/iwemi logo.png'

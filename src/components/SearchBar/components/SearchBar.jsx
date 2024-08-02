@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import  { useRef, useState, useEffect, useContext } from 'react';
 import {
   Container,
   IconMagnifyingGlass,
@@ -44,7 +44,7 @@ export const SearchBar = () => {
   const [isFocused, setIsFocused] = useState(false);
   const showSearchInput = isHovered  || isFocused; 
   const [searchInput, setSearchInput] = useState('')
-  const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
+  const { setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
 
   console.log(isSearch)
 

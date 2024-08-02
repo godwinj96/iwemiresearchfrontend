@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { GlobalStateContext } from '../../Context/GlobalState'
 
 const PrivacyPolicy = () => {
 
-    const navigate = useNavigate()
+   
 
     const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
     const location = useLocation()
@@ -14,7 +15,7 @@ const PrivacyPolicy = () => {
     useEffect(()=>{
       setIsSearch(false)
       setResults([])
-    },[location])
+    },[location,setIsSearch,setResults])
 
 
 

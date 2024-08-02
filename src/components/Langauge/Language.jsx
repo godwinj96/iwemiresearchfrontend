@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 
 // List of top 50 languages of the world

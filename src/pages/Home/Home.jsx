@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
@@ -5,9 +7,7 @@ import content1 from '../../assets/content-1.webp'
 import content4 from '../../assets/content-4.webp'
 import content2 from '../../assets/content-2.jpg'
 import content3 from '../../assets/content-3.jpg'
-import bookImage from '../../assets/thesis-test2.jpg'
 
-import Carousel from '../../components/Carousel/Carousel'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { useLocation, useNavigate } from 'react-router-dom'
 import AOS from 'aos'

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -15,7 +15,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const ProfileDashboard = () => {
 
-  const { user, setUser, bookClicked, setBookClicked, loggedIn, setLoggedIn, results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
+  const { user, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -23,7 +23,7 @@ const ProfileDashboard = () => {
   useEffect(() => {
     setIsSearch(false)
     setResults([])
-  }, [location])
+  }, [location, setIsSearch, setResults])
 
   const [activeTab, setActiveTab] = useState('profile')
   const [selectedFile, setSelectedFile] = useState(null)
@@ -66,9 +66,6 @@ const ProfileDashboard = () => {
     }
   }, [])
 
-  const catalogue = () => {
-    navigate('/research-resources')
-  }
   const home = () => {
     navigate('/')
   }
@@ -380,7 +377,7 @@ const ProfileDashboard = () => {
     //extracting file name
     const fileExt = selectedFile.name.split('.').pop()
     //genrating a unique filename by appending current timestamp to file extension
-    const fileName = `${Date.now()}.${fileExt}`
+    //const fileName = `${Date.now()}.${fileExt}`
     //const filePath = `public/${fileName}`
     const filePath = selectedFile.name
     console.log(fileExt)
@@ -393,8 +390,8 @@ const ProfileDashboard = () => {
 
 
 
-    ///storing file info for later use in other components
-    const formData = {
+    ///storing file info for later use in other components7
+    /**  const formData = {
       title,
       authors,
       yearP,
@@ -404,7 +401,8 @@ const ProfileDashboard = () => {
       fileUrl,
       category,
       subcategory
-    }
+    }*/
+   
     const openFormData = {
       title,
       authors,
@@ -465,7 +463,8 @@ const ProfileDashboard = () => {
         console.log('Selected file:', selectedFile);
         console.log('File path:', filePath);
 
-        const { data: storageData, error: storageError } = await supabase
+        //const { data: storageData, error: storageError } = await supabase
+        const {  error: storageError } = await supabase
           .storage
           .from('book_file')
           .upload(filePath, selectedFile, {
@@ -478,8 +477,8 @@ const ProfileDashboard = () => {
           alert(storageError)
           return
         }
-
-        const { data: dbData, error: dbError } = await supabase
+        //data: dbData
+        const { error: dbError } = await supabase
           .from('api_book')
           .insert([
             {

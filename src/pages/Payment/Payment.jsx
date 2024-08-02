@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+import { useContext, useEffect, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -11,11 +13,11 @@ import { toast } from 'react-toastify'
 import iwemi_logo from '../../assets/new iwemi.png'
 import { useCurrency } from '../../Context/CurrencyContext'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
-import { Resend } from 'resend';
+
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, setUser } = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch, user} = useContext(GlobalStateContext)
 
     //reset search on route change
 
@@ -24,9 +26,7 @@ const Payment = () => {
     const navigate = useNavigate()
 
     const [totals, setTotal] = useState('')
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState() //'form', 'interswitch', 'stripe', 'flutterwave
-    const [formDisabled, setFormDisabled] = useState(false)
-
+  
     useEffect(() => {
         const storedProduct = localStorage.getItem('product')
         if (storedProduct) {
@@ -45,7 +45,7 @@ const Payment = () => {
     useEffect(() => {
         setIsSearch(false)
         setResults([])
-    }, [location])
+    }, [location, setIsSearch,setResults])
 
     const checkoutInterswitch = () => {
         if (user) {

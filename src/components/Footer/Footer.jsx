@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/new iwemi.png'

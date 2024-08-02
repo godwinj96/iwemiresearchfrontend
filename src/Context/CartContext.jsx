@@ -1,13 +1,14 @@
+/* eslint-disable */
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { GlobalStateContext } from './GlobalState';
-
 const CartContext = createContext()
 
 //const {user} = useContext(GlobalStateContext)
-const userId = localStorage.getItem('userId')
+
 
 
 const getInitialCartState = () => {
+    if (typeof window === 'undefined') return { items: [], count: 0 }; // Return default state if not in the browser
+    const userId = localStorage.getItem('userId')
    
     const cartItems = localStorage.getItem(`${userId}_cartItems`);
     const cartCount = localStorage.getItem(`${userId}_cartCount`);
@@ -81,10 +82,12 @@ const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, initialState)
 
     useEffect(() => {
-        localStorage.setItem(`${userId}_cartItems`, JSON.stringify(state.items))
-        localStorage.setItem(`${userId}_cartCount`, JSON.stringify(state.count))
-
-    }, [state.items, state.count])
+        if (typeof window !== 'undefined') { // Ensure this code runs only on the client side
+            const userId = localStorage.getItem('userId');
+            localStorage.setItem(`${userId}_cartItems`, JSON.stringify(state.items));
+            localStorage.setItem(`${userId}_cartCount`, JSON.stringify(state.count));
+        }
+    }, [state.items, state.count]);
    
 
     

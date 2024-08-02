@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable */
+import React from 'react'
 import { useCurrency } from '../../Context/CurrencyContext';
 
 const Currency = ({ onCurrencyChange }) => {

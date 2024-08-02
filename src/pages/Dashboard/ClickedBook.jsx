@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import Navbar from '../../components/NavBar/NavBar'

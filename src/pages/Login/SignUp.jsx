@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useContext, useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';

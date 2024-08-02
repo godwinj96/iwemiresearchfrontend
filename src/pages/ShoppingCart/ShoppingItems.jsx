@@ -1,5 +1,5 @@
 //component
-import React from 'react'
+
 
 const ShoppingItems = () => {
   return (
