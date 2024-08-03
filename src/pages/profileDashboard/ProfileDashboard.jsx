@@ -15,7 +15,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const ProfileDashboard = () => {
 
-  const { user, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
+  const { user,userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch,uploadedFiles,setUploadedFiles } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -27,12 +27,13 @@ const ProfileDashboard = () => {
 
   const [activeTab, setActiveTab] = useState('profile')
   const [selectedFile, setSelectedFile] = useState(null)
-  const [uploadedFiles, setUploadedFiles] = useState([])
+  //const [uploadedFiles, setUploadedFiles] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [uploadedOption, setUploadedOption] = useState('')//initial radio state
   const [isOptionSelected, setIsOptionSelected] = useState(false)
   const [isPopover, setIsPopover] = useState(false)
+  const [showUploadButton, setShowUploadButton] = useState(false)
 
   const [title, setTitle] = useState('')
   const [authors, setAuthors] = useState('')
@@ -77,10 +78,14 @@ const ProfileDashboard = () => {
   }
 
 
+
+
+
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file && file.type === 'application/pdf') {
       setSelectedFile(file)
+      setShowUploadButton(true)
     } else {
       alert('Please upload a PDF file.')
     }
@@ -402,7 +407,7 @@ const ProfileDashboard = () => {
       category,
       subcategory
     }*/
-   
+
     const openFormData = {
       title,
       authors,
@@ -415,7 +420,6 @@ const ProfileDashboard = () => {
       subcategory_id,
       discipline_id
     }
-
 
 
     if (uploadedOption === 'subscriptionBased') {
@@ -432,6 +436,7 @@ const ProfileDashboard = () => {
       let resourceId = null
 
       try {
+
         const response = await fetch('https://app.editionguard.com/api/v2/book', {
           method: 'POST',
           headers: {
@@ -451,20 +456,13 @@ const ProfileDashboard = () => {
 
         resourceId = data.resource_id
 
-        const newFile = {
-          name: selectedFile.name,
-          size: (selectedFile.size / 1024).toFixed(2) + 'KB',
-          date: new Date().toLocaleString(),
-          option: uploadedOption
-        };
-        setUploadedFiles([...uploadedFiles, newFile])
-        closeUploadModal()
+
 
         console.log('Selected file:', selectedFile);
         console.log('File path:', filePath);
 
         //const { data: storageData, error: storageError } = await supabase
-        const {  error: storageError } = await supabase
+        const { error: storageError } = await supabase
           .storage
           .from('book_file')
           .upload(filePath, selectedFile, {
@@ -502,9 +500,20 @@ const ProfileDashboard = () => {
           console.log(dbError)
         } else {
           console.log('Field names pushed to supabase:', data)
-          toast.error('Upload succesful')
+          toast.success('Upload succesful')
         }
-
+        const newFile = {
+          name: formData.title,
+          size: (selectedFile.size / 1024).toFixed(2) + 'KB',
+          date: new Date().toLocaleString(),
+          option: uploadedOption
+        };
+        const upadatedUploadedFiles = [...uploadedFiles, newFile]
+        setUploadedFiles(upadatedUploadedFiles)
+        //save to loacl storage
+        localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(upadatedUploadedFiles))
+        setShowUploadButton(false)
+        closeUploadModal()
       } catch (error) {
         console.error('Error uploading book:', error)
         alert('Failed to upload book. Please try again')
@@ -1127,7 +1136,7 @@ const ProfileDashboard = () => {
               </label>
             </div>
 
-            {selectedFile && (
+            {selectedFile && showUploadButton && (
               <div className="mt-4 flex items-center justify-between w-full bg-white dark:bg-gray-700 p-4 rounded-lg">
                 <div>
                   <p className="text-gray-900 dark:text-white">{selectedFile.name}</p>
@@ -1488,8 +1497,8 @@ const ProfileDashboard = () => {
 
 
   return (
-    <div className='flex flex-col profile-container'>
-      <Navbar />
+    <div className='flex flex-col profile-container '>
+
       {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -1571,9 +1580,7 @@ const ProfileDashboard = () => {
 
           </div>
         </div>)}
-      <div className='dark'>
-        <Footer />
-      </div>
+
 
     </div>
   )

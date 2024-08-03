@@ -79,7 +79,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+   
 
      {isSearch? 
      (<section className="dark:bg-gray-900 features" data-aos="fade-up">
@@ -154,7 +154,7 @@ const Home = () => {
 
 
 
-        <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <section className="dark:bg-gray-900 features " >
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
               <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
@@ -177,7 +177,7 @@ const Home = () => {
           </div>
         </section>
         <hr className="border-t border-gray-300" />
-        <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <section className="dark:bg-gray-900 features " >
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
               <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
@@ -201,7 +201,7 @@ const Home = () => {
           </div>
         </section>
         <hr className="border-t border-gray-300" />
-        <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <section className="dark:bg-gray-900 features " >
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
               <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Textbooks</h2>
@@ -225,7 +225,7 @@ const Home = () => {
 
 
         <hr className="border-t border-gray-300" />
-        <section className="dark:bg-gray-900 features " data-aos="fade-up">
+        <section className="dark:bg-gray-900 features ">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
               <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Conference Papers</h2>
@@ -270,7 +270,7 @@ const Home = () => {
       </section>*/}
         <hr className="border-t border-gray-300" />
 
-        <section className=" dark:bg-gray-900 newsletter" data-aos="fade-up">
+        <section className=" dark:bg-gray-900 newsletter" >
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 flex justify-center">
             <div className="max-w-screen-md w-full">
               <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Sign up for our newsletter</h2>
@@ -287,7 +287,7 @@ const Home = () => {
         </section>
       </>)}
 
-      <Footer />
+    
     </div>
 
   )

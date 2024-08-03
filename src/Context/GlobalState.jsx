@@ -18,6 +18,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const [book, setBook] = useState({})
   const [openAccessPapers, setOpenAcessPapers] = useState([])
+  const [uploadedFiles, setUploadedFiles] = useState([])
 
 
   const fetchOpenAccessPapers = async () => {
@@ -41,14 +42,20 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }
 
+  const userId = localStorage.getItem('userId')
 
 
   useEffect(() => {
-    //fetching from supabase
+    localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(uploadedFiles));
+  }, [uploadedFiles,userId]);
 
+  useEffect(() => {
+
+    const storedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${userId}`))|| [];
+    setUploadedFiles(storedFiles);
 
     fetchOpenAccessPapers()
-  }, [])
+  }, [userId])
 
   const checkSession = async () => {
     try {
@@ -88,6 +95,8 @@ export const GlobalStateProvider = ({ children }) => {
   }
   //getting user sesh
   useEffect(() => {
+
+    console.log(user)
 
     const storedSession = localStorage.getItem('supabaseSession')
     if (storedSession) {
@@ -235,7 +244,10 @@ export const GlobalStateProvider = ({ children }) => {
     book,
     setBook,
     isSearch,
-    setIsSearch
+    setIsSearch,
+    uploadedFiles,
+    setUploadedFiles,
+    userId
   }
 
   return (

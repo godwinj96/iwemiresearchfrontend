@@ -77,7 +77,7 @@ const SignUpPublish = () => {
 
   return (
     <div>
-      <Navbar />
+      
       {isSearch? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">

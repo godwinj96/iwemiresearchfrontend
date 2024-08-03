@@ -198,7 +198,7 @@ const ClickedBook = () => {
 
   return (
     <div className='flex flex-col justify-between clicked-container'>
-      <Navbar />
+      
       {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -327,9 +327,7 @@ const ClickedBook = () => {
         </div>
 
       </div>)}
-      <div className='dark'>
-        <Footer />
-      </div>
+      
 
     </div>
   )

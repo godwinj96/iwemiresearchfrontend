@@ -34,6 +34,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { CurrencyProvider } from './Context/CurrencyContext'
 import CartProvider from './Context/CartContext'
+import Navbar from './components/NavBar/NavBar'
+import Footer from './components/Footer/Footer'
 
 
 
@@ -53,6 +55,7 @@ function App() {
       <CurrencyProvider>
         <GlobalStateProvider>
           <ToastContainer theme='dark' />
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/payment" element={<Payment />} />
@@ -69,7 +72,7 @@ function App() {
             <Route path='/shopping-Cart' element={<ShoppingCart />} />
             <Route path='/FAQs' element={<Faq />} />
             <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
-            <Route path='/Forgot-Password' element={<ForgotPassword />} />
+            
             <Route path='/terms&Conditions' element={<Terms />} />
             <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
             <Route path='/journals' element={<Journals />} />
@@ -77,6 +80,7 @@ function App() {
             <Route path='/conference-Papers' element={<ConferencePapers />} />
             <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
           </Routes>
+          <Footer />
         </GlobalStateProvider>
       </CurrencyProvider>
     </CartProvider>

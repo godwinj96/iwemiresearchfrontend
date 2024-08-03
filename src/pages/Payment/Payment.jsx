@@ -17,7 +17,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user} = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles,setUploadedFiles} = useContext(GlobalStateContext)
 
     //reset search on route change
 
@@ -165,10 +165,24 @@ const Payment = () => {
                 toast.success('Book uploaded successfully')
                 localStorage.removeItem('openFormData')
                 navigate('/')
+                toast.success('Payment was succeful')
             }
 
+            const newFile = {
+                name: formData.title,
+                size: (formData.size/1024).toFixed(2) + 'KB',
+                date: new Date().toLocaleString(),
+                option: 'Open-Access'
+            }
+
+            const updatedUploadedFiles = [...uploadedFiles, newFile]
+            setUploadedFiles(updatedUploadedFiles)
+            localStorage.setItem(`uploadedFiles_${user.id}`,JSON.stringify(updatedUploadedFiles))
+
+            
+
             navigate('/')
-            toast.success('Payment was succeful')
+            
         } else {
             /**using editionguard */
             const bookList = products.map(product => ({
@@ -402,7 +416,7 @@ const Payment = () => {
 
     return (
         <div>
-            <Navbar />
+           
             {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -492,7 +506,7 @@ const Payment = () => {
                     </div>
                 </section>)}
             <div className='dark'>
-                <Footer />
+               
             </div>
 
         </div>

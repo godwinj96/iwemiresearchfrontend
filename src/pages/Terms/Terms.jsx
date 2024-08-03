@@ -17,7 +17,7 @@ const Terms = () => {
 
     return (
         <div className='terms'>
-            <Navbar />
+            
             {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -101,9 +101,7 @@ const Terms = () => {
 
                 <p>By Using This Web Site, You Acknowledge That You Have Read And Understand This Agreement And Agree To Be Bound By Its Terms And Conditions.</p>
             </div>)}
-            <div className='dark'>
-                <Footer />
-            </div>
+            
             
         </div>
     )

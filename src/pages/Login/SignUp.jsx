@@ -91,7 +91,7 @@ const SignUp = () => {
 
   return (
     <div>
-      <Navbar />
+   
 
 
      {isSearch? (<section className="dark:bg-gray-900 features" data-aos="fade-up">

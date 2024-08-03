@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
 
     return (
         <div className='privacy-container'>
-            <Navbar />
+         
 
             {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
@@ -148,7 +148,7 @@ const PrivacyPolicy = () => {
                 </p>
             </div>)
 }
-            <Footer />
+            
         </div>
     )
 }
