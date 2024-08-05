@@ -33,7 +33,7 @@ const Thesis = () => {
         socialSciences: false,
         veterinaryMedicine: false,
     })
-
+    const [accessType, setAccessType] = useState('all')
 
     const [checkboxValues, setCheckboxValues] = useState({
         agriculturalEconomics: false,
@@ -287,22 +287,34 @@ const Thesis = () => {
     useEffect(() => {
         const fetchThesis = async () => {
             try {
-                const { data, error } = await supabase
+
+                let query =  supabase
                     .from('api_book')
                     .select('*')
                     .eq('category_id', 2)
                     .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
+
+                if (accessType!== 'all') {
+                    query = query.eq('is_open_access', accessType === 'open')
+                }
+                const { data, error } = await query
 
                 if (error) {
                     toast.error(error)
                     //console.log(error)
                 }
 
+                let countQuery = supabase
+                .from('api_book')
+                .select('id', { count: 'exact' })
+                .eq('category_id', 2)
 
-                const { count, error: countError } = await supabase
-                    .from('api_book')
-                    .select('id', { count: 'exact' })
-                    .eq('category_id', 2)
+                if (accessType !== 'all') {
+                    countQuery = countQuery.eq('is_open_access', accessType === 'open');
+                }
+
+                const { count, error: countError } = await  countQuery
+
 
                 if (countError) {
                     toast.error('Error fetching thesis count')
@@ -324,7 +336,7 @@ const Thesis = () => {
         fetchThesis()
 
 
-    }, [currentPage])
+    }, [currentPage,accessType])
 
     const [filters, setFilters] = useState({
         citationCount: false,
@@ -378,9 +390,15 @@ const Thesis = () => {
             setCurrentPage(currentPage - 1);
         }
     };
+    const handleAccessTypeChange = (type) => {
+        setAccessType(type)
+        setCurrentPage(1)
+    }
 
-    console.log('isSearch:', isSearch);
-    console.log('results:', results);
+
+
+    //console.log('isSearch:', isSearch);
+    //console.log('results:', results);
 
     return (
         <div>
@@ -1235,12 +1253,41 @@ const Thesis = () => {
                                             </div>
 
                                             <div className="flex items-center mb-4 ms-4">
-                                                <input id="default-radio-1" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label htmlFor="default-radio-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Open-Access</label>
+                                                <input
+                                                    id="default-radio-1"
+                                                    type="radio"
+                                                    value="all"
+                                                    name="access-type"
+                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    onChange={() => handleAccessTypeChange('all')}
+                                                    checked={accessType === 'all'}
+                                                />
+                                                <label htmlFor="default-radio-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">All</label>
+                                            </div>
+
+                                            <div className="flex items-center mb-4 ms-4">
+                                                <input
+                                                    id="default-radio-2"
+                                                    type="radio"
+                                                    value="open"
+                                                    name="access-type"
+                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    onChange={() => handleAccessTypeChange('open')}
+                                                    checked={accessType === 'open'}
+                                                />
+                                                <label htmlFor="default-radio-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Open-Access</label>
                                             </div>
                                             <div className="flex items-center ms-4">
-                                                <input checked id="default-radio-2" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label htmlFor="default-radio-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Non Open-Access</label>
+                                                <input
+                                                    id="default-radio-3"
+                                                    type="radio"
+                                                    value="non-open"
+                                                    name="access-type"
+                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    onChange={() => handleAccessTypeChange('non-open')}
+                                                    checked={accessType === 'non-open'}
+                                                />
+                                                <label htmlFor="default-radio-3" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Non Open-Access</label>
                                             </div>
 
                                         </li>
