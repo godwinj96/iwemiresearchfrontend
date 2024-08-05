@@ -26,6 +26,7 @@ const Journals = () => {
         biologicalSciences: false,
         administration: false,
         dentistry: false,
+        education: false,
         engineering: false,
         environmentalSciences: false,
         healthSciences: false,
@@ -37,6 +38,23 @@ const Journals = () => {
         veterinaryMedicine: false,
     })
     const [accessType, setAccessType] = useState('all')
+    const [categoryCheckValues, setCategoryCheckValues] = useState({
+        agriculture: false,
+        arts: false,
+        biologicalSciences: false,
+        administration: false,
+        dentistry: false,
+        eduacation: false,
+        engineering: false,
+        environmentalSciences: false,
+        healthSciences: false,
+        law: false,
+        medicalSciences: false,
+        pharmaceuticalSciences: false,
+        physicalSciences: false,
+        socialSciences: false,
+        veterinaryMedicine: false,
+    })
 
 
     const [checkboxValues, setCheckboxValues] = useState({
@@ -191,17 +209,17 @@ const Journals = () => {
         const fetchJournals = async () => {
             try {
 
-                let query =  supabase
+                let query = supabase
                     .from('api_book')
                     .select('*')
                     .eq('category_id', 1)
                     .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
 
-                if (accessType!== 'all') {
+                if (accessType !== 'all') {
                     query = query.eq('is_open_access', accessType === 'open')
                 }
 
-             
+
 
                 const { data, error } = await query
 
@@ -211,15 +229,15 @@ const Journals = () => {
                 }
 
                 let countQuery = supabase
-                .from('api_book')
-                .select('id', { count: 'exact' })
-                .eq('category_id', 1)
+                    .from('api_book')
+                    .select('id', { count: 'exact' })
+                    .eq('category_id', 1)
 
                 if (accessType !== 'all') {
                     countQuery = countQuery.eq('is_open_access', accessType === 'open');
                 }
 
-                const { count, error: countError } = await  countQuery
+                const { count, error: countError } = await countQuery
 
                 if (countError) {
                     toast.error('Error fetching journal count')
@@ -243,7 +261,7 @@ const Journals = () => {
         fetchJournals()
 
 
-    }, [currentPage, ITEMS_PER_PAGE,accessType])
+    }, [currentPage, ITEMS_PER_PAGE, accessType])
 
 
     const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
@@ -340,6 +358,15 @@ const Journals = () => {
         }
     }, [isOpen]);
 
+   
+
+    const handleCategoryCheckboxChange = (e) => {
+        const { id, checked } = e.target
+        setCategoryCheckValues((prevState) => ({
+            ...prevState,
+            [id]: checked,
+        }))
+    }
     const handleCheckboxChange = (e) => {
         const { id, checked } = e.target
         setCheckboxValues((prevState) => ({
@@ -471,8 +498,8 @@ const Journals = () => {
                                                 <ul className='type-category' >
                                                     <li className="flex flex-col  mb-4 " onClick={() => eachCategoryDropDown('agriculture')}>
                                                         <div className='flex items-center  hover:bg-gray-100 dark:hover:bg-gray-700  '>
-                                                            <input id="checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                            <label htmlFor="checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Agriculture</label>
+                                                            <input id="agriculture" type="checkbox" value="" checked={categoryCheckValues.agriculture} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="agriculture" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Agriculture</label>
                                                             <span className='ml-6'>{isEachCategoryOpen.agriculture ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.agriculture &&
@@ -529,8 +556,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('arts')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Arts</label>
+                                                            <input id="arts" type="checkbox" value="" checked={categoryCheckValues.arts} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="arts" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Arts</label>
                                                             <span className="ml-6">{isEachCategoryOpen.arts ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.arts && (
@@ -587,8 +614,8 @@ const Journals = () => {
                                                     {/* Similarly, create lists for each remaining category */}
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('biologicalSciences')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Biological Sciences</label>
+                                                            <input id="biologicalSciences" type="checkbox" value="" checked={categoryCheckValues.biologicalSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="biologicalSciences" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Biological Sciences</label>
                                                             <span className="ml-6">{isEachCategoryOpen.biologicalSciences ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.biologicalSciences && (
@@ -624,8 +651,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('administration')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="administration-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="administration-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Administration</label>
+                                                            <input id="administration" type="checkbox" value="" checked={categoryCheckValues.administration} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="administration" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Administration</label>
                                                             <span className="ml-6">{isEachCategoryOpen.administration ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.administration && (
@@ -673,8 +700,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('dentistry')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="dentistry-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="dentistry-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dentistry</label>
+                                                            <input id="dentistry" type="checkbox" value="" checked={categoryCheckValues.dentistry} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                                            <label htmlFor="dentistry" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dentistry</label>
                                                             <span className="ml-6">{isEachCategoryOpen.dentistry ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.dentistry && (
@@ -702,8 +729,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('education')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="education-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="education-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Education</label>
+                                                            <input id="education" type="checkbox" value="" checked={categoryCheckValues.eduacation} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="education" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Education</label>
                                                             <span className="ml-6">{isEachCategoryOpen.education ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.education && (
@@ -811,8 +838,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('engineering')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="engineering-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="engineering-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Engineering</label>
+                                                            <input id="engineering" type="checkbox" value="" checked={categoryCheckValues.engineering} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="engineering" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Engineering</label>
                                                             <span className="ml-6">{isEachCategoryOpen.engineering ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.engineering && (
@@ -876,8 +903,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('environmentalSciences')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="environmental-sciences-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="environmental-sciences-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Environmental Sciences</label>
+                                                            <input id="environmentalSciences" type="checkbox" value="" checked={categoryCheckValues.environmentalSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="environmentalSciences" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Environmental Sciences</label>
                                                             <span className="ml-6">{isEachCategoryOpen.environmentalSciences ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.environmentalSciences && (
@@ -913,8 +940,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('healthSciencesTechnology')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="health-sciences-technology-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="health-sciences-technology-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Health Sciences &amp; Technology</label>
+                                                            <input id="health-sciencesTechnology" type="checkbox" value="" checked={categoryCheckValues.healthSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="health-sciencesTechnology" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Health Sciences &amp; Technology</label>
                                                             <span className="ml-6">{isEachCategoryOpen.healthSciencesTechnology ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.healthSciencesTechnology && (
@@ -946,8 +973,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('law')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="law-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="law-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Law</label>
+                                                            <input id="law" type="checkbox" value="" checked={categoryCheckValues.law} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="law" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Law</label>
                                                             <span className="ml-6">{isEachCategoryOpen.law ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.law && (
@@ -971,8 +998,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('medicalSciences')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="medicalSciences-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="medicalSciences-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medical Sciences</label>
+                                                            <input id="medicalSciences" type="checkbox" value="" checked={categoryCheckValues.medicalSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="medicalSciences" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medical Sciences</label>
                                                             <span className="ml-6">{isEachCategoryOpen.medicalSciences ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.medicalSciences && (
@@ -1064,8 +1091,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('pharmaceuticalSciences')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="pharmaceuticalSciences-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="pharmaceuticalSciences-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pharmaceutical Sciences</label>
+                                                            <input id="pharmaceuticalSciences" type="checkbox" value="" checked={categoryCheckValues.pharmaceuticalSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="pharmaceuticalSciences" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pharmaceutical Sciences</label>
                                                             <span className="ml-6">{isEachCategoryOpen.pharmaceuticalSciences ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.pharmaceuticalSciences && (
@@ -1101,8 +1128,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('physicalSciences')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="physicalSciences-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="physicalSciences-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Physical Sciences</label>
+                                                            <input id="physicalSciences" type="checkbox" value="" checked={categoryCheckValues.physicalSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="physicalSciences" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Physical Sciences</label>
                                                             <span className="ml-6">{isEachCategoryOpen.physicalSciences ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.physicalSciences && (
@@ -1142,8 +1169,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('socialSciences')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="socialSciences-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="socialSciences-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Social Sciences</label>
+                                                            <input id="socialSciences" type="checkbox" value="" checked={categoryCheckValues.socialSciences} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"  />
+                                                            <label htmlFor="socialSciences" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Social Sciences</label>
                                                             <span className="ml-6">{isEachCategoryOpen.socialSciences ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.socialSciences && (
@@ -1191,8 +1218,8 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('veterinaryMedicine')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="veterinaryMedicine-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" onClick={(e) => e.stopPropagation()} />
-                                                            <label htmlFor="veterinaryMedicine-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Veterinary Medicine</label>
+                                                            <input id="veterinaryMedicine" type="checkbox" value="" checked={categoryCheckValues.veterinaryMedicine} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="veterinaryMedicine" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Veterinary Medicine</label>
                                                             <span className="ml-6">{isEachCategoryOpen.veterinaryMedicine ? '▼' : '>'}</span>
                                                         </div>
                                                         {isEachCategoryOpen.veterinaryMedicine && (
