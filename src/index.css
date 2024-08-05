@@ -119,6 +119,22 @@ body,html{
   height: 55px;
 }
 
+.nav-buttons{
+  align-items: center;
+}
+
+@media (min-width:1024px) and (max-width:1050px) {
+  .nav-buttons{
+    margin-right: 0 !important;
+  }
+}
+@media (min-width:1024px) and (max-width:1250px) {
+  .get{
+   width: 100%;
+   height: 100%;
+  }
+}
+
 @media (max-width:1024px) {
   .nav-buttons {
     margin-top: 0px;

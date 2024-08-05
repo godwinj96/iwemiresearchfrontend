@@ -13,9 +13,9 @@ import { SearchBar } from '../SearchBar/components/SearchBar.jsx'
 
 
 const Navbar = () => {
-  const { query, setQuery, setPapers, bookClicked, setBookClicked, loggedIn, setLoggedIn, fetchPapers } = useContext(GlobalStateContext)
+  const { query, loggedIn, } = useContext(GlobalStateContext)
   const { state } = useCart()
-  
+
 
   const [menu, setMenu] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
@@ -127,9 +127,9 @@ const Navbar = () => {
     navigate('/journals')
   }
 
- 
 
-  
+
+
 
 
   return (
@@ -139,10 +139,10 @@ const Navbar = () => {
 
 
           <a href="" onClick={(e) => {
-                e.preventDefault();
-                home();
-              }} className="flex  space-x-3 rtl:space-x-reverse">
-            <img src={logo} className="" alt="Flowbite Logo"  width={100} height={130}/>
+            e.preventDefault();
+            home();
+          }} className="flex  space-x-3 rtl:space-x-reverse">
+            <img src={logo} className="" alt="Flowbite Logo" width={100} height={130} />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
 
@@ -153,13 +153,13 @@ const Navbar = () => {
               <>
                 <div className="icons">
 
-                  
-      {/* --------------- Search Bar Component -------------- */}
+
+                  {/* --------------- Search Bar Component -------------- */}
 
                   <SearchBar />
 
                   <div className='0'>
-                    <svg className="Icon notification-icon relative"  fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
+                    <svg className="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
                     </svg>
                     {/*{showNoti && (
@@ -217,12 +217,12 @@ const Navbar = () => {
                 {/*              <a href='' className='dasboard-profile text-white' >Profile</a>*/}
               </>
               :
-              <div className='flex nav-buttons mr-5'>
-                  
-                  <SearchBar />
+              <div className='flex nav-buttons mr-5 items-center'>
+
+                <SearchBar />
 
 
-                <div>
+                <div className='nav-right flex'>
                   <a
                     href=""
                     onClick={loginClick}
@@ -230,7 +230,7 @@ const Navbar = () => {
                     Log in
                   </a>
                 </div>
-                <div>
+                <div className='flex'>
                   <a
                     href=""
                     onClick={toggleDropdown}
@@ -263,6 +263,7 @@ const Navbar = () => {
 
             </button>
             {menu && <div ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
+            <SearchBar />
               <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
                 e.preventDefault();
                 home();
@@ -359,7 +360,7 @@ const Navbar = () => {
 
           </div>
 
-         {/** where i thinnk navbar shld be
+          {/** where i thinnk navbar shld be
           * <div>io</div>*/ }
 
 
