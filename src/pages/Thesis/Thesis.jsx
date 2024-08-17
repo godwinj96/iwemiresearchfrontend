@@ -314,45 +314,27 @@ const Thesis = () => {
         const fetchThesis = async () => {
             try {
 
-                let query =  supabase
-                    .from('api_book')
-                    .select('*')
-                    .eq('category_id', 2)
-                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
+                const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json'
+                    },
 
-                if (accessType!== 'all') {
-                    query = query.eq('is_open_access', accessType === 'open')
-                }
-                const { data, error } = await query
+                })
 
-                if (error) {
-                    toast.error(error)
-                    //console.log(error)
+                if (!response2.ok) {
+                    throw new Error('Failed to fetch journals')
                 }
 
-                let countQuery = supabase
-                .from('api_book')
-                .select('id', { count: 'exact' })
-                .eq('category_id', 2)
+                const journalData = await response2.json()
+                console.log(journalData)
 
-                if (accessType !== 'all') {
-                    countQuery = countQuery.eq('is_open_access', accessType === 'open');
-                }
+                const thesisPapers = journalData.filter(paper => paper.type === 'Thesis & Dissertations')
+                setThesis(thesisPapers)
+                console.log(thesisPapers)
 
-                const { count, error: countError } = await  countQuery
-
-
-                if (countError) {
-                    toast.error('Error fetching thesis count')
-                    console.log(countError)
-                    return
-                }
-
-                setThesis(data)
-                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
-
-                console.log('thesis', data)
-                console.log('count', count)
+                const totalItems = thesisPapers.length
+                setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
             } catch (error) {
                 console.error('Error in fetch Thesis:', error);
             }
@@ -363,6 +345,10 @@ const Thesis = () => {
 
 
     }, [currentPage,accessType])
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const paginatedThesis = thesis.slice(startIndex, endIndex);
 
     const [filters, setFilters] = useState({
         citationCount: false,
@@ -396,7 +382,7 @@ const Thesis = () => {
         return filteredBooks
     }
 
-    const filteredPapers = applyFilters(thesis)
+    const filteredPapers = applyFilters(paginatedThesis)
 
     const { dispatch } = useCart()
 
@@ -408,7 +394,7 @@ const Thesis = () => {
 
     const handleNextPage = () => {
         if (currentPage < totalPage) {
-            setCurrentPage(currentPage + 1)
+            setCurrentPage(currentPage + 1);
         }
     }
     const handlePreviousPage = () => {
@@ -416,11 +402,11 @@ const Thesis = () => {
             setCurrentPage(currentPage - 1);
         }
     };
+
     const handleAccessTypeChange = (type) => {
         setAccessType(type)
         setCurrentPage(1)
     }
-
 
 
     //console.log('isSearch:', isSearch);
@@ -1364,7 +1350,7 @@ const Thesis = () => {
 
 
                         </div>
-                        <div className="thesis-papers ">
+                        <div className="thesis-papers flex flex-col ">
 
                             <section className="  dark dark:bg-gray-900 p-3 sm:p-5">
                                 <div ref={dropdownRef}>

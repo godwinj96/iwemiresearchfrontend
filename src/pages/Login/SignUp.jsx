@@ -1,13 +1,12 @@
 /* eslint-disable */
 
 import React, { useContext, useEffect, useState } from 'react';
-import Footer from '../../components/Footer/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/NavBar/NavBar';
-import logo from '../../assets/iwemi logo.png'
-import { supabase } from '../../supaBaseClient';
+import { toast } from 'react-toastify';
 import { GlobalStateContext } from '../../Context/GlobalState';
+import logo from '../../assets/iwemi logo.png';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
+import Footer from '../../components/Footer/Footer';
 
 const SignUp = () => {
   const { setLoggedIn,user } = useContext(GlobalStateContext)
@@ -48,8 +47,48 @@ const SignUp = () => {
       return;
     }
 
+    const signUpForm = new FormData()
+    signUpForm.append("name",firstName)
+    signUpForm.append("last_name",lastName)
+    signUpForm.append("email",email)
+    signUpForm.append("password1",password)
+    signUpForm.append("password2",confirmpassword)
+
+    const profileForm = FormData()
+    profileForm.append("name",firstName)
+    profileForm.append("last_name",lastName)
+
+    //apiService(url)
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/register/", {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json'
+        },
+        body: signUpForm
+      })
+
+      const responseProfile = await fetch("https://iweminewbackend.onrender.com/api/auth/profile/", {
+        method: 'PUT',
+        headers: {
+            'accept': 'application/json'
+        },
+        body: profileForm
+      })
+
+      if(!response.ok){
+          toast.error("Try again")
+      } else if(!responseProfile.ok){
+        toast.error("Putting didn't work")
+      }
+       else{
+        toast.success("Check your email for verification link")
+        console.log("signed up!!!!!!!!")
+      navigate('/login')
+      }
+
+      /**
+       *  const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -61,10 +100,10 @@ const SignUp = () => {
           emailRedirectTo :'iwemiresearch.org/login'
         }
       });
-      alert("Check your email for verification link")
+       */
      
-      navigate('/login')
-      if (error) throw error
+      
+      //if (error) throw error
     } catch (error) {
       alert(error)
     }
@@ -182,6 +221,7 @@ const SignUp = () => {
                     </div>
                   </div>
                   <button
+                  onClick={handleSignUp}
                     type="submit"
                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   >Create an account</button>

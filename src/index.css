@@ -23,7 +23,8 @@ body {
   box-sizing: inherit;
 }
 
-body,html{
+body,
+html {
   overflow: auto !important;
   height: 100%;
   margin: 0;
@@ -69,22 +70,21 @@ body,html{
   padding-bottom: 7px;
 }
 
-.top-nav img{
+.top-nav img {
   /* height: 130px !important; */
   width: 100px;
   margin-left: 30px;
 }
-.top-nav{
+
+.top-nav {
   padding-bottom: 0 !important;
 }
 
-.sub-navbar{
+.sub-navbar {
   margin-top: 0 !important;
 }
 
-@media (max-width) {
-  
-}
+@media (max-width) {}
 
 @media (min-width:768px) and (max-width:1024px) {
   .breadcrumb {
@@ -92,12 +92,13 @@ body,html{
   }
 
 }
+
 @media (min-width:662px) and (max-width:768px) {
   .breadcrumb {
     margin-left: 25% !important
   }
 
-  .sub-navbar{
+  .sub-navbar {
     margin-left: 0 !important;
   }
 
@@ -119,19 +120,20 @@ body,html{
   height: 55px;
 }
 
-.nav-buttons{
+.nav-buttons {
   align-items: center;
 }
 
 @media (min-width:1024px) and (max-width:1050px) {
-  .nav-buttons{
+  .nav-buttons {
     margin-right: 0 !important;
   }
 }
+
 @media (min-width:1024px) and (max-width:1250px) {
-  .get{
-   width: 100%;
-   height: 100%;
+  .get {
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -204,12 +206,13 @@ body,html{
     padding-left: 10px !important;
     padding-right: 10px !important;
   }
-  .log-in{
+
+  .log-in {
     padding-left: 10px !important;
     padding-right: 10px !important;
   }
 
-  .main-menu-button{
+  .main-menu-button {
     margin-left: 0 !important;
     margin-right: 5px !important
   }
@@ -245,7 +248,7 @@ body,html{
     margin-right: 10px !important;
   }
 
-  
+
 
 
 
@@ -271,7 +274,7 @@ body,html{
     margin-right: 10px !important;
   }
 
- 
+
 
 
 
@@ -777,7 +780,7 @@ footer li :hover {
 
   header,
   .hero-section,
-  
+
   footer {
     margin-right: -20px;
 
@@ -868,18 +871,18 @@ hr {
 
 .forgot-password-page,
 .reset-page {
-  background-image:  linear-gradient(45deg,
-  #d05c03d9,
-  #08529cd6), url('./assets/signup-background.webp');
+  background-image: linear-gradient(45deg,
+      #d05c03d9,
+      #08529cd6), url('./assets/signup-background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .login-page {
-  background-image:  linear-gradient(45deg,
-  #d05c03d9,
-  #08529cd6), url('./assets/signup-background.webp');
+  background-image: linear-gradient(45deg,
+      #d05c03d9,
+      #08529cd6), url('./assets/signup-background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1016,9 +1019,9 @@ hr {
 
 /*sign up*/
 .signup-page {
-  background-image:  linear-gradient(45deg,
-  #d05c03d9,
-  #08529cd6), url('./assets/signup-background.webp');
+  background-image: linear-gradient(45deg,
+      #d05c03d9,
+      #08529cd6), url('./assets/signup-background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1112,9 +1115,7 @@ hr {
   margin-right: 10px;
 }
 
-.search-input
-
-.clear-icon {
+.search-input .clear-icon {
   margin-left: 10px;
 }
 
@@ -1821,21 +1822,22 @@ div.relative:hover .dropdown-menu {
   gap: 100px;
 }
 
-.type-papers  .each {
+.type-papers .each {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 16px;
   margin: 16px 0;
   border-radius: 8px;
-  
+
+
   /* Optional: for rounded corners */
   background-color: #fff;
 }
 
-.thesis{
+.thesis {
   flex: 1;
 }
 
-.thesis .type-papers .each{
+.thesis .type-papers .each {
   justify-content: space-between;
 }
 
@@ -2072,8 +2074,8 @@ div.relative:hover .dropdown-menu {
   gap: 100px;
   background-color: #f2f2f2;
   background-image: linear-gradient(45deg,
-  #d05c03d9,
-  #08529cd6), url('.//assets/carousel-3.jpeg');
+      #d05c03d9,
+      #08529cd6), url('.//assets/carousel-3.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2266,9 +2268,9 @@ div.relative:hover .dropdown-menu {
 
 /*thesis*/
 .thesis-hero {
-  background-image:  linear-gradient(45deg,
-  #d05c03d9,
-  #08529cd6), url('.//assets/carousel-3.jpeg');
+  background-image: linear-gradient(45deg,
+      #d05c03d9,
+      #08529cd6), url('.//assets/carousel-3.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2288,9 +2290,11 @@ div.relative:hover .dropdown-menu {
 }
 
 .thesis-content {
-  margin-top: 50px;
+  margin-top: 50px auto;
   justify-content: center;
   gap: 90px;
+  max-width: 100vw;
+  box-sizing: border-box;
 
 }
 
@@ -2298,9 +2302,9 @@ div.relative:hover .dropdown-menu {
   margin-left: 0px;
   height: 100%;
   background-color: #ecebeb;
- 
+
   transition: transform 0.3s ease;
-  
+
 }
 
 
@@ -2311,14 +2315,14 @@ div.relative:hover .dropdown-menu {
   }
 
   .thesis-papers {
-    margin-right: 80px !important; 
+    margin-right: 80px !important;
   }
 
 }
 
 @media (max-width:1200px) {
-  .thesis-content{
-    gap:1rem
+  .thesis-content {
+    gap: 1rem
   }
 }
 
@@ -2334,34 +2338,32 @@ div.relative:hover .dropdown-menu {
   .thesis-content aside {
     transform: translateX(0) !important;
     /*visible above 1200*/
-  } 
-  .sidebar-button {
-  display: none;
-  
   }
 
-  .sidebar{
+  .sidebar-button {
+    display: none;
+
+  }
+
+  .sidebar {
     position: relative;
     transform: translateX(0);
   }
-  
-}
-
-@media (max-width:1199px) {
 
 }
 
-
-
-.transition-tranform{
+.transition-tranform {
   transition: tranform 0.3s ease-in-out;
+ 
 }
 
 .thesis-content aside {
   transition: transform 0.3s ease-in-out;
   background-color: #f9f9f9;
+ 
 }
-.thesis-content aside{
+
+.thesis-content aside {
   width: auto;
   max-width: 100%;
 }
@@ -2369,22 +2371,29 @@ div.relative:hover .dropdown-menu {
 
 
 @media (min-width:1000px) and (max-width:1200px) {
-  .thesis-content aside{
+  .thesis-content aside {
     width: auto;
-  max-width: 100%;
+    max-width: 100%;
   }
-  
+
 }
-@media (min-width:300px) and (max-width:1200px) {
-  .thesis-content aside{
+
+
+
+
+
+@media (min-width:300px) and (max-width:1000px) {
+  .thesis-content aside {
     width: auto;
-  max-width: 100%;
+    max-width: 100%;
+    margin-left: 10px;
   }
-  
+ 
+
 }
 
 @media (max-width:300px) {
-  .thesis-content aside{
+  .thesis-content aside {
     width: 30px;
   }
 }
@@ -2438,7 +2447,7 @@ div.relative:hover .dropdown-menu {
   margin-bottom: 10px;
 }
 
-.papers-left .category-heading{
+.papers-left .category-heading {
   border-color: orange !important;
 }
 
@@ -2488,6 +2497,7 @@ div.relative:hover .dropdown-menu {
   .papers-left h1 {
     width: 75%;
   }
+
   .papers-left .abstract {
     width: 600px;
   }
@@ -2498,14 +2508,17 @@ div.relative:hover .dropdown-menu {
   .thesis-papers {
     margin-right: 60px;
   }
+
   .papers-left h1 {
     width: 70%;
     font-size: 22px;
   }
+
   .papers-left .abstract {
     width: 550px;
     font-size: 13px;
   }
+
   .papers-right {
     margin-top: 60px;
   }
@@ -2514,35 +2527,53 @@ div.relative:hover .dropdown-menu {
 /* For screens smaller than 992px */
 @media (max-width: 992px) {
   .thesis-papers {
-    margin-right: 40px;
+    margin-right: auto;
   }
+
   .papers-left h1 {
     width: 65%;
     font-size: 20px;
   }
+
   .papers-left .abstract {
     width: 500px;
   }
+
   .papers-right {
     margin-top: 40px;
   }
 }
+@media (max-width: 876px) {
+  .thesis-papers {
+    
+  }
+
+}
+
+
 
 /* For screens smaller than 768px */
-@media (max-width: 870px) {
+@media (max-width: 820px) {
   .thesis-papers {
     margin-right: 20px;
   }
+
   .each {
     flex-direction: column;
+    
   }
+
   .papers-left h1 {
     width: 100%;
     font-size: 18px;
+    
   }
+
   .papers-left .abstract {
     width: 100%;
+   
   }
+
   .papers-right {
     margin-top: 20px;
     gap: 10px;
@@ -2551,18 +2582,24 @@ div.relative:hover .dropdown-menu {
 
 /* For screens smaller than 576px */
 @media (max-width: 576px) {
+  
+
   .thesis-papers {
     margin-right: 10px;
   }
+
   .papers-left h3 {
     font-size: 18px;
   }
+
   .papers-left h1 {
     font-size: 16px;
   }
+
   .papers-left .abstract {
     font-size: 12px;
   }
+
   .papers-right button {
     padding: 3px 8px;
   }
@@ -2602,9 +2639,11 @@ div.relative:hover .dropdown-menu {
 }
 
 @media (max-width:768px) {
-  .book-image, .similar-products .book-image{
+
+  .book-image,
+  .similar-products .book-image {
     width: 50% !important;
-    
+
   }
 }
 
@@ -2663,7 +2702,7 @@ div.relative:hover .dropdown-menu {
 
 /*clicked*/
 
-.clicked-container{
+.clicked-container {
   min-height: 100vh;
 }
 
@@ -2671,7 +2710,8 @@ div.relative:hover .dropdown-menu {
   padding-top: 40px;
   margin-left: 0px;
   background-color: rgb(245, 245, 245);
-  padding-left: 20px; /* Default padding for small screens */
+  padding-left: 20px;
+  /* Default padding for small screens */
 }
 
 @media (min-width: 768px) {
@@ -2691,6 +2731,7 @@ div.relative:hover .dropdown-menu {
     padding-left: 400px;
   }
 }
+
 .clicked-book .each {
   padding: 16px;
   margin: 16px 0;
@@ -2764,8 +2805,8 @@ div.relative:hover .dropdown-menu {
   width: 90%
 }
 
-.book-price{
-  border:  1px solid rgb(230, 230, 230);
+.book-price {
+  border: 1px solid rgb(230, 230, 230);
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -2778,6 +2819,7 @@ div.relative:hover .dropdown-menu {
   .clicked-book {
     padding-left: 20px;
   }
+
   #default-tab-content #overview,
   #comments,
   #references,
@@ -2793,19 +2835,21 @@ div.relative:hover .dropdown-menu {
 }
 
 
-#comments,#citations,#references{
+#comments,
+#citations,
+#references {
   margin-bottom: 170px;
 }
 
 
-.citation-content h2{
+.citation-content h2 {
   font-size: 17px;
   font-weight: 500;
   margin-bottom: 10px;
   text-align: center;
 }
 
-.citation-content p{
+.citation-content p {
   font-weight: 400;
   margin-left: 10px;
 }
@@ -2813,43 +2857,43 @@ div.relative:hover .dropdown-menu {
 
 /*payment*/
 
-.payment-page h1{
+.payment-page h1 {
   font-size: 30px;
- font-weight: 600;
-  
+  font-weight: 600;
+
 }
 
-.payment-text{
+.payment-text {
   display: flex;
   flex-direction: column;
 }
 
-.payment-text span{
+.payment-text span {
   color: rgb(201, 200, 200);
   font-weight: 500;
 }
 
-.payment-page button{
+.payment-page button {
   background-color: rgb(249, 249, 249);
   transition: all 0.3s;
   width: 60%;
 }
 
-.payment-page button:hover{
+.payment-page button:hover {
   background-color: rgb(219, 219, 219);
 }
 
-.payment-page .product-bar{
+.payment-page .product-bar {
   width: 60%;
 }
 
 
-.cart-icon{
+.cart-icon {
   position: relative;
   display: inline-block;
 }
 
-.cartcount{
+.cartcount {
   position: absolute;
   top: -8px;
   right: -8px;

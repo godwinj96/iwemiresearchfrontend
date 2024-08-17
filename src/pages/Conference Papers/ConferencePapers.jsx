@@ -1,7 +1,5 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
 import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
@@ -324,46 +322,28 @@ const ConferencePapers = () => {
 
             try {
 
-                let query = supabase
-                    .from('api_book')
-                    .select('*')
-                    .eq('category_id', 4)
-                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
+                const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json'
+                    },
 
-                if (accessType !== 'all') {
-                    query = query.eq('is_open_access', accessType === 'open')
+                })
+
+                if (!response2.ok) {
+                    throw new Error('Failed to fetch journals')
                 }
 
+                const journalData = await response2.json()
+                //console.log(journalData)
 
-                const { data, error } = await query
-                if (error) {
-                    toast.error(error)
-                    //console.log(error)
-                }
+                const conferencePapers = journalData.filter(paper => paper.type === 'Conference Papers')
+                setConference(conferencePapers)
+                console.log(conferencePapers)
 
-                let countQuery = supabase
-                    .from('api_book')
-                    .select('id', { count: 'exact' })
-                    .eq('category_id', 4)
-
-                if (accessType !== 'all') {
-                    countQuery = countQuery.eq('is_open_access', accessType === 'open');
-                }
-
-
-                const { count, error: countError } = await countQuery
-
-                if (countError) {
-                    toast.error('Error fetching conference count')
-                    console.log(countError)
-                    return
-                }
-
-                setConference(data)
-                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
-
-                console.log('acadmeicP', data)
-                console.log('count', count)
+                const totalItems = conferencePapers.length
+                setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
+                //console.log('count', count)
             } catch (error) {
                 console.error('Error in conference:', error);
             }
@@ -374,6 +354,10 @@ const ConferencePapers = () => {
 
 
     }, [currentPage, ITEMS_PER_PAGE, accessType])
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const paginatedConference = conference.slice(startIndex, endIndex);
 
     const [filters, setFilters] = useState({
         citationCount: false,
@@ -407,7 +391,7 @@ const ConferencePapers = () => {
         return filteredBooks
     }
 
-    const filteredPapers = applyFilters(conference)
+    const filteredPapers = applyFilters(paginatedConference)
 
     const { state, dispatch } = useCart()
 
@@ -420,7 +404,7 @@ const ConferencePapers = () => {
 
     const handleNextPage = () => {
         if (currentPage < totalPage) {
-            setCurrentPage(currentPage + 1)
+            setCurrentPage(currentPage + 1);
         }
     }
     const handlePreviousPage = () => {

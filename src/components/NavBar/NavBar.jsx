@@ -3,7 +3,6 @@
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import search_icon from '../../assets/search-icon.png'
 import logo from '../../assets/new iwemi.png'
 import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
@@ -26,12 +25,14 @@ const Navbar = () => {
   const [registerDropdown, setRegisterDropdown] = useState(false)
   const menuRef = useRef(null)
   const menuMenuRef = useRef(null)
-
+  const dropdownRef = useRef(null)
 
   //api
-  const applyFilters = () => {
-    setFilters({ query })
-  }
+  const handleRegClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setRegisterDropdown(false);
+    }
+};
 
   const handleSearchOutside = (e) => {
     if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -61,15 +62,23 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleSearchOutside);
     }
 
+    if(registerDropdown){
+      document.addEventListener('click', handleRegClickOutside);
+    } else{
+      document.removeEventListener('click', handleRegClickOutside);
+    }
+
 
 
     return () => {
       document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('click', handleRegClickOutside);
       document.removeEventListener('mousedown', handleSearchOutside);
 
 
+
     };
-  }, [menu, isSearchOpen]);
+  }, [menu, isSearchOpen,registerDropdown]);
 
   const toggleDropdown = (e) => {
     e.preventDefault()
@@ -79,15 +88,12 @@ const Navbar = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const pathnames = location.pathname.split('/').filter((x) => x)
-  const lastPath = pathnames[pathnames.length - 1]
+//  const lastPath = pathnames[pathnames.length - 1]
 
   const loginClick = () => {
     navigate('/login')
   }
 
-  const startedClick = () => {
-    navigate('/signup')
-  }
   const contact = () => {
     navigate('/contact')
   }
@@ -96,16 +102,6 @@ const Navbar = () => {
   }
   const cart = () => {
     navigate('/shopping-Cart')
-  }
-  const catalogue = () => {
-    navigate('/research-resources')
-  }
-
-  const about = () => {
-    navigate('/about')
-  }
-  const faqs = () => {
-    navigate('/FAQs')
   }
 
   const profileDashboard = () => {
@@ -117,9 +113,7 @@ const Navbar = () => {
   const thesis = () => {
     navigate('/thesis&Dissertations')
   }
-  const dashbaord = () => {
-    navigate('/dashboard')
-  }
+
   const conference = () => {
     navigate('/conference-Papers')
   }
@@ -232,6 +226,7 @@ const Navbar = () => {
                 </div>
                 <div className='flex'>
                   <a
+                    ref={dropdownRef}
                     href=""
                     onClick={toggleDropdown}
                     className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 get">
@@ -351,9 +346,6 @@ const Navbar = () => {
                   Academic Textbooks
                 </a>
               </li>
-
-
-
             </ul>
 
 

@@ -1,21 +1,19 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
+import DatePicker from 'react-datepicker'
+import { MdDateRange } from "react-icons/md"
 import { useLocation, useNavigate } from 'react-router-dom'
+import flutterwave_img from '../../assets/flutterwave.png'
+import interswitch_img from '../../assets/interswitch.png'
+import stripe_img from '../../assets/stripe.png'
+import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import { supabase } from '../../supaBaseClient'
-import stripe_img from '../../assets/stripe.png'
-import interswitch_img from '../../assets/interswitch.png'
-import flutterwave_img from '../../assets/flutterwave.png'
 import { toast } from 'react-toastify'
-import DatePicker from 'react-datepicker'
-import { MdDateRange } from "react-icons/md";
-import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 
 const ProfileDashboard = () => {
 
-  const { user,userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch,uploadedFiles,setUploadedFiles } = useContext(GlobalStateContext)
+  const { user, userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -384,9 +382,10 @@ const ProfileDashboard = () => {
     //genrating a unique filename by appending current timestamp to file extension
     //const fileName = `${Date.now()}.${fileExt}`
     //const filePath = `public/${fileName}`
+    console.log(selectedFile)
     const filePath = selectedFile.name
     console.log(fileExt)
-    console.log(filePath)
+
 
     console.log(filePath)
     console.log(selectedFile.name)
@@ -430,7 +429,7 @@ const ProfileDashboard = () => {
       formData.append('type', type);
       formData.append('drm', 2);
       formData.append('resource', selectedFile);
-      //formData.append('access', uploadedOption);
+      //formData.append('access', uploadedOption);  
 
       const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
       let resourceId = null
@@ -461,8 +460,33 @@ const ProfileDashboard = () => {
         console.log('Selected file:', selectedFile);
         console.log('File path:', filePath);
 
-        //const { data: storageData, error: storageError } = await supabase
-        const { error: storageError } = await supabase
+        const uploadData = new FormData()
+        uploadData.append("name", title)
+        uploadData.append("type", type)
+        uploadData.append("category", category)
+        uploadData.append("subcategory", subcategory)
+        uploadData.append("author", authors)
+        uploadData.append("abstract", abstract)
+        uploadData.append("year_published", yearP)
+        uploadData.append("resource_id", resourceId)
+        uploadData.append("is_open_access", false)
+        uploadData.append("file", selectedFile)
+
+        const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+          method: 'POST',
+          body: uploadData
+        })
+
+        const responseText = await response2.text();
+        console.log(responseText); // This will show you the detailed error message
+
+
+        if (!response2.ok) {
+          throw new Error('Failed to upload the book')
+        }
+
+        /**
+         *  const { error: storageError } = await supabase
           .storage
           .from('book_file')
           .upload(filePath, selectedFile, {
@@ -493,6 +517,9 @@ const ProfileDashboard = () => {
               resource_id: resourceId
             }
           ])
+         
+        //const { data: storageData, error: storageError } = await supabase
+
 
 
         if (dbError) {
@@ -501,9 +528,9 @@ const ProfileDashboard = () => {
         } else {
           console.log('Field names pushed to supabase:', data)
           toast.success('Upload succesful')
-        }
+        }*/
         const newFile = {
-          name: formData.title,
+          name: formData.name,
           size: (selectedFile.size / 1024).toFixed(2) + 'KB',
           date: new Date().toLocaleString(),
           option: uploadedOption
@@ -516,6 +543,7 @@ const ProfileDashboard = () => {
         closeUploadModal()
       } catch (error) {
         console.error('Error uploading book:', error)
+        toast.error(error)
         alert('Failed to upload book. Please try again')
       }
 
@@ -564,9 +592,14 @@ const ProfileDashboard = () => {
   }
 
   const handleLogout = async () => {
+
+
+
     await supabase.auth.signOut()
     setUser(null)
-    localStorage.removeItem('supabaseSession')
+    localStorage.removeItem('session')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('accessToken')
     setLoggedIn(false)
     home()
   }
@@ -578,7 +611,7 @@ const ProfileDashboard = () => {
       case 'profile':
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[40vw]">
-            {user && user.user_metadata && (<h1 className="text-[24px] font-bold text-gray-900 dark:text-white mb-8">Hello, {user.user_metadata.firstName}!
+            {user  && (<h1 className="text-[24px] font-bold text-gray-900 dark:text-white mb-8">Hello, {user.name}!
               {/* {user.user_metadata.lastName} */}
             </h1>)}
 
@@ -649,8 +682,7 @@ const ProfileDashboard = () => {
                   >
                     <option value="" disabled>Select type</option>
                     <option value="Journal">Journal</option>
-                    <option value="Thesis">Thesis</option>
-                    <option value="Dissertation">Dissertation</option>
+                    <option value="ThesisDissertation">Thesis & Dissertation</option>
                     <option value="Conference Paper">Conference Paper</option>
                     <option value="Academic Textbook">Academic Textbook</option>
                   </select>
@@ -1548,14 +1580,7 @@ const ProfileDashboard = () => {
                     Orders
                   </a>
                 </li>
-                <li>
-                  <a href="#" className={`inline-flex items-center px-4 py-3 ${activeTab === 'paymentMethods' ? 'text-white bg-blue-700 dark:bg-blue-600' : 'rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white'} w-full`} onClick={() => setActiveTab('paymentMethods')}>
-                    <svg className="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2 4h4v4H2V4Zm6 0h4v4H8V4Zm6 0h4v4h-4V4ZM2 10h4v4H2v-4Zm6 0h4v4H8v-4Zm6 0h4v4h-4v-4ZM2 16h4v4H2v-4Zm6 0h4v4H8v-4Zm6 0h4v4h-4v-4Z" />
-                    </svg>
-                    Payment Methods
-                  </a>
-                </li>
+                
                 <li>
                   <a href="#" className={`inline-flex items-center px-4 py-3 ${activeTab === 'accountDetails' ? 'text-white bg-blue-700 dark:bg-blue-600' : 'rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white'} w-full`} onClick={() => setActiveTab('accountDetails')}>
                     <svg className="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

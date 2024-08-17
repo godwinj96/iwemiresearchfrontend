@@ -1,11 +1,14 @@
 /* eslint-disable */
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../supaBaseClient';
+import axios from 'axios';
+import React, { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { supabase } from '../supaBaseClient';
 
 export const GlobalStateContext = createContext();
 
 export const GlobalStateProvider = ({ children }) => {
+
   const [query, setQuery] = useState('')
   const [queryHero, setQueryHero] = useState('')
   const [papers, setPapers] = useState([])
@@ -19,6 +22,11 @@ export const GlobalStateProvider = ({ children }) => {
   const [book, setBook] = useState({})
   const [openAccessPapers, setOpenAcessPapers] = useState([])
   const [uploadedFiles, setUploadedFiles] = useState([])
+  let token
+
+
+  const navigate = useNavigate()
+
 
 
   const fetchOpenAccessPapers = async () => {
@@ -42,16 +50,59 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }
 
+  const handleLogin = async (loginForm) => {
+    try {
+      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/login/", {
+        method: 'POST',
+
+        body: loginForm
+      })
+
+      if (!response.ok) {
+        // Check if response is not ok
+        toast.error("If Error")
+        const errorText = await response.text();
+        throw new Error(`Error: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+
+      console.log("context run")
+      const loginData = await response.json()
+      console.log(loginData)
+
+
+      if (!loginData) {
+        toast.error('Login failed. Please check your credentials')
+        return;
+      } else {
+        console.log(loginData.access)
+        localStorage.setItem('accessToken', loginData.access)
+        localStorage.setItem('refreshToken', loginData.refresh)
+
+
+
+        setLoggedIn(true)
+        //setUser(user)
+        console.log(loggedIn)
+        navigate('/')
+        //localStorage.setItem('refresh_token', JSON.stringify(loginData.refresh))
+      }
+    } catch (err) {
+      toast.error("Catch:unsuccesful login")
+    }
+
+  }
+
   const userId = localStorage.getItem('userId')
+
 
 
   useEffect(() => {
     localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(uploadedFiles));
-  }, [uploadedFiles,userId]);
+  }, [uploadedFiles, userId]);
 
   useEffect(() => {
 
-    const storedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${userId}`))|| [];
+    const storedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${userId}`)) || [];
     setUploadedFiles(storedFiles);
 
     fetchOpenAccessPapers()
@@ -62,7 +113,38 @@ export const GlobalStateProvider = ({ children }) => {
       //wait 
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      //retrieving current session
+      const Token = localStorage.getItem('accessToken');
+      if (!Token) {
+        console.log("No access token found");
+        setUser(null);
+        setLoggedIn(false);
+        return;
+      }
+
+      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/profile/", {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Token}`
+        }
+      })
+
+      if (!response.ok) {
+        console.log("No session found")
+        console.log(response.status)
+        setUser(null)
+      } else {
+        const userData = await response.json()
+        console.log('User is logged in', userData)
+        setUser(userData)
+        setLoggedIn(true)
+        localStorage.setItem('session', JSON.stringify(userData))
+        localStorage.setItem(`userId`, userData.pk)
+      }
+
+
+
+      /**
+       * //retrieving current session
       const { data, error } = await supabase.auth.getSession()
       console.log(data)
       if (error) {
@@ -72,6 +154,7 @@ export const GlobalStateProvider = ({ children }) => {
       console.log(loggedIn)
       if (data) {
         console.log(data)
+        console.log(data.session)
         console.log('User is logged in:', data.session.user)
 
         setUser(data.session.user)
@@ -79,6 +162,9 @@ export const GlobalStateProvider = ({ children }) => {
         //store session in local storage for pesistence
         localStorage.setItem('supabaseSession', JSON.stringify(data))
         localStorage.setItem(`userId`, data.session.user.id)
+       
+
+      
 
 
       } else {
@@ -87,139 +173,86 @@ export const GlobalStateProvider = ({ children }) => {
         setLoggedIn(false)
         localStorage.removeItem('supabaseSession')
       }
-
+*/
 
     } catch (error) {
       console.error('Error fetching session:', error.message)
     }
   }
+
+
+
+
   //getting user sesh
-  useEffect(() => {
+  /**
+   *   useEffect(() => {
 
-    console.log(user)
+    
 
-    const storedSession = localStorage.getItem('supabaseSession')
+    const storedSession = localStorage.getItem('session')
     if (storedSession) {
       const session = JSON.parse(storedSession)
-      setUser(session.session.user)
-      console.log(session.session.user)
+      setUser(session)
+      console.log(session)
+      console.log(user)
     }
 
     checkSession()//check fro session if not found in local storage
   }, [])
-
-  /**  useEffect(() => {
-    //books from edition guard
-    //subscription based books
-    const fetchPapers = async () => {
-      const url = new URL(`https://app.editionguard.com/api/v2/book`)
-      const params = new URLSearchParams(filters)
-      const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
-
-      try {
-
-        const response = await fetch(`${url}?${params.toString()}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Token ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status:${response.status}`)
-        }
-
-        const data = await response.json()
-        const dataObject = Object.values(data)
-        const booksArray = dataObject[3]
-        const updatedBooksArray = booksArray.map(book=>({
-          ...book,
-          openAccess: false
-        }))
-        setPapers(booksArray)//papers
-        console.log(data)
-        console.log(booksArray)
-        console.log(dataObject)
-        const bookIds = booksArray.map(book => book.id)
-        bookIds.forEach(bookId => {
-          fecthBookDetails(bookId)
-        })
+   */
 
 
-      } catch (error) {
-        console.error('Error fetching the reseacrh papers:', error);
-      }
+
+  const refreshAccessToken = async () => {
+
+    const refreshToken = localStorage.getItem('refreshToken')
+    try {
+      const response = await axios.post('https://iweminewbackend.onrender.com/api/auth/token/refresh/', { refresh: refreshToken })
+      localStorage.setItem('accessToken', response.data.access)
+      console.log('Access token refesh')
+    } catch (err) {
+      console.log('Error refreshing', err.response.data)
     }
+  }
 
-    const fecthBookDetails = async (bookId) => {
-      try {
-        const token = '3bc699cc93f50ebadd635e7cb1ed80b733eecc0a'
-        const detailUrl = `https://app.editionguard.com/api/v2/book/${bookId}`;
 
-        const response = await fetch(detailUrl, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Token ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status:${response.status}`)
-        }
+  const tokenVerify = async () => {
+    const tokenForm = new FormData()
+    tokenForm.append("token", localStorage.getItem('accessToken'))
 
-        const bookDetails = await response.json()
-       // console.log(`Details for Book ID ${bookId}`, bookDetails)
-        
-        setBook((prevDetails) => ({
-          ...prevDetails,
-          [bookId]: book
-        }))
-        //console.log(book)
-      } catch (error) {
-        const detailUrl = `https://app.editionguard.com/api/v2/book/${bookId}`;
+    try {
+      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/token/verify/", {
+        method: 'POST',
+        headers: { 'accept': 'application/json' },
+        body: tokenForm
+      });
 
-        const response = await fetch(detailUrl, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Token ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-
-        const bookDetails = await response.json()
-        console.log(`Detaisl for Book ID ${bookId}`, bookDetails)
+      if (!response.ok) {
+        console.log("Token verification failed, refreshing token");
+        await refreshAccessToken();
       }
 
+      checkSession();
+    } catch (error) {
+      console.error('Error verifying token:', error.message);
+    }
+  }
 
+  useEffect(() => {
+    tokenVerify()
+    checkSession();
+
+    if (localStorage.getItem('accessToken') !== null) {
+      token = localStorage.getItem('acessToken')
+      console.log(token)
+    } else {
+      console.log('No access token')
     }
 
+    console.log(token)
+  }, [])
 
-
-
-    fetchPapers()
-
-  }, [filters])
-
-  useEffect(()=>{
-    const mergeAndShufflePapers = ()=>{
-     const  demoAllPapers = [...openAccessPapers,...papers]
-
-      for (let i = demoAllPapers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [demoAllPapers[i], demoAllPapers[j]] = [demoAllPapers[j], demoAllPapers[i]];
-      }
-
-      console.log(demoAllPapers)
-      setAllPapers(demoAllPapers)
-      
-    }
-
-    if (openAccessPapers.length && papers.length) {
-      mergeAndShufflePapers()
-    }
-  },[openAccessPapers, papers]) */
 
 
 
@@ -247,7 +280,9 @@ export const GlobalStateProvider = ({ children }) => {
     setIsSearch,
     uploadedFiles,
     setUploadedFiles,
-    userId
+    userId,
+    handleLogin,
+
   }
 
   return (

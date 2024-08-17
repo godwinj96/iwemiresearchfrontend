@@ -3,8 +3,13 @@ import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import logo from '../../assets/iwemi logo.png'
 import { supabase } from '../../supaBaseClient'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const ResetPassword = () => {
+
+    const {uidb64, token} = useParams();
+    const navigate = useNavigate()
 
     const [newPass, setNewPass] = useState("")
     const [confirmPass, setConfirmPass] = useState("")
@@ -24,11 +29,35 @@ const ResetPassword = () => {
             return
         }
 
+
+
+        try{
+
+            const resetForm = new FormData()
+            resetForm.append("password",newPass)
+            resetForm.append("confirm_password", confirmPass)
+
+            const response = await fetch(`http://iweminewbackend.onrender.com/api/auth/password/reset/confrim/${uidb64}/${token}`,{
+                method:'POST',
+                body: resetForm
+            })
+
+            if(!response.ok){
+                toast.error("Try again")
+                conseole.log(await response.json())
+            }
+
+            toast.success('Password has been reset successfully')
+            navigate('/login')
+        } catch(error){
+            setMessage('There was an error resetting your password. Please try again')
+        }
+
         /**
          *  const { user, error } = await supabase.auth.updateUser({
             password: newPass
         })
-         */
+         
        
         const { error } = await supabase.auth.updateUser({
             password: newPass
@@ -39,6 +68,7 @@ const ResetPassword = () => {
         } else {
             setMessage('Password updated successfully. You can now log in with your new password')
         }
+            */
     }
 
     const togglePasswordVisibility = () => {

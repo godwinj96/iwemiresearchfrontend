@@ -52,24 +52,31 @@ const SignUpPublish = () => {
       alert("Password do not match!")
       return;
     }
+    const signUpForm = new FormData()
+    signUpForm.append("name",publisherName)
+    //signUpForm.append("last_name",lastName)
+    signUpForm.append("email",email)
+    signUpForm.append("password1",password)
+    signUpForm.append("password2",confirmpassword)
+
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            publisherName,
-            confirmpassword
-          },
-          emailRedirectTo: 'iwemiresearch.org/login'
-        }
-      });
-      alert("Check your email for verification link")
-      //localStorage.setItem('userId', user.id)
+      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/register/", {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json'
+        },
+        body: signUpForm
+      })
 
+      if(!response.ok){
+          toast.error("Try again")
+      } else{
+        toast.success("Check your email for verification link")
+        console.log("signed up!!!!!!!!")
       navigate('/login')
-      if (error) throw error
+      }
+      
     } catch (error) {
       alert(error)
     }

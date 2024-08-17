@@ -18,15 +18,12 @@ import ForgotPassword from './pages/profileDashboard/ForgotPassword'
 import SignUpPublish from './pages/Login/SignUpPublish'
 import Terms from './pages/Terms/Terms'
 import PrivacyPolicy from './pages/Terms/PrivacyPolicy'
-
 import Journals from './pages/Journals/Journals'
 import Thesis from './pages/Thesis/Thesis'
 import ConferencePapers from './pages/Conference Papers/ConferencePapers'
 import AcademicTextbooks from './pages/Academic Textbooks/AcademicTextbooks'
-
 import ResetPassword from './pages/profileDashboard/ResetPassword'
 import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
-
 import SearchPage from './pages/Catalogue/SearchPage'
 import ClickedBook from './pages/Dashboard/ClickedBook'
 import Payment from './pages/Payment/Payment'
@@ -61,8 +58,8 @@ function App() {
             <Route path="/payment" element={<Payment />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
-            <Route path='/Forgot-Password' element={<ForgotPassword />} />
-            <Route path='/reset-Password' element={<ResetPassword />} />
+            <Route path='/password-reset' element={<ForgotPassword />} />
+            <Route path='/password-reset/confirm/:uidb64/:token' element={<ResetPassword />} />
             <Route path='/signup-Publisher' element={<SignUpPublish />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/search-page' element={<SearchPage />} />
@@ -72,7 +69,6 @@ function App() {
             <Route path='/shopping-Cart' element={<ShoppingCart />} />
             <Route path='/FAQs' element={<Faq />} />
             <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
-            
             <Route path='/terms&Conditions' element={<Terms />} />
             <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
             <Route path='/journals' element={<Journals />} />

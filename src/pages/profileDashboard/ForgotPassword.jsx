@@ -1,9 +1,6 @@
 import { useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
-
 import logo from '../../assets/iwemi logo.png'
-import { supabase } from '../../supaBaseClient'
+import { toast } from 'react-toastify'
 
 const ForgotPassword = () => {
 
@@ -15,10 +12,31 @@ const ForgotPassword = () => {
 
   const handleResetLink = async (e) => {
     e.preventDefault()
+   
     setError('')
     setMessage('')
     //user
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    try {
+      const response = await fetch('https://iweminewbackend.onrender.com/api/auth/password/reset/', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      if (response.ok) {
+        //setMessage("Password reset link sent. Check your email")
+         toast.success("Check email to reset password")
+      }
+      
+    } catch (error) {
+        setMessage('There was an error, please try again')
+    }
+
+
+    /**
+     * const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: 'http://localhost:5173/reset-Password'
     })
 
@@ -27,11 +45,13 @@ const ForgotPassword = () => {
     } else {
       setMessage("Password reset link sent. Check your email")
     }
+     */
+
   }
 
   return (
     <div>
-      
+
       <div className="forgot-password-page">
         <section className=" dark">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -61,7 +81,7 @@ const ForgotPassword = () => {
           </div>
         </section>
       </div>
-      
+
     </div>
   )
 }

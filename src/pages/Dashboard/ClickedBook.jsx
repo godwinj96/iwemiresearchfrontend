@@ -30,6 +30,26 @@ const ClickedBook = () => {
   const [similarBooks, setSimilarBooks] = useState([])
 
   useEffect(() => {
+
+    /**
+                * const response = await fetch("https://iweminewbackend.onrender.com/api/papers/",{
+                   method:'GET',
+                   headers:{
+                     'accept':'application/json'
+                   },
+                  
+                 })
+
+                 if(!response2.ok){
+                   throw new Error('Failed to fetch journals')
+                 }
+
+                 const bookData = await respsonse.json()
+
+                 setSimilarBooks(bookData)
+               
+
+                */
     const fetchSimilarBooks = async () => {
       const { data, error } = await supabase
         .from('api_book')

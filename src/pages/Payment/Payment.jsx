@@ -17,7 +17,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles,setUploadedFiles} = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles } = useContext(GlobalStateContext)
 
     //reset search on route change
 
@@ -26,7 +26,7 @@ const Payment = () => {
     const navigate = useNavigate()
 
     const [totals, setTotal] = useState('')
-  
+
     useEffect(() => {
         const storedProduct = localStorage.getItem('product')
         if (storedProduct) {
@@ -45,7 +45,7 @@ const Payment = () => {
     useEffect(() => {
         setIsSearch(false)
         setResults([])
-    }, [location, setIsSearch,setResults])
+    }, [location, setIsSearch, setResults])
 
     const checkoutInterswitch = () => {
         if (user) {
@@ -170,19 +170,19 @@ const Payment = () => {
 
             const newFile = {
                 name: formData.title,
-                size: (formData.size/1024).toFixed(2) + 'KB',
+                size: (formData.size / 1024).toFixed(2) + 'KB',
                 date: new Date().toLocaleString(),
                 option: 'Open-Access'
             }
 
             const updatedUploadedFiles = [...uploadedFiles, newFile]
             setUploadedFiles(updatedUploadedFiles)
-            localStorage.setItem(`uploadedFiles_${user.id}`,JSON.stringify(updatedUploadedFiles))
+            localStorage.setItem(`uploadedFiles_${user.id}`, JSON.stringify(updatedUploadedFiles))
 
-            
+
 
             navigate('/')
-            
+
         } else {
             /**using editionguard */
             const bookList = products.map(product => ({
@@ -190,12 +190,12 @@ const Payment = () => {
                 quantity: product.quantity
             }))
 
-
+            console.log(JSON.stringify(bookList))
             //request body
             const requestBody = new FormData()
             requestBody.append('book_list', JSON.stringify(bookList))
             requestBody.append('email', 'nkemka@gmail.com')
-            requestBody.append('full_name', `${user.user_metadata.firstName} ${user.user_metadata.lastName}`)
+            requestBody.append('full_name', `${user.name} ${user.last_name}`)
             requestBody.append('reply_to', 'support@iwemiresearch.org')
             //requestBody.append('email_template', emailContent)
 
@@ -209,7 +209,7 @@ const Payment = () => {
                     },
                     body: requestBody
                 })
-
+                
                 const responseText = await response.text();
                 console.log('Response Text:', responseText);
 
@@ -280,7 +280,7 @@ const Payment = () => {
             <div class="header">Iwemi Research</div>
             <div class="content">
                 <h1>Thank you for your purchase!</h1>
-                <p>Dear ${user.user_metadata.firstName} ${user.user_metadata.lastName},</p>
+                <p>Dear ${user.name} ${user.last_name},</p>
                 <p>Thank you for purchasing from our store. Below are the details of your order:</p>
                 <table>
                     <tr>
@@ -313,7 +313,7 @@ const Payment = () => {
                 const requestBody_again = new FormData()
                 requestBody_again.append('book_list', JSON.stringify(bookList))
                 requestBody_again.append('email', user.email)
-                requestBody_again.append('full_name', `${user.user_metadata.firstName} ${user.user_metadata.lastName}`)
+                requestBody_again.append('full_name', `${user.name} ${user.last_name}`)
                 requestBody_again.append('reply_to', 'support@iwemiresearch.org')
                 requestBody_again.append('email_template', emailContent)
 
@@ -416,7 +416,7 @@ const Payment = () => {
 
     return (
         <div>
-           
+
             {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -506,7 +506,7 @@ const Payment = () => {
                     </div>
                 </section>)}
             <div className='dark'>
-               
+
             </div>
 
         </div>

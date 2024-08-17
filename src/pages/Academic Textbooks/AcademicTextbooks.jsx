@@ -216,7 +216,7 @@ const AcademicTextbooks = () => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-
+    const [academic, setAcademic] = useState([]);
 
     const toggleSidebar = () => {
 
@@ -321,7 +321,7 @@ const AcademicTextbooks = () => {
         setResults([])
     }, [location])
 
-    const [academic, setAcademic] = useState([]);
+  
 
     useEffect(() => {
 
@@ -329,48 +329,28 @@ const AcademicTextbooks = () => {
         const fetchAcademic = async () => {
             try {
 
-                let query = supabase
-                    .from('api_book')
-                    .select('*')
-                    .eq('category_id', 3)
-                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
+                const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json'
+                    },
 
-                if (accessType !== 'all') {
-                    query = query.eq('is_open_access', accessType === 'open')
+                })
+
+                if (!response2.ok) {
+                    throw new Error('Failed to fetch journals')
                 }
 
+                const academics = await response2.json()
+                console.log(academics)
 
+                const academicPapers = academics.filter(paper => paper.type === 'Academic Textbooks')
+                setAcademic(academicPapers)
+                console.log(academicPapers)
 
-                const { data, error } = await query
-                if (error) {
-                    toast.error(error)
-                    //console.log(error)
-                }
-
-
-                
-                let countQuery = supabase
-                .from('api_book')
-                .select('id', { count: 'exact' })
-                .eq('category_id', 3)
-
-                if (accessType !== 'all') {
-                    countQuery = countQuery.eq('is_open_access', accessType === 'open');
-                }
-
-                const { count, error: countError } = await  countQuery
-
-                if (countError) {
-                    toast.error('Error fetching academicT count')
-                    console.log(countError)
-                    return
-                }
-
-                setAcademic(data)
-                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
-
-                console.log('academicT', data)
-                console.log('count', count)
+                const totalItems = academicPapers.length
+                setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
+                //console.log('count', count)
             } catch (error) {
                 console.error('Error in academicT:', error);
             }
@@ -381,6 +361,10 @@ const AcademicTextbooks = () => {
 
 
     }, [currentPage, ITEMS_PER_PAGE,accessType])
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const paginatedAcademic = academic.slice(startIndex, endIndex);
 
     const handleFitlerChange = (e) => {
         const { name, checked } = e.target;
@@ -408,7 +392,7 @@ const AcademicTextbooks = () => {
         return filteredBooks
     }
 
-    const filteredPapers = applyFilters(academic)
+    const filteredPapers = applyFilters(paginatedAcademic)
 
     const { state, dispatch } = useCart()
 
@@ -420,7 +404,7 @@ const AcademicTextbooks = () => {
 
     const handleNextPage = () => {
         if (currentPage < totalPage) {
-            setCurrentPage(currentPage + 1)
+            setCurrentPage(currentPage + 1);
         }
     }
     const handlePreviousPage = () => {
@@ -428,6 +412,7 @@ const AcademicTextbooks = () => {
             setCurrentPage(currentPage - 1);
         }
     };
+
     const handleAccessTypeChange = (type) => {
         setAccessType(type)
         setCurrentPage(1)

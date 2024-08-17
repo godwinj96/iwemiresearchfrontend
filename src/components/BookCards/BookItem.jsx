@@ -15,7 +15,7 @@ const BookItem = ({ book, handleAddToCart }) => {
     return (
         <div className='each flex'>
             <div className="papers-left ">
-                <h3 className='category-heading'>{categoryMap[book.category_id]}</h3>
+                <h3 className='category-heading'>{book.type}</h3>
                 <h1>
                 <Link to={`/book/${book.id}`} state={{ book }}>{book.name}</Link>
                 </h1>
