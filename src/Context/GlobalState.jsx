@@ -84,6 +84,7 @@ export const GlobalStateProvider = ({ children }) => {
         //setUser(user)
         console.log(loggedIn)
         navigate('/')
+        checkSession()
         //localStorage.setItem('refresh_token', JSON.stringify(loginData.refresh))
       }
     } catch (err) {
@@ -130,7 +131,7 @@ export const GlobalStateProvider = ({ children }) => {
 
       if (!response.ok) {
         console.log("No session found")
-        console.log(response.status)
+        //console.log(response.status)
         setUser(null)
       } else {
         const userData = await response.json()
@@ -176,7 +177,7 @@ export const GlobalStateProvider = ({ children }) => {
 */
 
     } catch (error) {
-      console.error('Error fetching session:', error.message)
+      //console.error('Error fetching session:', error.message)
     }
   }
 
@@ -211,7 +212,7 @@ export const GlobalStateProvider = ({ children }) => {
       localStorage.setItem('accessToken', response.data.access)
       console.log('Access token refesh')
     } catch (err) {
-      console.log('Error refreshing', err.response.data)
+     // console.log('Error refreshing', err.response.data)
     }
   }
 
@@ -229,13 +230,13 @@ export const GlobalStateProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-        console.log("Token verification failed, refreshing token");
+        //console.log("Token verification failed, refreshing token");
         await refreshAccessToken();
       }
 
       checkSession();
     } catch (error) {
-      console.error('Error verifying token:', error.message);
+      //console.error('Error verifying token:', error.message);
     }
   }
 
@@ -247,10 +248,10 @@ export const GlobalStateProvider = ({ children }) => {
       token = localStorage.getItem('acessToken')
       console.log(token)
     } else {
-      console.log('No access token')
+      //console.log('No access token')
     }
 
-    console.log(token)
+   // console.log(token)
   }, [])
 
 

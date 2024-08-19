@@ -28,6 +28,8 @@ const ForgotPassword = () => {
       if (response.ok) {
         //setMessage("Password reset link sent. Check your email")
          toast.success("Check email to reset password")
+      } else{
+        toast.error("error")
       }
       
     } catch (error) {

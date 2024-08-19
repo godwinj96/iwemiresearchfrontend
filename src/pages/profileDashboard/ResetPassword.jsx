@@ -37,7 +37,7 @@ const ResetPassword = () => {
             resetForm.append("password",newPass)
             resetForm.append("confirm_password", confirmPass)
 
-            const response = await fetch(`http://iweminewbackend.onrender.com/api/auth/password/reset/confrim/${uidb64}/${token}`,{
+            const response = await fetch(`http://iweminewbackend.onrender.com/api/auth/password/reset/confirm/${uidb64}/${token}`,{
                 method:'POST',
                 body: resetForm
             })
