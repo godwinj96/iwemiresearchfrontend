@@ -411,13 +411,11 @@ const ProfileDashboard = () => {
       title,
       authors,
       yearP,
-      date,
       type,
       uploadedOption,
-      fileUrl,
-      categoryId,
-      subcategory_id,
-      discipline_id
+      selectedFile,
+      category,
+      subcategory,
     }
 
 
@@ -551,7 +549,19 @@ const ProfileDashboard = () => {
 
     } else if (uploadedOption === 'openAccess') {
 
-      localStorage.setItem('openFormData', JSON.stringify(openFormData))
+      const uploadData = new FormData()
+        uploadData.append("name", title)
+        uploadData.append("type", type)
+        uploadData.append("category", category)
+        uploadData.append("subcategory", subcategory)
+        uploadData.append("author", authors)
+        uploadData.append("abstract", abstract)
+        uploadData.append("year_published", yearP)
+       // uploadData.append("resource_id", resourceId)
+        uploadData.append("is_open_access", false)
+        uploadData.append("file", selectedFile)
+
+      localStorage.setItem('openFormData', JSON.stringify(uploadData))
 
       /**const { data, error } = await supabase
         .from('api_book')
@@ -595,7 +605,7 @@ const ProfileDashboard = () => {
 
 
 
-    await supabase.auth.signOut()
+    //await supabase.auth.signOut()
     setUser(null)
     localStorage.removeItem('session')
     localStorage.removeItem('refreshToken')
@@ -622,8 +632,8 @@ const ProfileDashboard = () => {
             </p>
 
 
-            {user && user.user_metadata && (<p className='mt-10'>(Not
-              <span className='font-bold'> {user.user_metadata.email}</span>
+            {user && (<p className='mt-10'>(Not
+              <span className='font-bold'> {user.email}</span>
               ?)</p>)}
 
             <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>

@@ -1,14 +1,13 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
+
 import { useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/flutterwave.png'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import interswitch_img from "../../assets/interswitch.png"
 import stripe_img from '../../assets/stripe.png'
-import { supabase } from '../../supaBaseClient'
+
 import { toast } from 'react-toastify'
 import iwemi_logo from '../../assets/new iwemi.png'
 import { useCurrency } from '../../Context/CurrencyContext'
@@ -17,7 +16,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles } = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles,userId } = useContext(GlobalStateContext)
 
     //reset search on route change
 
@@ -143,7 +142,15 @@ const Payment = () => {
         if (fromUploadPage) {
             const formData = JSON.parse(localStorage.getItem('openFormData'))
 
-            const { data, error } = await supabase
+         
+
+            const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+                method: 'POST',
+                body: formData
+            })
+
+            /**
+             * const { data, error } = await supabase
                 .from('api_book')
                 .insert([
                     {
@@ -158,8 +165,10 @@ const Payment = () => {
                         is_open_access: true,
                     }
                 ])
+             */
 
-            if (error) {
+
+            if (!response2.ok){
                 toast.error('Payment failed')
             } else {
                 toast.success('Book uploaded successfully')
@@ -177,7 +186,7 @@ const Payment = () => {
 
             const updatedUploadedFiles = [...uploadedFiles, newFile]
             setUploadedFiles(updatedUploadedFiles)
-            localStorage.setItem(`uploadedFiles_${user.id}`, JSON.stringify(updatedUploadedFiles))
+            localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(updatedUploadedFiles))
 
 
 
@@ -209,7 +218,7 @@ const Payment = () => {
                     },
                     body: requestBody
                 })
-                
+
                 const responseText = await response.text();
                 console.log('Response Text:', responseText);
 
@@ -338,74 +347,6 @@ const Payment = () => {
             toast.success('Payment was successful!')
 
         }
-
-
-        /*
-        *1st trial
-        const emailResponse = await fetch('https://moozotwbqobybcbidade.functions.supabase.co/send-payment-email', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer 567d8a3126a302116a96787726b2a2aade446a8b9e7d48994509b30eab7ffa05`
-            },
-            body: JSON.stringify({
-                email: user.email,
-                paymentDetails: {
-                    amount: total,
-                    date: new Date(),
-                    //products: products
-                }
-            })
-        })
-
-        const emailData = await emailResponse.json()
-        if (emailResponse.ok) {
-            console.log('Email sent successfully:', emailData)
-            navigate('/')
-        } else {
-            console.error('failed to send email:', emailData)
-        } */
-
-        /**
-         * 2nd trial
-         * const paymentDetails = {
-        amount: 100, // Example amount
-        date: new Date().toISOString()
-    };
-
-    const service_key = '9154f4a620dde6574de77da68e65fd31fed7932262db8430426028d89edae17a'
-
-    try {
-        const response = await fetch('https://moozotwbqobybcbidade.supabase.co/functions/v1/send-payment-email', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${service_key}`,
-                'Content-Type': 'application/json',
-
-            },
-            body: JSON.stringify({
-                from: 'onboarding@resend.dev',
-                to: user.email,
-                subject: 'Payment Success',
-                html: '<strong>Your payment was successful!</strong>',
-              }),
-        });
-
-        if (!result.ok) {
-            throw new Error('Failed to send email')
-        }
-        const result = await response.json();
-        
-        console.log('Email sent succesfully:', result)
-        
-
-    } catch (error) {
-        console.error('Unexpected error:', error);
-    } */
-
-        //api calling to get the links for each drm book
-        //links would be in email
-
 
     }
 

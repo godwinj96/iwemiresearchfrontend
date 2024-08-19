@@ -18,7 +18,7 @@ const SignUpPublish = () => {
   const [showconfirmPassword, setShowconfirmPassword] = useState(false)
 
 
-  const { results, setResults, isSearch, setIsSearch, user, setUser } = useContext(GlobalStateContext)
+  const { results, setResults, isSearch, setIsSearch, } = useContext(GlobalStateContext)
   const location = useLocation()
   //reset search on route change
   useEffect(() => {
@@ -38,9 +38,7 @@ const SignUpPublish = () => {
   const signIn = () => {
     navigate('/login')
   }
-  const contactUs = () => {
-    navigate('/contact')
-  }
+
 
   const terms = () => {
     navigate('/terms&Conditions')
