@@ -42,6 +42,7 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault()
+    console.log("Run")
     if (password != confirmpassword) {
       alert("Password do not match!")
       return;
@@ -71,9 +72,7 @@ const SignUp = () => {
       
       if(!response.ok){
           toast.error("Try again")
-      } else if(!responseProfile.ok){
-        toast.error("Putting didn't work")
-      }
+      } 
        else{
         toast.success("Check your email for verification link")
         console.log("signed up!!!!!!!!")
@@ -98,7 +97,7 @@ const SignUp = () => {
       
       //if (error) throw error
     } catch (error) {
-      alert(error)
+      console.log(error)
     }
 
 
