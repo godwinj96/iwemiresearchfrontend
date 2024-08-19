@@ -54,7 +54,7 @@ const SignUp = () => {
     signUpForm.append("password1",password)
     signUpForm.append("password2",confirmpassword)
 
-    const profileForm = FormData()
+    const profileForm = new FormData()
     profileForm.append("name",firstName)
     profileForm.append("last_name",lastName)
 
@@ -68,14 +68,7 @@ const SignUp = () => {
         body: signUpForm
       })
 
-      const responseProfile = await fetch("https://iweminewbackend.onrender.com/api/auth/profile/", {
-        method: 'PUT',
-        headers: {
-            'accept': 'application/json'
-        },
-        body: profileForm
-      })
-
+      
       if(!response.ok){
           toast.error("Try again")
       } else if(!responseProfile.ok){
