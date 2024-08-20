@@ -1,8 +1,5 @@
 import { useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
 import logo from '../../assets/iwemi logo.png'
-import { supabase } from '../../supaBaseClient'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 

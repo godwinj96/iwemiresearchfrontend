@@ -9,7 +9,6 @@ import Login from './pages/Login/Login'
 import SignUp from './pages/Login/SignUp'
 import Dashboard from './pages/Dashboard/Dashboard'
 import GlobalStateProvider, { GlobalStateContext } from './Context/GlobalState'
-
 import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Faq from './pages/FAQs/Faq'
