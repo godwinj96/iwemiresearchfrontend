@@ -41,7 +41,7 @@ const SignUpPublish = () => {
 
 
   const terms = () => {
-    navigate('/terms&Conditions')
+    navigate('/terms-Conditions')
   }
 
   const handleSignUp = async (e) => {

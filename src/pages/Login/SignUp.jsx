@@ -31,12 +31,10 @@ const SignUp = () => {
   const signIn = () => {
     navigate('/login')
   }
-  const contactUs = () => {
-    navigate('/contact')
-  }
+
 
   const terms = () => {
-    navigate('/terms&Conditions')
+    navigate('/terms-Conditions')
   }
 
 

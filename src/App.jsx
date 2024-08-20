@@ -68,10 +68,10 @@ function App() {
             <Route path='/shopping-Cart' element={<ShoppingCart />} />
             <Route path='/FAQs' element={<Faq />} />
             <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
-            <Route path='/terms&Conditions' element={<Terms />} />
+            <Route path='/terms-Conditions' element={<Terms />} />
             <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
             <Route path='/journals' element={<Journals />} />
-            <Route path='/thesis&Dissertations' element={<Thesis />} />
+            <Route path='/thesis-Dissertations' element={<Thesis />} />
             <Route path='/conference-Papers' element={<ConferencePapers />} />
             <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
           </Routes>

@@ -8,7 +8,7 @@ import { GlobalStateContext } from '../../Context/GlobalState';
 
 const Footer = () => {
 
-    const {currency,handleCurrencyChange} = useContext(GlobalStateContext)
+    const {handleCurrencyChange} = useContext(GlobalStateContext)
 
     const navigate = useNavigate()
 
@@ -23,7 +23,7 @@ const Footer = () => {
     }
 
     const terms =()=>{
-        navigate('/terms&Conditions')
+        navigate('/terms-Conditions')
     }
     const Privacy =()=>{
         navigate('/privcay-Policy')
