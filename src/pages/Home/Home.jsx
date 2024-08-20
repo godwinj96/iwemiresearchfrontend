@@ -58,7 +58,7 @@ const Home = () => {
         console.log(error)
       } else {
         setBooks(data)
-        console.log(data)
+       // console.log(data)
       }
     }
 

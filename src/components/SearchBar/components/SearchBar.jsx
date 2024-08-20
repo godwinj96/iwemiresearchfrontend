@@ -46,7 +46,7 @@ export const SearchBar = () => {
   const [searchInput, setSearchInput] = useState('')
   const { setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
 
-  console.log(isSearch)
+  //console.log(isSearch)
 
   const handleSearch = async () => {
     setIsSearch(true)
@@ -101,8 +101,8 @@ export const SearchBar = () => {
    
   }
 
-  console.log(isHovered)
-  console.log(isFocused)
+  //console.log(isHovered)
+  //console.log(isFocused)
 
   useEffect(() => {
     targetRef.current.value = "";

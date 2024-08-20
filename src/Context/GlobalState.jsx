@@ -27,8 +27,6 @@ export const GlobalStateProvider = ({ children }) => {
 
   const navigate = useNavigate()
 
-
-
   const fetchOpenAccessPapers = async () => {
     try {
       const { data, error } = await supabase.from('api_book').select('*');
@@ -85,6 +83,7 @@ export const GlobalStateProvider = ({ children }) => {
         console.log(loggedIn)
         navigate('/')
         checkSession()
+        console.log(loggedIn)
         //localStorage.setItem('refresh_token', JSON.stringify(loginData.refresh))
       }
     } catch (err) {
@@ -120,32 +119,34 @@ export const GlobalStateProvider = ({ children }) => {
         setUser(null);
         setLoggedIn(false);
         return;
-      }
-
-      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/profile/", {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Token}`
-        }
-      })
-
-      if (!response.ok) {
-        console.log("No session found")
-        //console.log(response.status)
-        setUser(null)
       } else {
-        const userData = await response.json()
-        console.log('User is logged in', userData)
-        setUser(userData)
-        setLoggedIn(true)
-        localStorage.setItem('session', JSON.stringify(userData))
-        localStorage.setItem(`userId`, userData.pk)
+        const response = await fetch("https://iweminewbackend.onrender.com/api/auth/profile/", {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Token}`
+          }
+        })
+
+        if (!response.ok) {
+          console.log("No session found")
+          console.log(response.status)
+          setUser(null)
+        } else {
+          const userData = await response.json()
+          console.log('User is logged in', userData)
+          setUser(userData)
+          setLoggedIn(true)
+          localStorage.setItem('session', JSON.stringify(userData))
+          localStorage.setItem(`userId`, userData.pk)
+        }
       }
+
+
 
 
 
       /**
-       * //retrieving current session
+       * retrieving current session
       const { data, error } = await supabase.auth.getSession()
       console.log(data)
       if (error) {
@@ -177,7 +178,7 @@ export const GlobalStateProvider = ({ children }) => {
 */
 
     } catch (error) {
-      //console.error('Error fetching session:', error.message)
+      console.error('Error fetching session:', error.message)
     }
   }
 
@@ -212,7 +213,7 @@ export const GlobalStateProvider = ({ children }) => {
       localStorage.setItem('accessToken', response.data.access)
       console.log('Access token refesh')
     } catch (err) {
-     // console.log('Error refreshing', err.response.data)
+      // console.log('Error refreshing', err.response.data)
     }
   }
 
@@ -230,28 +231,29 @@ export const GlobalStateProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-        //console.log("Token verification failed, refreshing token");
+        console.log("Token verification failed, refreshing token");
         await refreshAccessToken();
       }
 
       checkSession();
     } catch (error) {
-      //console.error('Error verifying token:', error.message);
+      console.error('Error verifying token:', error.message);
     }
   }
 
   useEffect(() => {
-    tokenVerify()
-    checkSession();
 
     if (localStorage.getItem('accessToken') !== null) {
+      tokenVerify()
+      checkSession();
+
       token = localStorage.getItem('acessToken')
       console.log(token)
     } else {
-      //console.log('No access token')
+      console.log('No access token')
     }
 
-   // console.log(token)
+    // console.log(token)
   }, [])
 
 
