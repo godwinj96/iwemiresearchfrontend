@@ -8,6 +8,7 @@ import { supabase } from '../../supaBaseClient';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import { toast } from 'react-toastify';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
+import { content } from 'flowbite-react/tailwind';
 
 
 

@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/flutterwave.png'
 import { GlobalStateContext } from '../../Context/GlobalState'
+
 import interswitch_img from "../../assets/interswitch.png"
 import stripe_img from '../../assets/stripe.png'
 
@@ -12,11 +13,20 @@ import { toast } from 'react-toastify'
 import iwemi_logo from '../../assets/new iwemi.png'
 import { useCurrency } from '../../Context/CurrencyContext'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { data } from 'autoprefixer'
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+import { headers } from 'next/headers'
 
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles,userId } = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles,userId,  } = useContext(GlobalStateContext)
+
+    const { accessToken: contextAccessToken } = useContext(GlobalStateContext);
+
+    // Retrieve the access token from localStorage if it’s not in the context
+    const accessToken = contextAccessToken || localStorage.getItem('access');
 
     //reset search on route change
 
@@ -33,6 +43,13 @@ const Payment = () => {
             setTotal(parsedProduct.price)
         }
     }, [])
+
+    useEffect(() => {
+        // Persist the token in localStorage whenever it's set in the context
+        if (contextAccessToken) {
+          localStorage.setItem('access', contextAccessToken);
+        }
+      }, [contextAccessToken]);
 
     const location = useLocation()
     const products = location.state?.products || [];
@@ -76,6 +93,7 @@ const Payment = () => {
         for (let i = length; i > 0; --i) {
             result += chars[Math.floor(Math.random() * chars.length)];
         }
+        console.log(result)
         return result;
     };
 
@@ -86,9 +104,39 @@ const Payment = () => {
         }
     };
 
-    const checkoutStripe = () => {
-        // Stripe checkout logic
-    };
+
+    
+    // const stripePromise = loadStripe('pk_test_51Pl654BtS3lVeLJEYpzqhlEkp4B9qmaX8ch4gJDslvwEm0kTw06sOZJ9Pc9J0VlC2wP2hiFqa0R43nHcXCwLFQWW00QtE9aDAU');
+    // const { accessToken } = useContext(GlobalStateContext);
+    console.log(accessToken)
+
+    // localStorage.setItem('access', accessToken)
+
+const checkoutStripe = async () => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/create-payment-intent/', {
+      amount: Number(total*100), 
+      currency: 'ngn',
+      success_url: 'http://localhost:5173/payment',
+      cancel_url: 'http://localhost:5173/payment',
+    }, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access')}`
+        }
+    });
+
+    const sessionId = response.data.id;
+    const stripePromise = loadStripe(response.data.publicKey)
+
+    const stripe = await stripePromise; // Load Stripe.js using the public key
+
+    await stripe.redirectToCheckout({ sessionId });
+    toast.success("Payment successful")
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+  }
+};
+
 
     const checkoutFlutterwave = () => {
 
