@@ -1,0 +1,13 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+.admin-container{
+    min-height: 100vh;
+}
+
+.main{
+    flex: 1;
+}

@@ -32,6 +32,10 @@ import { CurrencyProvider } from './Context/CurrencyContext'
 import CartProvider from './Context/CartContext'
 import Navbar from './components/NavBar/NavBar'
 import Footer from './components/Footer/Footer'
+import Admin from './pages/admin/admin'
+import ProtectedComponent from './components/ProtectedComponent'
+import AdminFooter from './pages/admin/AdminFooter'
+import AdminProvider from './Context/AdminContext'
 
 
 
@@ -46,36 +50,46 @@ function App() {
     setResults([])
   }, [location])
 
+  const hideNavAndFooter = ['/admin'];
+
   return (
     <CartProvider>
       <CurrencyProvider>
         <GlobalStateProvider>
-          <ToastContainer theme='dark' />
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<SignUp />} />
-            <Route path='/password-reset' element={<ForgotPassword />} />
-            <Route path='/password-reset/confirm/:uidb64/:token' element={<ResetPassword />} />
-            <Route path='/signup-Publisher' element={<SignUpPublish />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/search-page' element={<SearchPage />} />
-            <Route path='book/:id' element={<ClickedBook />} />
-            <Route path='/contact' element={<Contact />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/shopping-Cart' element={<ShoppingCart />} />
-            <Route path='/FAQs' element={<Faq />} />
-            <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
-            <Route path='/terms-Conditions' element={<Terms />} />
-            <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
-            <Route path='/journals' element={<Journals />} />
-            <Route path='/thesis-Dissertations' element={<Thesis />} />
-            <Route path='/conference-Papers' element={<ConferencePapers />} />
-            <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
-          </Routes>
-          <Footer />
+          <AdminProvider>
+            <ToastContainer theme='dark' />
+            {!hideNavAndFooter.includes(location.pathname) && <Navbar />}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<SignUp />} />
+              <Route path='/password-reset' element={<ForgotPassword />} />
+              <Route path='/password-reset/confirm/:uidb64/:token' element={<ResetPassword />} />
+              <Route path='/signup-Publisher' element={<SignUpPublish />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/search-page' element={<SearchPage />} />
+              <Route path='book/:id' element={<ClickedBook />} />
+              <Route path='/contact' element={<Contact />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/shopping-Cart' element={<ShoppingCart />} />
+              <Route path='/FAQs' element={<Faq />} />
+              <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
+              <Route path='/terms-Conditions' element={<Terms />} />
+              <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
+              <Route path='/journals' element={<Journals />} />
+              <Route path='/thesis-Dissertations' element={<Thesis />} />
+              <Route path='/conference-Papers' element={<ConferencePapers />} />
+              <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
+              {/* Wrap the /admin route with the ProtectedComponent */}
+              <Route element={<ProtectedComponent />}>
+                <Route path="/admin" element={<Admin />} />
+              </Route>
+            </Routes>
+            {!hideNavAndFooter.includes(location.pathname) && <Footer />}
+            {/*hideNavAndFooter.includes(location.pathname) && <AdminFooter />*/}
+          </AdminProvider>
+
         </GlobalStateProvider>
       </CurrencyProvider>
     </CartProvider>

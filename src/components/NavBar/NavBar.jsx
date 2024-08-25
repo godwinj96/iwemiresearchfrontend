@@ -111,7 +111,7 @@ const Navbar = () => {
     navigate('/academic-Textbooks')
   }
   const thesis = () => {
-    navigate('/thesis&Dissertations')
+    navigate('/thesis-Dissertations')
   }
 
   const conference = () => {

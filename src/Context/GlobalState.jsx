@@ -20,6 +20,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [openAccessPapers, setOpenAcessPapers] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [accessToken, setAccessToken] = useState(null); // New state for access token
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const navigate = useNavigate();
 
@@ -91,6 +92,7 @@ export const GlobalStateProvider = ({ children }) => {
         setLoggedIn(false);
       } else {
         const userData = await response.json();
+        console.log(userData)
         setUser(userData);
         setLoggedIn(true);
         localStorage.setItem('session', JSON.stringify(userData));
@@ -98,6 +100,8 @@ export const GlobalStateProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Error fetching session:', error.message);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -165,7 +169,9 @@ export const GlobalStateProvider = ({ children }) => {
     uploadedFiles,
     setUploadedFiles,
     handleLogin,
-    accessToken, // Make the token available in the context
+    accessToken,
+    loading,
+    setLoading // Make the token available in the context
   };
 
   return (
