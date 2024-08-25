@@ -141,8 +141,8 @@ const Admin = () => {
 
         <div className="main ">
           <AdminHeading setShowUpload={setShowUpload} />
-          <div className='px-12'>
-            <table className="mt-6 w-full whitespace-nowrap text-left max-lg:block max-lg:overflow-x-scroll ">
+          <div className='px-12 overflow-x-auto'>
+            <table className="mt-6 w-full text-left table-auto whitespace-nowrap text-left max-lg:block max-lg:overflow-x-scroll ">
               <colgroup>
                 <col className="w-full sm:w-4/12" />
                 <col className="lg:w-4/12 hidden lg:table-cell" />
@@ -252,9 +252,9 @@ const Admin = () => {
                           <HiOutlinePencil className="text-lg" />
                         </button>
                         <button
-
+                           disabled={item.is_approved} 
                           onClick={() => publishPaper(item.name)}
-                          className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center cursor-pointer hover:border-gray-400"
+                          className={`dark:bg-blackPrimary ${item.is_approved?" bg-green-300": "bg-red-300 hover:border-gray-400 cursor-pointer "} dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center  `}
                         >
                           <CiBookmarkPlus className="text-lg" />
                         </button>
