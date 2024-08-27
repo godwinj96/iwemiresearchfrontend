@@ -41,6 +41,7 @@ const Payment = () => {
         if (storedProduct) {
             const parsedProduct = JSON.parse(storedProduct)
             setTotal(parsedProduct.price)
+            console.log(storedProduct)
         }
     }, [])
 
@@ -53,6 +54,7 @@ const Payment = () => {
 
     const location = useLocation()
     const products = location.state?.products || [];
+    console.log(products)
     const total = location.state?.total || 0
     const fromUploadPage = location.state?.fromUploadPage || false
     // Calculate total price
@@ -115,6 +117,7 @@ const Payment = () => {
 const checkoutStripe = async () => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/create-payment-intent/', {
+      productname:   products.name,
       amount: Number(total*100), 
       currency: 'ngn',
       success_url: 'http://localhost:5173/payment',
@@ -132,6 +135,7 @@ const checkoutStripe = async () => {
 
     await stripe.redirectToCheckout({ sessionId });
     toast.success("Payment successful")
+    handlePaymentSuccess()
   } catch (error) {
     console.error('Error creating checkout session:', error);
   }
