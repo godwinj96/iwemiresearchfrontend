@@ -1819,15 +1819,25 @@ div.relative:hover .dropdown-menu {
     width: 100%;
   }
 
-  .about-section-t {
-    gap: 40px !important;
-  }
+ 
 
 }
 
 
 .about-section-t {
   gap: 100px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 1x3 grid */
+  gap: 20px !important; /* Space between grid items */
+}
+
+@media (max-width: 1000px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* 3x1 grid for smaller screens */
+  }
 }
 
 .type-papers .each {
