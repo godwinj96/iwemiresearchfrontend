@@ -41,7 +41,7 @@ const About = () => {
           </div>
         </section>)
         :
-        (<div className='about flex flex-col '>
+        (<div className='about flex flex-col items-center justify-center '>
 
             {/**<div className='about-heading flex'>
                 <h2>About us</h2>
@@ -86,8 +86,8 @@ const About = () => {
                     </ul>
                 </div>
             </div>
-            <hr />
-            <div className='about-section flex flex-col items-center justify-center'>
+            
+            <div className='about-section flex flex-col items-center justify-center '>
                 <div className='about-section-h'>
                     <h2>
                         Free access to thousands of global research papers, academic insights and journals

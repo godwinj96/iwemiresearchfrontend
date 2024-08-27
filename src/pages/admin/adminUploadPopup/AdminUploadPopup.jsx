@@ -12,6 +12,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
   const [authors, setAuthors] = useState('')
   const [date, setDate] = useState(new Date())
   const [yearP, setYearP] = useState('')
+  const [price, setPrice] = useState(0)
   const [type, setType] = useState('')
   const [abstract, setAbstract] = useState('')
   const [category, setCategory] = useState('')
@@ -83,6 +84,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
         uploadData.append("subcategory", subcategory)
         uploadData.append("author", authors)
         uploadData.append("abstract", abstract)
+        uploadData.append("price", price)
         uploadData.append("year_published", yearP)
         uploadData.append("resource_id", resourceId)
         uploadData.append("is_open_access", false)
@@ -118,6 +120,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
       uploadData.append("subcategory", subcategory)
       uploadData.append("author", authors)
       uploadData.append("abstract", abstract)
+      uploadData.append("price", price)
       uploadData.append("year_published", yearP)
       // uploadData.append("resource_id", resourceId)
       uploadData.append("is_open_access", false)
@@ -191,6 +194,10 @@ const adminUploadPopup = ({ setShowUpload }) => {
                 <div>
                   <label htmlFor="datePublished" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year Published</label>
                   <input type="text" value={yearP} onChange={(e) => setYearP(e.target.value)} id="yearPublished" name='yearPublished' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+                </div>
+                <div>
+                  <label htmlFor="datePublished" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                  <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} id="price" name='price' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                 </div>
                 <div>
                   <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

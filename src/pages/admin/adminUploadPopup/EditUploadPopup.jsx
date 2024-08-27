@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cross from '../../../assets/cross_icon.png';
 import './AdminUploadPopup.css';
 import DatePicker from 'react-datepicker'
@@ -12,60 +12,62 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
     const [title, setTitle] = useState(paper.name)
     const [authors, setAuthors] = useState(paper.author)
     const [date, setDate] = useState(new Date())
+    const [price, setPrice] = useState(paper.price ? paper.price : 0)
     const [yearP, setYearP] = useState(paper.year_published)
     const [type, setType] = useState(paper.type)
     const [abstract, setAbstract] = useState(paper.abstract)
     const [category, setCategory] = useState(paper.category)
     const [subcategory, setSubcategory] = useState(paper.subcategory)
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0]
-        if (file && file.type === 'application/pdf') {
-            setSelectedFile(file)
 
-        } else {
-            alert('Please upload a PDF file.')
-        }
-    }
-
+   // console.log(typeof type)
 
     const Edit = async () => {
         try {
+            console.log(typeof type)
+            
+            const form = {
+                'name': title,
+                'author': authors,
+                'type':type,
+                'category':category,
+                'subcategory':subcategory,
+                'abstract': abstract,
+                'year_published': yearP,
+                'price': price
+            }
+
             const Token = localStorage.getItem('accessToken');
-
-            const uploadData = new FormData()
-            uploadData.append("name", title)
-            uploadData.append("type", type)
-            uploadData.append("category", category)
-            uploadData.append("subcategory", subcategory)
-            uploadData.append("author", authors)
-            uploadData.append("abstract", abstract)
-            uploadData.append("year_published", yearP)
-            //uploadData.append("resource_id", resourceId)
-            uploadData.append("is_open_access", false)
-            //uploadData.append("file", selectedFile)
-
-            const edit = await fetch(`https://iweminewbackend.onrender.com/api/papers/paper/${paper.name}/`, {
+            const publish = await fetch(`https://iweminewbackend.onrender.com/api/papers/paper/${paper.name}/`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${Token}`,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(uploadData)
+                body: JSON.stringify(form)
 
             })
 
-            if (!edit.ok) {
-                console.log(await edit.json())
-            } else{
-                toast.success("Book Edited")
-                setShowEdit(false)
+            if (!publish.ok) {
+                console.log(await publish.json())
+                toast.error("Failed to Edit")
+                return;
             }
+
+            toast.success("Book Edited")
+            setShowEdit(false)
+
+
         } catch (err) {
             console.log(err.message)
         }
     }
+
+
+    useEffect(()=>{
+        console.log(typeof type)
+    },[])
 
     return (
         <div className='upload-popup'>
@@ -110,6 +112,10 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
                                 <div>
                                     <label htmlFor="datePublished" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year Published</label>
                                     <input type="text" value={yearP} onChange={(e) => setYearP(e.target.value)} id="yearPublished" name='yearPublished' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                                    <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} id="price" name='price' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                                 </div>
                                 <div>
                                     <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -591,7 +597,7 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
 
                         {/**file upload form */}
 
-                        
+
 
                         <div className="mt-4 flex items-center justify-between w-full bg-white dark:bg-gray-700 p-4 rounded-lg">
 
@@ -600,7 +606,7 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
                                 data-modal-toggle="popup-modal"
                                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                                 onClick={Edit}
-                                 //disable if no file is selectedor modal is open
+                            //disable if no file is selectedor modal is open
                             >
                                 Confirm Changes
                             </button>

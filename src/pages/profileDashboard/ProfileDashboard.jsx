@@ -1284,7 +1284,7 @@ const ProfileDashboard = () => {
 
 
   return (
-    <div className='flex flex-col profile-container '>
+    <div className='flex flex-col profile-container flex-grow'>
 
       {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
@@ -1303,7 +1303,7 @@ const ProfileDashboard = () => {
         </div>
       </section>)
         :
-        (<div className="profile-page flex flex-col">
+        (<div className="profile-page flex flex-col ">
           <div className="profile-page-title">
             My account
           </div>

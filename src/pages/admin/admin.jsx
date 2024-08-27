@@ -23,7 +23,6 @@ const Admin = () => {
   const { searchInput } = useContext(AdminContext)
 
   const getPapers = async () => {
-
     try {
       const papersResponse = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
         method: 'GET',
@@ -132,7 +131,7 @@ const Admin = () => {
   return (
     <div className="mx-auto  ">
       {showUpload ? <AdminUploadPopup setShowUpload={setShowUpload} /> : <></>}
-      {showEdit ? <EditUploadPopup paper={selectedPaper} setShowEdit={setShowEdit} /> : <></>}
+      {showEdit ? <EditUploadPopup paper={selectedPaper} setShowEdit={setShowEdit}  /> : <></>}
       <div className="flex flex-col admin-container">
         <div className="nav">
           <AdminNav />
@@ -235,7 +234,7 @@ const Admin = () => {
                       </div>
                     </td>
                     <td className="py-4 pl-0 pr-8 text-sm leading-6 dark:text-rose-200 text-rose-600 font-medium table-cell lg:pr-20">
-                      {item.price ? item.price : "0"}
+                      {item.price ? item.price : 0}
                     </td>
                     <td className="py-4 pl-0 pr-8 text-sm leading-6 dark:text-green text-green font-medium table-cell lg:pr-20">
                       {item.is_approved ? "Published" : "Not Published"}
@@ -246,6 +245,7 @@ const Admin = () => {
                           onClick={()=>{
                             setSelectedPaper(item)
                             setShowEdit(true)
+                            
                           }}
                           className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center cursor-pointer hover:border-gray-400"
                         >
