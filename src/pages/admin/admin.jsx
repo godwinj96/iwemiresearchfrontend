@@ -10,6 +10,7 @@ import AdminHeading from "./AdminHeading";
 import AdminNav from "./AdminNav";
 import AdminUploadPopup from "./adminUploadPopup/AdminUploadPopup";
 import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
+import { GlobalStateContext } from '../../Context/GlobalState';
 
 
 
@@ -24,6 +25,7 @@ const Admin = () => {
   const [totalPage, setTotalPage] = useState(1)
   const approved = true
   const { searchInput } = useContext(AdminContext)
+  const {user} = useContext(GlobalStateContext)
 
   const getPapers = async () => {
     try {
@@ -271,14 +273,15 @@ const Admin = () => {
                         >
                           <HiOutlinePencil className="text-lg" />
                         </button>
-                        <button
+                        
+                       {user.is_publisher && (<button
                           disabled={item.is_approved}
                           onClick={() => publishPaper(item.name)}
                           className={`dark:bg-blackPrimary ${item.is_approved ? " bg-green-300" : "bg-red-300 hover:border-gray-400 cursor-pointer "} dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center  `}
                         >
                           <CiBookmarkPlus className="text-lg" />
-                        </button>
-
+                        </button>)
+}
 
                         <button
                           onClick={() => deletePaper(item.name)}
