@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { MdDateRange } from "react-icons/md";
+import { toast } from 'react-toastify';
 import cross from '../../../assets/cross_icon.png';
 import './AdminUploadPopup.css';
-import DatePicker from 'react-datepicker'
-import { MdDateRange } from "react-icons/md"
-import { toast } from 'react-toastify';
 
 const EditUploadPopup = ({ setShowEdit, paper }) => {
 
@@ -38,7 +38,7 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
             }
 
             const Token = localStorage.getItem('accessToken');
-            const publish = await fetch(`https://iweminewbackend.onrender.com/api/papers/paper/${paper.name}/`, {
+            const publish = await fetch(`https://localhost:8014/api/papers/paper/${paper.name}/`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${Token}`,

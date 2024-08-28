@@ -59,7 +59,7 @@ const SignUp = () => {
 
     //apiService(url)
     try {
-      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/register/", {
+      const response = await fetch("https://localhost:8014/api/auth/register/", {
         method: 'POST',
         headers: {
             'accept': 'application/json'

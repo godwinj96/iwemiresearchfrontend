@@ -1,13 +1,11 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react';
-import Footer from '../../components/Footer/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/NavBar/NavBar';
-import logo from '../../assets/iwemi logo.png'
-import { supabase } from '../../supaBaseClient';
-import { GlobalStateContext } from '../../Context/GlobalState';
-import HomeBookCards from '../../components/BookCards/HomeBookCards';
 import { toast } from 'react-toastify';
+import { GlobalStateContext } from '../../Context/GlobalState';
+import logo from '../../assets/iwemi logo.png';
+import HomeBookCards from '../../components/BookCards/HomeBookCards';
+import Footer from '../../components/Footer/Footer';
 
 const SignUpPublish = () => {
 
@@ -60,7 +58,7 @@ const SignUpPublish = () => {
 
 
     try {
-      const response = await fetch("https://iweminewbackend.onrender.com/api/auth/register/", {
+      const response = await fetch("https://localhost:8014/api/auth/register/", {
         method: 'POST',
         headers: {
           'accept': 'application/json'

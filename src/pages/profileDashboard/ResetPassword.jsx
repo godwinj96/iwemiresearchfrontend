@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import logo from '../../assets/iwemi logo.png'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import logo from '../../assets/iwemi logo.png'
 
 const ResetPassword = () => {
 
@@ -34,7 +34,7 @@ const ResetPassword = () => {
             resetForm.append("password",newPass)
             resetForm.append("confirm_password", confirmPass)
 
-            const response = await fetch(`http://iweminewbackend.onrender.com/api/auth/password/reset/confirm/${uidb64}/${token}`,{
+            const response = await fetch(`http://localhost:8014/api/auth/password/reset/confirm/${uidb64}/${token}`,{
                 method:'POST',
                 body: resetForm
             })

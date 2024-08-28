@@ -1,12 +1,11 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import {
-  Container,
-  IconMagnifyingGlass,
-  IconRightArrow,
-  SearchInput,
-} from "./styles"
+import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalStateContext } from '../../../Context/GlobalState';
-import { supabase } from '../../../supaBaseClient';
+import {
+    Container,
+    IconMagnifyingGlass,
+    IconRightArrow,
+    SearchInput,
+} from "./styles";
 
 // function SearchBar() {
 
@@ -57,7 +56,7 @@ export const SearchBar = () => {
     }
 
     try {
-      const response = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+      const response = await fetch("https://localhost:8014/api/papers/", {
         method: 'GET',
         headers: {
           'accept': 'application/json'

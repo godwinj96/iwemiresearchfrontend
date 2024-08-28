@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { MdDateRange } from "react-icons/md";
+import { toast } from 'react-toastify';
 import cross from '../../../assets/cross_icon.png';
 import './AdminUploadPopup.css';
-import DatePicker from 'react-datepicker'
-import { MdDateRange } from "react-icons/md"
-import { toast } from 'react-toastify';
 const adminUploadPopup = ({ setShowUpload }) => {
 
   const [selectedFile, setSelectedFile] = useState(null)
@@ -90,7 +90,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
         uploadData.append("is_open_access", false)
         uploadData.append("file", selectedFile)
 
-        const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+        const response2 = await fetch("https://localhost:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })
@@ -127,7 +127,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
       uploadData.append("file", selectedFile)
 
       try {
-        const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+        const response2 = await fetch("https://localhost:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })

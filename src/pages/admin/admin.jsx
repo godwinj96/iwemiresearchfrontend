@@ -2,16 +2,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { CiBookmarkPlus } from "react-icons/ci";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import NavBar from "../../components/NavBar/NavBar";
+import { AdminContext } from '../../Context/AdminContext';
 import './Admin.css';
 import AdminFooter from "./AdminFooter";
 import AdminHeading from "./AdminHeading";
 import AdminNav from "./AdminNav";
 import AdminUploadPopup from "./adminUploadPopup/AdminUploadPopup";
 import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
-import { AdminContext } from '../../Context/AdminContext';
 
 const Admin = () => {
 
@@ -24,7 +22,7 @@ const Admin = () => {
 
   const getPapers = async () => {
     try {
-      const papersResponse = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+      const papersResponse = await fetch("https://localhost:8014/api/papers/", {
         method: 'GET',
         headers: {
           'accept': 'application/json'
@@ -63,7 +61,7 @@ const Admin = () => {
         setLoggedIn(false);
         return;
       }
-      const publish = await fetch(`https://iweminewbackend.onrender.com/api/papers/paper/${papername}/`, {
+      const publish = await fetch(`https://localhost:8014/api/papers/paper/${papername}/`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${Token}`,
@@ -89,7 +87,7 @@ const Admin = () => {
   }
 
   const deletePaper = async (papername) => {
-    const deleteRes = await fetch(`https://iweminewbackend.onrender.com/api/papers/paper/${papername}/`, {
+    const deleteRes = await fetch(`https://localhost:8014/api/papers/paper/${papername}/`, {
       method: 'DELETE',
       headers: {
 

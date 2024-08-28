@@ -1,17 +1,15 @@
 /* eslint-disable */
 
 import React, { useContext, useEffect, useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
 import content1 from '../../assets/content-1.webp'
-import content4 from '../../assets/content-4.webp'
 import content2 from '../../assets/content-2.jpg'
 import content3 from '../../assets/content-3.jpg'
+import content4 from '../../assets/content-4.webp'
 
-import HomeBookCards from '../../components/BookCards/HomeBookCards'
-import { useLocation, useNavigate } from 'react-router-dom'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { useLocation, useNavigate } from 'react-router-dom'
+import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import { supabase } from '../../supaBaseClient'
 
@@ -27,7 +25,7 @@ const Home = () => {
   useEffect(() => {
 
     /**
-                * const response = await fetch("https://iweminewbackend.onrender.com/api/papers/",{
+                * const response = await fetch("https://localhost:8014/api/papers/",{
                    method:'GET',
                    headers:{
                      'accept':'application/json'

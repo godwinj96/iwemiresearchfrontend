@@ -9,14 +9,12 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 import interswitch_img from "../../assets/interswitch.png"
 import stripe_img from '../../assets/stripe.png'
 
+import { loadStripe } from '@stripe/stripe-js'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import iwemi_logo from '../../assets/new iwemi.png'
-import { useCurrency } from '../../Context/CurrencyContext'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
-import { data } from 'autoprefixer'
-import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
-import { headers } from 'next/headers'
+import { useCurrency } from '../../Context/CurrencyContext'
 
 
 const Payment = () => {
@@ -196,7 +194,7 @@ const checkoutStripe = async () => {
 
          
 
-            const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+            const response2 = await fetch("https://localhost:8014/api/papers/", {
                 method: 'POST',
                 body: formData
             })

@@ -44,7 +44,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const handleLogin = async (loginForm) => {
     try {
-      const response = await fetch('https://iweminewbackend.onrender.com/api/auth/login/', {
+      const response = await fetch('https://localhost:8014/api/auth/login/', {
         method: 'POST',
         body: loginForm,
       });
@@ -80,7 +80,7 @@ export const GlobalStateProvider = ({ children }) => {
         return;
       }
 
-      const response = await fetch('https://iweminewbackend.onrender.com/api/auth/profile/', {
+      const response = await fetch('https://localhost:8014/api/auth/profile/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${Token}`,
@@ -108,7 +108,7 @@ export const GlobalStateProvider = ({ children }) => {
   const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     try {
-      const response = await axios.post('https://iweminewbackend.onrender.com/api/auth/token/refresh/', {
+      const response = await axios.post('https://localhost:8014/api/auth/token/refresh/', {
         refresh: refreshToken,
       });
       setAccessToken(response.data.access);
@@ -123,7 +123,7 @@ export const GlobalStateProvider = ({ children }) => {
     tokenForm.append('token', localStorage.getItem('accessToken'));
 
     try {
-      const response = await fetch('https://iweminewbackend.onrender.com/api/auth/token/verify/', {
+      const response = await fetch('https://localhost:8014/api/auth/token/verify/', {
         method: 'POST',
         headers: { accept: 'application/json' },
         body: tokenForm,

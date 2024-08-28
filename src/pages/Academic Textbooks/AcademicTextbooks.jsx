@@ -1,16 +1,12 @@
 /* eslint-disable */
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
-import { IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { HiMenuAlt2 } from "react-icons/hi";
-import { supabase } from '../../supaBaseClient';
-import { useCart } from '../../Context/CartContext';
-import BookItem from '../../components/BookCards/BookItem';
-import { toast } from 'react-toastify';
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
+import BookItem from '../../components/BookCards/BookItem';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 
 const ITEMS_PER_PAGE = 15
@@ -329,7 +325,7 @@ const AcademicTextbooks = () => {
         const fetchAcademic = async () => {
             try {
 
-                const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+                const response2 = await fetch("https://localhost:8014/api/papers/", {
                     method: 'GET',
                     headers: {
                         'accept': 'application/json'

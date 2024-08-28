@@ -1,14 +1,12 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react'
-import { GlobalStateContext } from '../../Context/GlobalState'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
-import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GiNewspaper } from "react-icons/gi"
 import { useLocation, useParams } from 'react-router-dom'
-import { supabase } from '../../supaBaseClient'
-import { useCurrency } from '../../Context/CurrencyContext'
 import { useCart } from '../../Context/CartContext'
+import { useCurrency } from '../../Context/CurrencyContext'
+import { GlobalStateContext } from '../../Context/GlobalState'
+import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { supabase } from '../../supaBaseClient'
 
 const ClickedBook = () => {
  // const { search, setSearch } = useContext(GlobalStateContext)
@@ -32,7 +30,7 @@ const ClickedBook = () => {
   useEffect(() => {
 
     /**
-                * const response = await fetch("https://iweminewbackend.onrender.com/api/papers/",{
+                * const response = await fetch("https://localhost:8014/api/papers/",{
                    method:'GET',
                    headers:{
                      'accept':'application/json'

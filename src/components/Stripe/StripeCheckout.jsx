@@ -1,8 +1,8 @@
-import { useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GlobalStateContext } from '../../Context/GlobalState';
 
 const stripePromise = loadStripe('pk_test_51Pl654BtS3lVeLJEYpzqhlEkp4B9qmaX8ch4gJDslvwEm0kTw06sOZJ9Pc9J0VlC2wP2hiFqa0R43nHcXCwLFQWW00QtE9aDAU');
@@ -16,7 +16,7 @@ const CheckoutForm = (props) => {
 
     useEffect(() => {
         // Get the client secret from your backend
-        axios.post('iweminewbackend.onrender.com/api/create-payment-intent/', {
+        axios.post('localhost:8014/api/create-payment-intent/', {
             amount: 100,  // Replace with your dynamic amount
             currency: 'ngn'
         }).then((response) => {

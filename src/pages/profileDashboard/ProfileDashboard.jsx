@@ -2,13 +2,12 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { MdDateRange } from "react-icons/md"
 import { useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import flutterwave_img from '../../assets/flutterwave.png'
 import interswitch_img from '../../assets/interswitch.png'
 import stripe_img from '../../assets/stripe.png'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
-import { supabase } from '../../supaBaseClient'
-import { toast } from 'react-toastify'
 
 
 const ProfileDashboard = () => {
@@ -215,7 +214,7 @@ const ProfileDashboard = () => {
         uploadData.append("is_open_access", false)
         uploadData.append("file", selectedFile)
 
-        const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+        const response2 = await fetch("https://localhost:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })
@@ -372,7 +371,6 @@ const ProfileDashboard = () => {
 
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
-              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('paymentMethods') }}>manage payment methods</a> , and {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and account details</a>
             </p>
 
@@ -1078,7 +1076,7 @@ const ProfileDashboard = () => {
             </button>
           </div>
         );
-      case 'paymentMethods':
+      
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Payment Methods</h3>

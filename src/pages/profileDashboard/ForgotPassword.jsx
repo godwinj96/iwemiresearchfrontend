@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import logo from '../../assets/iwemi logo.png'
 import { toast } from 'react-toastify'
+import logo from '../../assets/iwemi logo.png'
 
 const ForgotPassword = () => {
 
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     setMessage('')
     //user
     try {
-      const response = await fetch('https://iweminewbackend.onrender.com/api/auth/password/reset/', {
+      const response = await fetch('https://localhost:8014/api/auth/password/reset/', {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',

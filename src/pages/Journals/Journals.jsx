@@ -8,7 +8,6 @@ import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import BookItem from '../../components/BookCards/BookItem';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
-import { supabase } from '../../supaBaseClient';
 
 const ITEMS_PER_PAGE = 2
 
@@ -246,7 +245,7 @@ const Journals = () => {
                 setJournals(data)
                 setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
                  */
-                const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
+                const response2 = await fetch("https://localhost:8014/api/papers/", {
                     method: 'GET',
                     headers: {
                         'accept': 'application/json'
