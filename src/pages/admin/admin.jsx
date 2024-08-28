@@ -13,7 +13,7 @@ import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
 
 
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 3
 const Admin = () => {
 
   const [papers, setPapers] = useState([])
@@ -294,7 +294,10 @@ const Admin = () => {
 
 
             </table>
-            <div className='flex flex-col items-center justify-center'>
+           
+
+          </div>
+          <div className='flex justify-between items-center p-10 '>
               <span>Page {currentPage} of {totalPage}</span>
               <div className="next-button flex gap-10">
                 <button
@@ -310,8 +313,6 @@ const Admin = () => {
                 >Next {'>'}</button>
               </div>
             </div>
-
-          </div>
 
         </div>
 
