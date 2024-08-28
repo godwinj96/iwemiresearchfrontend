@@ -7,6 +7,7 @@ import './AdminUploadPopup.css';
 const adminUploadPopup = ({ setShowUpload }) => {
 
   const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(null)
   const [uploadedOption, setUploadedOption] = useState('')//initial radio state
   const [title, setTitle] = useState('')
   const [authors, setAuthors] = useState('')
@@ -27,6 +28,13 @@ const adminUploadPopup = ({ setShowUpload }) => {
       alert('Please upload a PDF file.')
     }
   }
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  };
 
 
 
@@ -89,8 +97,9 @@ const adminUploadPopup = ({ setShowUpload }) => {
         uploadData.append("resource_id", resourceId)
         uploadData.append("is_open_access", false)
         uploadData.append("file", selectedFile)
+        uploadData.append("cover_page", selectedImage)
 
-        const response2 = await fetch("http://localhost:8014/api/papers/", {
+        const response2 = await fetch("https://localhost:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })
@@ -125,9 +134,10 @@ const adminUploadPopup = ({ setShowUpload }) => {
       // uploadData.append("resource_id", resourceId)
       uploadData.append("is_open_access", false)
       uploadData.append("file", selectedFile)
+      uploadData.append("cover_page", selectedImage)
 
       try {
-        const response2 = await fetch("http://localhost:8014/api/papers/", {
+        const response2 = await fetch("https://localhost:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })
@@ -147,7 +157,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
         console.error('Error uploading book:', error.message)
         toast.error(error)
         alert('Failed to upload book. Please try again')
-      } 
+      }
     }
   }
 
@@ -707,25 +717,78 @@ const adminUploadPopup = ({ setShowUpload }) => {
 
 
             {/**file upload form */}
+            <div className='flex'>
+              {/* PDF Upload Section */}
+              <div className="flex flex-col items-center justify-center w-full file-upload">
+                {/* Display the selected file name if a file is uploaded */}
+                {selectedFile && (
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    Selected file: <span className="font-semibold">{selectedFile.name}</span>
+                  </p>
+                )}
+                <label htmlFor="pdf-dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                    </svg>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">PDF (MAX. 800x400px)</p>
+                  </div>
+                  <input id="pdf-dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept='application/pdf' />
+                </label>
+              </div>
 
-            <div className="flex flex-col items-center justify-center w-full file-upload">
-              {/* Display the selected file name if a file is uploaded */}
-              {selectedFile && (
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  Selected file: <span className="font-semibold">{selectedFile.name}</span>
-                </p>
-              )}
-              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                  </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">PDF (MAX. 800x400px)</p>
-                </div>
-                <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept='application/pdf' />
-              </label>
+              {/* Image Upload Section */}
+              <div className="flex flex-col items-center justify-center w-full image-upload">
+                {/* Display the selected image preview if an image is uploaded */}
+                {selectedImage && (
+                  <div className="mb-4">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Selected image: <span className="font-semibold">{selectedImage.name}</span>
+                    </p>
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      alt="Selected Image Preview"
+                      className="w-32 h-32 object-cover mt-2 rounded-lg border border-gray-300 dark:border-gray-600"
+                    />
+                  </div>
+                )}
+                <label
+                  htmlFor="image-dropzone-file"
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500"
+                >
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 7.5L6.5 10 9 7.5l2.5 2.5 3.5-3.5"
+                      />
+                    </svg>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Click to upload</span> or drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Image files (MAX. 800x800px)</p>
+                  </div>
+                  <input
+                    id="image-dropzone-file"
+                    type="file"
+                    className="hidden"
+                    onChange={handleImageChange}
+                    accept="image/*"
+                  />
+                </label>
+              </div>
             </div>
+
 
             <div className="mt-4 flex items-center justify-between w-full bg-white dark:bg-gray-700 p-4 rounded-lg">
 
