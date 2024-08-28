@@ -30,7 +30,7 @@ const ClickedBook = () => {
   useEffect(() => {
 
     /**
-                * const response = await fetch("https://localhost:8014/api/papers/",{
+                * const response = await fetch("http://localhost:8014/api/papers/",{
                    method:'GET',
                    headers:{
                      'accept':'application/json'

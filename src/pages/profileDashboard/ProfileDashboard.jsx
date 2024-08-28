@@ -214,7 +214,7 @@ const ProfileDashboard = () => {
         uploadData.append("is_open_access", false)
         uploadData.append("file", selectedFile)
 
-        const response2 = await fetch("https://localhost:8014/api/papers/", {
+        const response2 = await fetch("http://localhost:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })
