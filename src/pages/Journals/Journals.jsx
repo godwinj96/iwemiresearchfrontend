@@ -9,7 +9,7 @@ import { GlobalStateContext } from '../../Context/GlobalState';
 import BookItem from '../../components/BookCards/BookItem';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 
-const ITEMS_PER_PAGE = 2
+const ITEMS_PER_PAGE = 10
 
 
 const Journals = () => {

@@ -11,12 +11,17 @@ import AdminNav from "./AdminNav";
 import AdminUploadPopup from "./adminUploadPopup/AdminUploadPopup";
 import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
 
+
+
+const ITEMS_PER_PAGE = 10
 const Admin = () => {
 
   const [papers, setPapers] = useState([])
   const [showUpload, setShowUpload] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [selectedPaper, setSelectedPaper] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1)
   const approved = true
   const { searchInput } = useContext(AdminContext)
 
@@ -37,6 +42,8 @@ const Admin = () => {
       //console.log(Papers)
 
       setPapers(Papers)
+      const totalItems = Papers.length
+      setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
     } catch (err) {
       console.log(err)
       console.log("Error")
@@ -113,9 +120,24 @@ const Admin = () => {
   }, [])
   useEffect(() => {
     getPapers()
-  }, [papers])
+  }, [papers, currentPage, ITEMS_PER_PAGE,])
 
-  const filteredPapers = papers.filter(item =>
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedPapers = papers.slice(startIndex, endIndex)
+
+  const handleNextPage = () => {
+    if (currentPage < totalPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const filteredPapers = paginatedPapers.filter(item =>
     item.name.toLowerCase().includes(searchInput.toLowerCase()) ||
     item.author.toLowerCase().includes(searchInput.toLowerCase()) ||
     item.type.toLowerCase().includes(searchInput.toLowerCase()) ||
@@ -129,16 +151,16 @@ const Admin = () => {
   return (
     <div className="mx-auto  ">
       {showUpload ? <AdminUploadPopup setShowUpload={setShowUpload} /> : <></>}
-      {showEdit ? <EditUploadPopup paper={selectedPaper} setShowEdit={setShowEdit}  /> : <></>}
+      {showEdit ? <EditUploadPopup paper={selectedPaper} setShowEdit={setShowEdit} /> : <></>}
       <div className="flex flex-col admin-container">
         <div className="nav">
           <AdminNav />
-          
+
         </div>
 
         <div className="main ">
           <AdminHeading setShowUpload={setShowUpload} />
-          <div className='px-12 overflow-x-auto'>
+          <div className='px-12 overflow-x-auto flex flex-col justify-between'>
             <table className="mt-6 w-full text-left table-auto whitespace-nowrap text-left max-lg:block max-lg:overflow-x-scroll ">
               <colgroup>
                 <col className="w-full sm:w-4/12" />
@@ -227,7 +249,7 @@ const Admin = () => {
                     <td className="py-4 pl-0 pr-4 table-cell pr-8 hidden lg:table-cell">
                       <div className="flex gap-x-3">
                         <div className="font-mono text-sm leading-6 dark:text-whiteSecondary text-blackPrimary">
-                          {item.year_published? item.year_published:"2000"}
+                          {item.year_published ? item.year_published : "2000"}
                         </div>
                       </div>
                     </td>
@@ -240,19 +262,19 @@ const Admin = () => {
                     <td className="py-4 pl-0 pr-4 text-right text-sm leading-6 dark:text-whiteSecondary text-blackPrimary table-cell pr-6 lg:pr-8">
                       <div className="flex gap-x-1 justify-end">
                         <button
-                          onClick={()=>{
+                          onClick={() => {
                             setSelectedPaper(item)
                             setShowEdit(true)
-                            
+
                           }}
                           className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center cursor-pointer hover:border-gray-400"
                         >
                           <HiOutlinePencil className="text-lg" />
                         </button>
                         <button
-                           disabled={item.is_approved} 
+                          disabled={item.is_approved}
                           onClick={() => publishPaper(item.name)}
-                          className={`dark:bg-blackPrimary ${item.is_approved?" bg-green-300": "bg-red-300 hover:border-gray-400 cursor-pointer "} dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center  `}
+                          className={`dark:bg-blackPrimary ${item.is_approved ? " bg-green-300" : "bg-red-300 hover:border-gray-400 cursor-pointer "} dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block flex justify-center items-center  `}
                         >
                           <CiBookmarkPlus className="text-lg" />
                         </button>
@@ -269,7 +291,26 @@ const Admin = () => {
                   </tr>
                 ))}
               </tbody>
+
+
             </table>
+            <div className='flex flex-col items-center justify-center'>
+              <span>Page {currentPage} of {totalPage}</span>
+              <div className="next-button flex gap-10">
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                >
+                  {'< Previous'}
+                </button>
+                {''}
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPage}
+                >Next {'>'}</button>
+              </div>
+            </div>
+
           </div>
 
         </div>
