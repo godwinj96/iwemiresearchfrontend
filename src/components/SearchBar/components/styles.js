@@ -63,14 +63,14 @@ export const IconMagnifyingGlass = styled(SearchIcon)`
   // height: 1rem;
   // width: 1rem;
   fill: white;
-  z-index: 10;
+ 
   filter: invert(100%) sepia(0%) saturate(7428%) hue-rotate(161deg) brightness(121%) contrast(116%);
 `;
 export const IconRightArrow = styled(ArrowRight)`
   // height: 1rem;
   // width: 1rem;
   // fill: white;
-  z-index: 10;
+  
   align-self: flex-end;
 
   transition: all 0.5s;
