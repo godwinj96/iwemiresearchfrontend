@@ -90,7 +90,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
         uploadData.append("is_open_access", false)
         uploadData.append("file", selectedFile)
 
-        const response2 = await fetch("https://localhost:8014/api/papers/", {
+        const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
           method: 'POST',
           body: uploadData
         })
@@ -127,7 +127,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
       uploadData.append("file", selectedFile)
 
       try {
-        const response2 = await fetch("https://localhost:8014/api/papers/", {
+        const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
           method: 'POST',
           body: uploadData
         })

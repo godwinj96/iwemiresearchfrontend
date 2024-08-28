@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     setMessage('')
     //user
     try {
-      const response = await fetch('https://localhost:8014/api/auth/password/reset/', {
+      const response = await fetch('https://iweminewbackend.onrender.com/api/auth/password/reset/', {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',

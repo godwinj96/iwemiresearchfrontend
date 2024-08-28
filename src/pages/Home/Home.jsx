@@ -25,7 +25,7 @@ const Home = () => {
   useEffect(() => {
 
     /**
-                * const response = await fetch("https://localhost:8014/api/papers/",{
+                * const response = await fetch("https://iweminewbackend.onrender.com/api/papers/",{
                    method:'GET',
                    headers:{
                      'accept':'application/json'

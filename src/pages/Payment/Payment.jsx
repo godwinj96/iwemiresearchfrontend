@@ -194,7 +194,7 @@ const checkoutStripe = async () => {
 
          
 
-            const response2 = await fetch("https://localhost:8014/api/papers/", {
+            const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
                 method: 'POST',
                 body: formData
             })
