@@ -134,6 +134,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
       // uploadData.append("resource_id", resourceId)
       uploadData.append("is_open_access", false)
       uploadData.append("file", selectedFile)
+      uploadData.append("cover_page", selectedImage)
 
       try {
         const response2 = await fetch("https://iweminewbackend.onrender.com/api/papers/", {
