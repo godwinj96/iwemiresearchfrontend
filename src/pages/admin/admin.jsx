@@ -294,7 +294,10 @@ const Admin = () => {
 
 
             </table>
-            <div className='flex flex-col items-center justify-center'>
+           
+
+          </div>
+          <div className='flex  items-center justify-between'>
               <span>Page {currentPage} of {totalPage}</span>
               <div className="next-button flex gap-10">
                 <button
@@ -310,9 +313,6 @@ const Admin = () => {
                 >Next {'>'}</button>
               </div>
             </div>
-
-          </div>
-
         </div>
 
         <AdminFooter />
