@@ -114,7 +114,7 @@ const Payment = () => {
 
 const checkoutStripe = async () => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/create-payment-intent/', {
+    const response = await axios.post('https://api.iwemiresearch.org/api/create-payment-intent/', {
       productname:   products.name,
       amount: Number(total*100), 
       currency: 'ngn',
