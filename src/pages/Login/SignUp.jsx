@@ -59,7 +59,7 @@ const SignUp = () => {
 
     //apiService(url)
     try {
-      const response = await fetch("http://localhost:8014/api/auth/register/", {
+      const response = await fetch("http://173.249.55.39:8014/api/auth/register/", {
         method: 'POST',
         headers: {
             'accept': 'application/json'

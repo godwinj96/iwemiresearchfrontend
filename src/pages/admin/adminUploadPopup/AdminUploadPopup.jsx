@@ -99,7 +99,8 @@ const adminUploadPopup = ({ setShowUpload }) => {
         uploadData.append("file", selectedFile)
         uploadData.append("cover_page", selectedImage)
 
-        const response2 = await fetch("https://localhost:8014/api/papers/", {
+        const response2 = await fetch("http://173.249.55.39:8014/api/papers/",
+         {
           method: 'POST',
           body: uploadData
         })
@@ -137,7 +138,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
       uploadData.append("cover_page", selectedImage)
 
       try {
-        const response2 = await fetch("https://localhost:8014/api/papers/", {
+        const response2 = await fetch("http://173.249.55.39:8014/api/papers/", {
           method: 'POST',
           body: uploadData
         })

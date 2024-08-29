@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalStateContext } from '../../../Context/GlobalState';
 import {
-    Container,
-    IconMagnifyingGlass,
-    IconRightArrow,
-    SearchInput,
+  Container,
+  IconMagnifyingGlass,
+  IconRightArrow,
+  SearchInput,
 } from "./styles";
 
 // function SearchBar() {
@@ -56,7 +56,7 @@ export const SearchBar = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8014/api/papers/", {
+      const response = await fetch("http://173.249.55.39:8014/api/papers/", {
         method: 'GET',
         headers: {
           'accept': 'application/json'

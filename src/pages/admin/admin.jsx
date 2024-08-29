@@ -4,13 +4,13 @@ import { CiBookmarkPlus } from "react-icons/ci";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { AdminContext } from '../../Context/AdminContext';
+import { GlobalStateContext } from '../../Context/GlobalState';
 import './Admin.css';
 import AdminFooter from "./AdminFooter";
 import AdminHeading from "./AdminHeading";
 import AdminNav from "./AdminNav";
 import AdminUploadPopup from "./adminUploadPopup/AdminUploadPopup";
 import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
-import { GlobalStateContext } from '../../Context/GlobalState';
 
 
 
@@ -29,7 +29,7 @@ const Admin = () => {
 
   const getPapers = async () => {
     try {
-      const papersResponse = await fetch("http://localhost:8014/api/papers/", {
+      const papersResponse = await fetch("http://173.249.55.39:8014/api/papers/", {
         method: 'GET',
         headers: {
           'accept': 'application/json'
@@ -70,7 +70,7 @@ const Admin = () => {
         setLoggedIn(false);
         return;
       }
-      const publish = await fetch(`http://localhost:8014/api/papers/paper/${papername}/`, {
+      const publish = await fetch(`http://173.249.55.39:8014/api/papers/paper/${papername}/`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${Token}`,
@@ -96,7 +96,7 @@ const Admin = () => {
   }
 
   const deletePaper = async (papername) => {
-    const deleteRes = await fetch(`http://localhost:8014/api/papers/paper/${papername}/`, {
+    const deleteRes = await fetch(`http://173.249.55.39:8014/api/papers/paper/${papername}/`, {
       method: 'DELETE',
       headers: {
 
