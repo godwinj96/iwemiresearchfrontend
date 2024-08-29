@@ -25,7 +25,7 @@ const Home = () => {
   useEffect(() => {
 
     /**
-                * const response = await fetch("http://173.249.55.39:8014/api/papers/",{
+                * const response = await fetch("https://api.iwemiresearch.org/api/papers/",{
                    method:'GET',
                    headers:{
                      'accept':'application/json'

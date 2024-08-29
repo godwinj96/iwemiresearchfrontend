@@ -38,7 +38,7 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
             }
 
             const Token = localStorage.getItem('accessToken');
-            const publish = await fetch(`http://173.249.55.39:8014/api/papers/paper/${paper.name}/`, {
+            const publish = await fetch(`https://api.iwemiresearch.org/api/papers/paper/${paper.name}/`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${Token}`,

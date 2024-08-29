@@ -29,7 +29,7 @@ const Admin = () => {
 
   const getPapers = async () => {
     try {
-      const papersResponse = await fetch("http://173.249.55.39:8014/api/papers/", {
+      const papersResponse = await fetch("https://api.iwemiresearch.org/api/papers/", {
         method: 'GET',
         headers: {
           'accept': 'application/json'
@@ -70,7 +70,7 @@ const Admin = () => {
         setLoggedIn(false);
         return;
       }
-      const publish = await fetch(`http://173.249.55.39:8014/api/papers/paper/${papername}/`, {
+      const publish = await fetch(`https://api.iwemiresearch.org/api/papers/paper/${papername}/`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${Token}`,
@@ -96,7 +96,7 @@ const Admin = () => {
   }
 
   const deletePaper = async (papername) => {
-    const deleteRes = await fetch(`http://173.249.55.39:8014/api/papers/paper/${papername}/`, {
+    const deleteRes = await fetch(`https://api.iwemiresearch.org/api/papers/paper/${papername}/`, {
       method: 'DELETE',
       headers: {
 

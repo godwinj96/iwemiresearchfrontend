@@ -194,7 +194,7 @@ const checkoutStripe = async () => {
 
          
 
-            const response2 = await fetch("http://173.249.55.39:8014/api/papers/", {
+            const response2 = await fetch("https://api.iwemiresearch.org/api/papers/", {
                 method: 'POST',
                 body: formData
             })
