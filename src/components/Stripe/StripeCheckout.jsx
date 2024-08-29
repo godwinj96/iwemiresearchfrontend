@@ -16,7 +16,7 @@ const CheckoutForm = (props) => {
 
     useEffect(() => {
         // Get the client secret from your backend
-        axios.post('localhost:8014/api/create-payment-intent/', {
+        axios.post('https://api.iwemiresearch.org/api/create-payment-intent/', {
             amount: 100,  // Replace with your dynamic amount
             currency: 'ngn'
         }).then((response) => {
