@@ -300,7 +300,7 @@ const Admin = () => {
            
 
           </div>
-          <div className='flex  items-center justify-between'>
+          <div className='flex  items-center justify-between p-7'>
               <span>Page {currentPage} of {totalPage}</span>
               <div className="next-button flex gap-10">
                 <button

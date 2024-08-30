@@ -1,35 +1,36 @@
 /* eslint-disable */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCurrency } from '../../Context/CurrencyContext';
+
 
 const Currency = ({ onCurrencyChange }) => {
 
-    const { currencyCode, setCurrencyCode } = useCurrency();
-
-    const currencies = [
-        { code: 'US', name: 'US Dollar' },
-        { code: 'EUR', name: 'Euro' },
-        { code: 'GBP', name: 'British Pound' },
-        { code: 'GHS', name: 'Ghanaian Cedi' },
-        { code: 'XAF', name: 'Central African Franc' },
-        { code: 'XOF', name: 'West African Franc' },
-        { code: 'ZAR', name: 'South African Rand' },
-        { code: 'MWK', name: 'Malawian Kwacha' },
-        { code: 'KES', name: 'Kenyan Shilling' },
-        { code: 'UGX', name: 'Ugandan Shilling' },
-        { code: 'RWF', name: 'Rwandan Franc' },
-        { code: 'TZS', name: 'Tanzanian Shilling' },
-        { code: 'NGN', name: 'Nigerian Naira' }
-    ];
-
+    const { currencyCode, setCurrencyCode,handleCurrencyChange,currencies } = useCurrency();
+     const [localCurrencyCode, setLocalCurrencyCode] = useState(currencyCode);
     
 
-    const handleCurrencyChange = (event) => {
+    const currencyChange =(event)=>{
+        
         const selectedCurrencyCode = event.target.value;
-        const selectedCurrencyNumber = currencies.find(currency => currency.code === selectedCurrencyCode)?.number;
-        setCurrencyCode(selectedCurrencyCode);
-        onCurrencyChange(selectedCurrencyNumber);
-    };
+        setLocalCurrencyCode(selectedCurrencyCode); // Update local state
+        setCurrencyCode(selectedCurrencyCode); // Update context state
+        localStorage.setItem("currency", selectedCurrencyCode);
+        handleCurrencyChange(selectedCurrencyCode);
+    }
+
+    
+   //setCurrencyCode(localStorage.getItem("currency"))
+   
+
+    useEffect(() => {
+        // Load currency from localStorage
+        const savedCurrency = localStorage.getItem("currency");
+        if (savedCurrency) {
+            setLocalCurrencyCode(savedCurrency);
+            setCurrencyCode(localCurrencyCode); // Sync context state with local storage value
+        }
+    }, [setCurrencyCode]);
+
 
 
 
@@ -39,8 +40,8 @@ const Currency = ({ onCurrencyChange }) => {
             <select
                 id="currency"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={currencyCode}
-                onChange={handleCurrencyChange}
+                value={localCurrencyCode}
+                onChange={currencyChange}
                 required
             >
                 <option value="" disabled>Select your currency</option>

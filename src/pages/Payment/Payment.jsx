@@ -24,11 +24,11 @@ const Payment = () => {
     const { accessToken: contextAccessToken } = useContext(GlobalStateContext);
 
     // Retrieve the access token from localStorage if it’s not in the context
-    const accessToken = contextAccessToken || localStorage.getItem('access');
+    const accessToken = contextAccessToken || localStorage.getItem('accessToken');
 
     //reset search on route change
 
-    const { currencyCode } = useCurrency()
+    const { currencyCode,conversionRate } = useCurrency()
 
     const navigate = useNavigate()
 
@@ -46,7 +46,7 @@ const Payment = () => {
     useEffect(() => {
         // Persist the token in localStorage whenever it's set in the context
         if (contextAccessToken) {
-          localStorage.setItem('access', contextAccessToken);
+          localStorage.setItem('accessToken', contextAccessToken);
         }
       }, [contextAccessToken]);
 
@@ -73,7 +73,7 @@ const Payment = () => {
                 merchant_code: merchantCode,
                 pay_item_id: payItemId,
                 txn_ref: transRef,
-                amount: Number(total * 100),
+                amount: Number((total * conversionRate) * 100),
                 cust_id: user.email,
                 currency: 566,
                 site_redirect_url: window.location.origin,
@@ -116,7 +116,7 @@ const checkoutStripe = async () => {
   try {
     const response = await axios.post('https://api.iwemiresearch.org/api/create-payment-intent/', {
       productname:   products.name,
-      amount: Number(total*100), 
+      amount: Number((total * conversionRate)*100), 
       currency: 'ngn',
       success_url: 'http://localhost:5173/payment',
       cancel_url: 'http://localhost:5173/payment',
@@ -142,7 +142,7 @@ const checkoutStripe = async () => {
 
     const checkoutFlutterwave = () => {
 
-        const paymentAmt = Number(total)
+        const paymentAmt = Number(total * conversionRate)
         if (paymentAmt === 0) {
             handlePaymentSuccess()
             //toast.success('No payment needed')
@@ -467,14 +467,14 @@ const checkoutStripe = async () => {
                                         {products.map((product, index) => (
                                             <dl key={index} className="flex items-center justify-between gap-4">
                                                 <dt className="text-base font-normal text-gray-500 dark:text-gray-400">{product.quantity}x {product.name}</dt>
-                                                <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {product.price}</dd>
+                                                <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {(product.price * conversionRate).toFixed(2) || 0}</dd>
                                             </dl>
                                         ))}
                                     </div>
 
                                     <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
                                         <dt className="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
-                                        <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {total.toFixed(2)}</dd>
+                                        <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {(total * conversionRate).toFixed(2)}</dd>
                                     </dl>
                                 </div>
 

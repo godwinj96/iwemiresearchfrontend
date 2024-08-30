@@ -18,11 +18,11 @@ const ShoppingCart = () => {
         setResults([])
     }, [location, setIsSearch, setResults])
     //const {} = useContext(GlobalStateContext)
-    const { currencyCode } = useCurrency()
+    const { currencyCode,conversionRate } = useCurrency()
     const { state, dispatch } = useCart()
 
     const originalPrice = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const total = originalPrice
+    const total = originalPrice 
 
     const handleRemoveFromCart = (index) => {
         dispatch({ type: 'REMOVE_FROM_CART', payload: index });
@@ -43,6 +43,8 @@ const ShoppingCart = () => {
         navigate('/payment', { state: { products: state.items, total } })
 
     };
+
+ 
 
 
     const navigate = useNavigate()
@@ -106,7 +108,7 @@ const ShoppingCart = () => {
                                                         </button>
                                                     </div>
                                                     <div className="text-end md:order-4 md:w-32">
-                                                        <p className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {item.price}</p>
+                                                        <p className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {(item.price *conversionRate).toFixed(2) || 0}</p>
                                                     </div>
                                                 </div>
 
@@ -141,7 +143,7 @@ const ShoppingCart = () => {
                                             <div className="space-y-2">
                                                 <dl className="flex items-center justify-between gap-4">
                                                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
-                                                    <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {originalPrice.toFixed(2)}</dd>
+                                                    <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {(originalPrice* conversionRate).toFixed(2)}</dd>
                                                 </dl>
 
 
@@ -149,7 +151,7 @@ const ShoppingCart = () => {
 
                                             <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                                 <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                                <dd className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {total.toFixed(2)}</dd>
+                                                <dd className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {(total * conversionRate).toFixed(2)}</dd>
                                             </dl>
                                         </div>
 
