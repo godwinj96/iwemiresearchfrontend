@@ -24,7 +24,7 @@ const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => 
                 <text>
                     <span>{book.author}</span>{'  '}
                 </text>
-                <p className="abstract text-justify">
+                <p className="abstract text-justify mr-10">
                     {isExpanded ? book.abstract : getTruncatedText(book.abstract)}
                     <button className={`read-more ${isExpanded ? 'ml-3' : ""} text-orange-500/80`} onClick={() => handleToggleExpand(book.id)}>
                         {isExpanded ? 'Read less' : 'Read more'}

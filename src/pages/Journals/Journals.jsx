@@ -224,11 +224,11 @@ const Journals = () => {
                 }
 
                 const journalData = await response2.json()
-                console.log(journalData)
+                //console.log(journalData)
 
                 const journalPapers = journalData.filter(paper => paper.type === 'Journal')
                 setJournals(journalPapers)
-                console.log(journalPapers)
+               // console.log(journalPapers)
 
                 const totalItems = journalPapers.length
                 setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
@@ -265,7 +265,7 @@ const Journals = () => {
     const toggleSidebar = () => {
 
         setIsOpen(!isOpen)
-        console.log(isOpen)
+       // console.log(isOpen)
         if (isOpen) {
             removeBackdrop()
         }

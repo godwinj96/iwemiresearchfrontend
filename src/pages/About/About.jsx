@@ -96,51 +96,53 @@ const About = () => {
                         </div>
                     </div>
 
-                    <div className='about-section flex flex-col items-center justify-center ' data-aos="fade-up">
+                    <div className='about-section flex flex-col items-center justify-center' data-aos="fade-up">
                         <div className='about-section-h'>
-                            <h2>
-                                Free access to thousands of global research papers, academic insights and journals
-                            </h2>
+                            <h2>Free access to thousands of global research papers, academic insights and journals</h2>
                         </div>
                         <div className='about-section-t grid-container'>
-                            <div className='each-t flex flex-col'>
+                            <div className='each-t flex flex-col animate-float'>
                                 <div className='num'>
                                     <h1>01</h1>
                                 </div>
-                                <div className='subh'><h2>Our Vision</h2></div>
+                                <div className='subh'>
+                                    <h2>Our Vision</h2>
+                                </div>
                                 <div className='para'>
                                     <p>
-                                        At Iwemi Research, our mission is to push the boundaries of knowledge
-                                        and foster innovation through comprehensive research and collaboration.
+                                        At Iwemi Research, our mission is to push the boundaries of knowledge and foster innovation through comprehensive research and collaboration.
                                     </p>
                                 </div>
                             </div>
-                            <div className='each-t flex flex-col'>
+                            <div className='each-t flex flex-col animate-float'>
                                 <div className='num'>
                                     <h1>02</h1>
                                 </div>
-                                <div className='subh'><h2>Our Mission</h2></div>
+                                <div className='subh'>
+                                    <h2>Our Mission</h2>
+                                </div>
                                 <div className='para'>
                                     <p>
-                                        We envision a world where access to cutting-edge research and groundbreaking discoveries is available to everyone,
-                                        fueling progress and advancement in every field.
+                                        We envision a world where access to cutting-edge research and groundbreaking discoveries is available to everyone, fueling progress and advancement in every field.
                                     </p>
                                 </div>
                             </div>
-                            <div className='each-t flex flex-col'>
+                            <div className='each-t flex flex-col animate-float'>
                                 <div className='num'>
                                     <h1>03</h1>
                                 </div>
-                                <div className='subh'><h2>Our Team</h2></div>
+                                <div className='subh'>
+                                    <h2>Our Team</h2>
+                                </div>
                                 <div className='para'>
                                     <p>
-                                        Our team comprises dedicated researchers, scientists, and educators committed
-                                        to making significant contributions to the global knowledge base.
+                                        Our team comprises dedicated researchers, scientists, and educators committed to making significant contributions to the global knowledge base.
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className='about-testimonial'>
                         <div className='testimonial-similar'>
                             <section className="bg-white dark:bg-gray-900 dark">
