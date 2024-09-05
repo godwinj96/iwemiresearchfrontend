@@ -2,12 +2,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { GiNewspaper } from "react-icons/gi"
 import { useLocation, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { useCart } from '../../Context/CartContext'
 import { useCurrency } from '../../Context/CurrencyContext'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
-import { supabase } from '../../supaBaseClient'
-import { toast } from 'react-toastify'
 
 const ClickedBook = () => {
   // const { search, setSearch } = useContext(GlobalStateContext)
@@ -20,48 +19,67 @@ const ClickedBook = () => {
     setIsSearch(false)
     setResults([])
   }, [location])
-  const { currencyCode,conversionRate } = useCurrency()
+  const { currencyCode, conversionRate } = useCurrency()
 
   const { id } = useParams()
 
-  const { book } = location.state || {}
+  const { book, initialTab } = location.state || {}
 
   const [similarBooks, setSimilarBooks] = useState([])
 
-  const getSimilarBooks =async()=>{
+  const getSimilarBooks = async () => {
 
     try {
-      const response = await fetch("https://api.iwemiresearch.org/api/papers/",{
-        method:'GET',
-        headers:{
-          'accept':'application/json'
+      const response = await fetch("https://api.iwemiresearch.org/api/papers/", {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json'
         },
-       
+
       })
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error('Failed to fetch journals')
       }
-      
+
       const bookData = await response.json()
-const sortedPapers = bookData.sort(
-        (a,b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
+      const sortedPapers = bookData.sort(
+        (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
       )
 
       setSimilarBooks(sortedPapers)
-    
+
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
+    // Set initial tab if provided in the state
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
-
+  useEffect(() => {
     getSimilarBooks()
   }, [])
 
   const filteredBooks = similarBooks.filter(book => book.id !== location.state?.id)
+
+
+  const generateCitation = (book, format = 'APA') => {
+    switch (format) {
+      case 'APA':
+        return `${book.author} (${book.year_published}). ${book.name}.`;
+      case 'MLA':
+        return `${book.author}. "${book.name}". ${book.year_published}.`;
+      case 'Chicago':
+        return `${book.author}. ${book.name}. ${book.year_published}.`;
+      default:
+        return '';
+    }
+  };
 
 
 
@@ -168,14 +186,15 @@ const sortedPapers = bookData.sort(
                 <GiNewspaper size={60} />
               </div>
               <div>
-                <h2 className=''> This research paper isn't cited in any other research material</h2>
-                <p>Note:This is based on the research resources in our database </p>
+                <h2>This research paper does not have any references listed in our database.</h2>
+                <p className='text-sm'>Note: This is based on the research resources available to us. If you believe this paper should be referenced elsewhere, please let us know.</p>
               </div>
 
             </div>
           </div>
         );
       case 'citations':
+        const citationText = generateCitation(book);
         return (
           <div className="p-4 rounded-lg bg-white dark:bg-gray-800" id='citations'>
             <div className="abstract-heading">
@@ -189,6 +208,20 @@ const sortedPapers = bookData.sort(
                 <h2 className=''> This research paper isn't cited in any other research material</h2>
                 <p>Note:This is based on the research resources in our database </p>
               </div>
+              <textarea
+                readOnly
+                value={citationText}
+                className="p-2 mt-4 w-full bg-gray-100 border border-gray-300 rounded-lg"
+              />
+              <button
+                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800"
+                onClick={() => {
+                  navigator.clipboard.writeText(citationText)
+                  ; toast.info("You have copied citation")
+                }}
+              >
+                Copy Citation
+              </button>
 
             </div>
           </div>
@@ -222,10 +255,10 @@ const sortedPapers = bookData.sort(
       </section>)
         :
         (<div className="clicked-book flex flex-col  ">
-          <div className='flex items-center'>
-            <div className='each flex '>
-              <div>
-                <img src={book.cover_page} alt="" className='w-[470px] h-full px-3' />
+          <div className='flex flex-col items-center md:flex-row  gap-4'>
+            <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
+              <div >
+                <img src={book.cover_page} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-full px-3' />
               </div>
               <div className="papers-left ">
 
@@ -248,21 +281,21 @@ const sortedPapers = bookData.sort(
               </div>
 
             </div>
-            <div>
+            <div className="flex flex-col md:flex-row md:items-start gap-4">
               {book.is_open_access ? (
-                <div className="papers-right clicked-book-button flex flex-col">
+                <div className="papers-right clicked-book-button flex flex-row md:flex-col gap-4">
                   <button>Cite</button>
-                  <button>Save</button>
+                  {/**<button>Save</button>**/}
                   <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
                     <button className='download'>Download</button>
                   </a>
                 </div>
               ) : (
-                <div className="papers-right clicked-book-button flex flex-col ">
+                <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
                   <button>Cite</button>
-                  <button>Save</button>
+                  {/**<button>Save</button>**/}
                   <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
-                  <button className='download'>Buy Now and Download</button>
+
                   <span className="book-price">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
                 </div>
               )}

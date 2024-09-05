@@ -14,6 +14,11 @@ const ITEMS_PER_PAGE = 10
 
 const Journals = () => {
 
+    const normalizeText = (text) => text.toLowerCase().replace(/\s+/g, ' ').trim();
+    const matchesFirstThreeLetters = (source, target) => 
+        source.toLowerCase().startsWith(target.toLowerCase().slice(0, 3));
+    
+
     const [expandedBookId, setExpandedBookId] = useState(null)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -41,7 +46,7 @@ const Journals = () => {
         biologicalSciences: false,
         administration: false,
         dentistry: false,
-        eduacation: false,
+        education: false,
         engineering: false,
         environmentalSciences: false,
         healthSciences: false,
@@ -265,7 +270,7 @@ const Journals = () => {
     const toggleSidebar = () => {
 
         setIsOpen(!isOpen)
-       // console.log(isOpen)
+        // console.log(isOpen)
         if (isOpen) {
             removeBackdrop()
         }
@@ -274,6 +279,7 @@ const Journals = () => {
     const handleToggleExpand = (bookId) => {
         setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
     }
+
 
 
 
@@ -380,6 +386,31 @@ const Journals = () => {
     const applyFilters = (books) => {
         let filteredBooks = [...books]
 
+       
+
+
+        if (Object.values(categoryCheckValues).some(value => value)) {
+            filteredBooks = filteredBooks.filter(book => 
+                Object.keys(categoryCheckValues).some(category => 
+                    categoryCheckValues[category] && matchesFirstThreeLetters(book.category, category)
+                )
+            );
+        }
+    
+        // Filter by subcategory
+        if (Object.values(checkboxValues).some(value => value)) {
+            filteredBooks = filteredBooks.filter(book => 
+                Object.keys(checkboxValues).some(subcategory => 
+                    checkboxValues[subcategory] && matchesFirstThreeLetters(book.subcategory, subcategory)
+                )
+            );
+        }
+        if (accessType === 'open') {
+            filteredBooks = filteredBooks.filter(book => book.is_open_access);
+        } else if (accessType === 'non-open') {
+            filteredBooks = filteredBooks.filter(book => !book.is_open_access);
+        }
+
         if (filters.name) {
             filteredBooks.sort((a, b) => a.name.toString().localeCompare(b.name.toString()))
         }
@@ -418,6 +449,7 @@ const Journals = () => {
     const handleAccessTypeChange = (type) => {
         setAccessType(type)
         setCurrentPage(1)
+        applyFilters(filteredPapers)
     }
 
 
@@ -717,7 +749,7 @@ const Journals = () => {
                                                     </li>
                                                     <li className="flex flex-col mb-4" onClick={() => eachCategoryDropDown('education')}>
                                                         <div className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                            <input id="education" type="checkbox" value="" checked={categoryCheckValues.eduacation} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <input id="education" type="checkbox" value="" checked={categoryCheckValues.education} onChange={handleCategoryCheckboxChange} onClick={(e) => e.stopPropagation()} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                             <label htmlFor="education" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Education</label>
                                                             <span className="ml-6">{isEachCategoryOpen.education ? '▼' : '>'}</span>
                                                         </div>
@@ -1424,7 +1456,7 @@ const Journals = () => {
                                         <BookItem
                                             key={journal.id}
                                             book={journal}
-                                            isExpanded = {expandedBookId === journal.id}
+                                            isExpanded={expandedBookId === journal.id}
                                             handleToggleExpand={handleToggleExpand}
                                             handleAddToCart={handleAddToCart}
                                         />

@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => {
 
     const MAX_WORDS = 20
+    const navigate = useNavigate()
 
     const getTruncatedText = (text) => {
         if (typeof text !== 'string') return '';
@@ -34,17 +35,23 @@ const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => 
             {book.is_open_access ? (
                 <div className="papers-right flex flex-col">
                     <button>Cite</button>
-                    <button>Save</button>
+                    {/**<button>Save</button>**/}
                     <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
                         <button className='download'>Download</button>
                     </a>
                 </div>
             ) : (
                 <div className="papers-right flex flex-col">
-                    <button>Cite</button>
-                    <button>Save</button>
-                    <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
-                    <button className='download'>Buy Now and Download</button>
+                    <button>
+                        <Link
+                            to={`/book/${book.id}`}
+                            state={{ book, initialTab: 'citations' }} // Pass initialTab as 'citations'
+                        >
+                            Cite
+                        </Link>
+                    </button>
+                    {/**<button>Save</button>**/}
+                    <button className='download ' onClick={() => handleAddToCart(book)}>Buy Now and Download</button>
                 </div>
             )}
         </div>
