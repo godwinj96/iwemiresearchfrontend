@@ -168,7 +168,7 @@ const Admin = () => {
         <div className="main ">
           <AdminHeading setShowUpload={setShowUpload} />
           <div className='px-12 overflow-x-auto flex flex-col justify-between'>
-            <table className="mt-6 w-full text-left table-auto whitespace-nowrap text-left max-lg:block max-lg:overflow-x-scroll ">
+            <table className="mt-6 w-full text-left table-auto whitespace-nowrap  max-lg:block max-lg:overflow-x-scroll ">
               <colgroup>
                 <col className="w-full sm:w-4/12" />
                 <col className="lg:w-4/12 hidden lg:table-cell" />
@@ -221,7 +221,7 @@ const Admin = () => {
                           className="h-8 w-8 rounded-full bg-gray-800"
                         />
                         <div className="truncate text-sm font-medium leading-6 dark:text-whiteSecondary text-blackPrimary">
-                          {item.name}
+                          {item.name.length > 30 ? `${item.name.slice(0, 30)}...` : item.name}
                         </div>
                       </div>
                     </td>
