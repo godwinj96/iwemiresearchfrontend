@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => {
 
     const MAX_WORDS = 20
+    const MAX_TITLE = 10
     const navigate = useNavigate()
 
     const getTruncatedText = (text) => {
@@ -13,19 +14,25 @@ const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => 
         if (words.length <= MAX_WORDS) return text;
         return words.slice(0, MAX_WORDS).join(' ') + '...';
     }
+    const getTruncatedTitle = (text) => {
+        if (typeof text !== 'string') return '';
+        const words = text.split(' ');
+        if (words.length <= MAX_TITLE) return text;
+        return words.slice(0, MAX_TITLE).join(' ') + '...';
+    }
 
     return (
         <div className='each flex'>
             <div className="papers-left ">
                 <h3 className='category-heading'>{book.type}</h3>
-                <h1>
-                    <Link to={`/book/${book.id}`} state={{ book }}>{book.name}</Link>
+                <h1 className='w-2/3'>
+                    <Link to={`/book/${book.id}`} state={{ book }}>{getTruncatedTitle(book.name)}</Link>
                 </h1>
                 <h5>{book.year_published}</h5>
                 <text>
                     <span>{book.author}</span>{'  '}
                 </text>
-                <p className="abstract text-justify mr-10">
+                <p className="abstract text-justify mr-10 w-2/3">
                     {isExpanded ? book.abstract : getTruncatedText(book.abstract)}
                     <button className={`read-more ${isExpanded ? 'ml-3' : ""} text-orange-500/80`} onClick={() => handleToggleExpand(book.id)}>
                         {isExpanded ? 'Read less' : 'Read more'}

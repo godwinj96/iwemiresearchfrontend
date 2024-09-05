@@ -2490,7 +2490,7 @@ div.relative:hover .dropdown-menu {
 .papers-left .abstract {
   margin-top: 30px;
   font-size: 14px;
-  width: 700px;
+  
 }
 
 
@@ -2523,7 +2523,7 @@ div.relative:hover .dropdown-menu {
   }
 
   .papers-left .abstract {
-    width: 600px;
+    
   }
 }
 
@@ -2539,7 +2539,7 @@ div.relative:hover .dropdown-menu {
   }
 
   .papers-left .abstract {
-    width: 550px;
+    
     font-size: 13px;
   }
 
@@ -2560,7 +2560,7 @@ div.relative:hover .dropdown-menu {
   }
 
   .papers-left .abstract {
-    width: 500px;
+    
   }
 
   .papers-right {
@@ -2589,7 +2589,7 @@ div.relative:hover .dropdown-menu {
   }
 
   .papers-left .abstract {
-    width: 100%;
+    
    
   }
 
