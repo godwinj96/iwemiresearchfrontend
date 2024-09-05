@@ -375,6 +375,12 @@ const ConferencePapers = () => {
     const applyFilters = (books) => {
         let filteredBooks = [...books]
 
+        if (accessType === 'open') {
+            filteredBooks = filteredBooks.filter(book => book.is_open_access);
+        } else if (accessType === 'non-open') {
+            filteredBooks = filteredBooks.filter(book => !book.is_open_access);
+        }
+
         if (filters.name) {
             filteredBooks.sort((a, b) => a.name.toString().localeCompare(b.name.toString()))
         }
@@ -391,6 +397,7 @@ const ConferencePapers = () => {
     }
 
     const filteredPapers = applyFilters(paginatedConference)
+   
 
     const { state, dispatch } = useCart()
 
@@ -415,6 +422,7 @@ const ConferencePapers = () => {
     const handleAccessTypeChange = (type) => {
         setAccessType(type)
         setCurrentPage(1)
+        applyFilters(filteredPapers)
     }
 
 
