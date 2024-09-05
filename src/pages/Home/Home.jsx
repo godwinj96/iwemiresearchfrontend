@@ -22,43 +22,35 @@ const Home = () => {
 
 
 
+  const fetchBooks = async () => {
+    try {
+      const response = await fetch("https://api.iwemiresearch.org/api/papers/", {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json'
+        },
+
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch journals')
+      }
+
+      const bookData = await response.json()
+
+      const sortedPapers = bookData.sort(
+        (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
+      )
+      setBooks(sortedPapers)
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+
   useEffect(() => {
 
-    /**
-                * const response = await fetch("https://api.iwemiresearch.org/api/papers/",{
-                   method:'GET',
-                   headers:{
-                     'accept':'application/json'
-                   },
-                  
-                 })
 
-                 if(!response2.ok){
-                   throw new Error('Failed to fetch journals')
-                 }
-
-                 const bookData = await respsonse.json()
-
-                 setBooks(bookData)
-               
-
-                */
-
-
-    const fetchBooks = async () => {
-      const { data, error } = await supabase
-        .from('api_book')
-        .select('*')
-
-
-      if (error) {
-        toast.error(error)
-        console.log(error)
-      } else {
-        setBooks(data)
-       // console.log(data)
-      }
-    }
 
     fetchBooks()
   }, [])
@@ -182,10 +174,12 @@ const Home = () => {
               </div>
               <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
-                {books.slice(0, 4).map(book => (
-                  <HomeBookCards key={book.id} book={book}
-                  />
-                ))}
+                {books
+                  .filter((book) => book.type === "Journal") // Ensuring case insensitivity
+                  .slice(0, 4) // Limit to the first 4
+                  .map((book) => (
+                    <HomeBookCards key={book.id} book={book} />
+                  ))}
               </div>
               <div className="see-more-button">
                 <a href="" onClick={(e) => {
@@ -205,9 +199,12 @@ const Home = () => {
               </div>
               <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
 
-                {books.slice(0, 4).map(book => (
-                  <HomeBookCards key={book.id} book={book} />
-                ))}
+              {books
+                  .filter((book) => book.type === "Journal") // Ensuring case insensitivity
+                  .slice(0, 4) // Limit to the first 4
+                  .map((book) => (
+                    <HomeBookCards key={book.id} book={book} />
+                  ))}
 
 
               </div>

@@ -9,23 +9,50 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { supabase } from '../../supaBaseClient'
 
 const ClickedBook = () => {
- // const { search, setSearch } = useContext(GlobalStateContext)
+  // const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
   const location = useLocation()
-  const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
-  
+  const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
+
   //reset search on route change
-  useEffect(()=>{
+  useEffect(() => {
     setIsSearch(false)
     setResults([])
-  },[location])
+  }, [location])
   const { currencyCode } = useCurrency()
 
-  const {id} = useParams()
+  const { id } = useParams()
 
   const { book } = location.state || {}
 
   const [similarBooks, setSimilarBooks] = useState([])
+
+  const getSimilarBooks =async()=>{
+
+    try {
+      const response = await fetch("https://api.iwemiresearch.org/api/papers/",{
+        method:'GET',
+        headers:{
+          'accept':'application/json'
+        },
+       
+      })
+
+      if(!response.ok){
+        throw new Error('Failed to fetch journals')
+      }
+      
+      const bookData = await response.json()
+const sortedPapers = bookData.sort(
+        (a,b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
+      )
+
+      setSimilarBooks(sortedPapers)
+    
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
 
@@ -47,7 +74,7 @@ const ClickedBook = () => {
                  setSimilarBooks(bookData)
                
 
-                */
+                
     const fetchSimilarBooks = async () => {
       const { data, error } = await supabase
         .from('api_book')
@@ -63,7 +90,8 @@ const ClickedBook = () => {
       }
     }
 
-    fetchSimilarBooks()
+    fetchSimilarBooks()*/
+    getSimilarBooks()
   }, [])
 
   const filteredBooks = similarBooks.filter(book => book.id !== location.state?.id)
@@ -71,31 +99,23 @@ const ClickedBook = () => {
 
 
 
-  const categoryMap = {
-    1: 'Journal',
-    2: 'Thesis & Dissertation',
-    3: 'Academic TextBook',
-    4: 'Conference Paper'
-    // add more categories as needed
-  };
-
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-  const {state,dispatch} = useCart()
+  const { state, dispatch } = useCart()
 
   const handleAddToCart = (item) => {
     dispatch({ type: 'ADD_TO_CART', payload: item })
     // toast.error('Added to Shopping Cart')
     alert('Added to Shopping Cart')
-}
+  }
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
         return (
           <div>
-            <div className=" p-4 rounded-lg bg-white dark:bg-gray-800" id='overview' >
+            <div className=" p-4 rounded-lg bg-white dark:bg-gray-800 w-full" id='overview' >
               <div className="abstract-heading">
                 Abstract
               </div>
@@ -216,136 +236,140 @@ const ClickedBook = () => {
 
   return (
     <div className='flex flex-col justify-between clicked-container'>
-      
-      {isSearch?(<section className="dark:bg-gray-900 features" data-aos="fade-up">
-          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
-            </div>
-            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-              {results.length > 0 ? (
-                results.map(book => (
-                  <HomeBookCards key={book.id} book={book} />
-                ))
-              ) : (
-                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
-              )}
-            </div>
+
+      {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+          <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
           </div>
-        </section>)
-      :
-      (<div className="clicked-book flex flex-col  ">
-        <div className='flex items-center'>
-          <div className='each flex'>
-            <div className="papers-left ">
-              <div className='flex clicked-book-type'>
-                <h3>{categoryMap[book.category_id]}</h3>
-              </div>
-
-              <h1 className='clicked-book-title'>
-                {book.name}
-              </h1>
-              <span className="published-date">
-                Year Published : {book.year_published}
-              </span>
-              <br />
-              <text className='clicked-authors'>
-                {book.author}
-              </text>
-
-
-            </div>
-
-          </div>
-          <div>
-            {book.is_open_access ? (
-              <div className="papers-right clicked-book-button flex flex-col">
-                <button>Cite</button>
-                <button>Save</button>
-                <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
-                  <button className='download'>Download</button>
-                </a>
-              </div>
+          <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+            {results.length > 0 ? (
+              results.map(book => (
+                <HomeBookCards key={book.id} book={book} />
+              ))
             ) : (
-              <div className="papers-right clicked-book-button flex flex-col ">
-                <button>Cite</button>
-                <button>Save</button>
-                <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
-                <button className='download'>Buy Now and Download</button>
-                <span className="book-price">{currencyCode} {book.price}</span>
-              </div>
+              <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
             )}
           </div>
-
         </div>
+      </section>)
+        :
+        (<div className="clicked-book flex flex-col  ">
+          <div className='flex items-center'>
+            <div className='each flex '>
+              <div>
+                <img src={book.cover_page} alt="" className='w-[470px] h-full px-3' />
+              </div>
+              <div className="papers-left ">
 
-        <div className="clicked-book-content flex flex-col ">
-          <div className="mb-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
-            <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
-              <li className="me-2" role="presentation">
-                <button
-                  className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'overview' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                  id="overview-tab"
-                  type="button"
-                  role="tab"
-                  aria-controls="overview"
-                  aria-selected={activeTab === 'overview'}
-                  onClick={() => handleTabClick('overview')}
-                >
-                  Overview
-                </button>
-              </li>
-              <li className="me-2" role="presentation">
-                <button
-                  className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'comments' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                  id="comments-tab"
-                  type="button"
-                  role="tab"
-                  aria-controls="comments"
-                  aria-selected={activeTab === 'comments'}
-                  onClick={() => handleTabClick('comments')}
-                >
-                  Comments
-                </button>
-              </li>
-              <li className="me-2" role="presentation">
-                <button
-                  className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'references' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                  id="references-tab"
-                  type="button"
-                  role="tab"
-                  aria-controls="references"
-                  aria-selected={activeTab === 'references'}
-                  onClick={() => handleTabClick('references')}
-                >
-                  References
-                </button>
-              </li>
-              <li role="presentation">
-                <button
-                  className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'citations' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                  id="citations-tab"
-                  type="button"
-                  role="tab"
-                  aria-controls="citations"
-                  aria-selected={activeTab === 'citations'}
-                  onClick={() => handleTabClick('citations')}
-                >
-                  Citations
-                </button>
-              </li>
-            </ul>
+                <div className='flex clicked-book-type'>
+                  <h3>{book.type}</h3>
+                </div>
 
+                <h1 className='clicked-book-title'>
+                  {book.name}
+                </h1>
+                <span className="published-date">
+                  Year Published : {book.year_published}
+                </span>
+                <br />
+                <text className='clicked-authors'>
+                  {book.author}
+                </text>
+
+
+              </div>
+
+            </div>
+            <div>
+              {book.is_open_access ? (
+                <div className="papers-right clicked-book-button flex flex-col">
+                  <button>Cite</button>
+                  <button>Save</button>
+                  <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
+                    <button className='download'>Download</button>
+                  </a>
+                </div>
+              ) : (
+                <div className="papers-right clicked-book-button flex flex-col ">
+                  <button>Cite</button>
+                  <button>Save</button>
+                  <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
+                  <button className='download'>Buy Now and Download</button>
+                  <span className="book-price">{currencyCode} {book.price}</span>
+                </div>
+              )}
+            </div>
 
           </div>
-          <div id="default-tab-content">
-            {renderTabContent()}
+
+          <div className="clicked-book-content flex flex-col ">
+            <div className="mb-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+              <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
+                <li className="me-2" role="presentation">
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'overview' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                    id="overview-tab"
+                    type="button"
+                    role="tab"
+                    aria-controls="overview"
+                    aria-selected={activeTab === 'overview'}
+                    onClick={() => handleTabClick('overview')}
+                  >
+                    Overview
+                  </button>
+                </li>
+                <li className="me-2" role="presentation">
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'comments' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                    id="comments-tab"
+                    type="button"
+                    role="tab"
+                    aria-controls="comments"
+                    aria-selected={activeTab === 'comments'}
+                    onClick={() => handleTabClick('comments')}
+                  >
+                    Comments
+                  </button>
+                </li>
+                <li className="me-2" role="presentation">
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'references' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                    id="references-tab"
+                    type="button"
+                    role="tab"
+                    aria-controls="references"
+                    aria-selected={activeTab === 'references'}
+                    onClick={() => handleTabClick('references')}
+                  >
+                    References
+                  </button>
+                </li>
+                <li role="presentation">
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'citations' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                    id="citations-tab"
+                    type="button"
+                    role="tab"
+                    aria-controls="citations"
+                    aria-selected={activeTab === 'citations'}
+                    onClick={() => handleTabClick('citations')}
+                  >
+                    Citations
+                  </button>
+                </li>
+              </ul>
+
+
+            </div>
+            <div id="default-tab-content">
+              {renderTabContent()}
+            </div>
+
           </div>
 
-        </div>
+        </div>)}
 
-      </div>)}
-      
 
     </div>
   )
