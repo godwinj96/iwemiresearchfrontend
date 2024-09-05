@@ -14,7 +14,7 @@ import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
 
 
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 12
 const Admin = () => {
 
   const [papers, setPapers] = useState([])
@@ -43,7 +43,11 @@ const Admin = () => {
       const Papers = await papersResponse.json()
       //console.log(Papers)
 
-      setPapers(Papers)
+      const sortedPapers = Papers.sort(
+        (a,b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
+      )
+
+      setPapers(sortedPapers)
       const totalItems = Papers.length
       setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
     } catch (err) {
@@ -119,6 +123,7 @@ const Admin = () => {
 
   useEffect(() => {
     getPapers()
+    console.log(papers)
   }, [])
   useEffect(() => {
     getPapers()
