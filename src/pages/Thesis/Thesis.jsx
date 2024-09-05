@@ -198,6 +198,14 @@ const Thesis = () => {
         socialSciences: false,
         veterinaryMedicine: false,
     })
+    const [expandedBookId, setExpandedBookId] = useState(null)
+    const dropdownRef = useRef(null)
+    const buttonRef = useRef(null)
+    const menuRef = useRef(null)
+
+    const handleToggleExpand = (bookId) => {
+        setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
+    }
 
     const handleCategoryCheckboxChange = (e) => {
         const { id, checked } = e.target
@@ -225,9 +233,7 @@ const Thesis = () => {
     }
 
 
-    const dropdownRef = useRef(null)
-    const buttonRef = useRef(null)
-    const menuRef = useRef(null)
+
 
     const removeBackdrop = () => {
         const backdrop = document.querySelector('div[drawer-backdrop]');
@@ -1410,6 +1416,8 @@ const Thesis = () => {
                                         <BookItem
                                             key={thesis.id}
                                             book={thesis}
+                                            isExpanded = {expandedBookId === thesis.id}
+                                            handleToggleExpand={handleToggleExpand}
                                             handleAddToCart={handleAddToCart}
                                         />
                                     ))

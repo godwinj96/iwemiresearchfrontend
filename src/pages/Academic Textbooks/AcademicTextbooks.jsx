@@ -35,8 +35,6 @@ const AcademicTextbooks = () => {
         veterinaryMedicine: false,
     })
     const [accessType, setAccessType] = useState('all')
-
-
     const [checkboxValues, setCheckboxValues] = useState({
         agriculturalEconomics: false,
         agriculturalExtension: false,
@@ -181,7 +179,6 @@ const AcademicTextbooks = () => {
         veterinaryTeachingHospital: false,
 
     });
-
     const [categoryCheckValues, setCategoryCheckValues] = useState({
         agriculture: false,
         arts: false,
@@ -199,6 +196,16 @@ const AcademicTextbooks = () => {
         socialSciences: false,
         veterinaryMedicine: false,
     })
+    const [isOpen, setIsOpen] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+    const [academic, setAcademic] = useState([]);
+    const [expandedBookId, setExpandedBookId] = useState(null)
+
+    const handleToggleExpand = (bookId) => {
+        setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
+    }
+
 
     const handleCategoryCheckboxChange = (e) => {
         const { id, checked } = e.target
@@ -208,11 +215,7 @@ const AcademicTextbooks = () => {
         }))
     }
 
-    const [isOpen, setIsOpen] = useState(false)
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalPage, setTotalPage] = useState(1)
-    const [academic, setAcademic] = useState([]);
 
     const toggleSidebar = () => {
 
@@ -1420,6 +1423,8 @@ const AcademicTextbooks = () => {
                                         <BookItem
                                             key={academic.id}
                                             book={academic}
+                                            isExpanded = {expandedBookId === academic.id}
+                                            handleToggleExpand={handleToggleExpand}
                                             handleAddToCart={handleAddToCart}
                                         />
                                     ))

@@ -14,6 +14,7 @@ const ITEMS_PER_PAGE = 10
 
 const Journals = () => {
 
+    const [expandedBookId, setExpandedBookId] = useState(null)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isEachCategoryOpen, setIsEachCategoryOpen] = useState({
@@ -200,51 +201,16 @@ const Journals = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [journals, setJournals] = useState([]);
+    const [isOpen, setIsOpen] = useState(false)
+    const dropdownRef = useRef(null)
+    const buttonRef = useRef(null)
+    const menuRef = useRef(null)
 
     useEffect(() => {
         const fetchJournals = async () => {
             try {
 
 
-                /**
-                 * let query = supabase
-                    .from('api_book')
-                    .select('*')
-                    .eq('category_id', 1)
-                    .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1)
-
-                if (accessType !== 'all') {
-                    query = query.eq('is_open_access', accessType === 'open')
-                }
-
-
-
-                const { data, error } = await query
-
-                if (error) {
-                    toast.error(error.message);
-                    return;
-                }
-
-                let countQuery = supabase
-                    .from('api_book')
-                    .select('id', { count: 'exact' })
-                    .eq('category_id', 1)
-
-                if (accessType !== 'all') {
-                    countQuery = countQuery.eq('is_open_access', accessType === 'open');
-                }
-
-                const { count, error: countError } = await countQuery
-
-                if (countError) {
-                    toast.error('Error fetching journal count')
-                    return
-                }
-
-                setJournals(data)
-                setTotalPage(Math.ceil(count / ITEMS_PER_PAGE))
-                 */
                 const response2 = await fetch("https://api.iwemiresearch.org/api/papers/", {
                     method: 'GET',
                     headers: {
@@ -273,7 +239,7 @@ const Journals = () => {
 
 
 
-           
+
         }
 
         fetchJournals()
@@ -294,7 +260,7 @@ const Journals = () => {
     }, [location])
 
 
-    const [isOpen, setIsOpen] = useState(false)
+
 
     const toggleSidebar = () => {
 
@@ -305,10 +271,11 @@ const Journals = () => {
         }
     }
 
+    const handleToggleExpand = (bookId) => {
+        setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
+    }
 
-    const dropdownRef = useRef(null)
-    const buttonRef = useRef(null)
-    const menuRef = useRef(null)
+
 
     const removeBackdrop = () => {
         const backdrop = document.querySelector('div[drawer-backdrop]');
@@ -1457,6 +1424,8 @@ const Journals = () => {
                                         <BookItem
                                             key={journal.id}
                                             book={journal}
+                                            isExpanded = {expandedBookId === journal.id}
+                                            handleToggleExpand={handleToggleExpand}
                                             handleAddToCart={handleAddToCart}
                                         />
                                     ))

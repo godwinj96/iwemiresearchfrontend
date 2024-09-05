@@ -205,6 +205,15 @@ const ConferencePapers = () => {
         socialSciences: false,
         veterinaryMedicine: false,
     })
+    const [conference, setConference] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+    const [isOpen, setIsOpen] = useState(false)
+    const [expandedBookId, setExpandedBookId] = useState(null)
+    const dropdownRef = useRef(null)
+    const buttonRef = useRef(null)
+    const menuRef = useRef(null)
+
 
     const handleCategoryCheckboxChange = (e) => {
         const { id, checked } = e.target
@@ -214,11 +223,7 @@ const ConferencePapers = () => {
         }))
     }
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalPage, setTotalPage] = useState(1)
-    //  const [journals, setJournals] = useState([]);
 
-    const [isOpen, setIsOpen] = useState(false)
 
     const toggleSidebar = () => {
 
@@ -230,9 +235,6 @@ const ConferencePapers = () => {
     }
 
 
-    const dropdownRef = useRef(null)
-    const buttonRef = useRef(null)
-    const menuRef = useRef(null)
 
     const removeBackdrop = () => {
         const backdrop = document.querySelector('div[drawer-backdrop]');
@@ -311,10 +313,9 @@ const ConferencePapers = () => {
         }))
     }
 
-
-
-    const [conference, setConference] = useState([]);
-
+    const handleToggleExpand = (bookId) => {
+        setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
+    }
     useEffect(() => {
         const fetchConference = async () => {
 
@@ -1418,6 +1419,8 @@ const ConferencePapers = () => {
                                         <BookItem
                                             key={conference.id}
                                             book={conference}
+                                            isExpanded={expandedBookId === conference.id}
+                                            handleToggleExpand={handleToggleExpand}
                                             handleAddToCart={handleAddToCart}
                                         />
                                     ))
