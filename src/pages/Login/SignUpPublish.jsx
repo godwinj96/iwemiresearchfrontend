@@ -175,7 +175,7 @@ const SignUpPublish = () => {
           </section>
         </div>)}
       <div className='dark'>
-        <Footer />
+        
       </div>
 
     </div>

@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react'
-import Footer from '../../components/Footer/Footer'
-import NavBar from '../../components/NavBar/NavBar'
 import { useLocation } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { MdOutlineMapsHomeWork } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdContactMail } from "react-icons/md";
 
 const Contact = () => {
 
@@ -23,7 +24,7 @@ const Contact = () => {
 
     return (
         <div className='contact-container'>
-            
+
             {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -91,35 +92,55 @@ const Contact = () => {
 
             </div>
 */}
-                    <dl className=" max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 ms-7 mt-7 mb-7">
-                        <div className="flex flex-col pb-3">
-                            <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Email address</dt>
-                            <dd className="text-lg font-semibold">
-                                <a href="mailto:info@iwemiresearch.com">
-                                    info@iwemiresearch.com
-                                </a>
+                    <dl className="w-full text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 ms-7 mt-7 mb-7 grid gap-4 px-10">
+                        {/* Email Section as Heading */}
+                        <div className="flex flex-col pb-3 col-span-full">
+                            <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdContactMail />Email address</dt>
+                            <dd className="text-lg font-semibold hover:text-orange-500/80">
+                                <a href="mailto:publisher@iwemiresearch.org">publisher@iwemiresearch.org</a>
                             </dd>
                         </div>
-                        <div className="flex flex-col py-3">
-                            <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Headquarters</dt>
-                            <dd className="text-lg font-semibold">United Kingdom: 71-75,
-                                Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom</dd>
-                        </div>
-                        <div className="flex flex-col pt-3">
-                            <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Phone number</dt>
-                            <dd className="text-lg font-semibold">
-                                <a href="tel: +442380970524">
-                                    +442380970524
-                                </a>,
-                                <a href="tel:+2348053076968">
-                                    +2348053076968
-                                </a></dd>
+
+                        {/* Grid Section */}
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* Europe Office */}
+                            <div className="flex flex-col py-3">
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdOutlineMapsHomeWork />Europe Office</dt>
+                                <dd className="text-lg font-semibold">
+                                    71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom
+                                </dd>
+                            </div>
+
+                            {/* North America Office */}
+                            <div className="flex flex-col py-3">
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdOutlineMapsHomeWork />North America Office</dt>
+                                <dd className="text-lg font-semibold">
+                                    10509 Montrose Ave #102, Bethesda, MD, 20814, USA
+                                </dd>
+                            </div>
+
+                            {/* Africa Office */}
+                            <div className="flex flex-col py-3">
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdOutlineMapsHomeWork />Africa Office</dt>
+                                <dd className="text-lg font-semibold">17 Victor Osime Street Lekki 1 Lagos, Nigeria</dd>
+                            </div>
+
+                            {/* Phone Numbers */}
+                            <div className="flex flex-col py-3">
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><FaPhoneAlt />Phone number</dt>
+                                <dd className="text-lg font-semibold">
+                                    <a href="tel:+447391794285" className='hover:text-orange-500/80'>+447391794285</a>,
+                                    <a href="tel:+1410-929-7642" className='hover:text-orange-500/80'>+1410-929-7642</a>,
+                                    <a href="tel:+234-7031476069" className='hover:text-orange-500/80'>+234-7031476069</a>
+                                </dd>
+                            </div>
                         </div>
                     </dl>
 
+
                 </>
                 )}
-           
+
 
         </div>
 

@@ -8,7 +8,7 @@ import content4 from '../../assets/content-4.webp'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import { supabase } from '../../supaBaseClient'
@@ -118,10 +118,10 @@ const Home = () => {
                 <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Africa's finest research platform</h2>
                 <p className="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">Get the best research materials from Top African Institutions</p>
                 <input type="email" placeholder="Enter your e-mail address" className="input-emails" />
-                <a href="#" className="inline-flex items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 get-started">
+                <NavLink to="/signup"  className="inline-flex items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 get-started">
                   Get started
                   <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                </a>
+                </NavLink>
               </div>
               <img className="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg" alt="dashboard" />
               <img className="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg" alt="dashboard" />
@@ -199,8 +199,8 @@ const Home = () => {
               </div>
               <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
 
-              {books
-                  .filter((book) => book.type === "Journal") // Ensuring case insensitivity
+                {books
+                  .filter((book) => book.type === "Thesis & Dissertations") // Ensuring case insensitivity
                   .slice(0, 4) // Limit to the first 4
                   .map((book) => (
                     <HomeBookCards key={book.id} book={book} />
@@ -226,9 +226,12 @@ const Home = () => {
               </div>
               <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
-                {books.slice(0, 4).map(book => (
-                  <HomeBookCards key={book.id} book={book} />
-                ))}
+                {books
+                  .filter((book) => book.type === "Academic Textbooks") // Ensuring case insensitivity
+                  .slice(0, 4) // Limit to the first 4
+                  .map((book) => (
+                    <HomeBookCards key={book.id} book={book} />
+                  ))}
               </div>
               <div className="see-more-button">
                 <a href="" onClick={(e) => {
@@ -250,9 +253,12 @@ const Home = () => {
               </div>
               <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
-                {books.slice(0, 4).map(book => (
-                  <HomeBookCards key={book.id} book={book} />
-                ))}
+              {books
+                  .filter((book) => book.type === "Conference Papers") // Ensuring case insensitivity
+                  .slice(0, 4) // Limit to the first 4
+                  .map((book) => (
+                    <HomeBookCards key={book.id} book={book} />
+                  ))}
               </div>
               <div className="see-more-button">
                 <a href="" onClick={(e) => {

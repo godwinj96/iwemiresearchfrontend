@@ -230,7 +230,7 @@ const SignUp = () => {
         </section>
       </div>)}
       <div className='dark'>
-        <Footer />
+        
       </div>
 
     </div>

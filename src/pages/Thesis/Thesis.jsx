@@ -8,7 +8,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards';
 import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 
-const ITEMS_PER_PAGE = 2
+const ITEMS_PER_PAGE = 15
 
 const Thesis = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);

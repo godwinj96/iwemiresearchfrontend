@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -12,17 +12,66 @@ const ShoppingCart = () => {
 
     const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
     const location = useLocation()
+    const [filteredBooks, setFilteredBooks] = useState([]);
+    const [similarBooks, setSimilarBooks] = useState([])
+    const navigate = useNavigate()
+    const { currencyCode, conversionRate } = useCurrency()
+    const { state, dispatch } = useCart()
+
+    const getSimilarBooks = async () => {
+
+        try {
+            const response = await fetch("https://api.iwemiresearch.org/api/papers/", {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/json'
+                },
+
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch journals')
+            }
+
+            const bookData = await response.json()
+            const sortedPapers = bookData.sort(
+                (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
+            )
+
+            setSimilarBooks(sortedPapers)
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getSimilarBooks()
+    }, [])
+
+    useEffect(() => {
+        // Filtering out books that are already in the cart
+        const cartItemIds = state.items.map((item) => item.id); // Assuming each cart item has an id
+        const filtered = similarBooks.filter(
+            (book) => !cartItemIds.includes(book.id) // Adjust property as per your book object identifier
+        );
+
+        setFilteredBooks(filtered);
+    }, [similarBooks, state.items]);
+
+
+
+
     //reset search on route change
     useEffect(() => {
         setIsSearch(false)
         setResults([])
     }, [location, setIsSearch, setResults])
     //const {} = useContext(GlobalStateContext)
-    const { currencyCode,conversionRate } = useCurrency()
-    const { state, dispatch } = useCart()
+
 
     const originalPrice = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const total = originalPrice 
+    const total = originalPrice
 
     const handleRemoveFromCart = (index) => {
         dispatch({ type: 'REMOVE_FROM_CART', payload: index });
@@ -44,19 +93,10 @@ const ShoppingCart = () => {
 
     };
 
- 
-
-
-    const navigate = useNavigate()
-
-
-    const home = () => {
-        navigate('/')
-    }
 
     return (
         <div>
-           
+
             {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -85,11 +125,10 @@ const ShoppingCart = () => {
 
                                         {state.items.map((item, index) =>
                                         (<div key={index} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-                                            <div  className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                                                <a href="#" className="shrink-0 md:order-1">
-                                                    <img className="h-20 w-20 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="imac image" />
-                                                    <img className="hidden h-20 w-20 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="imac image" />
-                                                </a>
+                                            <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                                                <div>
+                                                    <img src={item.cover_page} alt="" className='w-[100px] h-full px-3' />
+                                                </div>
 
                                                 <label htmlFor="counter-input" className="sr-only">Choose quantity:</label>
                                                 <div className="flex items-center justify-between md:order-3 md:justify-end">
@@ -108,7 +147,7 @@ const ShoppingCart = () => {
                                                         </button>
                                                     </div>
                                                     <div className="text-end md:order-4 md:w-32">
-                                                        <p className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {(item.price *conversionRate).toFixed(2) || 0}</p>
+                                                        <p className="text-base font-bold text-gray-900 dark:text-white">{currencyCode} {(item.price * conversionRate).toFixed(2) || 0}</p>
                                                     </div>
                                                 </div>
 
@@ -127,10 +166,15 @@ const ShoppingCart = () => {
                                             </div>
                                         </div>))}
                                     </div>
-                                    <div className="hidden xl:mt-8 xl:block">
+                                    <div className="hidden lg:block lg:pb-10 lg:pt-[200px] lg:ml-5 xl:mt-8 xl:block">
                                         <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">People also bought</h3>
-                                        <div className="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
-
+                                        <div className="mt-6 grid grid-cols-1 gap-4 sm:mt-8">
+                                            {filteredBooks.slice(0, 3).map((book) => (
+                                                <div key={book.id}>
+                                                    <HomeBookCards book={book} />
+                                                    <hr />
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +187,7 @@ const ShoppingCart = () => {
                                             <div className="space-y-2">
                                                 <dl className="flex items-center justify-between gap-4">
                                                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
-                                                    <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {(originalPrice* conversionRate).toFixed(2)}</dd>
+                                                    <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {(originalPrice * conversionRate).toFixed(2)}</dd>
                                                 </dl>
 
 
@@ -162,7 +206,7 @@ const ShoppingCart = () => {
                                             <a href=""
                                                 onClick={(e) => {
                                                     e.preventDefault()
-                                                    home()
+                                                    navigate(-1)
                                                 }}
                                                 title="" className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
                                                 Continue Shopping
@@ -189,7 +233,7 @@ const ShoppingCart = () => {
                 </div>)}
 
 
-           
+
 
         </div>
     )

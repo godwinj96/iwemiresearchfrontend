@@ -7,6 +7,7 @@ import { useCurrency } from '../../Context/CurrencyContext'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { supabase } from '../../supaBaseClient'
+import { toast } from 'react-toastify'
 
 const ClickedBook = () => {
   // const { search, setSearch } = useContext(GlobalStateContext)
@@ -19,7 +20,7 @@ const ClickedBook = () => {
     setIsSearch(false)
     setResults([])
   }, [location])
-  const { currencyCode } = useCurrency()
+  const { currencyCode,conversionRate } = useCurrency()
 
   const { id } = useParams()
 
@@ -56,41 +57,7 @@ const sortedPapers = bookData.sort(
 
   useEffect(() => {
 
-    /**
-                * const response = await fetch("https://api.iwemiresearch.org/api/papers/",{
-                   method:'GET',
-                   headers:{
-                     'accept':'application/json'
-                   },
-                  
-                 })
 
-                 if(!response2.ok){
-                   throw new Error('Failed to fetch journals')
-                 }
-
-                 const bookData = await respsonse.json()
-
-                 setSimilarBooks(bookData)
-               
-
-                
-    const fetchSimilarBooks = async () => {
-      const { data, error } = await supabase
-        .from('api_book')
-        .select('*')
-
-
-      if (error) {
-        toast.error(error)
-        console.log(error)
-      } else {
-        setSimilarBooks(data)
-        console.log(data)
-      }
-    }
-
-    fetchSimilarBooks()*/
     getSimilarBooks()
   }, [])
 
@@ -107,7 +74,7 @@ const sortedPapers = bookData.sort(
   const handleAddToCart = (item) => {
     dispatch({ type: 'ADD_TO_CART', payload: item })
     // toast.error('Added to Shopping Cart')
-    alert('Added to Shopping Cart')
+    toast.success("Cart Added")
   }
 
   const renderTabContent = () => {
@@ -296,7 +263,7 @@ const sortedPapers = bookData.sort(
                   <button>Save</button>
                   <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
                   <button className='download'>Buy Now and Download</button>
-                  <span className="book-price">{currencyCode} {book.price}</span>
+                  <span className="book-price">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
                 </div>
               )}
             </div>
