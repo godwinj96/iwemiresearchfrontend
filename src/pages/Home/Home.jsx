@@ -11,7 +11,6 @@ import 'aos/dist/aos.css'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
-import { supabase } from '../../supaBaseClient'
 
 
 
@@ -141,11 +140,11 @@ const Home = () => {
 
               <div className="flex flex-col gap-y-4 content-grid">
                 <div className="content-grid1">
-                  <img src={content1}
+                  <img src={content2}
                     alt="office content 1" className="secton-imgs-long" />
                   <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
                     alt="office content 2" className="secton-imgs" />
-                  <img src={content4}
+                  <img src={content3}
                     alt="office content 1" className="secton-imgs" />
                 </div>
                 <div className="content-grid2">
