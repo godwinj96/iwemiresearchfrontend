@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react'
 import { GiNewspaper } from "react-icons/gi"
-import { useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useCart } from '../../Context/CartContext'
 import { useCurrency } from '../../Context/CurrencyContext'
@@ -217,7 +217,7 @@ const ClickedBook = () => {
                 className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800"
                 onClick={() => {
                   navigator.clipboard.writeText(citationText)
-                  ; toast.info("You have copied citation")
+                    ; toast.info("You have copied citation")
                 }}
               >
                 Copy Citation
@@ -258,7 +258,7 @@ const ClickedBook = () => {
           <div className='flex flex-col items-center md:flex-row  gap-4'>
             <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
               <div >
-                <img src={book.cover_page} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-full px-3' />
+                <img src={book.cover_page} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
               </div>
               <div className="papers-left ">
 
@@ -284,7 +284,9 @@ const ClickedBook = () => {
             <div className="flex flex-col md:flex-row md:items-start gap-4">
               {book.is_open_access ? (
                 <div className="papers-right clicked-book-button flex flex-row md:flex-col gap-4">
-                  <button>Cite</button>
+                  <button onClick={()=>setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
+                    Cite
+                  </button>
                   {/**<button>Save</button>**/}
                   <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
                     <button className='download'>Download</button>
@@ -292,9 +294,11 @@ const ClickedBook = () => {
                 </div>
               ) : (
                 <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
-                  <button>Cite</button>
+                  <button onClick={()=>setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
+                    Cite
+                  </button>
                   {/**<button>Save</button>**/}
-                  <button className='download hover:bg-orange-300 transition-colors' onClick={() => handleAddToCart(book)}>Add to Cart</button>
+                  <button className='download hover:bg-orange-300 rounded transition-colors' onClick={() => handleAddToCart(book)}>Add to Cart</button>
 
                   <span className="book-price p-3">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
                 </div>
