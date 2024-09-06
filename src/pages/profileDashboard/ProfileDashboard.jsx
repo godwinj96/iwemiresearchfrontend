@@ -1409,7 +1409,7 @@ const ProfileDashboard = () => {
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Are you sure you want to log out ? </h3>
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
-              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and acount details</a>
+              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and account details</a>
             </p>
 
 
