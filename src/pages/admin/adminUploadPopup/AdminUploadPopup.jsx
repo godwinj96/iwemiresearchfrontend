@@ -223,7 +223,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
                     required
                   >
                     <option value="" disabled>Select type</option>
-                    <option value="Peer Reviewed Journals">Peer Reviewed Journal</option>
+                    <option value="Journal">Journal</option>
                     <option value="Thesis & Dissertations">Thesis & Dissertation</option>
                     <option value="Conference Papers">Conference Paper</option>
                     <option value="Academic Textbooks">Academic Textbook</option>

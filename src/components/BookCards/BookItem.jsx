@@ -25,7 +25,7 @@ const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => 
         <div className='each flex'>
             <div className="papers-left ">
                 <h3 className='category-heading'>{book.type}</h3>
-                <h1 className='w-2/3'>
+                <h1 className='!w-2/3'>
                     <Link to={`/book/${book.id}`} state={{ book }}>{getTruncatedTitle(book.name)}</Link>
                 </h1>
                 <h5>{book.year_published}</h5>
