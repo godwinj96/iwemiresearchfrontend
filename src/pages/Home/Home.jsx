@@ -6,6 +6,7 @@ import content2 from '../../assets/content-2.jpg'
 import content3 from '../../assets/content-3.jpg'
 import content4 from '../../assets/content-4.webp'
 import content6 from '../../assets/content-6.avif'
+import content8 from '../../assets/content-8.jpg'
 import content7 from '../../assets/content7.png'
 
 import AOS from 'aos'
@@ -143,7 +144,7 @@ const Home = () => {
 
               <div className="flex flex-col gap-y-4 content-grid">
                 <div className="content-grid1">
-                  <img src={content6}
+                  <img src={content8}
                     alt="office content 1" className="secton-imgs-long" />
                   <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
                     alt="office content 2" className="secton-imgs" />
