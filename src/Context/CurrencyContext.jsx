@@ -45,8 +45,8 @@ export const CurrencyProvider = ({ children }) => {
   const handleCurrencyChange = (newCurrencyCode) => {
     setCurrencyCode(newCurrencyCode)
     setConversionRate(rates[newCurrencyCode])
-    console.log(rates[newCurrencyCode])
-    console.log(conversionRate)
+    //console.log(rates[newCurrencyCode])
+    //console.log(conversionRate)
     localStorage.setItem("currency", newCurrencyCode);
   };
 

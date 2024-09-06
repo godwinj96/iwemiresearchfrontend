@@ -7,6 +7,7 @@ import { useCart } from '../../Context/CartContext'
 import { useCurrency } from '../../Context/CurrencyContext'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import axios from 'axios'
 
 const ClickedBook = () => {
   // const { search, setSearch } = useContext(GlobalStateContext)
@@ -24,6 +25,8 @@ const ClickedBook = () => {
   const { id } = useParams()
 
   const { book, initialTab } = location.state || {}
+  const [citationCount, setCitationCount] = useState(book?.citations || 0);
+
 
   const [similarBooks, setSimilarBooks] = useState([])
 
@@ -81,6 +84,63 @@ const ClickedBook = () => {
     }
   };
 
+  const CitationCount = async () => {
+
+    const form = {
+      'citations': book.citations + 1
+    }
+
+    const Token = localStorage.getItem('accessToken');
+    if (!Token) {
+      setUser(null);
+      setLoggedIn(false);
+      return;
+    }
+
+    const citedPapers = JSON.parse(localStorage.getItem('citedPapers')) || [];
+
+    if (citedPapers.includes(book.name)) {
+      toast.info("You have already cited this paper.", {
+        autoClose: 2000
+      });
+      return;
+    }
+
+
+    try {
+      const response = await fetch(`https://api.iwemiresearch.org/api/papers/paper/${book.name}/`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${Token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+
+      })
+
+      if (!response.ok) {
+        console.log(await response.json())
+        toast.error("Failed to cite")
+        return;
+      }
+
+      citedPapers.push(book.name);
+      localStorage.setItem('citedPapers', JSON.stringify(citedPapers));
+      
+      setCitationCount((prevCount) => prevCount + 1);
+      
+      toast.success("Paper Cited")
+
+    } catch (err) {
+      console.error(err);
+
+    }
+  }
+  useEffect(() => {
+    // Any effect needed when the citation count changes can be handled here
+  }, [citationCount]);
+
 
 
 
@@ -116,11 +176,11 @@ const ClickedBook = () => {
               </div>
               <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-1 md:gap-12 md:space-y-0 similar-products">
 
-                {filteredBooks.slice(0, 6).map(book => (
-                  <>
+                {filteredBooks.slice(0, 6).map((book, index) => (
+                  <div key={index}>
                     <HomeBookCards key={book.id} book={book} />
                     <hr />
-                  </>
+                  </div>
 
                 ))}
               </div>
@@ -204,10 +264,16 @@ const ClickedBook = () => {
               <div className='mb-6'>
                 <GiNewspaper size={60} />
               </div>
-              <div>
-                <h2 className=''> This research paper isn't cited in any other research material</h2>
-                <p>Note:This is based on the research resources in our database </p>
-              </div>
+              {citationCount > 0 ? (
+                <div>
+                  This research paper has a Citation Count of {citationCount}
+                </div>
+              ) : (
+                <div>
+                  <h2>This research paper isn't cited in any other research material</h2>
+                  <p>Note: This is based on the research resources in our database.</p>
+                </div>
+              )}
               <textarea
                 readOnly
                 value={citationText}
@@ -216,8 +282,9 @@ const ClickedBook = () => {
               <button
                 className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800"
                 onClick={() => {
-                  navigator.clipboard.writeText(citationText)
-                    ; toast.info("You have copied citation")
+                  navigator.clipboard.writeText(citationText);
+                  toast.info("You have copied citation");
+                  CitationCount()
                 }}
               >
                 Copy Citation
@@ -284,7 +351,7 @@ const ClickedBook = () => {
             <div className="flex flex-col md:flex-row md:items-start gap-4">
               {book.is_open_access ? (
                 <div className="papers-right clicked-book-button flex flex-row md:flex-col gap-4">
-                  <button onClick={()=>setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
+                  <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
                     Cite
                   </button>
                   {/**<button>Save</button>**/}
@@ -294,7 +361,7 @@ const ClickedBook = () => {
                 </div>
               ) : (
                 <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
-                  <button onClick={()=>setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
+                  <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
                     Cite
                   </button>
                   {/**<button>Save</button>**/}
