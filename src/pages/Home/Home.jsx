@@ -5,6 +5,8 @@ import content1 from '../../assets/content-1.webp'
 import content2 from '../../assets/content-2.jpg'
 import content3 from '../../assets/content-3.jpg'
 import content4 from '../../assets/content-4.webp'
+import content6 from '../../assets/content-6.avif'
+import content7 from '../../assets/content7.png'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -19,7 +21,13 @@ const Home = () => {
   const [books, setBooks] = useState([])
   const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
 
-
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+    return array;
+  };
 
   const fetchBooks = async () => {
     try {
@@ -37,10 +45,8 @@ const Home = () => {
 
       const bookData = await response.json()
 
-      const sortedPapers = bookData.sort(
-        (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
-      )
-      setBooks(sortedPapers)
+     const shuffledPapers = shuffleArray(bookData)
+      setBooks(shuffledPapers)
     } catch (error) {
       console.error(error);
 
@@ -48,9 +54,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-
-
-
     fetchBooks()
   }, [])
 
@@ -140,7 +143,7 @@ const Home = () => {
 
               <div className="flex flex-col gap-y-4 content-grid">
                 <div className="content-grid1">
-                  <img src={content2}
+                  <img src={content6}
                     alt="office content 1" className="secton-imgs-long" />
                   <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
                     alt="office content 2" className="secton-imgs" />
@@ -152,7 +155,7 @@ const Home = () => {
                     alt="office content 2" className="secton-imgs" />
                   <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
                     alt="office content 1" className="secton-imgs-long" />
-                  <img src={content3}
+                  <img src={content7}
                     alt="office content 2" className="secton-imgs" />
                 </div>
               </div>

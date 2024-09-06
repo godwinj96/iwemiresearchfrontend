@@ -39,8 +39,11 @@ const adminUploadPopup = ({ setShowUpload }) => {
 
 
   const Upload = async () => {
-    toast.info("Upload Started")
+    
     if (uploadedOption === 'subscriptionBased') {
+      toast.info("Upload Started",{
+        autoClose:2000
+      })
       const formData = new FormData()
       formData.append('title', title);
       formData.append('author', authors);
@@ -124,6 +127,9 @@ const adminUploadPopup = ({ setShowUpload }) => {
         alert('Failed to upload book. Please try again')
       }
     } else if (uploadedOption === 'openAccess') {
+      toast.info("Upload Started",{
+        autoClose:2000
+      })
       const uploadData = new FormData()
       uploadData.append("name", title)
       uploadData.append("type", type)

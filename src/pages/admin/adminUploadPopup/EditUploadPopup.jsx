@@ -23,7 +23,9 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
    // console.log(typeof type)
 
     const Edit = async () => {
-        toast.info("Editing...")
+        toast.info("Editing...",{
+            autoClose: 2000
+        })
         try {
             console.log(typeof type)
             
