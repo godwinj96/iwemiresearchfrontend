@@ -118,7 +118,7 @@ const ProfileDashboard = () => {
   const handleFinaliseUpload = async () => {
 
 
-
+    toast.info("Upload Started")
     let fileUrl = ''
 
     //extracting file name

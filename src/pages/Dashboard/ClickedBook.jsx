@@ -105,7 +105,7 @@ const ClickedBook = () => {
                 Abstract
               </div>
 
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-justify">
                 {book.abstract}
               </p>
 
@@ -294,9 +294,9 @@ const ClickedBook = () => {
                 <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
                   <button>Cite</button>
                   {/**<button>Save</button>**/}
-                  <button className='download' onClick={() => handleAddToCart(book)}>Add to Cart</button>
+                  <button className='download hover:bg-orange-300 transition-colors' onClick={() => handleAddToCart(book)}>Add to Cart</button>
 
-                  <span className="book-price">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
+                  <span className="book-price p-3">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
                 </div>
               )}
             </div>

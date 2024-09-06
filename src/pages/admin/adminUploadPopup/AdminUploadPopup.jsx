@@ -39,6 +39,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
 
 
   const Upload = async () => {
+    toast.info("Upload Started")
     if (uploadedOption === 'subscriptionBased') {
       const formData = new FormData()
       formData.append('title', title);
