@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/new iwemi.png'
 import Currency from '../Currency/Currency';
 import Language from '../Langauge/Language';
@@ -40,41 +40,24 @@ const Footer = () => {
                     <p className="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with global institutions</p>
                     <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
                         <li>
-                            <a href="" onClick={(e) => {
-                                e.preventDefault();
-                                about()
-                            }}>About</a>{' '}
+                            <Link to='/about'>About</Link>{' '}
                         </li>
 
                         <li>
-                            <a href=""
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    terms()
-                                }}
-                            >Terms & Conditions</a>
+                            <Link to='/terms-Conditions' 
+                            >Terms & Conditions</Link>
                         </li>
                         <li>
-                            <a href=""
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    faqs()
-                                }}
-                            >FAQs</a>
+                            <Link to='/FAQs' 
+                            >FAQs</Link>
                         </li>
                         <li>
-                            <a href="" onClick={(e) => {
-                                e.preventDefault();
-                                contact();
-                            }}>Contact
-                            </a>
+                            <Link to='/contact' >Contact
+                            </Link>
                         </li>
                         <li>
-                            <a href="" onClick={(e) => {
-                                e.preventDefault();
-                                Privacy();
-                            }}>Privacy Policy
-                            </a>
+                            <Link to='/privcay-Policy' >Privacy Policy
+                            </Link>
                         </li>
                     </ul>
                     <div className='flex'>

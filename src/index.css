@@ -1736,7 +1736,7 @@ div.relative:hover .dropdown-menu {
 }
 
 .about-hero-right-t {
-  width: 40vw;
+  width: 30vw;
   color: #6a727f;
   font-size: 1.4vw !important;
   margin-bottom: 50px;
@@ -1744,7 +1744,7 @@ div.relative:hover .dropdown-menu {
 
 .about-hero-right-ul {
   font-weight: 700;
-  font-size: 15px;
+ 
   list-style-type: none;
   padding: 0;
 }
@@ -1774,6 +1774,12 @@ div.relative:hover .dropdown-menu {
   box-sizing: border-box;
   text-align: center; 
   
+}
+
+@media (max-width:330px) {
+  .about-hero-right-ul{
+    display:none
+  }
 }
 
 
@@ -2034,11 +2040,12 @@ div.relative:hover .dropdown-menu {
   }
 
   .about-hero-img img {
-    width: 200px;
+    width: 150px;
+    height:120px
   }
 
   .about-hero {
-    gap: 40px;
+    gap: 20px;
 
   }
 

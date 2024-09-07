@@ -36,6 +36,7 @@ import Admin from './pages/admin/admin'
 import ProtectedComponent from './components/ProtectedComponent'
 import AdminFooter from './pages/admin/AdminFooter'
 import AdminProvider from './Context/AdminContext'
+import ScrollToTop from './components/ScrollTop'
 
 
 
@@ -58,6 +59,7 @@ function App() {
         <GlobalStateProvider>
           <AdminProvider>
             <ToastContainer theme='dark' />
+            <ScrollToTop/>
             {!hideNavAndFooter.includes(location.pathname) && <Navbar />}
             <Routes>
               <Route path="/" element={<Home />} />

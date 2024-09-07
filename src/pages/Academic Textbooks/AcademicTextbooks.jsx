@@ -476,7 +476,7 @@ const AcademicTextbooks = () => {
                 </section>)
                     :
                     (<div className="thesis type flex flex-col items-center">
-                        <div className="thesis-hero flex items-center w-full">
+                        <div className="thesis-hero flex items-center w-full p-5">
                             <h1>
                                 Academic Textbooks
                             </h1>
@@ -485,7 +485,7 @@ const AcademicTextbooks = () => {
 
                         </div>
                         <div className="thesis-content flex  ">
-                            <div className="sidebar flex flex-col   relative">
+                            <div className="sidebar flex flex-col  relative">
 
                                 <button
                                     ref={buttonRef}

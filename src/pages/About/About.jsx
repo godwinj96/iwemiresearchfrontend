@@ -5,6 +5,8 @@ import Footer from '../../components/Footer/Footer'
 import pic1 from '../../assets/research-logo.webp'
 import pic2 from '../../assets/research-logo2.jpeg'
 import pic3 from '../../assets/research-logo3.jpeg'
+import pic4 from '../../assets/about-hero.jpg'
+
 import Testimonial from '../../components/Testimonials/Testimonials'
 import { useLocation } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
@@ -57,10 +59,10 @@ const About = () => {
                     {/**<div className='about-heading flex'>
                 <h2>About us</h2>
             </div>**/}
-                    <div className='about-hero flex' data-aos="fade-up">
+                    <div className='about-hero flex justify-start items-center !px-0 !sm:px-0' data-aos="fade-up">
                         <div className='flex about-hero-img'>
                             <div className=' flex flex-col items-center about-hero-img-left'>
-                                <img src={pic1} alt="" className='a' />
+                                <img src={pic4} alt="" className='a' />
                                 <img src={pic2} alt="" className='b' />
                             </div>
                             <div className='about-hero-img-right hidden md:block'>
@@ -78,18 +80,18 @@ const About = () => {
                             <p className='about-hero-right-t'>
                                 Iwemi Research is a leading online learning platform that collaborates with top universities, colleges, and industry experts to offer a wide range of research papers. Our team is comprised of educators, technologists, and lifelong learners dedicated to creating an engaging and effective online research experience.
                             </p>
-                            <ul className='about-hero-right-ul'>
-                                <li>
-                                    Extensive Research Database
+                            <ul className='about-hero-right-ul text-xs sm:text-[10px] md:text-[14px] lg:text-[14px] xl:text-[15px]'>
+                                <li className='hidden sm:block'>
+                                    Database
                                 </li>
                                 <li>
-                                    Expert Insights
+                                    Insights
                                 </li>
                                 <li>
-                                    Collaborative Projects
+                                    Collaboration
                                 </li>
                                 <li>
-                                    Cutting-Edge Tools
+                                    Tools
                                 </li>
 
                             </ul>

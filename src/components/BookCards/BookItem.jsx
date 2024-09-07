@@ -58,7 +58,7 @@ const BookItem = ({ book, handleAddToCart, isExpanded, handleToggleExpand }) => 
                         </Link>
                     </button>
                     {/**<button>Save</button>**/}
-                    <button className='download ' onClick={() => handleAddToCart(book)}>Buy Now and Download</button>
+                    <button className='download ' onClick={() => handleAddToCart(book)}>Add to Cart</button>
                 </div>
             )}
         </div>

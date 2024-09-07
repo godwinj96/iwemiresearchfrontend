@@ -71,7 +71,7 @@ const Home = () => {
     navigate('/academic-Textbooks')
   }
   const thesis = () => {
-    navigate('/thesis&Dissertations')
+    navigate('/thesis-Dissertations')
   }
 
 
@@ -214,7 +214,9 @@ const Home = () => {
               <div className="see-more-button">
                 <a href="" onClick={(e) => {
                   e.preventDefault();
-                  thesis()
+                  window.scrollTo(0, 0);
+                 
+                  
 
                 }}>See more {'>'}</a>
               </div>

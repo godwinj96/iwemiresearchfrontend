@@ -473,7 +473,7 @@ const Thesis = () => {
                     </section>)
                     :
                     (<div className="thesis type flex flex-col items-center">
-                        <div className="thesis-hero flex items-center w-full">
+                        <div className="thesis-hero flex items-center w-full p-5 sm:p-0">
                             <h1>
                                 Thesis & Dissertations
                             </h1>

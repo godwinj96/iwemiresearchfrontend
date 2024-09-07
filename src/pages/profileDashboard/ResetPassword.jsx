@@ -35,7 +35,7 @@ const ResetPassword = () => {
             resetForm.append("confirm_password", confirmPass)
 
             const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}`,{
-                method:'POST',
+                method:'PATCH',
                 body: resetForm
             })
 
@@ -47,7 +47,9 @@ const ResetPassword = () => {
             toast.success('Password has been reset successfully')
             navigate('/login')
         } catch(error){
+            console.error(error)
             setMessage('There was an error resetting your password. Please try again')
+            
         }
 
         /**
