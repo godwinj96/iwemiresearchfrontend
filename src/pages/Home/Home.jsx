@@ -97,7 +97,7 @@ const Home = () => {
 
 
       {isSearch ?
-        (<section className="dark:bg-gray-900 features" data-aos="fade-up">
+        (<section className="dark:bg-gray-900 features" >
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
               <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
@@ -131,7 +131,7 @@ const Home = () => {
             </div>
           </section>
 
-          <section className="bg-white dark:bg-gray-900 content-section" data-aos="fade-up">
+          <section className="bg-white dark:bg-gray-900 content-section">
             <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl flex flex-col">
               <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400 section-info justify-center flex flex-col">
                 <h2 className="mb-4  tracking-tight font-extrabold text-gray-900 dark:text-white">Promoting access to African Research</h2>
