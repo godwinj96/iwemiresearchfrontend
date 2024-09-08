@@ -339,7 +339,7 @@ const ConferencePapers = () => {
 
                 const conferencePapers = journalData.filter(paper => paper.type === 'Conference Papers')
                 setConference(conferencePapers)
-                console.log(conferencePapers)
+               // console.log(conferencePapers)
 
                 const totalItems = conferencePapers.length
                 setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))

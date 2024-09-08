@@ -41,7 +41,7 @@ const PrivacyPolicy = () => {
         </section>)
             :
             (<div className="privacy-policy">
-                <h2>Privacy Policy</h2>
+                <h2 className='!text-[30px] font-bold'>Privacy Policy</h2>
                 <p>
                     At Iwemi.Com, We Value All Of Our Customers And Understand That You Care About The Privacy And Security Of Your Personal Information. The Privacy Principles Set Out Below Apply To Iwemi.Com's Collection, Storage, Use And Disclosure Of Personal Information That May Be Collected By Us When You Interact With Iwemi.Com, Such As When You Visit Our Stores Or Websites, Or Use Our Devices Or Applications, Participate In Our Member Program, Or Deal With Customer Service.
                 </p>

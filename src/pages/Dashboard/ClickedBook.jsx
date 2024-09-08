@@ -230,7 +230,7 @@ const ClickedBook = () => {
                   </div>
                 </div>
               </form>
-              <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
+              <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="/privcay-Policy" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
 
             </div>
           </div>

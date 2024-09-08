@@ -39,25 +39,25 @@ const Footer = () => {
                     </a>
                     <p className="mb-6 text-gray-500 dark:text-gray-400">No 1 destination for rich African research and intellectual material partnering with global institutions</p>
                     <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
-                        <li>
-                            <Link to='/about'>About</Link>{' '}
+                    <li>
+                            <a href="/about">About</a>{' '}  
                         </li>
-
+                                  
                         <li>
-                            <Link to='/terms-Conditions' 
-                            >Terms & Conditions</Link>
-                        </li>
-                        <li>
-                            <Link to='/FAQs' 
-                            >FAQs</Link>
+                            <a href="terms-Conditions">Terms & Conditions</a>
                         </li>
                         <li>
-                            <Link to='/contact' >Contact
-                            </Link>
+                            <a href="/FAQs"
+                                
+                            >FAQs</a>
                         </li>
                         <li>
-                            <Link to='/privcay-Policy' >Privacy Policy
-                            </Link>
+                            <a href="/contact">Contact
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/privcay-Policy">Privacy Policy
+                            </a>
                         </li>
                     </ul>
                     <div className='flex'>

@@ -1,11 +1,8 @@
 /* eslint-disable */
 
 import React, { useContext, useEffect, useState } from 'react'
-import content1 from '../../assets/content-1.webp'
 import content2 from '../../assets/content-2.jpg'
 import content3 from '../../assets/content-3.jpg'
-import content4 from '../../assets/content-4.webp'
-import content6 from '../../assets/content-6.avif'
 import content8 from '../../assets/content-8.jpg'
 import content7 from '../../assets/content7.png'
 
@@ -185,11 +182,7 @@ const Home = () => {
                   ))}
               </div>
               <div className="see-more-button">
-                <a href="" onClick={(e) => {
-                  e.preventDefault();
-                  journals()
-
-                }}>See more {'>'}</a>
+                <a href="/journals">See more {'>'}</a>
               </div>
             </div>
           </section>
@@ -212,13 +205,7 @@ const Home = () => {
 
               </div>
               <div className="see-more-button">
-                <a href="" onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo(0, 0);
-                 
-                  
-
-                }}>See more {'>'}</a>
+                <a href="/thesis-Dissertations">See more {'>'}</a>
               </div>
             </div>
           </section>
@@ -239,11 +226,7 @@ const Home = () => {
                   ))}
               </div>
               <div className="see-more-button">
-                <a href="" onClick={(e) => {
-                  e.preventDefault();
-                  academic()
-
-                }}>See more {'>'}</a>
+                <a href="/academic-Textbooks">See more {'>'}</a>
               </div>
             </div>
           </section>
@@ -266,11 +249,7 @@ const Home = () => {
                   ))}
               </div>
               <div className="see-more-button">
-                <a href="" onClick={(e) => {
-                  e.preventDefault();
-                  conference()
-
-                }}>See more {'>'}</a>
+                <a href="/conference-Papers">See more {'>'}</a>
               </div>
             </div>
           </section>
