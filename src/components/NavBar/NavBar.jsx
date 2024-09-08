@@ -132,10 +132,7 @@ const Navbar = () => {
         <div className="w-full flex  items-center justify-between mx-auto top-nav pr-8">
 
 
-          <a href="" onClick={(e) => {
-            e.preventDefault();
-            home();
-          }} className="flex  space-x-3 rtl:space-x-reverse">
+          <a href="/" className="flex  space-x-3 rtl:space-x-reverse">
             <img src={logo} className="" alt="Flowbite Logo" width={100} height={130} />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
