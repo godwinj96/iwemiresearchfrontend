@@ -155,7 +155,7 @@ const Payment = () => {
                 tx_ref: `txref-${Date.now()}`,
                 amount: paymentAmt,
                 currency: `${currencyCode}`,
-                payment_options: "card, mobilemoneyghana, ussd, banktransfer, account, credit, nqr, mpesa",
+                payment_options: "card, ussd, banktransfer, account, internetbanking, nqr, applepay, googlepay, enaira, opay",
                 meta: {
                     consumer_id: 23,
                     consumer_mac: "92a3-912ba-1192a",
