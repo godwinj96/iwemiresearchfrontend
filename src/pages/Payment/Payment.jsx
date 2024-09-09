@@ -119,8 +119,8 @@ const Payment = () => {
                 productname: products.name,
                 amount: Number((total * conversionRate) * 100),
                 currency: 'ngn',
-                success_url: 'http://localhost:5173/payment',
-                cancel_url: 'http://localhost:5173/payment',
+                success_url: 'http://iwemiresearch.org/payment',
+                cancel_url: 'http://iwemiresearch.org/payment',
             }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('access')}`
