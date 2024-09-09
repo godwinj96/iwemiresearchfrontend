@@ -511,7 +511,7 @@ const ProfileDashboard = () => {
                   >
                     <option value="" disabled>Select type</option>
                     <option value="Journal">Journal</option>
-                    <option value="ThesisDissertation">Thesis & Dissertation</option>
+                    <option value="Thesis & Dissertations">Thesis & Dissertation</option>
                     <option value="Conference Paper">Conference Paper</option>
                     <option value="Academic Textbook">Academic Textbook</option>
                   </select>

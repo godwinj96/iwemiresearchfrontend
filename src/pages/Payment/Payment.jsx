@@ -193,31 +193,10 @@ const checkoutStripe = async () => {
         if (fromUploadPage) {
             const formData = JSON.parse(localStorage.getItem('openFormData'))
 
-         
-
             const response2 = await fetch("https://api.iwemiresearch.org/api/papers/", {
                 method: 'POST',
                 body: formData
             })
-
-            /**
-             * const { data, error } = await supabase
-                .from('api_book')
-                .insert([
-                    {
-                        name: formData.title,
-                        author: formData.authors,
-                        year_published: formData.yearP,
-                        date_uploaded: formData.date,
-                        category_id: formData.categoryId,
-                        subcategory_id: formData.subcategory_id,
-                        discipline_id: formData.discipline_id,
-                        file_url: formData.fileUrl,
-                        is_open_access: true,
-                    }
-                ])
-             */
-
 
             if (!response2.ok){
                 toast.error('Payment failed')
