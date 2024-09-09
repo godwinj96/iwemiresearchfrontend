@@ -152,7 +152,14 @@ const ClickedBook = () => {
   const handleAddToCart = (item) => {
     dispatch({ type: 'ADD_TO_CART', payload: item })
     // toast.error('Added to Shopping Cart')
-    toast.success("Cart Added")
+    toast.success("Added to Cart", {
+      position: window.innerWidth < 768 ? "top-center" : "top-right",
+      autoClose: 2000, // Auto close after 3 seconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+  })
   }
 
   const renderTabContent = () => {
