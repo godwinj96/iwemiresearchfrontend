@@ -143,11 +143,13 @@ const Payment = () => {
 
 
     const checkoutFlutterwave = () => {
-        setLoading(true)
+        
 
         const paymentAmt = Number(total * conversionRate)
         if (paymentAmt === 0) {
+            setLoading(true)
             handlePaymentSuccess()
+            setLoading(false)
             //toast.success('No payment needed')
             //toast.success('Check mail for more details')
         } else {
