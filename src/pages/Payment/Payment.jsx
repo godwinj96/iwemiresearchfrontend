@@ -20,7 +20,7 @@ import { useCurrency } from '../../Context/CurrencyContext'
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles,userId,  } = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles, userId, } = useContext(GlobalStateContext)
 
     const { accessToken: contextAccessToken } = useContext(GlobalStateContext);
 
@@ -29,7 +29,7 @@ const Payment = () => {
 
     //reset search on route change
 
-    const { currencyCode,conversionRate } = useCurrency()
+    const { currencyCode, conversionRate } = useCurrency()
 
     const navigate = useNavigate()
 
@@ -47,9 +47,9 @@ const Payment = () => {
     useEffect(() => {
         // Persist the token in localStorage whenever it's set in the context
         if (contextAccessToken) {
-          localStorage.setItem('accessToken', contextAccessToken);
+            localStorage.setItem('accessToken', contextAccessToken);
         }
-      }, [contextAccessToken]);
+    }, [contextAccessToken]);
 
     const location = useLocation()
     const products = location.state?.products || [];
@@ -106,39 +106,39 @@ const Payment = () => {
     };
 
 
-    
+
     // const stripePromise = loadStripe('pk_test_51Pl654BtS3lVeLJEYpzqhlEkp4B9qmaX8ch4gJDslvwEm0kTw06sOZJ9Pc9J0VlC2wP2hiFqa0R43nHcXCwLFQWW00QtE9aDAU');
     // const { accessToken } = useContext(GlobalStateContext);
     console.log(accessToken)
 
     // localStorage.setItem('access', accessToken)
 
-const checkoutStripe = async () => {
-  try {
-    const response = await axios.post('https://api.iwemiresearch.org/api/create-payment-intent/', {
-      productname:   products.name,
-      amount: Number((total * conversionRate)*100), 
-      currency: 'ngn',
-      success_url: 'http://localhost:5173/payment',
-      cancel_url: 'http://localhost:5173/payment',
-    }, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access')}`
+    const checkoutStripe = async () => {
+        try {
+            const response = await axios.post('https://api.iwemiresearch.org/api/create-payment-intent/', {
+                productname: products.name,
+                amount: Number((total * conversionRate) * 100),
+                currency: 'ngn',
+                success_url: 'http://localhost:5173/payment',
+                cancel_url: 'http://localhost:5173/payment',
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access')}`
+                }
+            });
+
+            const sessionId = response.data.id;
+            const stripePromise = loadStripe(response.data.publicKey)
+
+            const stripe = await stripePromise; // Load Stripe.js using the public key
+
+            await stripe.redirectToCheckout({ sessionId });
+            toast.success("Payment successful")
+            handlePaymentSuccess()
+        } catch (error) {
+            console.error('Error creating checkout session:', error);
         }
-    });
-
-    const sessionId = response.data.id;
-    const stripePromise = loadStripe(response.data.publicKey)
-
-    const stripe = await stripePromise; // Load Stripe.js using the public key
-
-    await stripe.redirectToCheckout({ sessionId });
-    toast.success("Payment successful")
-    handlePaymentSuccess()
-  } catch (error) {
-    console.error('Error creating checkout session:', error);
-  }
-};
+    };
 
 
     const checkoutFlutterwave = () => {
@@ -198,7 +198,7 @@ const checkoutStripe = async () => {
                 body: formData
             })
 
-            if (!response2.ok){
+            if (!response2.ok) {
                 toast.error('Payment failed')
             } else {
                 toast.success('Book uploaded successfully')
@@ -269,89 +269,127 @@ const checkoutStripe = async () => {
 
                 //we are calling it twice to get the downloaded links and being able to use in the email content
                 const emailContent = `
-                <html>
-                <head>
-                    <style>
-                        .container {
-                            width: 80%;
-                            margin: 0 auto;
-                            text-align: center;
-                            font-family: Arial, sans-serif;
-                        }
-                        .header {
-                            font-size: 2em;
-                            font-weight: bold;
-                            margin-bottom: 20px;
-                        }
-                        .content {
-                            border: 1px solid #ccc;
-                            border-top: none;
-                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                            padding: 20px;
-                            margin-bottom: 20px;
-                        }
-                        .footer {
-                            font-size: 0.8em;
-                            color: #555;
-                        }
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin: 20px 0;
-                        }
-                        th, td {
-                            padding: 10px;
-                            border-bottom: 1px solid #ccc;
-                        }
-                        th {
-                            background-color: #f2f2f2;
-                        }
-                        a {
-                            color: #1a73e8;
-                            text-decoration: none;
-                        }
-                        a:hover {
-                            text-decoration: underline;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="header">
-                             Iwemi Research
-                        </div>
-                        <div class="content">
-                            <h1>Thank you for your purchase!</h1>
-                            <p>Dear ${user.name} ${user.last_name},</p>
-                            <p>Thank you for purchasing from our store. Below are the details of your order:</p>
-                            <table>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Download Link</th>
-                                </tr>
-                                ${products.map((product, index) => `
-                                    <tr>
-                                        <td>${product.name}</td>
-                                        <td>${product.quantity}</td>
-                                        <td>${currencyCode} ${product.price ? product.price : 0}</td>
-                                        <td><a href="${downloadLinks[index]}" class="download-link">Download your research material here!</a></td>
-                                    </tr>
-                                `).join('')}
-                            </table>
-                            <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
-                            <p>Best regards,</p>
-                            <p>Iwemi Research</p>
-                        </div>
-                        <div class="footer">
-                            <p>This email was sent to ${user.email} because you made a purchase on our website. If you did not make this purchase, please contact our support team immediately.</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-                `;
-                
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #4A90E2;
+            padding: 20px;
+            color: #ffffff;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 20px 30px;
+        }
+        .content h1 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #4A90E2;
+            font-weight: bold;
+        }
+        a {
+            color: #4A90E2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background-color: #f7f7f7;
+            padding: 15px;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Iwemi Research
+        </div>
+        <div class="content">
+            <h1>Thank you for your purchase!</h1>
+            <p>Dear ${user.name} ${user.last_name},</p>
+            <p>Thank you for purchasing from our store. Below are the details of your order:</p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Download Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${products.map((product, index) => `
+                            <tr>
+                                <td>${product.name}</td>
+                                <td>${product.quantity}</td>
+                                <td>${currencyCode} ${product.price ? product.price : 0}</td>
+                                <td><a href="${downloadLinks[index]}">Download</a></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+            <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
+            <p>Best regards,</p>
+            <p><strong>Iwemi Research Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>This email was sent to ${user.email} because you made a purchase on our website. If you did not make this purchase, please contact our support team immediately.</p>
+        </div>
+    </div>
+</body>
+</html>
+`;
+
+
                 //request body
                 const requestBody_again = new FormData()
                 requestBody_again.append('book_list', JSON.stringify(bookList))
