@@ -34,6 +34,7 @@ const Payment = () => {
     const navigate = useNavigate()
 
     const [totals, setTotal] = useState('')
+    const [loading,setLoading] = useState(false)
 
     useEffect(() => {
         const storedProduct = localStorage.getItem('product')
@@ -142,6 +143,7 @@ const Payment = () => {
 
 
     const checkoutFlutterwave = () => {
+        setLoading(true)
 
         const paymentAmt = Number(total * conversionRate)
         if (paymentAmt === 0) {
@@ -180,6 +182,8 @@ const Payment = () => {
                 },
             });
         }
+
+        setLoading(false)
 
     };
 
@@ -434,7 +438,13 @@ const Payment = () => {
 
 
 
-    return (
+    return loading ?
+    <div className="grid place-items-center min-h-[80vh]">
+        <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+
+        </div>
+    </div>
+    : (
         <div>
 
             {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
