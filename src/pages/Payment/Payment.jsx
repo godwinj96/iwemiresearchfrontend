@@ -123,7 +123,7 @@ const Payment = () => {
                 cancel_url: 'http://iwemiresearch.org/payment',
             }, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('access')}`
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                 }
             });
 
