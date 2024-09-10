@@ -50,6 +50,7 @@ const ProfileDashboard = () => {
   const [abstract, setAbstract] = useState('')
   const [category, setCategory] = useState('')
   const [subcategory, setSubcategory] = useState('')
+  const [orders, setOrders] = useState()
 
 
 
@@ -102,9 +103,9 @@ const ProfileDashboard = () => {
 
   const updateUserProfile = async (e) => {
     e.preventDefault()
-   toast.info("Updating...",{
-      autoClose:1000
-   })
+    toast.info("Updating...", {
+      autoClose: 1000
+    })
 
     const formData = new FormData()
     if (updatedPassword) {
@@ -117,11 +118,11 @@ const ProfileDashboard = () => {
     if (updatedName) {
       formData.append("name", updatedName);
     }
-    
+
     if (updatedLastName) {
       formData.append("last_name", updatedLastName);
     }
-    
+
     if (updatedEmail) {
       formData.append("email", updatedEmail);
     }
@@ -432,6 +433,40 @@ const ProfileDashboard = () => {
     localStorage.removeItem('accessToken')
     setLoggedIn(false)
     home()
+  }
+
+  const getOrders = async () => {
+    const Token = localStorage.getItem('accessToken');
+    if (!Token) {
+      setUser(null);
+      setLoggedIn(false);
+      return;
+    }
+    try {
+      const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+
+      const responseJson = await response.json()
+      console.log(responseJson)
+      if (!response.ok) {
+        throw new Error("error")
+        return
+      }
+
+      const userId = localStorage.getItem('userId'); // Replace with the current user's ID
+      const userOrders = responseJson.filter(order => order.user === userId);
+
+      setOrders(userOrders)
+
+    } catch (error) {
+      console.error(error)
+    }
+
+
   }
 
   //console.log(user)
@@ -1199,13 +1234,33 @@ const ProfileDashboard = () => {
         );
       case 'orders':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Orders</h3>
-            <p>No order has been made yet</p>
-            <button className="make-order bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 "
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg shadow-md">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Your Orders</h3>
+            {orders.length === 0 ? (
+              <p className="text-gray-600 dark:text-gray-300">No orders have been made yet</p>
+            ) : (
+              <div className="space-y-4">
+                {orders.map(order => (
+                  <div
+                    key={order.id}
+                    className="border border-gray-300 dark:border-gray-600 p-4 rounded-lg bg-white dark:bg-gray-700 shadow-sm transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{order.paper_name}</h4>
+                    <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
+                      <span className="font-medium">Status:</span> {order.status}
+                    </p>
+                    <p className="text-sm text-gray-700 dark:text-gray-400">
+                      <span className="font-medium">Time Created:</span> {new Date(order.time_created).toLocaleString()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button
+              className="mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
               onClick={(e) => {
                 e.preventDefault();
-                home()
+                home();
               }}
             >
               Return to home
@@ -1315,11 +1370,11 @@ const ProfileDashboard = () => {
             <form className="max-w-sm mx-auto">
               <div className="mb-5">
                 <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your First Name </label>
-                <input type="text" value={updatedName} onChange={(e) => setUpdatedName(e.target.value)} id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=""  />
+                <input type="text" value={updatedName} onChange={(e) => setUpdatedName(e.target.value)} id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
               </div>
               <div className="mb-5">
                 <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Last Name </label>
-                <input type="text" value={updatedLastName} onChange={(e) => setUpdatedLastName(e.target.value)} id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                <input type="text" value={updatedLastName} onChange={(e) => setUpdatedLastName(e.target.value)} id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
               </div>
 
             </form>
@@ -1341,7 +1396,7 @@ const ProfileDashboard = () => {
                   id="email-address-icon"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Update your email"
-                   />
+                />
               </div>
             </form>
 
@@ -1369,8 +1424,8 @@ const ProfileDashboard = () => {
                 >
                   {showPassword ? 'Hide' : 'Show'}
                 </button>
-                <Link to='/password-reset'  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                 
+                <Link to='/password-reset' className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+
                 >
                   Forgot password?
                 </Link>
@@ -1383,18 +1438,18 @@ const ProfileDashboard = () => {
                   placeholder="••••••••" // Corrected here
                   type={showconfirmPassword ? "text" : "password"}
                   id="repeat-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-                  <button
-                    type="button"
-                    onClick={toggleConfirmPasswordVisibility}
-                    className="absolute inset-y-0 right-0 px-3 mt-6  text-black flex items-center text-sm leading-5 "
-                  >
-                    {showconfirmPassword ? 'Hide' : 'Show'}
-                  </button>
+                <button
+                  type="button"
+                  onClick={toggleConfirmPasswordVisibility}
+                  className="absolute inset-y-0 right-0 px-3 mt-6  text-black flex items-center text-sm leading-5 "
+                >
+                  {showconfirmPassword ? 'Hide' : 'Show'}
+                </button>
               </div>
               <div className="flex items-start mb-5">
                 <div className="flex items-center h-5">
                   <input id="terms" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
-                  
+
                 </div>
                 <label htmlFor="terms" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" className="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
               </div>
@@ -1431,6 +1486,10 @@ const ProfileDashboard = () => {
     }
   };
 
+
+  useEffect(() => {
+    getOrders()
+  }, [])
 
 
 

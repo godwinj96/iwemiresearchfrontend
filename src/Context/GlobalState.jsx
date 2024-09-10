@@ -24,23 +24,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const fetchOpenAccessPapers = async () => {
-    try {
-      const { data, error } = await supabase.from('api_book').select('*');
-      if (error) {
-        toast.error(`Error fetching open access papers: ${error.message}`);
-        return;
-      }
-
-      const updatedData = data.map((book) => ({
-        ...book,
-        openAccess: true,
-      }));
-      setOpenAcessPapers(updatedData);
-    } catch (err) {
-      toast.error(`An unexpected error occurred: ${err.message}`);
-    }
-  };
+ 
 
   const handleLogin = async (loginForm) => {
     try {
@@ -96,7 +80,7 @@ export const GlobalStateProvider = ({ children }) => {
         setUser(userData);
         setLoggedIn(true);
         localStorage.setItem('session', JSON.stringify(userData));
-        localStorage.setItem('userId', userData.pk);
+        localStorage.setItem('userId', userData.id);
       }
     } catch (error) {
       console.error('Error fetching session:', error.message);

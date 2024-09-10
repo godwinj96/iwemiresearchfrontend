@@ -11,7 +11,7 @@ const AdminHeading = ({setShowUpload}) => {
 
 
     return (
-        <div className='flex p-3 bg-gray-50 justify-between items-center'>
+        <div className='flex p-3 bg-gray-50 justify-between items-center w-full'>
             <div className='font-bold text-2xl'>
                 Welcome back Admin!!! {user.name}
             </div>

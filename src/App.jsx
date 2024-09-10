@@ -37,6 +37,9 @@ import ProtectedComponent from './components/ProtectedComponent'
 import AdminFooter from './pages/admin/AdminFooter'
 import AdminProvider from './Context/AdminContext'
 import ScrollToTop from './components/ScrollTop'
+import AdminOrders from './pages/admin/AdminOrders'
+import AdminUsers from './pages/admin/AdminUsers'
+import AdminProduct from './pages/admin/AdminProduct'
 
 
 
@@ -51,7 +54,8 @@ function App() {
     setResults([])
   }, [location])
 
-  const hideNavAndFooter = ['/admin'];
+  const hideNavAndFooter = location.pathname.startsWith('/admin');
+
 
   return (
     <CartProvider>
@@ -60,7 +64,7 @@ function App() {
           <AdminProvider>
             <ToastContainer theme='dark' />
             <ScrollToTop/>
-            {!hideNavAndFooter.includes(location.pathname) && <Navbar />}
+            {!hideNavAndFooter && <Navbar />}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/payment" element={<Payment />} />
@@ -85,10 +89,16 @@ function App() {
               <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
               {/* Wrap the /admin route with the ProtectedComponent */}
               <Route element={<ProtectedComponent />}>
-                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/*" element={<Admin />}>
+                  {/* Nested Admin Routes */}
+                  <Route path="product" element={<AdminProduct />} />
+                  <Route path="orders" element={<AdminOrders />} />
+                  <Route path="users" element={<AdminUsers />} />
+                  
+                </Route>
               </Route>
             </Routes>
-            {!hideNavAndFooter.includes(location.pathname) && <Footer />}
+            {!hideNavAndFooter && <Footer />}
             {/*hideNavAndFooter.includes(location.pathname) && <AdminFooter />*/}
           </AdminProvider>
 

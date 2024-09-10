@@ -29,6 +29,7 @@ const ClickedBook = () => {
 
 
   const [similarBooks, setSimilarBooks] = useState([])
+  const [loading,setLoading] = useState(false)
 
   const getSimilarBooks = async () => {
 
@@ -85,7 +86,7 @@ const ClickedBook = () => {
   };
 
   const CitationCount = async () => {
-
+    setLoading(true)
     const form = {
       'citations': book.citations + 1
     }
@@ -103,6 +104,7 @@ const ClickedBook = () => {
       toast.info("You have already cited this paper.", {
         autoClose: 2000
       });
+      setLoading(false)
       return;
     }
 
@@ -122,6 +124,7 @@ const ClickedBook = () => {
       if (!response.ok) {
         console.log(await response.json())
         toast.error("Failed to cite")
+        setLoading(false)
         return;
       }
 
@@ -131,11 +134,12 @@ const ClickedBook = () => {
       setCitationCount((prevCount) => prevCount + 1);
       
       toast.success("Paper Cited")
-
+      setLoading(false)
     } catch (err) {
       console.error(err);
 
     }
+   
   }
   useEffect(() => {
     // Any effect needed when the citation count changes can be handled here
@@ -290,7 +294,7 @@ const ClickedBook = () => {
                 className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800"
                 onClick={() => {
                   navigator.clipboard.writeText(citationText);
-                  toast.info("You have copied citation");
+                                 
                   CitationCount()
                 }}
               >
@@ -308,7 +312,13 @@ const ClickedBook = () => {
 
 
 
-  return (
+  return loading ?
+  <div className="grid place-items-center min-h-[80vh]">
+      <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+
+      </div>
+  </div>
+  : (
     <div className='flex flex-col justify-between clicked-container'>
 
       {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">

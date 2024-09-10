@@ -20,7 +20,7 @@ import { useCurrency } from '../../Context/CurrencyContext'
 
 const Payment = () => {
 
-    const { results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles, userId, } = useContext(GlobalStateContext)
+    const { setLoggedIn, setUser, results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles, userId, } = useContext(GlobalStateContext)
 
     const { accessToken: contextAccessToken } = useContext(GlobalStateContext);
 
@@ -34,7 +34,9 @@ const Payment = () => {
     const navigate = useNavigate()
 
     const [totals, setTotal] = useState('')
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [orderIds, setOrderIds] = useState([]);
+
 
     useEffect(() => {
         const storedProduct = localStorage.getItem('product')
@@ -64,6 +66,86 @@ const Payment = () => {
         setIsSearch(false)
         setResults([])
     }, [location, setIsSearch, setResults])
+
+    const addToOrders = async () => {
+
+        const Token = localStorage.getItem('accessToken');
+        if (!Token) {
+            setUser(null);
+            setLoggedIn(false);
+            return;
+        }
+
+        let newOrderIds = []; // Temporary array to store order IDs
+
+        try {
+            for (const product of products) {
+                const formData = new FormData();
+                formData.append('paper_id', product.id);
+                formData.append('status', 'Pending');
+
+                const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
+                    method: 'POST',
+
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                    body: formData, // Include formData in the request
+                });
+
+                const responseJson = await response.json();
+
+                if (!response.ok) {
+                    toast.error("Error adding to orders");
+                    break; // Stop further processing if there's an error
+                }
+
+                newOrderIds.push(responseJson.id);
+            }
+            setOrderIds(newOrderIds);
+            // If all requests succeed
+            toast.success("All products added to orders");
+        } catch (error) {
+            console.error("An error occurred:", error);
+            toast.error("An error occurred while adding products to orders");
+        }
+    }
+    const ammendOrder = async (string) => {
+        const Token = localStorage.getItem('accessToken');
+        if (!Token) {
+            setUser(null);
+            setLoggedIn(false);
+            return;
+        }
+
+        try {
+            for (const [index, product] of products.entries()) {
+                const formData = new FormData();
+                formData.append('paper_id', product.id);
+                formData.append('status', string);
+                formData.append('order_id', orderIds[index]); // Use the corresponding orderId
+
+                const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
+                    method: 'PATCH',
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                    body: formData,
+                });
+
+                const responseJson = await response.json();
+                if (!response.ok) {
+                    toast.error("Error updating order");
+                    break; // Stop further processing if there's an error
+                }
+            }
+            // If all requests succeed
+            toast.success("All orders updated successfully");
+        } catch (error) {
+            console.error("An error occurred:", error);
+            toast.error("An error occurred while updating orders");
+        }
+    }
 
     const checkoutInterswitch = () => {
         if (user) {
@@ -110,7 +192,7 @@ const Payment = () => {
 
     // const stripePromise = loadStripe('pk_test_51Pl654BtS3lVeLJEYpzqhlEkp4B9qmaX8ch4gJDslvwEm0kTw06sOZJ9Pc9J0VlC2wP2hiFqa0R43nHcXCwLFQWW00QtE9aDAU');
     // const { accessToken } = useContext(GlobalStateContext);
-    console.log(accessToken)
+    
 
     // localStorage.setItem('access', accessToken)
 
@@ -134,7 +216,7 @@ const Payment = () => {
             const stripe = await stripePromise; // Load Stripe.js using the public key
 
             await stripe.redirectToCheckout({ sessionId });
-            toast.success("Payment successful")
+            //toast.success("Payment successful")
             handlePaymentSuccess()
         } catch (error) {
             console.error('Error creating checkout session:', error);
@@ -143,7 +225,7 @@ const Payment = () => {
 
 
     const checkoutFlutterwave = () => {
-        
+
 
         const paymentAmt = Number(total * conversionRate)
         if (paymentAmt === 0) {
@@ -414,7 +496,7 @@ const Payment = () => {
                     body: requestBody_again
                 })
 
-                const data = await response_again.json()
+                const data = await response_again.text()
                 console.log('data is ready:', data)
             } catch (error) {
                 console.error('Error getting book links:', error);
@@ -433,7 +515,12 @@ const Payment = () => {
 
         }
 
+        ammendOrder('Succesful')
+
     }
+
+    
+
 
 
 
@@ -441,108 +528,108 @@ const Payment = () => {
 
 
     return loading ?
-    <div className="grid place-items-center min-h-[80vh]">
-        <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+        <div className="grid place-items-center min-h-[80vh]">
+            <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
 
+            </div>
         </div>
-    </div>
-    : (
-        <div>
+        : (
+            <div>
 
-            {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
-                <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-                    <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+                {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
+                    <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                        <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+                            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+                        </div>
+                        <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+                            {results.length > 0 ? (
+                                results.map(book => (
+                                    <HomeBookCards key={book.id} book={book} />
+                                ))
+                            ) : (
+                                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+                            )}
+                        </div>
                     </div>
-                    <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-                        {results.length > 0 ? (
-                            results.map(book => (
-                                <HomeBookCards key={book.id} book={book} />
-                            ))
-                        ) : (
-                            <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
-                        )}
-                    </div>
-                </div>
-            </section>)
-                :
-                (<section className=" dark:bg-gray-900 dark payment-page">
-                    <div className=" max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-                        <div className="mr-auto place-self-center lg:col-span-7 flex flex-col gap-16">
-                            <div className="mt-4 lg:mt-0 flex flex-col gap-8">
-                                <div className='payment-text'>
-                                    <h1>How would you like to pay?</h1>
-                                    <span>All transactions are secured and encrypted</span>
+                </section>)
+                    :
+                    (<section className=" dark:bg-gray-900 dark payment-page">
+                        <div className=" max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+                            <div className="mr-auto place-self-center lg:col-span-7 flex flex-col gap-16">
+                                <div className="mt-4 lg:mt-0 flex flex-col gap-8">
+                                    <div className='payment-text'>
+                                        <h1>How would you like to pay?</h1>
+                                        <span>All transactions are secured and encrypted</span>
 
+                                    </div>
+                                    <div className="flex gap-4 flex-col">
+                                        <button
+                                            type="button"
+                                            onClick={() => { addToOrders(); checkoutInterswitch(); }}
+                                            className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-transform duration-300  text-gray-700  hover:scale-105`}
+                                        >
+                                            <img src={interswitch_img} alt="Interswitch Logo" className="h-6 w-6" />
+                                            Interswitch
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => { addToOrders(); checkoutStripe(); }}
+                                            className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
+                                        >
+                                            <img src={stripe_img} alt="Stripe Logo" className="h-6 w-6" />
+                                            Stripe
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => { addToOrders(); checkoutFlutterwave(); }}
+                                            className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
+                                        >
+                                            <img src={logo} alt="Flutterwave Logo" className="h-6 w-6" />
+                                            Flutterwave
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="flex gap-4 flex-col">
-                                    <button
-                                        type="button"
-                                        onClick={checkoutInterswitch}
-                                        className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-transform duration-300  text-gray-700  hover:scale-105`}
-                                    >
-                                        <img src={interswitch_img} alt="Interswitch Logo" className="h-6 w-6" />
-                                        Interswitch
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={checkoutStripe}
-                                        className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
-                                    >
-                                        <img src={stripe_img} alt="Stripe Logo" className="h-6 w-6" />
-                                        Stripe
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={checkoutFlutterwave}
-                                        className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
-                                    >
-                                        <img src={logo} alt="Flutterwave Logo" className="h-6 w-6" />
-                                        Flutterwave
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="mt-6 grow sm:mt-8 lg:mt-0 product-bar">
-                                <div className="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
-                                    <div className="space-y-2">
-                                        {products.map((product, index) => (
-                                            <dl key={index} className="flex items-center justify-between gap-4">
-                                                <dt className="text-base font-normal text-gray-500 dark:text-gray-400">{product.quantity}x {product.name}</dt>
-                                                <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {(product.price * conversionRate).toFixed(2) || 0}</dd>
-                                            </dl>
-                                        ))}
+                                <div className="mt-6 grow sm:mt-8 lg:mt-0 product-bar">
+                                    <div className="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
+                                        <div className="space-y-2">
+                                            {products.map((product, index) => (
+                                                <dl key={index} className="flex items-center justify-between gap-4">
+                                                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">{product.quantity}x {product.name}</dt>
+                                                    <dd className="text-base font-medium text-gray-900 dark:text-white">{currencyCode} {(product.price * conversionRate).toFixed(2) || 0}</dd>
+                                                </dl>
+                                            ))}
+                                        </div>
+
+                                        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
+                                            <dt className="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
+                                            <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {(total * conversionRate).toFixed(2)}</dd>
+                                        </dl>
                                     </div>
 
-                                    <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700 ">
-                                        <dt className="text-base font-bold text-gray-900 dark:text-white" >Total</dt>
-                                        <dd className="text-base font-bold text-gray-900 dark:text-white" id='total' value={totals} onChange={(e) => { setTotal(e.target.value) }}>{currencyCode} {(total * conversionRate).toFixed(2)}</dd>
-                                    </dl>
-                                </div>
-
-                                <div className="mt-6 flex items-center justify-center gap-8">
-                                    <img
-                                        src="https://stripe.com/img/v3/home/twitter.png"
-                                        alt="Stripe Logo"
-                                        className="h-8"
-                                    />
-                                    <img
-                                        src={logo}
-                                        alt="Flutterwave Logo"
-                                        className="h-8"
-                                    />
-                                    <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
-                                    <img className="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg" alt="" />
+                                    <div className="mt-6 flex items-center justify-center gap-8">
+                                        <img
+                                            src="https://stripe.com/img/v3/home/twitter.png"
+                                            alt="Stripe Logo"
+                                            className="h-8"
+                                        />
+                                        <img
+                                            src={logo}
+                                            alt="Flutterwave Logo"
+                                            className="h-8"
+                                        />
+                                        <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
+                                        <img className="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg" alt="" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>)}
-            <div className='dark'>
+                    </section>)}
+                <div className='dark'>
+
+                </div>
 
             </div>
-
-        </div>
-    )
+        )
 }
 
 export default Payment
