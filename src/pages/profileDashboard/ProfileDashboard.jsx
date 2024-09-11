@@ -12,7 +12,7 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ProfileDashboard = () => {
 
-  const { user, userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles } = useContext(GlobalStateContext)
+  const { user, userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles,orders } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -50,7 +50,7 @@ const ProfileDashboard = () => {
   const [abstract, setAbstract] = useState('')
   const [category, setCategory] = useState('')
   const [subcategory, setSubcategory] = useState('')
-  const [orders, setOrders] = useState()
+  //const [orders, setOrders] = useState()
 
 
 
@@ -435,39 +435,7 @@ const ProfileDashboard = () => {
     home()
   }
 
-  const getOrders = async () => {
-    const Token = localStorage.getItem('accessToken');
-    if (!Token) {
-      setUser(null);
-      setLoggedIn(false);
-      return;
-    }
-    try {
-      const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-
-      const responseJson = await response.json()
-      console.log(responseJson)
-      if (!response.ok) {
-        throw new Error("error")
-        
-      }
-
-      const userId = localStorage.getItem('userId'); // Replace with the current user's ID
-      const userOrders = responseJson.filter(order => order.user_id === userId);
-
-      setOrders(userOrders)
-
-    } catch (error) {
-      console.error(error)
-    }
-
-
-  }
+  
 
   //console.log(user)
 
@@ -1487,9 +1455,7 @@ const ProfileDashboard = () => {
   };
 
 
-  useEffect(() => {
-    getOrders()
-  }, [])
+
 
 
 

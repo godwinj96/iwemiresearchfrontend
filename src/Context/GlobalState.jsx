@@ -21,7 +21,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [accessToken, setAccessToken] = useState(null); // New state for access token
   const [loading, setLoading] = useState(true); // Add loading state
-
+  const [orders, setOrders] = useState()
   const navigate = useNavigate();
 
  
@@ -123,7 +123,42 @@ export const GlobalStateProvider = ({ children }) => {
     }
   };
 
+  const getOrders = async () => {
+    const Token = localStorage.getItem('accessToken');
+    if (!Token) {
+      setUser(null);
+      setLoggedIn(false);
+      return;
+    }
+    try {
+      const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+
+      const responseJson = await response.json()
+      console.log(responseJson)
+      if (!response.ok) {
+        throw new Error("error")
+        
+      }
+
+      const userId = localStorage.getItem('userId'); // Replace with the current user's ID
+      const userOrders = responseJson.filter(order => order.user_id === userId);
+
+      setOrders(userOrders)
+
+    } catch (error) {
+      console.error(error)
+    }
+
+
+  }
+
   useEffect(() => {
+    getOrders()
     if (localStorage.getItem('accessToken')) {
       tokenVerify();
       checkSession();
@@ -155,7 +190,9 @@ export const GlobalStateProvider = ({ children }) => {
     handleLogin,
     accessToken,
     loading,
-    setLoading // Make the token available in the context
+    setLoading,
+    getOrders,
+    orders
   };
 
   return (
