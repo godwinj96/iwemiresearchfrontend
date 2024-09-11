@@ -15,11 +15,13 @@ const AdminProduct = () => {
     const [selectedPaper, setSelectedPaper] = useState(null);
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
+    const [loading,setLoading] = useState(false)
     const approved = true
     const { searchInput } = useContext(AdminContext)
     const { user } = useContext(GlobalStateContext)
 
     const getPapers = async () => {
+        setLoading(true)
         try {
             const papersResponse = await fetch("https://api.iwemiresearch.org/api/papers/", {
                 method: 'GET',
@@ -30,6 +32,7 @@ const AdminProduct = () => {
 
             if (!papersResponse.ok) {
                 throw new Error('Failed to fetch journals')
+                setLoading(false)
             }
 
             const Papers = await papersResponse.json()
@@ -42,12 +45,13 @@ const AdminProduct = () => {
             setPapers(sortedPapers)
             const totalItems = Papers.length
             setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
+            setLoading(false)
         } catch (err) {
             console.log(err)
             console.log("Error")
         }
 
-
+        setLoading(false)
 
     }
 
@@ -147,7 +151,7 @@ const AdminProduct = () => {
 
 
 
-    return (
+    return(
         <div>
             <div className='px-12 overflow-x-auto flex flex-col justify-between'>
                 <table className="mt-6 w-full text-left table-auto whitespace-nowrap  max-lg:block max-lg:overflow-x-scroll ">
