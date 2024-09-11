@@ -121,9 +121,7 @@ const AdminProduct = () => {
         getPapers()
         console.log(papers)
     }, [])
-    useEffect(() => {
-        getPapers()
-    }, [papers, currentPage, ITEMS_PER_PAGE,])
+    
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -151,7 +149,13 @@ const AdminProduct = () => {
 
 
 
-    return(
+    return loading ?
+    <div className="grid place-items-center min-h-[80vh]">
+      <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+
+      </div>
+    </div>
+    :(
         <div>
             <div className='px-12 overflow-x-auto flex flex-col justify-between'>
                 <table className="mt-6 w-full text-left table-auto whitespace-nowrap  max-lg:block max-lg:overflow-x-scroll ">

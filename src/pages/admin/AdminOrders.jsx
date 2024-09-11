@@ -23,6 +23,7 @@ const AdminOrders = () => {
       const responseJson = await response.json()
       console.log(responseJson)
       if (!response.ok) {
+        setLoading(false)
         throw new Error("error")
         return
       }
@@ -35,7 +36,7 @@ const AdminOrders = () => {
     } catch (error) {
       console.error(error)
     }
-
+    setLoading(false)
 
   }
   useEffect(() => {

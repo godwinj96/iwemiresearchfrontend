@@ -125,9 +125,7 @@ const Admin = () => {
     getPapers()
     console.log(papers)
   }, [])
-  useEffect(() => {
-    getPapers()
-  }, [papers, currentPage, ITEMS_PER_PAGE,])
+  
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
