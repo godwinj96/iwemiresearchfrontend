@@ -454,11 +454,11 @@ const ProfileDashboard = () => {
       console.log(responseJson)
       if (!response.ok) {
         throw new Error("error")
-        return
+        
       }
 
       const userId = localStorage.getItem('userId'); // Replace with the current user's ID
-      const userOrders = responseJson.filter(order => order.user === userId);
+      const userOrders = responseJson.filter(order => order.user_id === userId);
 
       setOrders(userOrders)
 

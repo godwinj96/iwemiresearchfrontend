@@ -27,10 +27,9 @@ const AdminOrders = () => {
         return
       }
 
-      const userId = localStorage.getItem('userId'); // Replace with the current user's ID
-      const userOrders = responseJson.filter(order => order.user === userId);
+      
 
-      setOrders(userOrders)
+      setOrders(responseJson)
       setLoading(false)
 
     } catch (error) {
@@ -60,7 +59,7 @@ const AdminOrders = () => {
                 <th className="py-2 px-4 border-b text-left">Paper Name</th>
                 <th className="py-2 px-4 border-b text-left">Status</th>
                 <th className="py-2 px-4 border-b text-left">Time Created</th>
-                <th className="py-2 px-4 border-b text-left">User ID</th>
+                <th className="py-2 px-4 border-b text-left">User Name</th>
               </tr>
             </thead>
             <tbody>
@@ -72,7 +71,7 @@ const AdminOrders = () => {
                   <td className="py-2 px-4 border-b">
                     {new Date(order.time_created).toLocaleString()}
                   </td>
-                  <td className="py-2 px-4 border-b">{order.user}</td>
+                  <td className="py-2 px-4 border-b">{order.user_name}</td>
                 </tr>
               ))}
             </tbody>

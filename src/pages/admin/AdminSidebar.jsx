@@ -3,7 +3,7 @@ import logo from '../../assets/new iwemi.png'
 import { Link } from 'react-router-dom';
 const AdminSidebar = () => {
     return (
-        <div className='flex flex-col bg-slate-100 h-full w-full justify-center'>
+        <div className='flex flex-col bg-slate-100 h-full w-full '>
             <div className='px-2 sm:pl-14 py-3 broder border-black'>
                 <Link to='/admin'>
                     <img src={logo} width={100} alt='' />
