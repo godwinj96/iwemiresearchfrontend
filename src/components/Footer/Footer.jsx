@@ -10,24 +10,6 @@ const Footer = () => {
 
     const { handleCurrencyChange } = useContext(GlobalStateContext)
 
-    const navigate = useNavigate()
-
-    const about = () => {
-        navigate('/about')
-    }
-    const contact = () => {
-        navigate('/contact')
-    }
-    const faqs = () => {
-        navigate('/FAQs')
-    }
-
-    const terms = () => {
-        navigate('/terms-Conditions')
-    }
-    const Privacy = () => {
-        navigate('/privcay-Policy')
-    }
 
     return (
         <div>

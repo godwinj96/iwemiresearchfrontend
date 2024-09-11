@@ -18,6 +18,7 @@ const SignUp = () => {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false)
   const [showconfirmPassword, setShowconfirmPassword] = useState(false)
+  const [loading,setLoading] = useState(false)
   const { results, setResults,isSearch,setIsSearch} = useContext(GlobalStateContext)
   const location = useLocation()
   //reset search on route change
@@ -33,14 +34,14 @@ const SignUp = () => {
   }
 
 
-  const terms = () => {
-    navigate('/terms-Conditions')
-  }
-
 
   const handleSignUp = async (e) => {
+    toast.info("Signing up...",{
+      autoClose:1000
+    })
+    setLoading(true)
     e.preventDefault()
-    console.log("Run")
+    //console.log("Run")
     if (password != confirmpassword) {
       alert("Password do not match!")
       return;
@@ -69,11 +70,13 @@ const SignUp = () => {
 
       
       if(!response.ok){
+        setLoading(false)
           toast.error("Try again")
       } 
        else{
+        setLoading(false)
         toast.success("Check your email for verification link")
-        console.log("signed up!!!!!!!!")
+        //console.log("signed up!!!!!!!!")
       navigate('/login')
       }
 
@@ -100,13 +103,7 @@ const SignUp = () => {
 
 
 
-    /**if (error) {
-      console.error('Error signing up:', error.message)
-    } else {
-      console.log('User signed up:', user)
-      setLoggedIn(true);
-      navigate('/home')//redirect to home page
-    } */
+    setLoading(false)
 
   }
 
@@ -118,11 +115,14 @@ const SignUp = () => {
   }
 
 
-  return (
+  return loading ?
+  <div className="grid place-items-center min-h-[80vh]">
+    <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+
+    </div>
+  </div>
+  :  (
     <div>
-   
-
-
      {isSearch? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
@@ -202,11 +202,7 @@ const SignUp = () => {
                       <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="" />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          terms()
-                        }}
+                      <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a href='/terms-Conditions' className="font-medium text-primary-600 hover:underline dark:text-primary-500"  
                       >Terms and Conditions</a></label>
                     </div>
                   </div>

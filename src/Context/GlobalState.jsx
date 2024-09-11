@@ -13,20 +13,21 @@ export const GlobalStateProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [bookClicked, setBookClicked] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
   const [filters, setFilters] = useState({});
   const [isSearch, setIsSearch] = useState(false);
   const [book, setBook] = useState({});
   const [openAccessPapers, setOpenAcessPapers] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [accessToken, setAccessToken] = useState(null); // New state for access token
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(false); // Add loading state
   const [orders, setOrders] = useState()
   const navigate = useNavigate();
 
  
 
   const handleLogin = async (loginForm) => {
+    setLoading(true)
     try {
       const response = await fetch('https://api.iwemiresearch.org/api/auth/login/', {
         method: 'POST',
@@ -34,6 +35,7 @@ export const GlobalStateProvider = ({ children }) => {
       });
 
       if (!response.ok) {
+        setLoading(false)
         toast.error('Login failed. Please check your credentials.');
         return;
       }
@@ -41,6 +43,7 @@ export const GlobalStateProvider = ({ children }) => {
       const loginData = await response.json();
 
       if (loginData.access && loginData.refresh) {
+        setLoading(false)
         setAccessToken(loginData.access);
         localStorage.setItem('accessToken', loginData.access);
         localStorage.setItem('refreshToken', loginData.refresh);
@@ -53,41 +56,44 @@ export const GlobalStateProvider = ({ children }) => {
       console.error('Login error:', error);
       toast.error('An error occurred during login.');
     }
+    setLoading(false)
   };
 
   const checkSession = async () => {
+    setLoading(true); // Set loading to true at the start
     try {
-      const Token = localStorage.getItem('accessToken');
-      if (!Token) {
-        setUser(null);
-        setLoggedIn(false);
-        return;
-      }
+        const Token = localStorage.getItem('accessToken');
+        if (!Token) {
+            setLoggedIn(false);
+            return;
+        }
 
-      const response = await fetch('https://api.iwemiresearch.org/api/auth/profile/', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      });
+        const response = await fetch('https://api.iwemiresearch.org/api/auth/profile/', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${Token}`,
+            },
+        });
 
-      if (!response.ok) {
-        setUser(null);
-        setLoggedIn(false);
-      } else {
-        const userData = await response.json();
-        console.log(userData)
-        setUser(userData);
-        setLoggedIn(true);
-        localStorage.setItem('session', JSON.stringify(userData));
-        localStorage.setItem('userId', userData.id);
-      }
+        if (!response.ok) {
+            setUser(null);
+            setLoggedIn(false);
+        } else {
+            const userData = await response.json();
+            console.log('Fetched User Data:', userData);
+            setUser(userData); // Properly update the user state
+            
+            setLoggedIn(true);
+            localStorage.setItem('session', JSON.stringify(userData));
+            localStorage.setItem('userId', userData.id);
+        }
     } catch (error) {
-      console.error('Error fetching session:', error.message);
+        console.error('Error fetching session:', error.message);
     } finally {
-      setLoading(false)
+        setLoading(false); // Ensure loading is set to false once the fetching is done
     }
-  };
+};
+
 
   const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');

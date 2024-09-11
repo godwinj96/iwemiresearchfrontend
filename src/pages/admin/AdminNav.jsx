@@ -36,7 +36,7 @@ const AdminNav = () => {
         <AdminSearchBar />
       </div>
       <div>
-        <button className='px-5 py-3 bg-blue-800 rounded-lg text-white '>
+        <button className='px-5 py-3 bg-blue-800 rounded-lg text-white hover:bg-blue-600 transition-all '>
 
           <a href="" onClick={(e) => {
             e.preventDefault();

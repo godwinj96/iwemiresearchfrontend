@@ -450,15 +450,16 @@ const ProfileDashboard = () => {
 
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
-              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and account details</a>
+              <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and account details </a> {' '}
             </p>
+            {user.is_staff && <a href="/admin" className='text-blue-800 hover:text-blue-600 font-bold transition-all'>Go to Admin Page</a>}
 
 
             {user && (<p className='mt-10'>(Not
               <span className='font-bold'> {user.email}</span>
               ?)</p>)}
 
-            <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>
+            <button className='px-5 py-3 bg-blue-800 rounded-lg hover:bg-blue-600 transition-all text-white mt-5'>
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('logout') }}>Log out</a>
             </button>
 
@@ -1436,7 +1437,7 @@ const ProfileDashboard = () => {
             </p>
 
 
-            <button className='px-5 py-3 bg-blue-700 rounded-lg text-white mt-5'>
+            <button className='px-5 py-3 bg-blue-800  hover:bg-blue-600 transition-all rounded-lg text-white mt-5'>
 
               <a href="" onClick={(e) => {
                 e.preventDefault();
