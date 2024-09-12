@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React from 'react'
-import logo from '../../assets/iwemi logo.png'
+import React from 'react';
+import logo from '../../assets/iwemi logo.png';
 
 
 const Footers = () => {

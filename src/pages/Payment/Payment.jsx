@@ -35,7 +35,8 @@ const Payment = () => {
 
     const [totals, setTotal] = useState('')
     const [loading, setLoading] = useState(false)
-    const [orderIds, setOrderIds] = useState([]);
+    let orderIds = []
+    //const [orderIds, setOrderIds] = useState([]);
 
 
     useEffect(() => {
@@ -43,7 +44,7 @@ const Payment = () => {
         if (storedProduct) {
             const parsedProduct = JSON.parse(storedProduct)
             setTotal(parsedProduct.price)
-            console.log(storedProduct)
+            //console.log(storedProduct)
         }
     }, [])
 
@@ -56,7 +57,7 @@ const Payment = () => {
 
     const location = useLocation()
     const products = location.state?.products || [];
-    console.log(products)
+    //console.log(products)
     const total = location.state?.total || 0
     const fromUploadPage = location.state?.fromUploadPage || false
     // Calculate total price
@@ -86,7 +87,6 @@ const Payment = () => {
 
                 const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
                     method: 'POST',
-
                     headers: {
                         Authorization: `Bearer ${Token}`,
                     },
@@ -99,10 +99,12 @@ const Payment = () => {
                     toast.error("Error adding to orders");
                     break; // Stop further processing if there's an error
                 }
+                //console.log(responseJson)
 
                 newOrderIds.push(responseJson.id);
+                console.log(newOrderIds)
             }
-            setOrderIds(newOrderIds);
+            orderIds =newOrderIds;
             // If all requests succeed
             toast.success("All products added to orders");
         } catch (error) {
@@ -120,17 +122,22 @@ const Payment = () => {
 
         try {
             for (const [index, product] of products.entries()) {
-                const formData = new FormData();
-                formData.append('paper_id', product.id);
-                formData.append('status', string);
-                formData.append('order_id', orderIds[index]); // Use the corresponding orderId
+                const jsonData = {
+                   'paper_id': product.id,
+                    'status': string, // Make sure `string` is the actual status value you intend to pass
+                    'id': orderIds[index]
+                };// Use the corresponding orderId
+
+                console.log(orderIds)
+                console.log(jsonData)
 
                 const response = await fetch("https://api.iwemiresearch.org/api/auth/profile/orders/", {
                     method: 'PATCH',
                     headers: {
+                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${Token}`,
                     },
-                    body: formData,
+                    body: JSON.stringify(jsonData)
                 });
 
                 const responseJson = await response.json();
@@ -146,13 +153,30 @@ const Payment = () => {
             toast.error("An error occurred while updating orders");
         }
     }
+    const randomReference = () => {
+        const length = 10;
+        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+        for (let i = length; i > 0; --i) {
+            result += chars[Math.floor(Math.random() * chars.length)];
+        }
+        //console.log(result)
+        return result;
+    };
 
+    const merchantCode = 'MX68314';
+    const payItemId = 'Default_Payable_MX68314';
+    let tf = null
+    let amt = Number((total * conversionRate) * 100)
     const checkoutInterswitch = () => {
+        if(amt==0){
+            toast.info("No need to put in payment details")
+            handlePaymentSuccess()
+            return
+        }
         if (user) {
-            const merchantCode = 'MX68314';
-            const payItemId = 'Default_Payable_MX68314';
             const transRef = randomReference();
-
+            tf=transRef
             const paymentRequest = {
                 merchant_code: merchantCode,
                 pay_item_id: payItemId,
@@ -170,21 +194,46 @@ const Payment = () => {
         }
     }
 
-    const randomReference = () => {
-        const length = 10;
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let result = '';
-        for (let i = length; i > 0; --i) {
-            result += chars[Math.floor(Math.random() * chars.length)];
-        }
-        console.log(result)
-        return result;
-    };
 
-    const paymentCallback = (response) => {
+
+    const paymentCallback = async (response) => {
+
         if (response !== null) {
-            alert(response.desc); // Handle response as per your application's needs
-            handlePaymentSuccess()
+            toast.info(response.desc); // Handle response as per your application's needs
+            
+            try {
+                const response = await fetch(`https://qa.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode=${merchantCode}&transactionreference=${tf}&amount=${amt} `, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+
+                // Parse the response JSON
+                const data = await response.json();
+                console.log('Transaction Data:', data);
+
+                if (data.ResponseCode === '00') {
+                    // Success response code
+
+                    console.log('Transaction Approved:', data.ResponseDescription);
+                    await handlePaymentSuccess()
+                    // Perform actions when the transaction is approved
+                } else {
+                    // Handle other response codes
+                    console.error('Transaction Failed:', data.ResponseDescription);
+                    // Perform actions when the transaction is not approved
+                }
+
+            } catch (error) {
+                console.error('Error fetching transaction:', error);
+            }
+
+
         }
     };
 
@@ -192,7 +241,7 @@ const Payment = () => {
 
     // const stripePromise = loadStripe('pk_test_51Pl654BtS3lVeLJEYpzqhlEkp4B9qmaX8ch4gJDslvwEm0kTw06sOZJ9Pc9J0VlC2wP2hiFqa0R43nHcXCwLFQWW00QtE9aDAU');
     // const { accessToken } = useContext(GlobalStateContext);
-    
+
 
     // localStorage.setItem('access', accessToken)
 
@@ -217,7 +266,7 @@ const Payment = () => {
 
             await stripe.redirectToCheckout({ sessionId });
             //toast.success("Payment successful")
-            handlePaymentSuccess()
+            await handlePaymentSuccess()
         } catch (error) {
             console.error('Error creating checkout session:', error);
         }
@@ -255,13 +304,13 @@ const Payment = () => {
                     description: "Payment for research material",
                     logo: { iwemi_logo },
                 },
-                callback: function (payment) {
-                    verifyTransactionOnBackend(payment.id)
-                    handlePaymentSuccess()
+                callback: async function (payment) {
+                    verifyTransactionOnBackend(payment.id);
+                    await handlePaymentSuccess();
                 },
                 onclose: function (incomplete) {
                     if (incomplete) {
-                        alert('Payment was not completed')
+                        toast.error('Payment was not completed')
                     }
                 },
             });
@@ -317,7 +366,7 @@ const Payment = () => {
                 quantity: product.quantity
             }))
 
-            console.log(JSON.stringify(bookList))
+            //console.log(JSON.stringify(bookList))
             //request body
             const requestBody = new FormData()
             requestBody.append('book_list', JSON.stringify(bookList))
@@ -338,7 +387,7 @@ const Payment = () => {
                 })
 
                 const responseText = await response.text();
-                console.log('Response Text:', responseText);
+                //console.log('Response Text:', responseText);
 
                 if (!response.ok) {
                     throw new Error('Failed to get the book links');
@@ -356,130 +405,49 @@ const Payment = () => {
                 }
 
                 //we are calling it twice to get the downloaded links and being able to use in the email content
-                const emailContent = `
-                <html>
-                <head>
-                    <style>
-                        body {
-                            margin: 0;
-                            padding: 0;
-                            background-color: #f4f4f9;
-                            font-family: Arial, sans-serif;
-                            color: #333;
-                        }
-                        .container {
-                            width: 90%;
-                            max-width: 700px;
-                            margin: 20px auto;
-                            background-color: #ffffff;
-                            border-radius: 8px;
-                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                            overflow: hidden;
-                        }
-                        .header {
-                            background-color: #4A90E2;
-                            padding: 20px;
-                            color: #ffffff;
-                            text-align: center;
-                            font-size: 24px;
-                            font-weight: bold;
-                        }
-                        .content {
-                            padding: 20px 30px;
-                        }
-                        .content h1 {
-                            color: #4A90E2;
-                            margin-bottom: 10px;
-                            font-size: 20px;
-                        }
-                        .content p {
-                            font-size: 16px;
-                            line-height: 1.6;
-                            margin-bottom: 10px;
-                        }
-                        .table-container {
-                            overflow-x: auto;
-                            margin-top: 20px;
-                        }
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin: 20px 0;
-                            font-size: 14px;
-                        }
-                        th, td {
-                            padding: 12px 15px;
-                            border: 1px solid #ddd;
-                            text-align: left;
-                        }
-                        th {
-                            background-color: #f2f2f2;
-                            color: #4A90E2;
-                            font-weight: bold;
-                        }
-                        a {
-                            color: #4A90E2;
-                            text-decoration: none;
-                            font-weight: bold;
-                        }
-                        a:hover {
-                            text-decoration: underline;
-                        }
-                        .footer {
-                            background-color: #f7f7f7;
-                            padding: 15px;
-                            font-size: 12px;
-                            text-align: center;
-                            color: #666;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="header">
-                            Iwemi Research
-                        </div>
-                        <div class="content">
-                            <h1>Thank you for your purchase!</h1>
-                            <p>Dear ${user.name} ${user.last_name},</p>
-                            <p>Thank you for purchasing from our store. Below are the details of your order:</p>
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Download Link</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${products.map((product, index) => `
-                                            <tr>
-                                                <td>${product.name}</td>
-                                                <td>${product.quantity}</td>
-                                                <td>${currencyCode} ${product.price ? product.price : 0}</td>
-                                                <td><a href="${downloadLinks[index]}">Download</a></td>
-                                            </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
-                            <p>Best regards,</p>
-                            <p><strong>Iwemi Research Team</strong></p>
-                        </div>
-                        <div class="footer">
-                            <p>This email was sent to ${user.email} because you made a purchase on our website. If you did not make this purchase, please contact our support team immediately.</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-                `;
+              
 
+                // Arrays you want to generate
+                const paper_names = products.map(product => product.name);
+                const download_links = downloadLinks; // Assuming downloadLinks array is already populated with the correct download links in order
+                const prices = products.map(product => product.price || 0); // Handling cases where price might be undefined
+
+                //console.log('Paper Names:', paper_names);
+                //console.log('Download Links:', download_links);
+                //console.log('Prices:', prices);
+
+                const emailBody = {
+                    'paper_names': paper_names,
+                    "download_links": download_links,
+                    "prices": prices,
+                    "currency_code": currencyCode,
+                    "user_email": user.email,
+                    "user": {
+                        "name": user.name,
+                        "last_name": user.last_name
+                    }
+                }
+
+
+                const emailResponse = await fetch('http://api.iwemiresearch.org/api/papers/download/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }, body: JSON.stringify(emailBody)
+                })
+                //console.log(emailBody)
+
+                if (!emailResponse.ok) {
+                    toast.error("error sending mail")
+                    return
+                }
+
+                const data = emailResponse.json()
+                console.log("emaild ata:", data)
 
                 //request body
-                const requestBody_again = new FormData()
+                /**const requestBody_again = new FormData()
                 requestBody_again.append('book_list', JSON.stringify(bookList))
                 requestBody_again.append('email', user.email)
                 requestBody_again.append('full_name', `${user.name} ${user.last_name}`)
@@ -497,12 +465,14 @@ const Payment = () => {
                 })
 
                 const data = await response_again.text()
-                console.log('data is ready:', data)
+                console.log('data is ready:', data) */
+
+
             } catch (error) {
                 console.error('Error getting book links:', error);
                 //alert('Failed to get book links. Please try again');
             }
-            alert('Payment Successfull!')
+            //toast.success('Payment Successfull!')
             navigate('/')
             toast.success('Payment was successful!', {
                 position: window.innerWidth < 768 ? "top-center" : "top-right",
@@ -515,11 +485,12 @@ const Payment = () => {
 
         }
 
-        ammendOrder('Succesful')
+       await ammendOrder('Succesful')
+       
 
     }
 
-    
+
 
 
 
@@ -581,7 +552,7 @@ const Payment = () => {
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={() => { addToOrders(); checkoutFlutterwave(); }}
+                                            onClick={async () => { await addToOrders(); await checkoutFlutterwave(); }}
                                             className={`flex  gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-gray-700 hover:scale-105`}
                                         >
                                             <img src={logo} alt="Flutterwave Logo" className="h-6 w-6" />

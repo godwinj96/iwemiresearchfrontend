@@ -11,14 +11,14 @@ const AdminProduct = () => {
 
     const [papers, setPapers] = useState([])
     const [showUpload, setShowUpload] = useState(false)
-    const [showEdit, setShowEdit] = useState(false)
-    const [selectedPaper, setSelectedPaper] = useState(null);
+        ;
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [loading, setLoading] = useState(false)
     const approved = true
     const { searchInput } = useContext(AdminContext)
-    const { user } = useContext(GlobalStateContext)
+    const { user} = useContext(GlobalStateContext)
+    const { showEdit, setShowEdit, selectedPaper, setSelectedPaper } = useContext(AdminContext)
 
     const getPapers = async () => {
         setLoading(true)
@@ -217,7 +217,9 @@ const AdminProduct = () => {
                                     </td>
                                     <td className="py-4 pl-0 pr-4 hidden lg:table-cell">
                                         <div className="flex gap-x-3">
-                                            <div className="font-mono text-sm text-gray-600">{item.author}</div>
+                                            <div className="font-mono text-sm text-gray-600">
+                                                {item.author.length > 30 ? `${item.author.slice(0, 30)}...` : item.author}
+                                            </div>
                                         </div>
                                     </td>
                                     <td className="py-4 pl-0 pr-4 hidden lg:table-cell">
@@ -265,8 +267,8 @@ const AdminProduct = () => {
                                                     disabled={item.is_approved}
                                                     onClick={() => publishPaper(item.name)}
                                                     className={`${item.is_approved
-                                                            ? "bg-green-300 cursor-not-allowed"
-                                                            : "bg-red-300 hover:border-gray-400 cursor-pointer"
+                                                        ? "bg-green-300 cursor-not-allowed"
+                                                        : "bg-red-300 hover:border-gray-400 cursor-pointer"
                                                         } border border-gray-300 w-8 h-8 flex justify-center items-center rounded`}
                                                 >
                                                     <CiBookmarkPlus className="text-lg" />

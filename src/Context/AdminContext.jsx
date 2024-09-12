@@ -6,10 +6,16 @@ export const AdminContext = createContext()
  export const AdminProvider = ({children}) => {
 
     const [searchInput, setSearchInput] = useState('')
+    const [showEdit, setShowEdit] = useState(false)
+    const [selectedPaper, setSelectedPaper] = useState(null);
     
     const value = {
         searchInput,
-        setSearchInput
+        setSearchInput,
+        showEdit,
+        setShowEdit,
+        selectedPaper,
+        setSelectedPaper
     }
 
   return (

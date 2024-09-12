@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Navbar from '../../components/NavBar/NavBar'
-import Footer from '../../components/Footer/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { GlobalStateContext } from '../../Context/GlobalState'
-import { useCurrency } from '../../Context/CurrencyContext'
-import { useCart } from '../../Context/CartContext'
 import { toast } from 'react-toastify'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import { useCart } from '../../Context/CartContext'
+import { useCurrency } from '../../Context/CurrencyContext'
+import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ShoppingCart = () => {
 
@@ -34,7 +32,10 @@ const ShoppingCart = () => {
             }
 
             const bookData = await response.json()
-            const sortedPapers = bookData.sort(
+            const booksData = bookData.filter(paper =>
+                paper.is_approved === true
+             );
+            const sortedPapers = booksData.sort(
                 (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
             )
 
@@ -87,6 +88,10 @@ const ShoppingCart = () => {
     }
 
     const handleCheckout = () => {
+        if (state.items.length === 0) {
+            toast.error('Your cart is empty. Please add items before proceeding to checkout.');
+            return;
+        }
         // Implement your checkout logic here
         dispatch({ type: 'CLEAR_CART' });
         navigate('/payment', { state: { products: state.items, total } })

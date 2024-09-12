@@ -19,13 +19,14 @@ const Admin = () => {
 
   const [papers, setPapers] = useState([])
   const [showUpload, setShowUpload] = useState(false)
-  const [showEdit, setShowEdit] = useState(false)
-  const [selectedPaper, setSelectedPaper] = useState(null);
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
   const approved = true
   const { searchInput } = useContext(AdminContext)
   const { user } = useContext(GlobalStateContext)
+  const { showEdit, setShowEdit, selectedPaper, setSelectedPaper } = useContext(AdminContext)
+
 
   const getPapers = async () => {
     try {

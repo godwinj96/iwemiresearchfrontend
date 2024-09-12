@@ -1,16 +1,13 @@
 /* eslint-disable */
-import React, { useContext, useState } from 'react';
-import search_icon from '../../assets/search-icon.png'
-import logo from'../../assets/iwemi logo.png'
+import React, { useContext } from 'react';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import hero_logo from '../../assets/hero-logo.jpeg'
-import Footer from '../../components/Footer/Footer';
 import BookCards from '../../components/BookCards/BookCards';
+import Footer from '../../components/Footer/Footer';
+import Navbar from '../../components/NavBar/NavBar';
 import Testimonial from '../../components/Testimonials/Testimonials';
 import { GlobalStateContext } from '../../Context/GlobalState';
-import { FaSearch, FaTimes } from 'react-icons/fa'
 import ClickedBook from './ClickedBook';
-import Navbar from '../../components/NavBar/NavBar';
 
 
 const Dashboard = () => {

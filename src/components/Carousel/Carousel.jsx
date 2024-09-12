@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React, { useEffect } from 'react'
 import 'flowbite'
+import React, { useEffect } from 'react'
 import carousel1 from '../../assets/carousel-1.jpg'
 import carousel2 from '../../assets/carousel-2.jpg'
 import carousel3 from '../../assets/carousel-3.jpeg'

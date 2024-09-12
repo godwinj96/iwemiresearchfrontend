@@ -42,8 +42,12 @@ const Home = () => {
       }
 
       const bookData = await response.json()
+      const booksData = bookData.filter(paper =>
+       paper.is_approved === true
+    );
+    
 
-     const shuffledPapers = shuffleArray(bookData)
+     const shuffledPapers = shuffleArray(booksData)
       setBooks(shuffledPapers)
     } catch (error) {
       console.error(error);

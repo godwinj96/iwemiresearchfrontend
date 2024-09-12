@@ -1,10 +1,9 @@
 /* eslint-disable */
-import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../assets/new iwemi.png'
+import React, { useContext } from 'react';
+import logo from '../../assets/new iwemi.png';
+import { GlobalStateContext } from '../../Context/GlobalState';
 import Currency from '../Currency/Currency';
 import Language from '../Langauge/Language';
-import { GlobalStateContext } from '../../Context/GlobalState';
 
 const Footer = () => {
 

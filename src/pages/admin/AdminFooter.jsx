@@ -108,6 +108,11 @@ const navigation = [
               Developed and designed by Iwemi Research. 
             </p>
           </div>
+          <div>
+            <a href="/" className="text-blue-800 font-semibold hover:text-blue-500 transition-colors">
+              Go to HomePage
+            </a>
+          </div>
         </div>
       </footer>
     );

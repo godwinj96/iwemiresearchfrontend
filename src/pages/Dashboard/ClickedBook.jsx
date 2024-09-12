@@ -1,13 +1,12 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react'
 import { GiNewspaper } from "react-icons/gi"
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useCart } from '../../Context/CartContext'
 import { useCurrency } from '../../Context/CurrencyContext'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
-import axios from 'axios'
 
 const ClickedBook = () => {
   // const { search, setSearch } = useContext(GlobalStateContext)
@@ -47,7 +46,10 @@ const ClickedBook = () => {
       }
 
       const bookData = await response.json()
-      const sortedPapers = bookData.sort(
+      const booksData = bookData.filter(paper =>
+        paper.is_approved === true
+     );
+      const sortedPapers = booksData.sort(
         (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
       )
 

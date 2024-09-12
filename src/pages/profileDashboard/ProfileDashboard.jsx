@@ -452,7 +452,7 @@ const ProfileDashboard = () => {
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('accountDetails') }}>edit your password and account details </a> {' '}
             </p>
-            {user.is_staff && <a href="/admin" className='text-blue-800 hover:text-blue-600 font-bold transition-all'>Go to Admin Page</a>}
+            { user && user.is_staff && <a href="/admin" className='text-blue-800 hover:text-blue-600 font-bold transition-all'>Go to Admin Page</a>}
 
 
             {user && (<p className='mt-10'>(Not

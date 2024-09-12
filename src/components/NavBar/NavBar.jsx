@@ -2,13 +2,13 @@
 /* eslint-disable */
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../../assets/new iwemi.png'
+import { FiShoppingCart } from "react-icons/fi";
+import { useLocation, useNavigate } from 'react-router-dom';
+import logo from '../../assets/new iwemi.png';
+import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
-import { FiShoppingCart } from "react-icons/fi";
-import { useCart } from '../../Context/CartContext';
-import { SearchBar } from '../SearchBar/components/SearchBar.jsx'
+import { SearchBar } from '../SearchBar/components/SearchBar.jsx';
 
 
 const Navbar = () => {

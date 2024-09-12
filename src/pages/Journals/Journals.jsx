@@ -232,7 +232,7 @@ const Journals = () => {
                 const journalData = await response2.json()
                 //console.log(journalData)
 
-                const journalPapers = journalData.filter(paper => paper.type === 'Journal')
+                const journalPapers = journalData.filter(paper => paper.type === 'Journal' && paper.is_approved === true)
                 setJournals(journalPapers)
                 // console.log(journalPapers)
 
