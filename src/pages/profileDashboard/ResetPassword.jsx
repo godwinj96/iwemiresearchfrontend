@@ -31,8 +31,8 @@ const ResetPassword = () => {
         try{
 
             const resetForm = new FormData()
-            resetForm.append("password",newPass)
-            resetForm.append("confirm_password", confirmPass)
+            resetForm.append("new_password1",newPass)
+            resetForm.append("new_password2", confirmPass)
 
             const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}`,{
                 method:'POST',
