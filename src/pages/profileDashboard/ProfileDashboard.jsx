@@ -12,7 +12,7 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ProfileDashboard = () => {
 
-  const { user, userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders,loading } = useContext(GlobalStateContext)
+  const { user, userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -1209,20 +1209,42 @@ const ProfileDashboard = () => {
               <p className="text-gray-600 dark:text-gray-300">No orders have been made yet</p>
             ) : (
               <div className="space-y-4">
-                {orders.map(order => (
-                  <div
-                    key={order.id}
-                    className="border border-gray-300 dark:border-gray-600 p-4 rounded-lg bg-white dark:bg-gray-700 shadow-sm transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-                  >
-                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{order.paper_name}</h4>
-                    <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
-                      <span className="font-medium">Status:</span> {order.status}
-                    </p>
-                    <p className="text-sm text-gray-700 dark:text-gray-400">
-                      <span className="font-medium">Time Created:</span> {new Date(order.time_created).toLocaleString()}
-                    </p>
-                  </div>
-                ))}
+                {orders.map((order) => {
+                  // Parse the download_links array
+                  
+                  const cleanedLinks = order.download_links
+                  ? order.download_links.replace(/[\[\]']/g, '').split(',') // Clean and split links
+                  : []; // Default to an empty array if no links are present
+
+                  return (
+                    <div
+                      key={order.id}
+                      className="border border-gray-300 dark:border-gray-600 p-4 rounded-lg bg-white dark:bg-gray-700 shadow-sm transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+                    >
+                      <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{order.paper_name}</h4>
+                      <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
+                        <span className="font-medium">Status:</span> {order.status}
+                      </p>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">
+                        <span className="font-medium">Time Created:</span> {new Date(order.time_created).toLocaleString()}
+                      </p>
+                      {/* Display the download link */}
+                      {cleanedLinks && cleanedLinks.length > 0 && (
+                        <p className="text-sm text-gray-700 dark:text-gray-400 mt-2">
+                          <span className="font-medium">Download Link:</span>{' '}
+                          <a
+                            href={cleanedLinks[0].trim()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline"
+                          >
+                            Download
+                          </a>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
             <button
