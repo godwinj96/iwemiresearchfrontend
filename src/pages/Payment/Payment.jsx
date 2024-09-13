@@ -36,6 +36,7 @@ const Payment = () => {
     const [totals, setTotal] = useState('')
     const [loading, setLoading] = useState(false)
     let orderIds = []
+    const downloadLinks = [];
     //const [orderIds, setOrderIds] = useState([]);
 
 
@@ -125,7 +126,8 @@ const Payment = () => {
                 const jsonData = {
                    'paper_id': product.id,
                     'status': string, // Make sure `string` is the actual status value you intend to pass
-                    'id': orderIds[index]
+                    'id': orderIds[index],
+                    'download_links':downloadLinks 
                 };// Use the corresponding orderId
 
                 console.log(orderIds)
@@ -326,6 +328,8 @@ const Payment = () => {
         }, 200)
     }
 
+   
+
     const handlePaymentSuccess = async () => {
         if (fromUploadPage) {
             const formData = JSON.parse(localStorage.getItem('openFormData'))
@@ -394,7 +398,7 @@ const Payment = () => {
                 }
 
                 const linkRegex = /<a href=(https:\/\/app\.editionguard\.com\/download\/.*?)>/g;
-                const downloadLinks = [];
+                
                 let match;
                 while ((match = linkRegex.exec(responseText)) !== null) {
                     downloadLinks.push(match[1]);
@@ -444,7 +448,7 @@ const Payment = () => {
                 }
 
                 const data = emailResponse.json()
-                console.log("emaild ata:", data)
+                //console.log("emaild ata:", data)
 
                 //request body
                 /**const requestBody_again = new FormData()

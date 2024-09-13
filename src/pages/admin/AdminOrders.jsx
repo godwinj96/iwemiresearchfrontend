@@ -30,7 +30,9 @@ const AdminOrders = () => {
       }
 
       const responseJson = await response.json();
-      setOrders(responseJson);
+      const sortedOrders =responseJson.sort((a, b) => new Date(b.time_created) - new Date(a.time_created));
+
+      setOrders(sortedOrders);
     } catch (error) {
       console.error("Error fetching orders:", error);
       setError("An error occurred while fetching orders.");

@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import logo from '../../assets/iwemi logo.png'
+import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ResetPassword = () => {
 
@@ -14,6 +15,7 @@ const ResetPassword = () => {
     const [error, setError] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [showconfirmPassword, setShowconfirmPassword] = useState(false)
+    const {user} = useContext(GlobalStateContext)
 
 
     const handlePassowrdUpdate = async (e) => {
@@ -33,6 +35,10 @@ const ResetPassword = () => {
             const resetForm = new FormData()
             resetForm.append("new_password1",newPass)
             resetForm.append("new_password2", confirmPass)
+            resetForm.append("uid", uidb64)
+            resetForm.append("token", token)
+            
+
 
             const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}`,{
                 method:'POST',

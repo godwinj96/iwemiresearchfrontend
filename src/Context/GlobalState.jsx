@@ -24,7 +24,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [orders, setOrders] = useState()
   const navigate = useNavigate();
 
- 
+
 
   const handleLogin = async (loginForm) => {
     setLoading(true)
@@ -62,37 +62,37 @@ export const GlobalStateProvider = ({ children }) => {
   const checkSession = async () => {
     setLoading(true); // Set loading to true at the start
     try {
-        const Token = localStorage.getItem('accessToken');
-        if (!Token) {
-            setLoggedIn(false);
-            return;
-        }
+      const Token = localStorage.getItem('accessToken');
+      if (!Token) {
+        setLoggedIn(false);
+        return;
+      }
 
-        const response = await fetch('https://api.iwemiresearch.org/api/auth/profile/', {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${Token}`,
-            },
-        });
+      const response = await fetch('https://api.iwemiresearch.org/api/auth/profile/', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      });
 
-        if (!response.ok) {
-            setUser(null);
-            setLoggedIn(false);
-        } else {
-            const userData = await response.json();
-            console.log('Fetched User Data:', userData);
-            setUser(userData); // Properly update the user state
-            
-            setLoggedIn(true);
-            localStorage.setItem('session', JSON.stringify(userData));
-            localStorage.setItem('userId', userData.id);
-        }
+      if (!response.ok) {
+        setUser(null);
+        setLoggedIn(false);
+      } else {
+        const userData = await response.json();
+        console.log('Fetched User Data:', userData);
+        setUser(userData); // Properly update the user state
+
+        setLoggedIn(true);
+        localStorage.setItem('session', JSON.stringify(userData));
+        localStorage.setItem('userId', userData.id);
+      }
     } catch (error) {
-        console.error('Error fetching session:', error.message);
+      console.error('Error fetching session:', error.message);
     } finally {
-        setLoading(false); // Ensure loading is set to false once the fetching is done
+      setLoading(false); // Ensure loading is set to false once the fetching is done
     }
-};
+  };
 
 
   const refreshAccessToken = async () => {
@@ -130,10 +130,12 @@ export const GlobalStateProvider = ({ children }) => {
   };
 
   const getOrders = async () => {
+    setLoading(true)
     const Token = localStorage.getItem('accessToken');
     if (!Token) {
       setUser(null);
       setLoggedIn(false);
+      setLoading(false)
       return;
     }
     try {
@@ -145,19 +147,24 @@ export const GlobalStateProvider = ({ children }) => {
       })
 
       const responseJson = await response.json()
-      console.log(responseJson)
+      //console.log(responseJson)
       if (!response.ok) {
+        setLoading(false)
         throw new Error("error")
-        
+
       }
 
       const userId = localStorage.getItem('userId'); // Replace with the current user's ID
       const userOrders = responseJson.filter(order => order.user_id === userId);
 
-      setOrders(userOrders)
+      const sortedOrders = userOrders.sort((a, b) => new Date(b.time_created) - new Date(a.time_created));
 
+      setOrders(sortedOrders);
+      setLoading(false)
     } catch (error) {
       console.error(error)
+    } finally{
+      setLoading(false)
     }
 
 
