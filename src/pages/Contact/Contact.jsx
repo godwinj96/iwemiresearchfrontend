@@ -105,36 +105,77 @@ const Contact = () => {
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             {/* Europe Office */}
                             <div className="flex flex-col py-3">
-                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdOutlineMapsHomeWork />Europe Office</dt>
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                                    <MdOutlineMapsHomeWork />Europe Office
+                                </dt>
                                 <dd className="text-lg font-semibold">
-                                    71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom
+                                    <a
+                                        href="https://www.google.com/maps/search/?api=1&query=71-75+Shelton+Street,+Covent+Garden,+London,+WC2H+9JQ,+United+Kingdom"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:text-blue-600 hover:underline"
+                                    >
+                                        71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom
+                                    </a>
                                 </dd>
                             </div>
 
                             {/* North America Office */}
                             <div className="flex flex-col py-3">
-                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdOutlineMapsHomeWork />North America Office</dt>
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                                    <MdOutlineMapsHomeWork />North America Office
+                                </dt>
                                 <dd className="text-lg font-semibold">
-                                    10509 Montrose Ave #102, Bethesda, MD, 20814, USA
+                                    <a
+                                        href="https://www.google.com/maps/search/?api=1&query=10509+Montrose+Ave+%23102,+Bethesda,+MD,+20814,+USA"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:text-blue-600 hover:underline"
+                                    >
+                                        10509 Montrose Ave #102, Bethesda, MD, 20814, USA
+                                    </a>
                                 </dd>
                             </div>
 
                             {/* Africa Office */}
                             <div className="flex flex-col py-3">
-                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><MdOutlineMapsHomeWork />Africa Office</dt>
-                                <dd className="text-lg font-semibold">17 Victor Osime Street Lekki 1 Lagos, Nigeria</dd>
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                                    <MdOutlineMapsHomeWork />Africa Office
+                                </dt>
+                                <dd className="text-lg font-semibold">
+                                    <a
+                                        href="https://www.google.com/maps/search/?api=1&query=17+Victor+Osime+Street+Lekki+1+Lagos,+Nigeria"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:text-blue-600 hover:underline"
+                                    >
+                                        17 Victor Osime Street Lekki 1 Lagos, Nigeria
+                                    </a>
+                                </dd>
                             </div>
 
                             {/* Phone Numbers */}
                             <div className="flex flex-col py-3">
-                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400"><FaPhoneAlt />Phone number</dt>
+                                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                                    <FaPhoneAlt />
+                                    Phone number
+                                </dt>
                                 <dd className="text-lg font-semibold">
-                                    <a href="tel:+447391794285" className='hover:text-orange-500/80'>+447391794285</a>,
-                                    <a href="tel:+1410-929-7642" className='hover:text-orange-500/80'>+1410-929-7642</a>,
-                                    <a href="tel:+234-7031476069" className='hover:text-orange-500/80'>+234-7031476069</a>
+                                    <a href="tel:+447391794285" className="hover:text-orange-500/80">
+                                        +447391794285
+                                    </a>
+                                    ,{' '}
+                                    <a href="tel:+1410-929-7642" className="hover:text-orange-500/80">
+                                        +1410-929-7642
+                                    </a>
+                                    ,{' '}
+                                    <a href="tel:+234-7031476069" className="hover:text-orange-500/80">
+                                        +234-7031476069
+                                    </a>
                                 </dd>
                             </div>
                         </div>
+
                     </dl>
 
 
