@@ -32,22 +32,26 @@ const ResetPassword = () => {
 
         try{
 
-            const resetForm = new FormData()
-            resetForm.append("new_password1",newPass)
-            resetForm.append("new_password2", confirmPass)
-            resetForm.append("uid", uidb64)
-            resetForm.append("token", token)
+            const resetForm = {
+                new_password1: newPass,
+                new_password2: confirmPass,
+                uid: uidb64,
+                token: token
+            };
             
 
 
-            const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}`,{
+            const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}/`,{
                 method:'POST',
-                body: resetForm
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(resetForm)
             })
-
+            console.log(resetForm)
             if(!response.ok){
                 toast.error("Try again")
-                conseole.log(await response.json())
+                console.log(await response.json())
             }
 
             toast.success('Password has been reset successfully')
