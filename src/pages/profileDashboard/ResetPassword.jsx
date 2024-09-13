@@ -40,7 +40,7 @@ const ResetPassword = () => {
             
 
 
-            const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}`,{
+            const response = await fetch(`https://api.iwemiresearch.org/api/auth/password/reset/confirm/${uidb64}/${token}/`,{
                 method:'POST',
                 body: resetForm
             })
