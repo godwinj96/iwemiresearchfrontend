@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { MdDateRange } from "react-icons/md";
 import { toast } from 'react-toastify';
 import cross from '../../../assets/cross_icon.png';
 import './AdminUploadPopup.css';
+import { AdminContext } from '../../../Context/AdminContext';
 const adminUploadPopup = ({ setShowUpload }) => {
 
   const [selectedFile, setSelectedFile] = useState(null)
@@ -18,7 +19,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
   const [abstract, setAbstract] = useState('')
   const [category, setCategory] = useState('')
   const [subcategory, setSubcategory] = useState('')
-  const [loading, setLoading] = useState(false)
+  const {loading, setLoading} = useContext(AdminContext)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -172,13 +173,7 @@ const adminUploadPopup = ({ setShowUpload }) => {
     setLoading(false)
   }
 
-  return loading ?
-    <div className="grid place-items-center min-h-[80vh]">
-      <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
-
-      </div>
-    </div>
-    : (
+  return (
       <div className='upload-popup'>
         <div className='upload-popup-container'>
 

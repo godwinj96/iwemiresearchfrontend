@@ -443,7 +443,7 @@ const ProfileDashboard = () => {
     switch (activeTab) {
       case 'profile':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[40vw]">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">
             {user && (<h1 className="text-[24px] font-bold text-gray-900 dark:text-white mb-8">Hello, {user.name}!
               {/* {user.user_metadata.lastName} */}
             </h1>)}
@@ -467,7 +467,7 @@ const ProfileDashboard = () => {
         );
       case 'uploads':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Uploads</h3>
 
             <form>
@@ -1203,7 +1203,7 @@ const ProfileDashboard = () => {
         );
       case 'orders':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg shadow-md">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg shadow-md max-w-[70vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Your Orders</h3>
             {orders.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-300">No orders have been made yet</p>
@@ -1353,7 +1353,7 @@ const ProfileDashboard = () => {
         );
       case 'accountDetails':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[40vw]">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Account Details</h3>
 
 
@@ -1451,7 +1451,7 @@ const ProfileDashboard = () => {
         );
       case 'logout':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[30vw]">
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Are you sure you want to log out ? </h3>
             <p className="mb-2">From your profile page you can view your{' '}
               <a href="" onClick={(e) => { e.preventDefault(); setActiveTab('orders') }} >recent orders</a>, {' '}

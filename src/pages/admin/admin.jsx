@@ -19,13 +19,13 @@ const Admin = () => {
 
   const [papers, setPapers] = useState([])
   const [showUpload, setShowUpload] = useState(false)
-  
+
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
   const approved = true
   const { searchInput } = useContext(AdminContext)
   const { user } = useContext(GlobalStateContext)
-  const { showEdit, setShowEdit, selectedPaper, setSelectedPaper } = useContext(AdminContext)
+  const { showEdit, setShowEdit, selectedPaper, setSelectedPaper, loading } = useContext(AdminContext)
 
 
   const getPapers = async () => {
@@ -126,7 +126,7 @@ const Admin = () => {
     getPapers()
     console.log(papers)
   }, [])
-  
+
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -155,9 +155,17 @@ const Admin = () => {
 
 
   return (
-    <div className="mx-auto  ">
-      {showUpload ? <AdminUploadPopup setShowUpload={setShowUpload} /> : <></>}
-      {showEdit ? <EditUploadPopup paper={selectedPaper} setShowEdit={setShowEdit} /> : <></>}
+    <div className="mx-auto relative">
+      {showUpload && <AdminUploadPopup setShowUpload={setShowUpload} />}
+      {showEdit && <EditUploadPopup paper={selectedPaper} setShowEdit={setShowEdit} />}
+
+      {/* Loading Spinner Overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-50 flex justify-center items-center">
+          <div className="w-16 h-16 border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div className="flex flex-col admin-container">
         <div className="nav">
           <AdminNav />
@@ -165,25 +173,19 @@ const Admin = () => {
 
         <div className="main flex overflow-x-auto">
           <div className='flex-shrink-0'>
-            <AdminSidebar/>
+            <AdminSidebar />
           </div>
           <div className='flex-1'>
             <AdminHeading setShowUpload={setShowUpload} />
-
-            <Outlet/>
-            
+            <Outlet />
           </div>
-
         </div>
 
         <AdminFooter />
       </div>
-
-
     </div>
-
-
   );
+
 }
 
 export default Admin;

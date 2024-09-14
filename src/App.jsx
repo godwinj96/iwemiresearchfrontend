@@ -69,6 +69,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/payment" element={<Payment />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/account/confirm-email/*' element={<Login />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/password-reset' element={<ForgotPassword />} />
               <Route path='/password-reset/confirm/:uidb64/:token' element={<ResetPassword />} />

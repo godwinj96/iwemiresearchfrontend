@@ -8,6 +8,7 @@ export const AdminContext = createContext()
     const [searchInput, setSearchInput] = useState('')
     const [showEdit, setShowEdit] = useState(false)
     const [selectedPaper, setSelectedPaper] = useState(null);
+    const [loading, setLoading] = useState(false)
     
     const value = {
         searchInput,
@@ -15,7 +16,9 @@ export const AdminContext = createContext()
         showEdit,
         setShowEdit,
         selectedPaper,
-        setSelectedPaper
+        setSelectedPaper,
+        loading,
+        setLoading
     }
 
   return (

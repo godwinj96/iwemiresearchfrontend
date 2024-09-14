@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { MdDateRange } from "react-icons/md";
 import { toast } from 'react-toastify';
 import cross from '../../../assets/cross_icon.png';
 import './AdminUploadPopup.css';
+import { AdminContext } from '../../../Context/AdminContext';
 
 const EditUploadPopup = ({ setShowEdit, paper }) => {
 
@@ -18,7 +19,7 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
     const [abstract, setAbstract] = useState(paper.abstract)
     const [category, setCategory] = useState(paper.category)
     const [subcategory, setSubcategory] = useState(paper.subcategory)
-    const [loading, setLoading] = useState(false)
+    const {loading, setLoading} = useContext(AdminContext)
 
 
     // console.log(typeof type)
@@ -75,13 +76,7 @@ const EditUploadPopup = ({ setShowEdit, paper }) => {
         console.log(typeof type)
     }, [])
 
-    return loading ?
-        <div className="grid place-items-center min-h-[80vh]">
-            <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
-
-            </div>
-        </div>
-        : (
+    return (
             <div className='upload-popup'>
                 <div className='upload-popup-container'>
 

@@ -22,6 +22,10 @@ const ResetPassword = () => {
         e.preventDefault()
         setError('')
         setMessage('')
+        toast.info("password changing...",{
+            autoClose:1000
+          })
+          
 
         if (newPass !== confirmPass) {
             setError('Password do not match')

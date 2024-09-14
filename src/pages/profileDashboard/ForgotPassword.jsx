@@ -7,12 +7,14 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-
+  
 
 
   const handleResetLink = async (e) => {
     e.preventDefault()
-   
+    toast.info("reset link sending...",{
+      autoClose:1000
+    })
     setError('')
     setMessage('')
     //user
@@ -51,7 +53,7 @@ const ForgotPassword = () => {
 
   }
 
-  return (
+  return  (
     <div>
 
       <div className="forgot-password-page">
