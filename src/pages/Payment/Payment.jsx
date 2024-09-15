@@ -328,6 +328,7 @@ const Payment = () => {
    
 
     const handlePaymentSuccess = async () => {
+        console.log("success payment handle")
         if (fromUploadPage) {
             const formData = JSON.parse(localStorage.getItem('openFormData'))
 
