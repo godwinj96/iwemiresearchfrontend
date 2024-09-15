@@ -288,18 +288,15 @@ const Payment = () => {
         } else {
             // Flutterwave checkout logic
             FlutterwaveCheckout({
-                public_key: "FLWPUBK-8d47ef6a8ee32b71f792a60461269335-X",
+                public_key: "FLWPUBK-10ac2f201135496dd2199096b7a37fac-X",
                 tx_ref: `txref-${Date.now()}`,
                 amount: paymentAmt,
                 currency: `${currencyCode}`,
                 payment_options: "card, ussd, banktransfer, account, internetbanking, nqr, applepay, googlepay, enaira, opay",
-                meta: {
-                    consumer_id: 23,
-                    consumer_mac: "92a3-912ba-1192a",
-                },
+               
                 customer: {
                     email: `${user.email}`,
-                    // name: "Rose DeWitt Bukater",
+                    name: `${user.name}`,
                 },
                 customizations: {
                     title: "Iwemi Research",

@@ -21,14 +21,9 @@ const ClickedBook = () => {
   }, [location])
 
   useEffect(() => {
-    // Scroll to top with a slight delay
-    const timeoutId = setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 100);
-
-    // Cleanup function
-    return () => clearTimeout(timeoutId);
-  }, [location.pathname]);
+    window.scrollTo(0, 0);
+  }, [location]);
+  
   const { currencyCode, conversionRate } = useCurrency()
 
   const { id } = useParams()
@@ -359,7 +354,7 @@ const ClickedBook = () => {
             <div className='flex flex-col items-center md:flex-row  gap-4'>
               <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
                 <div >
-                  <img src={book.cover_page} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
+                  <img src={book.cover_page?book.cover_page:null} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
                 </div>
                 <div className="papers-left ">
 

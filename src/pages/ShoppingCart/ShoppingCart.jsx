@@ -34,7 +34,7 @@ const ShoppingCart = () => {
             const bookData = await response.json()
             const booksData = bookData.filter(paper =>
                 paper.is_approved === true
-             );
+            );
             const sortedPapers = booksData.sort(
                 (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
             )
@@ -171,17 +171,20 @@ const ShoppingCart = () => {
                                             </div>
                                         </div>))}
                                     </div>
-                                    <div className="hidden lg:block lg:pb-10 lg:pt-[200px] lg:ml-5 xl:mt-8 xl:block">
-                                        <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">People also bought</h3>
-                                        <div className="mt-6 grid grid-cols-1 gap-4 sm:mt-8">
-                                            {filteredBooks.slice(0, 3).map((book) => (
-                                                <div key={book.id}>
-                                                    <HomeBookCards book={book} />
-                                                    <hr />
-                                                </div>
-                                            ))}
+
+                                    {state.items.length > 0 && (
+                                        <div className="hidden lg:block lg:pb-10 lg:pt-[200px] lg:ml-5 xl:mt-8 xl:block">
+                                            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">People also bought</h3>
+                                            <div className="mt-6 grid grid-cols-1 gap-4 sm:mt-8">
+                                                {filteredBooks.slice(0, 3).map((book) => (
+                                                    <div key={book.id}>
+                                                        <HomeBookCards book={book} />
+                                                        <hr />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
 
                                 <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
