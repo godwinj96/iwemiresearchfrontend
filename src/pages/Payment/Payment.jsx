@@ -296,7 +296,7 @@ const Payment = () => {
                
                 customer: {
                     email: `${user.email}`,
-                    name: `${user.name}`,
+                   
                 },
                 customizations: {
                     title: "Iwemi Research",
