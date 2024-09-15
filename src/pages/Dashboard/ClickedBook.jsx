@@ -19,6 +19,16 @@ const ClickedBook = () => {
     setIsSearch(false)
     setResults([])
   }, [location])
+
+  useEffect(() => {
+    // Scroll to top with a slight delay
+    const timeoutId = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+
+    // Cleanup function
+    return () => clearTimeout(timeoutId);
+  }, [location.pathname]);
   const { currencyCode, conversionRate } = useCurrency()
 
   const { id } = useParams()
@@ -28,7 +38,7 @@ const ClickedBook = () => {
 
 
   const [similarBooks, setSimilarBooks] = useState([])
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const getSimilarBooks = async () => {
 
@@ -46,14 +56,20 @@ const ClickedBook = () => {
       }
 
       const bookData = await response.json()
-      const booksData = bookData.filter(paper =>
-        paper.is_approved === true
-     );
-      const sortedPapers = booksData.sort(
+      const approvedBooks = bookData.filter(paper => paper.is_approved === true);
+      
+      // Shuffle the approved books array
+      const shuffledBooks = approvedBooks.sort(() => 0.5 - Math.random());
+      
+      // Select a subset of books (e.g., 10 books)
+      const selectedBooks = shuffledBooks.slice(0, 10);
+      
+      // Sort the selected books by date
+      const sortedBooks = selectedBooks.sort(
         (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
-      )
+      );
 
-      setSimilarBooks(sortedPapers)
+      setSimilarBooks(sortedBooks)
 
     } catch (error) {
       console.error(error);
@@ -65,11 +81,10 @@ const ClickedBook = () => {
     if (initialTab) {
       setActiveTab(initialTab);
     }
-  }, [initialTab]);
-
-  useEffect(() => {
     getSimilarBooks()
-  }, [])
+  }, [initialTab, book]);
+
+
 
   const filteredBooks = similarBooks.filter(book => book.id !== location.state?.id)
 
@@ -132,16 +147,16 @@ const ClickedBook = () => {
 
       citedPapers.push(book.name);
       localStorage.setItem('citedPapers', JSON.stringify(citedPapers));
-      
+
       setCitationCount((prevCount) => prevCount + 1);
-      
+
       toast.success("Paper Cited")
       setLoading(false)
     } catch (err) {
       console.error(err);
 
     }
-   
+
   }
   useEffect(() => {
     // Any effect needed when the citation count changes can be handled here
@@ -165,7 +180,7 @@ const ClickedBook = () => {
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-  })
+    })
   }
 
   const renderTabContent = () => {
@@ -178,7 +193,7 @@ const ClickedBook = () => {
                 Abstract
               </div>
 
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-justify">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-justify w-full">
                 {book.abstract}
               </p>
 
@@ -296,7 +311,7 @@ const ClickedBook = () => {
                 className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800"
                 onClick={() => {
                   navigator.clipboard.writeText(citationText);
-                                 
+
                   CitationCount()
                 }}
               >
@@ -315,154 +330,154 @@ const ClickedBook = () => {
 
 
   return loading ?
-  <div className="grid place-items-center min-h-[80vh]">
+    <div className="grid place-items-center min-h-[80vh]">
       <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
 
       </div>
-  </div>
-  : (
-    <div className='flex flex-col justify-between clicked-container'>
+    </div>
+    : (
+      <div className='flex flex-col justify-between clicked-container'>
 
-      {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-          <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
-          </div>
-          <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-            {results.length > 0 ? (
-              results.map(book => (
-                <HomeBookCards key={book.id} book={book} />
-              ))
-            ) : (
-              <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
-            )}
-          </div>
-        </div>
-      </section>)
-        :
-        (<div className="clicked-book flex flex-col  ">
-          <div className='flex flex-col items-center md:flex-row  gap-4'>
-            <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
-              <div >
-                <img src={book.cover_page} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
-              </div>
-              <div className="papers-left ">
-
-                <div className='flex clicked-book-type'>
-                  <h3>{book.type}</h3>
-                </div>
-
-                <h1 className='clicked-book-title'>
-                  {book.name}
-                </h1>
-                <span className="published-date">
-                  Year Published : {book.year_published}
-                </span>
-                <br />
-                <text className='clicked-authors'>
-                  {book.author}
-                </text>
-
-
-              </div>
-
+        {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
             </div>
-            <div className="flex flex-col md:flex-row md:items-start gap-4">
-              {book.is_open_access ? (
-                <div className="papers-right clicked-book-button flex flex-row md:flex-col gap-4">
-                  <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
-                    Cite
-                  </button>
-                  {/**<button>Save</button>**/}
-                  <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
-                    <button className='download'>Download</button>
-                  </a>
-                </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
               ) : (
-                <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
-                  <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
-                    Cite
-                  </button>
-                  {/**<button>Save</button>**/}
-                  <button className='download hover:bg-orange-300 rounded transition-colors' onClick={() => handleAddToCart(book)}>Add to Cart</button>
-
-                  <span className="book-price p-3">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
-                </div>
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
               )}
             </div>
-
           </div>
+        </section>)
+          :
+          (<div className="clicked-book flex flex-col  ">
+            <div className='flex flex-col items-center md:flex-row  gap-4'>
+              <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
+                <div >
+                  <img src={book.cover_page} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
+                </div>
+                <div className="papers-left ">
 
-          <div className="clicked-book-content flex flex-col ">
-            <div className="mb-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
-              <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
-                <li className="me-2" role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'overview' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                    id="overview-tab"
-                    type="button"
-                    role="tab"
-                    aria-controls="overview"
-                    aria-selected={activeTab === 'overview'}
-                    onClick={() => handleTabClick('overview')}
-                  >
-                    Overview
-                  </button>
-                </li>
-                <li className="me-2" role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'comments' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                    id="comments-tab"
-                    type="button"
-                    role="tab"
-                    aria-controls="comments"
-                    aria-selected={activeTab === 'comments'}
-                    onClick={() => handleTabClick('comments')}
-                  >
-                    Comments
-                  </button>
-                </li>
-                <li className="me-2" role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'references' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                    id="references-tab"
-                    type="button"
-                    role="tab"
-                    aria-controls="references"
-                    aria-selected={activeTab === 'references'}
-                    onClick={() => handleTabClick('references')}
-                  >
-                    References
-                  </button>
-                </li>
-                <li role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'citations' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
-                    id="citations-tab"
-                    type="button"
-                    role="tab"
-                    aria-controls="citations"
-                    aria-selected={activeTab === 'citations'}
-                    onClick={() => handleTabClick('citations')}
-                  >
-                    Citations
-                  </button>
-                </li>
-              </ul>
+                  <div className='flex clicked-book-type'>
+                    <h3>{book.type}</h3>
+                  </div>
 
+                  <h1 className='clicked-book-title'>
+                    {book.name}
+                  </h1>
+                  <span className="published-date">
+                    Year Published : {book.year_published}
+                  </span>
+                  <br />
+                  <text className='clicked-authors'>
+                    {book.author}
+                  </text>
+
+
+                </div>
+
+              </div>
+              <div className="flex flex-col md:flex-row md:items-start gap-4">
+                {book.is_open_access ? (
+                  <div className="papers-right clicked-book-button flex flex-row md:flex-col gap-4">
+                    <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
+                      Cite
+                    </button>
+                    {/**<button>Save</button>**/}
+                    <a href={book.file_url} target='_blank' rel='noopener noreferrer'>
+                      <button className='download'>Download</button>
+                    </a>
+                  </div>
+                ) : (
+                  <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
+                    <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
+                      Cite
+                    </button>
+                    {/**<button>Save</button>**/}
+                    <button className='download hover:bg-orange-300 rounded transition-colors' onClick={() => handleAddToCart(book)}>Add to Cart</button>
+
+                    <span className="book-price p-3">{currencyCode} {((book.price) * conversionRate).toFixed(2)}</span>
+                  </div>
+                )}
+              </div>
 
             </div>
-            <div id="default-tab-content">
-              {renderTabContent()}
+
+            <div className="clicked-book-content flex flex-col ">
+              <div className="mb-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+                <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
+                  <li className="me-2" role="presentation">
+                    <button
+                      className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'overview' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                      id="overview-tab"
+                      type="button"
+                      role="tab"
+                      aria-controls="overview"
+                      aria-selected={activeTab === 'overview'}
+                      onClick={() => handleTabClick('overview')}
+                    >
+                      Overview
+                    </button>
+                  </li>
+                  <li className="me-2" role="presentation">
+                    <button
+                      className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'comments' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                      id="comments-tab"
+                      type="button"
+                      role="tab"
+                      aria-controls="comments"
+                      aria-selected={activeTab === 'comments'}
+                      onClick={() => handleTabClick('comments')}
+                    >
+                      Comments
+                    </button>
+                  </li>
+                  <li className="me-2" role="presentation">
+                    <button
+                      className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'references' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                      id="references-tab"
+                      type="button"
+                      role="tab"
+                      aria-controls="references"
+                      aria-selected={activeTab === 'references'}
+                      onClick={() => handleTabClick('references')}
+                    >
+                      References
+                    </button>
+                  </li>
+                  <li role="presentation">
+                    <button
+                      className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'citations' ? 'border-blue-500 text-blue-500' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}
+                      id="citations-tab"
+                      type="button"
+                      role="tab"
+                      aria-controls="citations"
+                      aria-selected={activeTab === 'citations'}
+                      onClick={() => handleTabClick('citations')}
+                    >
+                      Citations
+                    </button>
+                  </li>
+                </ul>
+
+
+              </div>
+              <div id="default-tab-content">
+                {renderTabContent()}
+              </div>
+
             </div>
 
-          </div>
-
-        </div>)}
+          </div>)}
 
 
-    </div>
-  )
+      </div>
+    )
 }
 
 export default ClickedBook

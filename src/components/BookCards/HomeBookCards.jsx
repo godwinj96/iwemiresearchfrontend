@@ -19,7 +19,7 @@ const HomeBookCards = ({ book }) => {
                 </div>
                 <div className="flex flex-col right px-2">
                     <h3 className="home-bookcards-heading  text-gray-800">
-                        <Link to={`/book/${book.id}`} state={{ book }}>
+                        <Link to={`/book/${book.id}`} state={{ book }} onClick={() => window.scrollTo(0, 0)}>
                             {book.name}
                         </Link>
                     </h3>
