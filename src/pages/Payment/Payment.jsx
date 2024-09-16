@@ -105,7 +105,7 @@ const Payment = () => {
                 newOrderIds.push(responseJson.id);
                 console.log(newOrderIds)
             }
-            orderIds =newOrderIds;
+            orderIds = newOrderIds;
             // If all requests succeed
             toast.success("All products added to orders");
         } catch (error) {
@@ -124,10 +124,10 @@ const Payment = () => {
         try {
             for (const [index, product] of products.entries()) {
                 const jsonData = {
-                   'paper_id': product.id,
+                    'paper_id': product.id,
                     'status': string, // Make sure `string` is the actual status value you intend to pass
                     'id': orderIds[index],
-                    'download_links':downloadLinks 
+                    'download_links': downloadLinks
                 };// Use the corresponding orderId
 
                 console.log(orderIds)
@@ -171,14 +171,14 @@ const Payment = () => {
     let tf = null
     let amt = Number((total * conversionRate) * 100)
     const checkoutInterswitch = () => {
-        if(amt==0){
+        if (amt == 0) {
             toast.info("No need to put in payment details")
             handlePaymentSuccess()
             return
         }
         if (user) {
             const transRef = randomReference();
-            tf=transRef
+            tf = transRef
             const paymentRequest = {
                 merchant_code: merchantCode,
                 pay_item_id: payItemId,
@@ -202,7 +202,7 @@ const Payment = () => {
 
         if (response !== null) {
             toast.info(response.desc); // Handle response as per your application's needs
-            
+
             try {
                 const response = await fetch(`https://qa.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode=${merchantCode}&transactionreference=${tf}&amount=${amt} `, {
                     method: 'GET',
@@ -223,7 +223,7 @@ const Payment = () => {
                     // Success response code
 
                     console.log('Transaction Approved:', data.ResponseDescription);
-                   handlePaymentSuccess()
+                    handlePaymentSuccess()
                     // Perform actions when the transaction is approved
                 } else {
                     // Handle other response codes
@@ -255,6 +255,7 @@ const Payment = () => {
                 currency: 'ngn',
                 success_url: 'http://iwemiresearch.org/payment',
                 cancel_url: 'http://iwemiresearch.org/payment',
+                order_id: orderIds
             }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -268,7 +269,47 @@ const Payment = () => {
 
             await stripe.redirectToCheckout({ sessionId });
             //toast.success("Payment successful")
-             handlePaymentSuccess()
+            try {
+                const Token = localStorage.getItem('accessToken');
+                if (!Token) {
+                    setUser(null);
+                    setLoggedIn(false);
+                    return;
+                }
+
+                let allOrdersSuccessful = true;
+
+                for (const orderId of orderIds) {
+                    const response = await fetch(`https://api.iwemiresearch.org/api/auth/profile/orders/${orderId}/`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${Token}`,
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const orderData = await response.json();
+
+                    if (orderData.status !== 'Succesful') {
+                        allOrdersSuccessful = false;
+                        toast.error(`Order ${orderId} payment was not completed`);
+                    }
+                }
+
+                if (allOrdersSuccessful) {
+                    handlePaymentSuccess();
+                } else {
+                    toast.warning('Some orders were not successfully processed');
+                }
+
+            } catch (error) {
+                console.error('Error checking order status:', error);
+                toast.error('An error occurred while verifying the order status');
+            }
+           
         } catch (error) {
             console.error('Error creating checkout session:', error);
         }
@@ -293,18 +334,17 @@ const Payment = () => {
                 amount: paymentAmt,
                 currency: `${currencyCode}`,
                 payment_options: "card, ussd, banktransfer, account, internetbanking, nqr, applepay, googlepay, enaira, opay",
-               
                 customer: {
                     email: `${user.email}`,
-                   
+
                 },
                 customizations: {
                     title: "Iwemi Research",
                     description: "Payment for research material",
-                    logo: { iwemi_logo },
+                    // logo: { iwemi_logo },
                 },
                 callback: async function (payment) {
-                    verifyTransactionOnBackend(payment.id);
+                    // await verifyTransactionOnBackend(payment.id);
                     handlePaymentSuccess();
                 },
                 onclose: function (incomplete) {
@@ -319,13 +359,38 @@ const Payment = () => {
 
     };
 
-    const verifyTransactionOnBackend = (transactionId) => {
+    const verifyTransaction = async (transactionId) => {
+        try {
+            const response = await fetch(`https://api.flutterwave.com/v3/transactions/${transactionId}/verify`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer YOUR_SECRET_KEY`, // Replace with your actual secret key
+                },
+            });
+    
+            const data = await response.json();
+    
+            if (data.status === "success") {
+                console.log("Transaction verified successfully:", data);
+                handlePaymentSuccess()
+
+                // Handle successful verification here
+            } else {
+                console.error("Transaction verification failed:", data);
+                // Handle failed verification here
+            }
+        } catch (error) {
+            console.error("Error verifying transaction:", error);
+            // Handle error here
+        }
+
         setTimeout(function () {
             window.verified = true;
         }, 200)
-    }
+    };
 
-   
+
 
     const handlePaymentSuccess = async () => {
         console.log("success payment handle")
@@ -396,7 +461,7 @@ const Payment = () => {
                 }
 
                 const linkRegex = /<a href=(https:\/\/app\.editionguard\.com\/download\/.*?)>/g;
-                
+
                 let match;
                 while ((match = linkRegex.exec(responseText)) !== null) {
                     downloadLinks.push(match[1]);
@@ -407,7 +472,7 @@ const Payment = () => {
                 }
 
                 //we are calling it twice to get the downloaded links and being able to use in the email content
-              
+
 
                 // Arrays you want to generate
                 const paper_names = products.map(product => product.name);
@@ -487,8 +552,8 @@ const Payment = () => {
 
         }
 
-       await ammendOrder('Succesful')
-       
+        await ammendOrder('Succesful')
+
 
     }
 

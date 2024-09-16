@@ -28,6 +28,7 @@
     "date-fns": "^3.6.0",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
+    "flutterwave-node-v3": "^1.1.11",
     "http-proxy-middleware": "^3.0.0",
     "lodash": "^4.17.21",
     "next": "^14.2.5",
