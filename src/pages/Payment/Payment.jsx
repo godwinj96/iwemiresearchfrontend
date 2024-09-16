@@ -223,7 +223,7 @@ const Payment = () => {
                     // Success response code
 
                     console.log('Transaction Approved:', data.ResponseDescription);
-                    await handlePaymentSuccess()
+                   handlePaymentSuccess()
                     // Perform actions when the transaction is approved
                 } else {
                     // Handle other response codes
@@ -268,7 +268,7 @@ const Payment = () => {
 
             await stripe.redirectToCheckout({ sessionId });
             //toast.success("Payment successful")
-            await handlePaymentSuccess()
+             handlePaymentSuccess()
         } catch (error) {
             console.error('Error creating checkout session:', error);
         }
@@ -305,7 +305,7 @@ const Payment = () => {
                 },
                 callback: async function (payment) {
                     verifyTransactionOnBackend(payment.id);
-                    await handlePaymentSuccess();
+                    handlePaymentSuccess();
                 },
                 onclose: function (incomplete) {
                     if (incomplete) {
