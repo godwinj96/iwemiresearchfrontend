@@ -421,7 +421,7 @@ const Payment = () => {
             const updatedUploadedFiles = [...uploadedFiles, newFile]
             setUploadedFiles(updatedUploadedFiles)
             localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(updatedUploadedFiles))
-
+            toast.success("Upload Succesfull")
 
 
             navigate('/')

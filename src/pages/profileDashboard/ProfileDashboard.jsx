@@ -356,11 +356,12 @@ const ProfileDashboard = () => {
         };
         const upadatedUploadedFiles = [...uploadedFiles, newFile]
         setUploadedFiles(upadatedUploadedFiles)
-        toast.success("upload successful")
+        toast.success("Upload successful")
         //save to loacl storage
         localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(upadatedUploadedFiles))
         setShowUploadButton(false)
         closeUploadModal()
+        setActiveTab('profile')
       } catch (error) {
         console.error('Error uploading book:', error)
         toast.error(error)
@@ -407,7 +408,7 @@ const ProfileDashboard = () => {
       } */
 
 
-      toast.success("upload successful")
+      // toast.success("Upload successful")
 
 
 
