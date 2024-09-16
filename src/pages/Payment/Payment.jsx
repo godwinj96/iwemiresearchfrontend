@@ -204,7 +204,7 @@ const Payment = () => {
             toast.info(response.desc); // Handle response as per your application's needs
 
             try {
-                const response = await fetch(`https://qa.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode=${merchantCode}&transactionreference=${tf}&amount=${amt} `, {
+                const response = await fetch(`https://qa.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode=MX68314&transactionreference=${tf}&amount=${amt} `, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -408,7 +408,7 @@ const Payment = () => {
                 toast.success('Book uploaded successfully')
                 localStorage.removeItem('openFormData')
                 navigate('/')
-                toast.success('Payment was succeful')
+                toast.success('Payment was successful')
             }
 
             const newFile = {
@@ -496,7 +496,7 @@ const Payment = () => {
                 }
 
 
-                const emailResponse = await fetch('http://api.iwemiresearch.org/api/papers/download/', {
+                const emailResponse = await fetch('https://api.iwemiresearch.org/api/papers/download/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
