@@ -41,7 +41,7 @@ const RegisterDropdown = () => {
                     signup_publisher()
                 }}
             >
-                Publisher Registration
+                Institution Registration
             </a>
         </div>
     )

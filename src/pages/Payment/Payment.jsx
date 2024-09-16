@@ -293,7 +293,7 @@ const Payment = () => {
 
                     const orderData = await response.json();
 
-                    if (orderData.status !== 'Succesful') {
+                    if (orderData.status !== 'Successful') {
                         allOrdersSuccessful = false;
                         toast.error(`Order ${orderId} payment was not completed`);
                     }
@@ -552,7 +552,7 @@ const Payment = () => {
 
         }
 
-        await ammendOrder('Succesful')
+        await ammendOrder('Successful')
 
 
     }

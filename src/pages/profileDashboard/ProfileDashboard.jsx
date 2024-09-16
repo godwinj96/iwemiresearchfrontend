@@ -356,6 +356,7 @@ const ProfileDashboard = () => {
         };
         const upadatedUploadedFiles = [...uploadedFiles, newFile]
         setUploadedFiles(upadatedUploadedFiles)
+        toast.success("upload successful")
         //save to loacl storage
         localStorage.setItem(`uploadedFiles_${userId}`, JSON.stringify(upadatedUploadedFiles))
         setShowUploadButton(false)
@@ -405,6 +406,8 @@ const ProfileDashboard = () => {
         console.log('FIeld names pushed to supabase:', data)
       } */
 
+
+      toast.success("upload successful")
 
 
 
@@ -467,8 +470,19 @@ const ProfileDashboard = () => {
         );
       case 'uploads':
         return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Uploads</h3>
+          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[100vw]">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white ">Your Uploads</h3>
+            {uploadedFiles.length === 0 ? (
+              <p className='mb-2 font-semibold'>You haven't uploaded any research resource/document</p>
+            ) : (
+              <ul>
+                {uploadedFiles.map((file, index) => (
+                  <li key={index} className="mb-2">
+                    {file.name} - {file.date}
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <form>
               <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -975,23 +989,14 @@ const ProfileDashboard = () => {
               {/*<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
            */} </form>
 
-            {uploadedFiles.length === 0 ? (
-              <p>You haven't uploaded any research resource/document</p>
-            ) : (
-              <ul>
-                {uploadedFiles.map((file, index) => (
-                  <li key={index} className="mb-2">
-                    {file.name} - {file.date}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {/**file upload form */}
+
 
             {/**file upload form */}
-            <div className='flex items-center'>
+            <div className='flex flex-col md:flex-row items-start gap-4 mb-6'>
               {/* PDF Upload Section */}
-              <div className="flex flex-col items-center justify-center w-full file-upload">
+              <div className="flex flex-col items-center justify-center w-full md:w-1/2 file-upload">
+                {/* <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Upload PDF Document</h4> */}
+                {!selectedFile && <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">Please upload the document</p> }
                 {/* Display the selected file name if a file is uploaded */}
                 {selectedFile && (
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -1011,45 +1016,47 @@ const ProfileDashboard = () => {
               </div>
 
               {/* Image Upload Section */}
-              <div className="flex flex-col items-center justify-center w-full image-upload">
-                {/* Display the selected image preview if an image is uploaded */}
-                {selectedImage && (
-                  <div className="mb-4">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Selected image: <span className="font-semibold">{selectedImage.name}</span>
-                    </p>
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="Selected Image Preview"
-                      className="w-32 h-32 object-cover mt-2 rounded-lg border border-gray-300 dark:border-gray-600"
-                    />
-                  </div>
-                )}
+              <div className="flex flex-col items-center justify-center w-full md:w-1/2 image-upload">
+                {!selectedImage && <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">Please upload the front cover of the book/paper</p>}
+
                 <label
                   htmlFor="image-dropzone-file"
-                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500"
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 overflow-hidden"
                 >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg
-                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 7.5L6.5 10 9 7.5l2.5 2.5 3.5-3.5"
+                  {selectedImage ? (
+                    <div className="w-full h-full relative">
+                      <img
+                        src={URL.createObjectURL(selectedImage)}
+                        alt="Selected Image Preview"
+                        className="w-full h-full object-cover"
                       />
-                    </svg>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Click to upload</span> or drag and drop
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Image files (MAX. 800x800px)</p>
-                  </div>
+                      <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p className="text-white text-sm">Click to change image</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg
+                        className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M4 7.5L6.5 10 9 7.5l2.5 2.5 3.5-3.5"
+                        />
+                      </svg>
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Image files (MAX. 800x800px)</p>
+                    </div>
+                  )}
                   <input
                     id="image-dropzone-file"
                     type="file"
@@ -1058,6 +1065,12 @@ const ProfileDashboard = () => {
                     accept="image/*"
                   />
                 </label>
+
+                {selectedImage && (
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Selected image: <span className="font-semibold">{selectedImage.name}</span>
+                  </p>
+                )}
               </div>
             </div>
 
@@ -1211,10 +1224,10 @@ const ProfileDashboard = () => {
               <div className="space-y-4">
                 {orders.map((order) => {
                   // Parse the download_links array
-                  
+
                   const cleanedLinks = order.download_links
-                  ? order.download_links.replace(/[\[\]']/g, '').split(',') // Clean and split links
-                  : []; // Default to an empty array if no links are present
+                    ? order.download_links.replace(/[\[\]']/g, '').split(',') // Clean and split links
+                    : []; // Default to an empty array if no links are present
 
                   return (
                     <div
