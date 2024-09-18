@@ -12,6 +12,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards';
 const ITEMS_PER_PAGE = 15
 
 const ConferencePapers = () => {
+    const {user} = useContext(GlobalStateContext)
     const normalizeText = (text) => text.toLowerCase().replace(/\s+/g, ' ').trim();
     const matchesFirstThreeLetters = (source, target) =>
         source.toLowerCase().startsWith(target.toLowerCase().slice(0, 3));
@@ -422,6 +423,10 @@ const ConferencePapers = () => {
     const { state, dispatch } = useCart()
 
     const handleAddToCart = (item) => {
+        if(!user){
+            toast.warning("Please login to add items to cart")
+            return
+        }
         dispatch({ type: 'ADD_TO_CART', payload: item })
         // toast.error('Added to Shopping Cart')
         toast.success('Added to Shopping Cart')

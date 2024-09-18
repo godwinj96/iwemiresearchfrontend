@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { supabase } from '../supaBaseClient';
 
 export const GlobalStateContext = createContext();
 
@@ -26,7 +25,7 @@ export const GlobalStateProvider = ({ children }) => {
 
 
 
-  const handleLogin = async (loginForm) => {
+  const handleLogin = async (loginForm,redirectPath='/') => {
     setLoading(true)
     try {
       const response = await fetch('https://api.iwemiresearch.org/api/auth/login/', {
@@ -50,7 +49,7 @@ export const GlobalStateProvider = ({ children }) => {
         setLoggedIn(true);
         checkSession();
         toast.success('Welcome back!');
-        navigate('/');
+        navigate(redirectPath, { replace: true });
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -78,6 +77,8 @@ export const GlobalStateProvider = ({ children }) => {
       if (!response.ok) {
         setUser(null);
         setLoggedIn(false);
+        setLoading(false)
+        return false
       } else {
         const userData = await response.json();
         console.log('Fetched User Data:', userData);
@@ -86,9 +87,11 @@ export const GlobalStateProvider = ({ children }) => {
         setLoggedIn(true);
         localStorage.setItem('session', JSON.stringify(userData));
         localStorage.setItem('userId', userData.id);
+        return true
       }
     } catch (error) {
       console.error('Error fetching session:', error.message);
+      return false
     } finally {
       setLoading(false); // Ensure loading is set to false once the fetching is done
     }
@@ -171,11 +174,15 @@ export const GlobalStateProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    getOrders()
-    if (localStorage.getItem('accessToken')) {
-      tokenVerify();
-      checkSession();
-    }
+    const initializeSession = async () => {
+      if (localStorage.getItem('accessToken')) {
+        await tokenVerify();
+        await checkSession();
+      }
+      getOrders();
+    };
+  
+    initializeSession();
   }, []);
 
   const value = {
@@ -205,7 +212,8 @@ export const GlobalStateProvider = ({ children }) => {
     loading,
     setLoading,
     getOrders,
-    orders
+    orders,
+    checkSession
   };
 
   return (

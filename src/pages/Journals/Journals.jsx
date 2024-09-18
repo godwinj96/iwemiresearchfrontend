@@ -57,6 +57,7 @@ const Journals = () => {
         socialSciences: false,
         veterinaryMedicine: false,
     })
+    const {user} = useContext(GlobalStateContext)
 
 
     const [checkboxValues, setCheckboxValues] = useState({
@@ -429,6 +430,10 @@ const Journals = () => {
     const { state, dispatch } = useCart()
 
     const handleAddToCart = (item) => {
+        if(!user){
+            toast.warning("Please login to add items to cart")
+            return
+        }
         dispatch({ type: 'ADD_TO_CART', payload: item })
         toast.success('Added to Cart', {
             position: window.innerWidth < 768 ? "top-center" : "top-right",

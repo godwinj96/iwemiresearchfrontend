@@ -36,6 +36,7 @@ const Payment = () => {
     const [totals, setTotal] = useState('')
     const [loading, setLoading] = useState(false)
     let orderIds = []
+    let orders =[]
     const downloadLinks = [];
     //const [orderIds, setOrderIds] = useState([]);
 
@@ -78,7 +79,8 @@ const Payment = () => {
             return;
         }
 
-        let newOrderIds = []; // Temporary array to store order IDs
+        let newOrderIds = [];
+        let newOrders =[] // Temporary array to store order IDs
 
         try {
             for (const product of products) {
@@ -101,11 +103,14 @@ const Payment = () => {
                     break; // Stop further processing if there's an error
                 }
                 //console.log(responseJson)
-
+                newOrders.push(responseJson)
+                
                 newOrderIds.push(responseJson.id);
                 console.log(newOrderIds)
+                console.log(newOrders)
             }
             orderIds = newOrderIds;
+            orders=newOrders
             // If all requests succeed
             toast.success("All products added to orders");
         } catch (error) {
@@ -540,7 +545,16 @@ const Payment = () => {
                 //alert('Failed to get book links. Please try again');
             }
             //toast.success('Payment Successfull!')
-            navigate('/')
+            console.log(products, total);
+            navigate('/payment-success', { 
+                state: { 
+                    products: products, // Use the products array from the current component state
+                    total: total || 0,
+                    orders:orders
+                    // orderIds: orderIds,
+                    // fromUploadPage: fromUploadPage
+                } 
+            });
             toast.success('Payment was successful!', {
                 position: window.innerWidth < 768 ? "top-center" : "top-right",
                 autoClose: 2000, // Auto close after 3 seconds

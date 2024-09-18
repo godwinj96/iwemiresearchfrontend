@@ -17,8 +17,8 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 
 const Home = () => {
   const [books, setBooks] = useState([])
-  const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
-
+  const { results, setResults, isSearch, setIsSearch,loading,setLoading } = useContext(GlobalStateContext)
+  
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -28,6 +28,7 @@ const Home = () => {
   };
 
   const fetchBooks = async () => {
+    setLoading(true)
     try {
       const response = await fetch("https://api.iwemiresearch.org/api/papers/", {
         method: 'GET',
@@ -52,6 +53,8 @@ const Home = () => {
     } catch (error) {
       console.error(error);
 
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -93,7 +96,13 @@ const Home = () => {
 
 
 
-  return (
+  return loading ?
+  <div className="grid place-items-center min-h-[80vh]">
+    <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+
+    </div>
+  </div>
+  : (
     <div>
 
 

@@ -40,6 +40,7 @@ import ScrollToTop from './components/ScrollTop'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminUsers from './pages/admin/AdminUsers'
 import AdminProduct from './pages/admin/AdminProduct'
+import SuccessPayment from './pages/Payment/SuccessPayment'
 
 
 
@@ -57,56 +58,57 @@ function App() {
   const hideNavAndFooter = location.pathname.startsWith('/admin');
 
 
-  return (
+  return (<GlobalStateProvider>
     <CartProvider>
       <CurrencyProvider>
-        <GlobalStateProvider>
-          <AdminProvider>
-            <ToastContainer theme='dark' />
-            <ScrollToTop/>
-            {!hideNavAndFooter && <Navbar />}
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/payment" element={<Payment />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/account/confirm-email/*' element={<Login />} />
-              <Route path='/signup' element={<SignUp />} />
-              <Route path='/password-reset' element={<ForgotPassword />} />
-              <Route path='/password-reset/confirm/:uidb64/:token' element={<ResetPassword />} />
-              <Route path='/signup-Publisher' element={<SignUpPublish />} />
-              <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/search-page' element={<SearchPage />} />
-              <Route path='book/:id' element={<ClickedBook />} />
-              <Route path='/contact' element={<Contact />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/shopping-Cart' element={<ShoppingCart />} />
-              <Route path='/FAQs' element={<Faq />} />
-              <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
-              <Route path='/terms-Conditions' element={<Terms />} />
-              <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
-              <Route path='/journals' element={<Journals />} />
-              <Route path='/thesis-Dissertations' element={<Thesis />} />
-              <Route path='/conference-Papers' element={<ConferencePapers />} />
-              <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
-              {/* Wrap the /admin route with the ProtectedComponent */}
-              <Route element={<ProtectedComponent />}>
-                <Route path="/admin/*" element={<Admin />}>
-                  {/* Nested Admin Routes */}
-                  <Route path="product" element={<AdminProduct />} />
-                  <Route path="orders" element={<AdminOrders />} />
-                  <Route path="users" element={<AdminUsers />} />
-                  
-                </Route>
-              </Route>
-            </Routes>
-            {!hideNavAndFooter && <Footer />}
-            {/*hideNavAndFooter.includes(location.pathname) && <AdminFooter />*/}
-          </AdminProvider>
 
-        </GlobalStateProvider>
+        <AdminProvider>
+          <ToastContainer theme='dark' autoClose='2500' />
+          <ScrollToTop />
+          {!hideNavAndFooter && <Navbar />}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/account/confirm-email/*' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/password-reset' element={<ForgotPassword />} />
+            <Route path='/password-reset/confirm/:uidb64/:token' element={<ResetPassword />} />
+            <Route path='/signup-Publisher' element={<SignUpPublish />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/search-page' element={<SearchPage />} />
+            <Route path='book/:id' element={<ClickedBook />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/shopping-Cart' element={<ShoppingCart />} />
+            <Route path='/payment-success' element={<SuccessPayment />} />
+            <Route path='/FAQs' element={<Faq />} />
+            <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
+            <Route path='/terms-Conditions' element={<Terms />} />
+            <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
+            <Route path='/journals' element={<Journals />} />
+            <Route path='/thesis-Dissertations' element={<Thesis />} />
+            <Route path='/conference-Papers' element={<ConferencePapers />} />
+            <Route path='/academic-Textbooks' element={<AcademicTextbooks />} />
+            {/* Wrap the /admin route with the ProtectedComponent */}
+            <Route element={<ProtectedComponent />}>
+              <Route path="/admin/*" element={<Admin />}>
+                {/* Nested Admin Routes */}
+                <Route path="product" element={<AdminProduct />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="users" element={<AdminUsers />} />
+
+              </Route>
+            </Route>
+          </Routes>
+          {!hideNavAndFooter && <Footer />}
+          {/*hideNavAndFooter.includes(location.pathname) && <AdminFooter />*/}
+        </AdminProvider>
+
+
       </CurrencyProvider>
     </CartProvider>
-
+  </GlobalStateProvider>
 
   )
 }

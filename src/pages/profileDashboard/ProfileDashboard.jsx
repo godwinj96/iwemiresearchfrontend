@@ -12,7 +12,7 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ProfileDashboard = () => {
 
-  const { user, userId, setUser, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading } = useContext(GlobalStateContext)
+  const { user, userId, setUser,loggedIn, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading,checkSession,setLoading } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -1492,7 +1492,25 @@ const ProfileDashboard = () => {
   };
 
 
+  useEffect(() => {
+    const checkUser = async () => {
+      if (!user && !loading) {
+        const sessionValid = await checkSession();
+        if (!sessionValid) {
+          toast.warning("You need to be logged in first");
+          navigate('/login', { state: { from: '/Profile-dashboard' } });
+        }
+      }
+    };
 
+    checkUser();
+  }, [user, loading, navigate, checkSession]);
+
+ 
+
+  if (!user) {
+    return null; // or a loading spinner
+  }
 
 
 

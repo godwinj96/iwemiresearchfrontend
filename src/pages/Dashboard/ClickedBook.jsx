@@ -11,8 +11,10 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 const ClickedBook = () => {
   // const { search, setSearch } = useContext(GlobalStateContext)
   const [activeTab, setActiveTab] = useState('overview');
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
   const location = useLocation()
-  const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
+  const { results, setResults, isSearch, setIsSearch,user } = useContext(GlobalStateContext)
 
   //reset search on route change
   useEffect(() => {
@@ -28,7 +30,7 @@ const ClickedBook = () => {
 
   const { id } = useParams()
 
-  const { book, initialTab } = location.state || {}
+  const { book, initialTab,product } = location.state || {}
   const [citationCount, setCitationCount] = useState(book?.citations || 0);
 
 
@@ -153,6 +155,61 @@ const ClickedBook = () => {
     }
 
   }
+
+  const postComment = async()=>{
+    setLoading(true)
+
+    const form = {
+      "comments": [...comments, { text: commentText, date: new Date().toISOString() }]
+    };
+
+    const Token = localStorage.getItem('accessToken');
+    if (!Token) {
+      setUser(null);
+      setLoggedIn(false);
+      return;
+    }
+
+
+    try {
+      const response = await fetch(`https://api.iwemiresearch.org/api/papers/paper/${book.name}/`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${Token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+
+      })
+
+      if (!response.ok) {
+        console.log(await response.json());
+        toast.error("Failed to post comment");
+        return;
+      }
+
+      setComments(form.comments);
+      toast.success("Comment posted successfully");
+     
+    } catch (err) {
+      console.error(err);
+
+    } finally{
+      setLoading(false)
+    }
+
+  }
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (newComment.trim()) {
+      postComment(newComment);
+      setNewComment('');
+    }
+  };
+
+
   useEffect(() => {
     // Any effect needed when the citation count changes can be handled here
   }, [citationCount]);
@@ -166,6 +223,11 @@ const ClickedBook = () => {
   const { state, dispatch } = useCart()
 
   const handleAddToCart = (item) => {
+    if(!user){
+        toast.warning("Please login to add items to cart")
+        return
+    }
+
     dispatch({ type: 'ADD_TO_CART', payload: item })
     // toast.error('Added to Shopping Cart')
     toast.success("Added to Cart", {
@@ -220,11 +282,19 @@ const ClickedBook = () => {
             </div>
             <div className="textarea">
 
-              <form>
+              <form onSubmit={handleCommentSubmit}>
                 <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                   <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                     <label htmlFor="comment" className="sr-only">Your comment</label>
-                    <textarea id="comment" rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
+                    <textarea 
+                      id="comment" 
+                      rows="4" 
+                      className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" 
+                      placeholder="Write a comment..." 
+                      required
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                    ></textarea>
                   </div>
                   <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
                     <button type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
@@ -350,7 +420,7 @@ const ClickedBook = () => {
           </div>
         </section>)
           :
-          (<div className="clicked-book flex flex-col  ">
+          (<div className="clicked-book flex flex-col justify-center ">
             <div className='flex flex-col items-center md:flex-row  gap-4'>
               <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
                 <div >
@@ -379,7 +449,7 @@ const ClickedBook = () => {
               </div>
               <div className="flex flex-col md:flex-row md:items-start gap-4">
                 {book.is_open_access ? (
-                  <div className="papers-right clicked-book-button flex flex-row md:flex-col gap-4">
+                  <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4 md:ml-[70px] ">
                     <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
                       Cite
                     </button>
@@ -389,7 +459,7 @@ const ClickedBook = () => {
                     </a>
                   </div>
                 ) : (
-                  <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4">
+                  <div className="papers-right clicked-book-button flex flex-row md:flex-col md:p-0 p-5 gap-4 md:ml-[70px]">
                     <button onClick={() => setActiveTab("citations")} className='bg-[#FFA500] text-black py-2 px-4 rounded flex items-center  text-center justify-center hover:bg-orange-300 transition-colors cite-button'>
                       Cite
                     </button>

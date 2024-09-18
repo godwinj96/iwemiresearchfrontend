@@ -30,9 +30,9 @@ const Navbar = () => {
   //api
   const handleRegClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setRegisterDropdown(false);
+      setRegisterDropdown(false);
     }
-};
+  };
 
   const handleSearchOutside = (e) => {
     if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -62,9 +62,9 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleSearchOutside);
     }
 
-    if(registerDropdown){
+    if (registerDropdown) {
       document.addEventListener('click', handleRegClickOutside);
-    } else{
+    } else {
       document.removeEventListener('click', handleRegClickOutside);
     }
 
@@ -78,7 +78,7 @@ const Navbar = () => {
 
 
     };
-  }, [menu, isSearchOpen,registerDropdown]);
+  }, [menu, isSearchOpen, registerDropdown]);
 
   const toggleDropdown = (e) => {
     e.preventDefault()
@@ -88,7 +88,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const pathnames = location.pathname.split('/').filter((x) => x)
-//  const lastPath = pathnames[pathnames.length - 1]
+  //  const lastPath = pathnames[pathnames.length - 1]
 
   const loginClick = () => {
     navigate('/login')
@@ -254,99 +254,61 @@ const Navbar = () => {
                                 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
 
             </button>
-            {menu && <div ref={menuMenuRef} className="dropdown-menu   absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
-         {  /** search component*/}
-              <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
-                e.preventDefault();
-                home();
-              }}>Home</a>
-              <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                onClick={(e) => {
-                  e.preventDefault();
-                  journals()
-                }}
-              >Journals</a>
-              <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
-                e.preventDefault();
-                thesis()
-              }}>Thesis</a>
-              <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                onClick={(e) => {
-                  e.preventDefault();
-                  conference()
-                }}
-              >Conference Papers</a>
+            {menu && (
+              <div ref={menuMenuRef} className="dropdown-menu absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden z-20">
+                <ul>
+                  {[
+                    { text: "Home", onClick: home },
+                    { text: "Journals", onClick: journals },
+                    { text: "Thesis", onClick: thesis },
+                    { text: "Conference Papers", onClick: conference },
+                    { text: "Academic Textbooks", onClick: academic }
+                  ].map((item, index) => (
+                    <li key={index}>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          item.onClick();
+                          setMenu(false); // Close the menu
+                        }}
+                      >
+                        {item.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-              <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={(e) => {
-                e.preventDefault();
-                academic()
-              }} >Academic Papers</a>
-            </div>}
           </div>
 
 
 
-          <div className="items-center justify-between hidden w-full  lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
-            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-              <li>
-                <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 
-                lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  aria-current="page" onClick={(e) => {
-                    e.preventDefault();
-                    home();
-                  }}>
-                  Home
-                </a>
-              </li>
-
-              <li>
-                <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 
-                lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    journals()
-                  }}>
-                  Journals
-                </a>
-              </li>
-
-              <li>
-
-                <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 
-                lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    thesis()
-                  }}>
-                  Thesis
-                </a>
-              </li>
-
-              <li>
-                <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 
-                lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    conference()
-                  }}>
-                  Conference Papers
-                </a>
-              </li>
-              <li>
-                <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 
-                  lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    academic()
-                  }}
-                >
-                  Academic Textbooks
-                </a>
-              </li>
+          <div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
+            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-4 lg:mt-0">
+              {[
+                { text: "Home", onClick: home },
+                { text: "Journals", onClick: journals },
+                { text: "Thesis", onClick: thesis },
+                { text: "Conference Papers", onClick: conference },
+                { text: "Academic Textbooks", onClick: academic }
+              ].map((item, index) => (
+                <li key={index}>
+                  <a
+                    href="#"
+                    className="block py-2 text-gray-700 hover:text-primary-700 lg:p-0 dark:text-gray-400 dark:hover:text-white whitespace-nowrap"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      item.onClick();
+                    }}
+                  >
+                    {item.text}
+                  </a>
+                </li>
+              ))}
             </ul>
-
-
-
           </div>
 
           {/** where i thinnk navbar shld be

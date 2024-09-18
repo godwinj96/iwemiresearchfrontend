@@ -53,7 +53,8 @@ const Login = ({ setToken }) => {
     loginForm.append("email", email)
     loginForm.append("password", password)
 
-    await handleLogin(loginForm)
+    const from = location.state?.from || '/'
+    await handleLogin(loginForm,from)
   } 
   
 
