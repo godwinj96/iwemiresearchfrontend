@@ -41,6 +41,7 @@ import AdminOrders from './pages/admin/AdminOrders'
 import AdminUsers from './pages/admin/AdminUsers'
 import AdminProduct from './pages/admin/AdminProduct'
 import SuccessPayment from './pages/Payment/SuccessPayment'
+import TermsPopup from './components/TermsPopup'
 
 
 
@@ -65,6 +66,7 @@ function App() {
         <AdminProvider>
           <ToastContainer theme='dark' autoClose='2500' />
           <ScrollToTop />
+          <TermsPopup />
           {!hideNavAndFooter && <Navbar />}
           <Routes>
             <Route path="/" element={<Home />} />

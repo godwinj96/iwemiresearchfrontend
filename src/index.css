@@ -2933,3 +2933,15 @@ div.relative:hover .dropdown-menu {
   align-items: center;
   justify-content: center;
 }
+
+.terms-popup {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.5s ease-in-out;
+}
+
+/* Slide-in effect */
+.terms-popup.slide-in {
+  opacity: 1;
+  transform: translateY(0);
+}
