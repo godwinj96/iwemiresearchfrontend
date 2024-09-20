@@ -212,6 +212,14 @@ const Journals = () => {
     const buttonRef = useRef(null)
     const menuRef = useRef(null)
 
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
+
     useEffect(() => {
         const fetchJournals = async () => {
             setLoading(true)
@@ -234,10 +242,11 @@ const Journals = () => {
                 //console.log(journalData)
 
                 const journalPapers = journalData.filter(paper => paper.type === 'Journal' && paper.is_approved === true)
-                setJournals(journalPapers)
+                const randomizedJournals = shuffleArray(journalPapers)
+                setJournals(randomizedJournals)
                 // console.log(journalPapers)
 
-                const totalItems = journalPapers.length
+                const totalItems = randomizedJournals.length
                 setTotalPage(Math.ceil(totalItems / ITEMS_PER_PAGE))
                 //console.log('count', count)
             } catch (error) {
@@ -382,6 +391,8 @@ const Journals = () => {
         }))
     }
 
+    
+
     const applyFilters = (books) => {
         let filteredBooks = [...books]
 
@@ -415,7 +426,7 @@ const Journals = () => {
         }
 
         if (filters.createdOn) {
-            filteredBooks.sort((a, b) => new Date(b.year_published) - new Date(a.year_published));
+            filteredBooks.sort((a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded));
         }
 
         if (filters.citationCount) {

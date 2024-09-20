@@ -12,7 +12,7 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards';
 const ITEMS_PER_PAGE = 15
 
 const AcademicTextbooks = () => {
-    const {user} = useContext(GlobalStateContext)
+    const { user } = useContext(GlobalStateContext)
     const normalizeText = (text) => text.toLowerCase().replace(/\s+/g, ' ').trim();
     const matchesFirstThreeLetters = (source, target) =>
         source.toLowerCase().startsWith(target.toLowerCase().slice(0, 3));
@@ -321,7 +321,13 @@ const AcademicTextbooks = () => {
         setResults([])
     }, [location])
 
-
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
 
     useEffect(() => {
 
@@ -345,8 +351,9 @@ const AcademicTextbooks = () => {
                 const academics = await response2.json()
                 //console.log(academics)
 
-                const academicPapers = academics.filter(paper => paper.type === 'Academic Textbooks' && paper.is_approved === true)
-                setAcademic(academicPapers)
+                const academicPapers = academics.filter(paper => paper.type === 'Academic Textbooks' && paper.is_approved === true);
+                const randomizedAcademicPapers = shuffleArray([...academicPapers]);
+                setAcademic(randomizedAcademicPapers);
                 console.log(academicPapers)
 
                 const totalItems = academicPapers.length
@@ -409,7 +416,7 @@ const AcademicTextbooks = () => {
         }
 
         if (filters.createdOn) {
-            filteredBooks.sort((a, b) => new Date(b.year_published) - new Date(a.year_published));
+            filteredBooks.sort((a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded));
         }
 
         if (filters.citationCount) {
@@ -424,7 +431,7 @@ const AcademicTextbooks = () => {
     const { state, dispatch } = useCart()
 
     const handleAddToCart = (item) => {
-        if(!user){
+        if (!user) {
             toast.warning("Please login to add items to cart")
             return
         }

@@ -314,6 +314,13 @@ const Thesis = () => {
             [id]: checked,
         }))
     }
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
 
     const [thesis, setThesis] = useState([]);
 
@@ -338,7 +345,8 @@ const Thesis = () => {
                 //console.log(journalData)
 
                 const thesisPapers = journalData.filter(paper => paper.type === 'Thesis & Dissertations' && paper.is_approved === true)
-                setThesis(thesisPapers)
+                const randomizedThesis = shuffleArray(thesisPapers)
+                setThesis(randomizedThesis)
                 //console.log(thesisPapers)
 
                 const totalItems = thesisPapers.length

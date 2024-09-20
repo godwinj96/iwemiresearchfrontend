@@ -276,6 +276,14 @@ const ConferencePapers = () => {
 
     }
 
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         document.addEventListener('mousedown', handleClickOutsideMenu);
@@ -339,7 +347,8 @@ const ConferencePapers = () => {
                 //console.log(journalData)
 
                 const conferencePapers = journalData.filter(paper => paper.type === 'Conference Papers' && paper.is_approved === true)
-                setConference(conferencePapers)
+                const randomizedConference = shuffleArray(conferencePapers)
+                setConference(randomizedConference)
                // console.log(conferencePapers)
 
                 const totalItems = conferencePapers.length
@@ -407,7 +416,7 @@ const ConferencePapers = () => {
         }
 
         if (filters.createdOn) {
-            filteredBooks.sort((a, b) => new Date(b.year_published) - new Date(a.year_published));
+            filteredBooks.sort((a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded));
         }
 
         if (filters.citationCount) {
