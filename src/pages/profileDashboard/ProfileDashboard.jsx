@@ -3,16 +3,14 @@ import DatePicker from 'react-datepicker'
 import { MdDateRange } from "react-icons/md"
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import flutterwave_img from '../../assets/flutterwave.png'
-import interswitch_img from '../../assets/interswitch.png'
-import stripe_img from '../../assets/stripe.png'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import Pagination from '../../components/Pagination'
 import { GlobalStateContext } from '../../Context/GlobalState'
 
 
 const ProfileDashboard = () => {
 
-  const { user, userId, setUser,loggedIn, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading,checkSession,setLoading } = useContext(GlobalStateContext)
+  const { user, userId, setUser,loggedIn, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading,checkSession,setLoading,currentPage, ordersPerPage, paginate  } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -51,7 +49,11 @@ const ProfileDashboard = () => {
   const [category, setCategory] = useState('')
   const [subcategory, setSubcategory] = useState('')
   //const [orders, setOrders] = useState()
-
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders && orders.length > 0 
+  ? orders.slice(indexOfFirstOrder, indexOfLastOrder)
+  : [];
 
 
   const navigate = useNavigate()
@@ -1222,44 +1224,49 @@ const ProfileDashboard = () => {
             {orders.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-300">No orders have been made yet</p>
             ) : (
-              <div className="space-y-4">
-                {orders.map((order) => {
-                  // Parse the download_links array
+              <>
+                <div className="space-y-4">
+                  {currentOrders.map((order) => {
+                    const cleanedLinks = order.download_links
+                      ? order.download_links.replace(/[\[\]']/g, '').split(',')
+                      : [];
 
-                  const cleanedLinks = order.download_links
-                    ? order.download_links.replace(/[\[\]']/g, '').split(',') // Clean and split links
-                    : []; // Default to an empty array if no links are present
-
-                  return (
-                    <div
-                      key={order.id}
-                      className="border border-gray-300 dark:border-gray-600 p-4 rounded-lg bg-white dark:bg-gray-700 shadow-sm transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-                    >
-                      <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{order.paper_name}</h4>
-                      <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
-                        <span className="font-medium">Status:</span> {order.status}
-                      </p>
-                      <p className="text-sm text-gray-700 dark:text-gray-400">
-                        <span className="font-medium">Time Created:</span> {new Date(order.time_created).toLocaleString()}
-                      </p>
-                      {/* Display the download link */}
-                      {cleanedLinks && cleanedLinks.length > 0 && (
-                        <p className="text-sm text-gray-700 dark:text-gray-400 mt-2">
-                          <span className="font-medium">Download Link:</span>{' '}
-                          <a
-                            href={cleanedLinks[0].trim()}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline"
-                          >
-                            Download
-                          </a>
+                    return (
+                      <div
+                        key={order.id}
+                        className="border border-gray-300 dark:border-gray-600 p-4 rounded-lg bg-white dark:bg-gray-700 shadow-sm transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+                      >
+                        <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{order.paper_name}</h4>
+                        <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
+                          <span className="font-medium">Status:</span> {order.status}
                         </p>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                        <p className="text-sm text-gray-700 dark:text-gray-400">
+                          <span className="font-medium">Time Created:</span> {new Date(order.time_created).toLocaleString()}
+                        </p>
+                        {cleanedLinks && cleanedLinks.length > 0 && (
+                          <p className="text-sm text-gray-700 dark:text-gray-400 mt-2">
+                            <span className="font-medium">Download Link:</span>{' '}
+                            <a
+                              href={cleanedLinks[0].trim()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-500 hover:underline"
+                            >
+                              Download
+                            </a>
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <Pagination
+                  ordersPerPage={ordersPerPage}
+                  totalOrders={orders.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+              </>
             )}
             <button
               className="mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
@@ -1273,98 +1280,7 @@ const ProfileDashboard = () => {
           </div>
         );
 
-        return (
-          <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  min-w-[40vw]">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your Payment Methods</h3>
-            <p>No saved Methods found</p>
-            <button
-              data-modal-target="popup-modal"
-              data-modal-toggle="popup-modal"
-              className=" block add-payment-method bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
-              type='button'
-              onClick={toggleModal}
-            >
-              Add Payment Method
-            </button>
-
-
-            {isModalOpen && (<div
-              id="popup-modal"
-              tabIndex="-1"
-              className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden bg-black bg-opacity-50"
-            >
-              <div className="relative p-4 w-full max-w-md max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                  <button
-                    onClick={closeModal}
-                    type="button"
-                    className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    <svg
-                      className="w-3 h-3"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                    <span className="sr-only">Close modal</span>
-                  </button>
-                  <div className="p-4 md:p-5 text-center dark">
-
-                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                      Pick Payment Method
-                    </h3>
-
-                    <button type="button" className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-800 dark:bg-white dark:border-gray-700 dark:text-gray-900 dark:hover:bg-gray-200 me-2 mb-2 payment-button">
-                      <img src={stripe_img} className='w-10 h-3 payment-logo' alt="" />
-                      Pay with Stripe
-                    </button>
-
-                    <button type="button" className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 me-2 mb-2 payment-button">
-                      <img src={flutterwave_img} className='w-10 h-3 payment-logo' alt="" />
-                      Check out with Flutterwave
-                    </button>
-
-                    <button type="button" className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 payment-button">
-                      <img src={interswitch_img} className='w-10 h-3 payment-logo' alt="" />
-                      Pay with Interswitch
-                    </button>
-
-
-
-
-
-
-                    <br />
-                    <button
-                      onClick={closeModal}
-                      type="button"
-                      className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                    >
-                      Yes, I'm sure
-                    </button>
-                    <button
-                      onClick={closeModal}
-                      type="button"
-                      className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                    >
-                      No, cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            )}
-          </div>
-        );
+      
       case 'accountDetails':
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">

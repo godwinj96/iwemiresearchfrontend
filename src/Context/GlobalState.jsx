@@ -21,11 +21,13 @@ export const GlobalStateProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null); // New state for access token
   const [loading, setLoading] = useState(false); // Add loading state
   const [orders, setOrders] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(5);
   const navigate = useNavigate();
 
 
 
-  const handleLogin = async (loginForm,redirectPath='/') => {
+  const handleLogin = async (loginForm, redirectPath = '/') => {
     setLoading(true)
     try {
       const response = await fetch('https://api.iwemiresearch.org/api/auth/login/', {
@@ -166,12 +168,13 @@ export const GlobalStateProvider = ({ children }) => {
       setLoading(false)
     } catch (error) {
       console.error(error)
-    } finally{
+    } finally {
       setLoading(false)
     }
 
 
   }
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     const initializeSession = async () => {
@@ -179,9 +182,9 @@ export const GlobalStateProvider = ({ children }) => {
         await tokenVerify();
         await checkSession();
       }
-      getOrders();
+      await getOrders();
     };
-  
+
     initializeSession();
   }, []);
 
@@ -213,7 +216,10 @@ export const GlobalStateProvider = ({ children }) => {
     setLoading,
     getOrders,
     orders,
-    checkSession
+    checkSession,
+    currentPage,
+    ordersPerPage,
+    paginate
   };
 
   return (
