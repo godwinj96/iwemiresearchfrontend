@@ -326,6 +326,7 @@ const ConferencePapers = () => {
     const handleToggleExpand = (bookId) => {
         setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
     }
+    
     useEffect(() => {
         const fetchConference = async () => {
             setLoading(true)

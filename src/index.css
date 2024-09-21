@@ -2801,7 +2801,7 @@ div.relative:hover .dropdown-menu {
 #comments,
 #references,
 #citations {
-  width: 550px;
+ 
   margin-top: 15px;
 }
 
@@ -2814,7 +2814,7 @@ div.relative:hover .dropdown-menu {
 .clicked-similar-products {
   justify-content: flex-start;
   background-color: white;
-  max-width: 750px;
+  
 }
 
 .clicked-similar-products .hr {
@@ -2944,4 +2944,51 @@ div.relative:hover .dropdown-menu {
 .terms-popup.slide-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+.order-charts {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-charts h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.time-range-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.time-range-buttons button {
+  background-color: #fff;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.time-range-buttons button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.time-range-buttons button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
 }

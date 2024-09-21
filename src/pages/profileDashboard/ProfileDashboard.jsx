@@ -438,6 +438,7 @@ const ProfileDashboard = () => {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessToken')
     setLoggedIn(false)
+    toast.success("Logged out successfully")
     home()
   }
 

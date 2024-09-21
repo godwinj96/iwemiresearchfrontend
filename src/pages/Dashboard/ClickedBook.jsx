@@ -14,7 +14,7 @@ const ClickedBook = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const location = useLocation()
-  const { results, setResults, isSearch, setIsSearch,user } = useContext(GlobalStateContext)
+  const { results, setResults, isSearch, setIsSearch, user } = useContext(GlobalStateContext)
 
   //reset search on route change
   useEffect(() => {
@@ -25,12 +25,12 @@ const ClickedBook = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  
+
   const { currencyCode, conversionRate } = useCurrency()
 
   const { id } = useParams()
 
-  const { book, initialTab,product } = location.state || {}
+  const { book, initialTab, product } = location.state || {}
   const [citationCount, setCitationCount] = useState(book?.citations || 0);
 
 
@@ -54,13 +54,13 @@ const ClickedBook = () => {
 
       const bookData = await response.json()
       const approvedBooks = bookData.filter(paper => paper.is_approved === true);
-      
+
       // Shuffle the approved books array
       const shuffledBooks = approvedBooks.sort(() => 0.5 - Math.random());
-      
+
       // Select a subset of books (e.g., 10 books)
       const selectedBooks = shuffledBooks.slice(0, 10);
-      
+
       // Sort the selected books by date
       const sortedBooks = selectedBooks.sort(
         (a, b) => new Date(b.date_uploaded) - new Date(a.date_uploaded)
@@ -156,7 +156,7 @@ const ClickedBook = () => {
 
   }
 
-  const postComment = async()=>{
+  const postComment = async () => {
     setLoading(true)
 
     const form = {
@@ -191,11 +191,11 @@ const ClickedBook = () => {
 
       setComments(form.comments);
       toast.success("Comment posted successfully");
-     
+
     } catch (err) {
       console.error(err);
 
-    } finally{
+    } finally {
       setLoading(false)
     }
 
@@ -223,9 +223,9 @@ const ClickedBook = () => {
   const { state, dispatch } = useCart()
 
   const handleAddToCart = (item) => {
-    if(!user){
-        toast.warning("Please login to add items to cart")
-        return
+    if (!user) {
+      toast.warning("Please login to add items to cart")
+      return
     }
 
     dispatch({ type: 'ADD_TO_CART', payload: item })
@@ -245,38 +245,23 @@ const ClickedBook = () => {
       case 'overview':
         return (
           <div>
-            <div className=" p-4 rounded-lg bg-white dark:bg-gray-800 w-full" id='overview' >
+            <div className=" p-4 rounded-lg bg-white dark:bg-gray-800 max-w-[70%]" id='overview' >
               <div className="abstract-heading">
                 Abstract
               </div>
 
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-justify w-full">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-justify ">
                 {book.abstract}
               </p>
 
             </div>
-            <div className="clicked-similar-products mt-20 mb-20 flex flex-col mr-5 ">
-              <div className='hr flex mb-6'>
-                Similar Products
-              </div>
-              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-1 md:gap-12 md:space-y-0 similar-products">
 
-                {filteredBooks.slice(0, 6).map((book, index) => (
-                  <div key={index}>
-                    <HomeBookCards key={book.id} book={book} />
-                    <hr />
-                  </div>
-
-                ))}
-              </div>
-
-            </div>
           </div>
 
         );
       case 'comments':
         return (
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 flex flex-col" id='comments'>
+          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 flex flex-col max-w-[70%]" id='comments'>
             <div className="abstract-heading">
               Comments (0)
             </div>
@@ -286,11 +271,11 @@ const ClickedBook = () => {
                 <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                   <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                     <label htmlFor="comment" className="sr-only">Your comment</label>
-                    <textarea 
-                      id="comment" 
-                      rows="4" 
-                      className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" 
-                      placeholder="Write a comment..." 
+                    <textarea
+                      id="comment"
+                      rows="4"
+                      className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                      placeholder="Write a comment..."
                       required
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
@@ -330,7 +315,7 @@ const ClickedBook = () => {
         );
       case 'references':
         return (
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800" id='references'>
+          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 max-w-[70%]" id='references'>
             <div className="abstract-heading">
               All References
             </div>
@@ -349,7 +334,7 @@ const ClickedBook = () => {
       case 'citations':
         const citationText = generateCitation(book);
         return (
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800" id='citations'>
+          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 max-w-[70%]" id='citations'>
             <div className="abstract-heading">
               All Citations
             </div>
@@ -424,7 +409,7 @@ const ClickedBook = () => {
             <div className='flex flex-col items-center md:flex-row  gap-4'>
               <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
                 <div >
-                  <img src={book.cover_page?book.cover_page:null} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
+                  <img src={book.cover_page ? book.cover_page : null} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
                 </div>
                 <div className="papers-left ">
 
@@ -534,6 +519,22 @@ const ClickedBook = () => {
               </div>
               <div id="default-tab-content">
                 {renderTabContent()}
+                <div className="clicked-similar-products mt-20 mb-20 flex flex-col mr-5 max-w-[70%] ">
+                  <div className='hr flex mb-6'>
+                    Similar Products
+                  </div>
+                  <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 md:gap-12 lg:gap-8 md:space-y-0 similar-products ">
+
+                    {filteredBooks.slice(0, 6).map((book, index) => (
+                      <div key={index}>
+                        <HomeBookCards key={book.id} book={book} />
+                        <hr />
+                      </div>
+
+                    ))}
+                  </div>
+
+                </div>
               </div>
 
             </div>

@@ -1,6 +1,6 @@
 
 import { useContext, useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AdminContext } from '../../Context/AdminContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
@@ -11,12 +11,15 @@ import AdminNav from "./AdminNav";
 import AdminSidebar from './AdminSidebar';
 import AdminUploadPopup from "./adminUploadPopup/AdminUploadPopup";
 import EditUploadPopup from "./adminUploadPopup/EditUploadPopup";
+import OrderCharts from './OrderCharts';
 
 
 
 const ITEMS_PER_PAGE = 12
 const Admin = () => {
 
+  const location = useLocation()
+  const isAdminHomepage = location.pathname === '/admin' || location.pathname === '/admin/';
   const [papers, setPapers] = useState([])
   const [showUpload, setShowUpload] = useState(false)
 
@@ -177,6 +180,8 @@ const Admin = () => {
           </div>
           <div className='flex-1'>
             <AdminHeading setShowUpload={setShowUpload} />
+            <hr></hr>
+            {isAdminHomepage && <OrderCharts />} {/* Conditionally render OrderCharts */}
             <Outlet />
           </div>
         </div>
