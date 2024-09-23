@@ -4,6 +4,8 @@ import Navbar from '../../components/NavBar/NavBar'
 import Footer from '../../components/Footer/Footer'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const PrivacyPolicy = () => {
 
@@ -16,6 +18,15 @@ const PrivacyPolicy = () => {
       setIsSearch(false)
       setResults([])
     },[location,setIsSearch,setResults])
+
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
 
 

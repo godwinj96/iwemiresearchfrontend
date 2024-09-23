@@ -5,6 +5,8 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { useCart } from '../../Context/CartContext'
 import { useCurrency } from '../../Context/CurrencyContext'
 import { GlobalStateContext } from '../../Context/GlobalState'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ShoppingCart = () => {
 
@@ -49,6 +51,14 @@ const ShoppingCart = () => {
     useEffect(() => {
         getSimilarBooks()
     }, [])
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
     useEffect(() => {
         // Filtering out books that are already in the cart

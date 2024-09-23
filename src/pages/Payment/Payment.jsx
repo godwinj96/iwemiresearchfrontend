@@ -16,6 +16,8 @@ import { toast } from 'react-toastify'
 import iwemi_logo from '../../assets/new iwemi.png'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { useCurrency } from '../../Context/CurrencyContext'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 const Payment = () => {
@@ -49,6 +51,15 @@ const Payment = () => {
             //console.log(storedProduct)
         }
     }, [])
+
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
     useEffect(() => {
         // Persist the token in localStorage whenever it's set in the context

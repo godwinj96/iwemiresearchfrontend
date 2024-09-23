@@ -1,15 +1,17 @@
-import { useContext, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import logo from '../../assets/iwemi logo.png'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ResetPassword = () => {
 
     const { uidb64, token } = useParams();
     const navigate = useNavigate()
-
+    const location = useLocation()
     const [newPass, setNewPass] = useState("")
     const [confirmPass, setConfirmPass] = useState("")
     const [message, setMessage] = useState('')
@@ -18,6 +20,20 @@ const ResetPassword = () => {
     const [showconfirmPassword, setShowconfirmPassword] = useState(false)
     const { user, searchInput, isSearch, results, setResults, setIsSearch } = useContext(GlobalStateContext)
 
+
+    useEffect(() => {
+        setIsSearch(false)
+        setResults([])
+    }, [location, setIsSearch, setResults])
+    
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
     const handlePassowrdUpdate = async (e) => {
         e.preventDefault()

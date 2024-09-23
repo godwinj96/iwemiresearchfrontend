@@ -7,6 +7,8 @@ import { GlobalStateContext } from '../../Context/GlobalState';
 import logo from '../../assets/iwemi logo.png';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 import Footer from '../../components/Footer/Footer';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const SignUp = () => {
   const { setLoggedIn,user } = useContext(GlobalStateContext)
@@ -27,6 +29,15 @@ const SignUp = () => {
     setResults([])
   },[location])
 
+
+  useEffect(() => {
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      delay: 100 // Add a small delay
+    });
+  }, []);
 
   const navigate = useNavigate()
   const signIn = () => {

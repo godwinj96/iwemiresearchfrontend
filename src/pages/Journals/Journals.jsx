@@ -8,7 +8,8 @@ import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import BookItem from '../../components/BookCards/BookItem';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const ITEMS_PER_PAGE = 10
 
 
@@ -472,6 +473,16 @@ const Journals = () => {
         setCurrentPage(1)
         applyFilters(filteredPapers)
     }
+
+    console.log(results)
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
 
 

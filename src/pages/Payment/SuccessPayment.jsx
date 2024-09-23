@@ -4,6 +4,8 @@ import { useCurrency } from '../../Context/CurrencyContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 import { format } from 'date-fns';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const SuccessPayment = () => {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const SuccessPayment = () => {
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [similarBooks, setSimilarBooks] = useState([])
   const [displayedBooks, setDisplayedBooks] = useState([]);
-  console.log(orders)
+  
 
 
 
@@ -52,6 +54,15 @@ const SuccessPayment = () => {
   useEffect(() => {
     getSimilarBooks()
   }, [])
+
+  useEffect(() => {
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      delay: 100 // Add a small delay
+    });
+  }, []);
 
   const getRandomBooks = (books, count) => {
     const shuffled = [...books].sort(() => 0.5 - Math.random());

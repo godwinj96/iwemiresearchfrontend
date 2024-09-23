@@ -7,6 +7,8 @@ import { useCart } from '../../Context/CartContext'
 import { useCurrency } from '../../Context/CurrencyContext'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ClickedBook = () => {
   // const { search, setSearch } = useContext(GlobalStateContext)
@@ -20,7 +22,16 @@ const ClickedBook = () => {
   useEffect(() => {
     setIsSearch(false)
     setResults([])
-  }, [location])
+  }, [location]) 
+  
+  useEffect(() => {
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      delay: 100 // Add a small delay
+    });
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);

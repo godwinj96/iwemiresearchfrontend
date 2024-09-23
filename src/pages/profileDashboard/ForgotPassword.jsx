@@ -1,16 +1,34 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import logo from '../../assets/iwemi logo.png'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useLocation } from 'react-router-dom'
 
 const ForgotPassword = () => {
 
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const location = useLocation()
   const { user, loading, results, setResults, isSearch, setIsSearch, searchInput } = useContext(GlobalStateContext);
 
+
+  useEffect(() => {
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      delay: 100 // Add a small delay
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsSearch(false)
+    setResults([])
+}, [location, setIsSearch, setResults])
 
 
   const handleResetLink = async (e) => {

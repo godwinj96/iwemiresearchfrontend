@@ -6,6 +6,8 @@ import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdContactMail } from "react-icons/md";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Contact = () => {
 
@@ -20,6 +22,15 @@ const Contact = () => {
         setIsSearch(false)
         setResults([])
     }, [location])
+
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
 
     return (

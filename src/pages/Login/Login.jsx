@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/iwemi logo.png';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 import { GlobalStateContext } from '../../Context/GlobalState';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 
@@ -17,6 +19,15 @@ const Login = ({ setToken }) => {
     setIsSearch(false)
     setResults([])
   }, [location])
+
+  useEffect(() => {
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      delay: 100 // Add a small delay
+    });
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

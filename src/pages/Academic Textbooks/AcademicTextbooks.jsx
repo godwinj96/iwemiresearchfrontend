@@ -8,6 +8,8 @@ import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import BookItem from '../../components/BookCards/BookItem';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ITEMS_PER_PAGE = 15
 
@@ -208,6 +210,14 @@ const AcademicTextbooks = () => {
         setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
     }
 
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+          duration: 1000,
+          once: true,
+          delay: 100 // Add a small delay
+        });
+      }, []);
 
     const handleCategoryCheckboxChange = (e) => {
         const { id, checked } = e.target
@@ -468,7 +478,8 @@ const AcademicTextbooks = () => {
             </div>
         </div>
         : (
-            <div>
+            <div className=''>
+              <div className=''>
 
 
                 {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
@@ -514,7 +525,7 @@ const AcademicTextbooks = () => {
 
                                 </button>
 
-                                <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform  duration-300${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 '} `} aria-label="Sidebar">
+                                <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 '} `} aria-label="Sidebar">
                                     <div className="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
                                         <ul className="space-y-2 font-medium">
 
@@ -1499,7 +1510,9 @@ const AcademicTextbooks = () => {
                         </div>
                     </div>)}
 
+            </div>  
             </div>
+            
         )
 }
 
