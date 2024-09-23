@@ -1,19 +1,22 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import logo from '../../assets/iwemi logo.png'
+import { GlobalStateContext } from '../../Context/GlobalState'
+import HomeBookCards from '../../components/BookCards/HomeBookCards'
 
 const ForgotPassword = () => {
 
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  
+  const { user, loading, results, setResults, isSearch, setIsSearch, searchInput } = useContext(GlobalStateContext);
+
 
 
   const handleResetLink = async (e) => {
     e.preventDefault()
-    toast.info("reset link sending...",{
-      autoClose:1000
+    toast.info("reset link sending...", {
+      autoClose: 1000
     })
     setError('')
     setMessage('')
@@ -21,7 +24,7 @@ const ForgotPassword = () => {
     try {
       const response = await fetch('https://api.iwemiresearch.org/api/auth/password/reset/', {
         method: 'POST',
-        headers:{
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
@@ -29,13 +32,13 @@ const ForgotPassword = () => {
 
       if (response.ok) {
         //setMessage("Password reset link sent. Check your email")
-         toast.success("Check email to reset password")
-      } else{
+        toast.success("Check email to reset password")
+      } else {
         toast.error("error")
       }
-      
+
     } catch (error) {
-        setMessage('There was an error, please try again')
+      setMessage('There was an error, please try again')
     }
 
 
@@ -53,10 +56,27 @@ const ForgotPassword = () => {
 
   }
 
-  return  (
+  return (
     <div>
 
-      <div className="forgot-password-page">
+      {isSearch ? (
+        <section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
+            </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
+              ) : (
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+              )}
+            </div>
+          </div>
+        </section>
+      ) : (<div className="forgot-password-page">
         <section className=" dark">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
@@ -84,7 +104,7 @@ const ForgotPassword = () => {
             </div>
           </div>
         </section>
-      </div>
+      </div>)}
 
     </div>
   )

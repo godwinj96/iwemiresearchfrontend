@@ -20,7 +20,7 @@ import { useCurrency } from '../../Context/CurrencyContext'
 
 const Payment = () => {
 
-    const { setLoggedIn, setUser, results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles, userId, } = useContext(GlobalStateContext)
+    const { setLoggedIn, setUser, results, setResults, isSearch, setIsSearch, user, uploadedFiles, setUploadedFiles, userId,searchInput } = useContext(GlobalStateContext)
 
     const { accessToken: contextAccessToken } = useContext(GlobalStateContext);
 
@@ -591,7 +591,7 @@ const Payment = () => {
                 {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
                     <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                         <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+                            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
                         </div>
                         <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
                             {results.length > 0 ? (

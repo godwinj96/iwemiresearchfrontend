@@ -2986,7 +2986,9 @@ div.relative:hover .dropdown-menu {
   background-color: #007bff;
   color: #fff;
 }
-
+.last-item {
+  margin-right: 8px; /* Adjust the value as needed */
+}
 .chart-container {
   position: relative;
   height: 400px;

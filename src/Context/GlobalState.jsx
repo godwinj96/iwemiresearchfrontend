@@ -7,6 +7,7 @@ export const GlobalStateContext = createContext();
 
 export const GlobalStateProvider = ({ children }) => {
   const [query, setQuery] = useState('');
+  const [searchInput, setSearchInput] = useState('')
   const [queryHero, setQueryHero] = useState('');
   const [papers, setPapers] = useState([]);
   const [results, setResults] = useState([]);
@@ -219,7 +220,9 @@ export const GlobalStateProvider = ({ children }) => {
     checkSession,
     currentPage,
     ordersPerPage,
-    paginate
+    paginate,
+    searchInput,
+    setSearchInput
   };
 
   return (

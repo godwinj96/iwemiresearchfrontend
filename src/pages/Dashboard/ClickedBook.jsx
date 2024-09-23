@@ -14,7 +14,7 @@ const ClickedBook = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const location = useLocation()
-  const { results, setResults, isSearch, setIsSearch, user } = useContext(GlobalStateContext)
+  const { results, setResults, isSearch, setIsSearch, user, searchInput } = useContext(GlobalStateContext)
 
   //reset search on route change
   useEffect(() => {
@@ -391,7 +391,7 @@ const ClickedBook = () => {
         {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
           <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
             </div>
             <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
               {results.length > 0 ? (
@@ -409,7 +409,7 @@ const ClickedBook = () => {
             <div className='flex flex-col items-center md:flex-row  gap-4'>
               <div className='each flex flex-col md:flex-row items-center md:items-start md:justify-start gap-4 md:gap-6 '>
                 <div >
-                  <img src={book.cover_page ? book.cover_page : null} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3' />
+                  <img src={book.cover_page ? book.cover_page : null} alt="" className='w-full sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[470px] h-auto sm:h-[200px] md:h-[250px] lg:h-[300px] xl:h-[350px] px-3 hover:scale-105 transition-all duration-300' />
                 </div>
                 <div className="papers-left ">
 

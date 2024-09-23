@@ -8,7 +8,7 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ShoppingCart = () => {
 
-    const { results, setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
+    const { results, setResults, isSearch, setIsSearch,searchInput } = useContext(GlobalStateContext)
     const location = useLocation()
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [similarBooks, setSimilarBooks] = useState([])
@@ -105,7 +105,7 @@ const ShoppingCart = () => {
             {isSearch ? (<section className="dark:bg-gray-900 features" data-aos="fade-up">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results</h2>
+                        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
                     </div>
                     <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
                         {results.length > 0 ? (
@@ -132,7 +132,7 @@ const ShoppingCart = () => {
                                         (<div key={index} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
                                             <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                                 <div>
-                                                    <img src={item.cover_page} alt="" className='w-[100px] h-full px-3' />
+                                                    <img src={item.cover_page} alt="" className='w-[100px] h-full px-3 hover:scale-105 transition-all duration-300' />
                                                 </div>
 
                                                 <label htmlFor="counter-input" className="sr-only">Choose quantity:</label>

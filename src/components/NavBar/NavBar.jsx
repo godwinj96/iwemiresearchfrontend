@@ -264,7 +264,7 @@ const Navbar = () => {
                     { text: "Conference Papers", onClick: conference },
                     { text: "Academic Textbooks", onClick: academic }
                   ].map((item, index) => (
-                    <li key={index}>
+                    <li key={index} className={index === 4 ? 'last-item' : ''}>
                       <a
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -295,7 +295,7 @@ const Navbar = () => {
                 { text: "Conference Papers", onClick: conference },
                 { text: "Academic Textbooks", onClick: academic }
               ].map((item, index) => (
-                <li key={index}>
+                <li key={index} className={index === 4 ? 'last-item' : ''}>
                   <a
                     href="#"
                     className="block py-2 text-gray-700 hover:text-primary-700 lg:p-0 dark:text-gray-400 dark:hover:text-white whitespace-nowrap"

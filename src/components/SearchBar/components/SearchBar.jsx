@@ -42,8 +42,8 @@ export const SearchBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const showSearchInput = isHovered || isFocused;
-  const [searchInput, setSearchInput] = useState('')
-  const { setResults, isSearch, setIsSearch } = useContext(GlobalStateContext)
+
+  const { setResults, isSearch, setIsSearch, searchInput  ,setSearchInput} = useContext(GlobalStateContext)
 
   // console.log(isSearch)
 

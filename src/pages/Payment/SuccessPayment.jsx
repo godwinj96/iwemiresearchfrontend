@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 const SuccessPayment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, loading } = useContext(GlobalStateContext);
+  const { user, loading,results, setResults,isSearch,setIsSearch,searchInput } = useContext(GlobalStateContext);
   const { currencyCode, conversionRate } = useCurrency();
 
   const { total, products, orders } = location.state || {};
@@ -91,7 +91,25 @@ const SuccessPayment = () => {
       </div>
     </div>
     : (
-      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex-1">
+      <div>
+        { isSearch? (
+        <section className="dark:bg-gray-900 features" data-aos="fade-up">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
+            </div>
+            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+              {results.length > 0 ? (
+                results.map(book => (
+                  <HomeBookCards key={book.id} book={book} />
+                ))
+              ) : (
+                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+              )}
+            </div>
+          </div>
+        </section>
+      ):(<div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex-1">
         <div className="max-w-3xl mx-auto">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6 bg-green-500">
@@ -185,7 +203,9 @@ const SuccessPayment = () => {
             </div>
           </div>
         </div>
+      </div>)}
       </div>
+      
     );
 };
 
