@@ -513,7 +513,7 @@ const ConferencePapers = () => {
                                     <HiMenuAlt2 size={24} />
 
                                 </button>
-                                <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 top-0'} `} aria-label="Sidebar">
+                                <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 '} `} aria-label="Sidebar">
                                     <div className="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
                                         <ul className="space-y-2 font-medium">
 

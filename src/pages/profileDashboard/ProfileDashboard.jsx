@@ -10,7 +10,7 @@ import { GlobalStateContext } from '../../Context/GlobalState'
 
 const ProfileDashboard = () => {
 
-  const { user, userId, setUser,loggedIn, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading,checkSession,setLoading,currentPage, ordersPerPage, paginate,searchInput  } = useContext(GlobalStateContext)
+  const { user, userId, setUser, loggedIn, setLoggedIn, results, setResults, isSearch, setIsSearch, uploadedFiles, setUploadedFiles, orders, loading, checkSession, setLoading, currentPage, ordersPerPage, paginate, searchInput } = useContext(GlobalStateContext)
 
 
   const location = useLocation()
@@ -51,9 +51,9 @@ const ProfileDashboard = () => {
   //const [orders, setOrders] = useState()
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders && orders.length > 0 
-  ? orders.slice(indexOfFirstOrder, indexOfLastOrder)
-  : [];
+  const currentOrders = orders && orders.length > 0
+    ? orders.slice(indexOfFirstOrder, indexOfLastOrder)
+    : [];
 
 
   const navigate = useNavigate()
@@ -1000,7 +1000,7 @@ const ProfileDashboard = () => {
               {/* PDF Upload Section */}
               <div className="flex flex-col items-center justify-center w-full md:w-1/2 file-upload">
                 {/* <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Upload PDF Document</h4> */}
-                {!selectedFile && <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">Please upload the document</p> }
+                {!selectedFile && <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">Please upload the document</p>}
                 {/* Display the selected file name if a file is uploaded */}
                 {selectedFile && (
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -1222,7 +1222,7 @@ const ProfileDashboard = () => {
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg shadow-md max-w-[70vw]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Your Orders</h3>
-            {orders.length === 0 ? (
+            {(!orders || orders.length === 0) ? (
               <p className="text-gray-600 dark:text-gray-300">No orders have been made yet</p>
             ) : (
               <>
@@ -1281,7 +1281,7 @@ const ProfileDashboard = () => {
           </div>
         );
 
-      
+
       case 'accountDetails':
         return (
           <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg break-words  max-w-[70vw]">
@@ -1423,7 +1423,7 @@ const ProfileDashboard = () => {
     checkUser();
   }, [user, loading, navigate, checkSession]);
 
- 
+
 
   if (!user) {
     return null; // or a loading spinner
