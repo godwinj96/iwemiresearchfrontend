@@ -67,14 +67,42 @@ export const IconMagnifyingGlass = styled(SearchIcon)`
   filter: invert(100%) sepia(0%) saturate(7428%) hue-rotate(161deg) brightness(121%) contrast(116%);
 `;
 export const IconRightArrow = styled(ArrowRight)`
-  // height: 1rem;
-  // width: 1rem;
-  // fill: white;
+  height: 1.2rem;
+  width: 1.2rem;
+  fill: #393e46; // Dark gray color, matching the border color you used before
   
-  align-self: flex-end;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 
-  transition: all 0.5s;
+  transition: all 0.3s;
 
-  // justtify-self: center;
+  &:hover {
+    fill: #222831; // Darker shade on hover
+  }
 
+`;
+
+export const SearchButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 40px; // Adjust as needed
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;

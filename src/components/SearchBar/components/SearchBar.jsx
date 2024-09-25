@@ -4,6 +4,7 @@ import {
   Container,
   IconMagnifyingGlass,
   IconRightArrow,
+  SearchButton,
   SearchInput,
 } from "./styles";
 
@@ -122,11 +123,15 @@ export const SearchBar = () => {
           handleSearch()
         }
       }} />
-      {showSearchInput ?
-        <IconRightArrow /> :
-
-        <IconMagnifyingGlass
-        />}
+      {showSearchInput ? (
+        <>
+          <SearchButton onClick={handleSearch}>
+            <IconRightArrow />
+          </SearchButton>
+        </>
+      ) : (
+        <IconMagnifyingGlass />
+      )}
     </Container>
   )
 }
