@@ -9,6 +9,7 @@ const OrderCharts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [timeRange, setTimeRange] = useState('daily');
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   useEffect(() => {
     fetchOrderData();
@@ -74,16 +75,16 @@ const OrderCharts = () => {
           }
         });
         break;
-      case 'monthly':
-        labels = Array.from({length: 30}, (_, i) => `Day ${i + 1}`);
-        data = new Array(30).fill(0);
-        orderData.forEach(order => {
-          const orderDate = new Date(order.time_created);
-          if (now - orderDate < 30 * 24 * 60 * 60 * 1000) {
-            data[29 - Math.floor((now - orderDate) / (24 * 60 * 60 * 1000))]++;
-          }
-        });
-        break;
+        case 'monthly':
+          labels = Array.from({length: 30}, (_, i) => `Day ${i + 1}`);
+          data = new Array(30).fill(0);
+          orderData.forEach(order => {
+            const orderDate = new Date(order.time_created);
+            if (orderDate.getMonth() === selectedMonth && now.getFullYear() === orderDate.getFullYear()) {
+              data[29 - Math.floor((now - orderDate) / (24 * 60 * 60 * 1000))]++;
+            }
+          });
+          break;
     }
 
     return {
@@ -158,6 +159,13 @@ const OrderCharts = () => {
           Monthly
         </button>
       </div>
+      {timeRange === 'monthly' && (
+        <select value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+          ))}
+        </select>
+      )}
       <div className="chart-container">
         <Bar data={getChartData()} options={options} />
       </div>
