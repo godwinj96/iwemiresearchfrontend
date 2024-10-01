@@ -3009,3 +3009,15 @@ div.relative:hover .dropdown-menu {
 .app-content > * {
   flex: 1;
 }
+
+.full-width {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.full-width > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}

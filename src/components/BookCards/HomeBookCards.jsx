@@ -1,13 +1,19 @@
 /* eslint-disable */
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const HomeBookCards = ({ book }) => {
 
-   // console.log('Book:', book)
-    if(!book){
+
+    // console.log('Book:', book)
+    if (!book) {
         return null
+    }
+    const navigate = useNavigate()
+    const handleClick = () => {
+        navigate(`/book/${book.id}`, { state: { book } })
+        window.scrollTo(0, 0)
     }
 
     return (
@@ -15,11 +21,11 @@ const HomeBookCards = ({ book }) => {
             <div role="status" className="space-y-8  md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
                 <div className="flex-shrink-0  h-64 rounded overflow-hidden items-center flex justify-center">
                     <img src={book.cover_page || null} alt="Image here" className='book-image hover:scale-105 transition-all duration-300' />
-                    
+
                 </div>
                 <div className="flex flex-col right px-2">
                     <h3 className="home-bookcards-heading  text-gray-800">
-                        <Link to={`/book/${book.id}`} state={{ book }} onClick={() => window.scrollTo(0, 0)}>
+                        <Link to={`/book/${book.id}`} state={{ book }}>
                             {book.name}
                         </Link>
                     </h3>
@@ -27,7 +33,7 @@ const HomeBookCards = ({ book }) => {
                     <p className="text-sm text-gray-600">
                         {book.author}
                     </p>
-                    
+
                 </div>
 
             </div>

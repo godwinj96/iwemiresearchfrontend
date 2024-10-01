@@ -20,6 +20,9 @@ const ClickedBook = () => {
 
   //reset search on route change
   useEffect(() => {
+    if (location.pathname.startsWith('/book/')) {
+      window.scrollTo(0, 0)
+  }
     setIsSearch(false)
     setResults([])
   }, [location]) 

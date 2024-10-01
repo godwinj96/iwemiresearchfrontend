@@ -130,6 +130,7 @@ const Payment = () => {
         }
     }
     const ammendOrder = async (string) => {
+        setLoading(true)
         const Token = localStorage.getItem('accessToken');
         if (!Token) {
             setUser(null);
@@ -169,6 +170,8 @@ const Payment = () => {
         } catch (error) {
             console.error("An error occurred:", error);
             toast.error("An error occurred while updating orders");
+        }finally{
+            setLoading(false)
         }
     }
     const randomReference = () => {

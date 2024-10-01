@@ -42,6 +42,7 @@ import AdminUsers from './pages/admin/AdminUsers'
 import AdminProduct from './pages/admin/AdminProduct'
 import SuccessPayment from './pages/Payment/SuccessPayment'
 import TermsPopup from './components/TermsPopup'
+import ScrollAwareNavbar from './hooks/scrollAwareNavbar'
 
 
 
@@ -56,6 +57,10 @@ function App() {
     setResults([])
   }, [location])
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const hideNavAndFooter = location.pathname.startsWith('/admin');
 
 
@@ -64,11 +69,13 @@ function App() {
       <CurrencyProvider>
 
         <AdminProvider>
-          <ToastContainer theme='dark' autoClose='2500' />
           <ScrollToTop />
+          <ToastContainer theme='dark' autoClose='2500' />
           <TermsPopup />
+
           {!hideNavAndFooter && <Navbar />}
-          <div className='app-content'>
+
+          <div className='app-content full-width'>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/payment" element={<Payment />} />
