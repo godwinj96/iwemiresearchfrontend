@@ -175,10 +175,10 @@ const Admin = () => {
         </div>
 
         <div className="main flex overflow-x-auto">
-          <div className='flex-shrink-0'>
+          <div className='fixed flex-shrink-0'>
             <AdminSidebar />
           </div>
-          <div className='flex-1'>
+          <div className='flex-1 ml-[400px]'>
             <AdminHeading setShowUpload={setShowUpload} />
             <hr></hr>
             {isAdminHomepage && <OrderCharts />} {/* Conditionally render OrderCharts */}

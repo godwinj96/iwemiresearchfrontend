@@ -213,11 +213,11 @@ const Navbar = () => {
                 <SearchBar />
 
 
-                <div className='nav-right flex'>
+                <div className='nav-right flex '>
                   <a
                     href=""
                     onClick={loginClick}
-                    className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 ms-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 log-in">
+                    className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 ms-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 log-in ">
                     Log in
                   </a>
                 </div>
@@ -287,7 +287,7 @@ const Navbar = () => {
 
 
           <div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
-            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-4 lg:mt-0">
+            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-4 lg:mt-0 xl:!text-2xl xl:gap-5">
               {[
                 { text: "Home", onClick: home },
                 { text: "Journals", onClick: journals },
