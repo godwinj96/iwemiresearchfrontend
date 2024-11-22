@@ -287,7 +287,7 @@ const Navbar = () => {
 
 
           <div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1 nav-bar-list" id="navbar-cta">
-            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-4 lg:mt-0 xl:!text-2xl xl:gap-5">
+            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-4 lg:mt-0 xl:text-lg xl:gap-5">
               {[
                 { text: "Home", onClick: home },
                 { text: "Journals", onClick: journals },
