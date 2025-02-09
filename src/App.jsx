@@ -95,7 +95,7 @@ function App() {
               <Route path='/FAQs' element={<Faq />} />
               <Route path='/Profile-dashboard' element={<ProfileDashboard />} />
               <Route path='/terms-Conditions' element={<Terms />} />
-              <Route path='/privcay-Policy' element={<PrivacyPolicy />} />
+              <Route path='/privacy-Policy' element={<PrivacyPolicy />} />
               <Route path='/journals' element={<Journals />} />
               <Route path='/thesis-Dissertations' element={<Thesis />} />
               <Route path='/conference-Papers' element={<ConferencePapers />} />

@@ -26,13 +26,13 @@ const Language = () => {
     console.log('Selected Language:', value); // Optional: Log the selected language for testing
   };
   return (
-    <div className="max-w-sm mx-auto mb-5">
+    <div className="w-full p-2 mx-auto mb-5 flex flex-col  justify-center">
       <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language</label>
       <select
         id="language"
         value={selectedLanguage} // Bind the state to the select input
         onChange={handleLanguageChange} // Handle the change event
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
         required
       >
         <option value="">Select a language</option>

@@ -9,11 +9,30 @@ import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import RegisterDropdown from '../../pages/Login/RegisterDropdown';
 import { SearchBar } from '../SearchBar/components/SearchBar.jsx';
+import {
+  Drawer,
+  Button,
+  Typography,
+  IconButton,
+  List, ListItem
+} from "@material-tailwind/react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoHomeSharp } from "react-icons/io5";
+import { IoJournalSharp } from "react-icons/io5";
+import { SiBookstack } from "react-icons/si";
+import { PiBooksFill } from "react-icons/pi";
+import { GiBookCover } from "react-icons/gi";
 
 
 const Navbar = () => {
   const { query, loggedIn, } = useContext(GlobalStateContext)
   const { state } = useCart()
+
+
+  //sidebar
+  const [openRight, setOpenRight] = useState(false);
+  const openDrawerRight = () => setOpenRight(true);
+  const closeDrawerRight = () => setOpenRight(false);
 
 
   const [menu, setMenu] = useState(false)
@@ -234,7 +253,99 @@ const Navbar = () => {
 
               </div>
             }
-            <button
+            <Button onClick={openDrawerRight} variant='text'><GiHamburgerMenu size={20} color='white' /></Button>
+            <Drawer
+              placement="right"
+              open={openRight}
+              onClose={closeDrawerRight}
+              className="p-4 px-0 bg-gray-200"
+
+            >
+              <List>
+                <ListItem className="flex gap-1 items-center">
+                  <IoHomeSharp />
+                  <Typography
+                    variant="h4"
+                    href="#"
+                    className="block text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      home();
+                      closeDrawerRight();
+                    }}
+                  >
+                    Home
+                  </Typography>
+                </ListItem>
+
+                <ListItem className="flex gap-1 items-center">
+                  <IoJournalSharp />
+                  <Typography
+                    variant="h4"
+                    href="#"
+                    className="block text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      journals();
+                      closeDrawerRight();
+                    }}
+                  >
+                    Journals
+                  </Typography>
+                </ListItem>
+
+                <ListItem className="flex gap-1 items-center">
+                  <SiBookstack />
+                  <Typography
+                    variant="h4"
+                    href="#"
+                    className="block text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      thesis();
+                      closeDrawerRight();
+                    }}
+                  >
+                    Thesis
+                  </Typography>
+                </ListItem>
+
+                <ListItem className="flex gap-1 items-center">
+                  <PiBooksFill />
+
+                  <Typography
+                    variant="h4"
+                    href="#"
+                    className="block text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      conference();
+                      closeDrawerRight();
+                    }}
+                  >
+                    Conference Papers
+                  </Typography>
+                </ListItem>
+
+                <ListItem className="last-item flex gap-1 items-center">
+                  <GiBookCover />
+                  <Typography
+                    variant="h4"
+                    href="#"
+                    className="block text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      academic();
+                      closeDrawerRight();
+                    }}
+                  >
+                    Academic Textbooks
+                  </Typography>
+                </ListItem>
+              </List>
+
+            </Drawer>
+            {/* <button
               ref={menuRef}
 
               type="button"
@@ -280,7 +391,7 @@ const Navbar = () => {
                   ))}
                 </ul>
               </div>
-            )}
+            )} */}
 
           </div>
 

@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+import withMT from '@material-tailwind/react/utils/withMT'
+
+
+export default withMT({
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/lib/esm/**/*.js',
@@ -32,59 +35,59 @@ export default {
       },
       fontFamily: {
         'body': [
-          'Inter', 
-          'ui-sans-serif', 
-          'system-ui', 
-          '-apple-system', 
-          'system-ui', 
-          'Segoe UI', 
-          'Roboto', 
-          'Helvetica Neue', 
-          'Arial', 
-          'Noto Sans', 
-          'sans-serif', 
-          'Apple Color Emoji', 
-          'Segoe UI Emoji', 
-          'Segoe UI Symbol', 
+          'Inter',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'system-ui',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
           'Noto Color Emoji'
         ],
         'sans': [
-          'Inter', 
-          'ui-sans-serif', 
-          'system-ui', 
-          '-apple-system', 
-          'system-ui', 
-          'Segoe UI', 
-          'Roboto', 
-          'Helvetica Neue', 
-          'Arial', 
-          'Noto Sans', 
-          'sans-serif', 
-          'Apple Color Emoji', 
-          'Segoe UI Emoji', 
-          'Segoe UI Symbol', 
+          'Inter',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'system-ui',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
           'Noto Color Emoji'
         ]
       },
-      gap:{
-        '18':'4.5rem',
-        '20':'5rem',
-        '25':'6.5rem'
+      gap: {
+        '18': '4.5rem',
+        '20': '5rem',
+        '25': '6.5rem'
       }
     },
     screens: {
-      xs:'400px',
+      xs: '400px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
       xl: '1440px',
-      xxl:'2100px'
+      xxl: '2100px'
     }
   },
   plugins: [
     require('flowbite/plugin'),
     require('@tailwindcss/aspect-ratio'),
-    
-]
-}
+
+  ]
+})
 
