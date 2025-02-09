@@ -14,7 +14,9 @@ import {
   Button,
   Typography,
   IconButton,
-  List, ListItem
+  List, ListItem, Popover,
+  PopoverHandler,
+  PopoverContent,
 } from "@material-tailwind/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoHomeSharp } from "react-icons/io5";
@@ -158,7 +160,7 @@ const Navbar = () => {
 
 
 
-          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse justify-center items-center">
             {loggedIn ?
               <>
                 <div className="icons">
@@ -168,16 +170,16 @@ const Navbar = () => {
 
                   <SearchBar />
 
-                  <div className='0'>
+                  {/* <div className='0'>
                     <svg className="Icon notification-icon relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onMouseEnter={() => { setShowNoti(true) }} onMouseLeave={() => { setShowNoti(false) }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .265-.105.52-.293.707L4 17h5m6 0a3 3 0 11-6 0h6z"></path>
                     </svg>
-                    {/*{showNoti && (
+                    {showNoti && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
                     <p className="text-gray-700 text-xs sm:text-sm md:text-base lg:text-lg">No new notifications</p>
                   </div>
-                  )} */}
-                  </div>
+                  )}
+                  </div> */}
 
 
                   {/* <div className='Icon search-icon'>
@@ -227,20 +229,20 @@ const Navbar = () => {
                 {/*              <a href='' className='dasboard-profile text-white' >Profile</a>*/}
               </>
               :
-              <div className='flex nav-buttons mr-5 items-center'>
+              <div className='flex nav-buttons s:mr-5 items-center'>
 
                 <SearchBar />
 
 
-                <div className='nav-right flex '>
+                <div className='nav-right  items-center justify-center hidden lg:flex'>
                   <a
                     href=""
                     onClick={loginClick}
-                    className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 ms-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 log-in ">
+                    className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 log-in ">
                     Log in
                   </a>
                 </div>
-                <div className='flex'>
+                <div className='items-center justify-center hidden lg:flex'>
                   <a
                     ref={dropdownRef}
                     href=""
@@ -253,12 +255,12 @@ const Navbar = () => {
 
               </div>
             }
-            <Button onClick={openDrawerRight} variant='text'><GiHamburgerMenu size={20} color='white' /></Button>
+            <GiHamburgerMenu size={20} color='white' onClick={openDrawerRight} className='lg:hidden' />
             <Drawer
               placement="right"
               open={openRight}
               onClose={closeDrawerRight}
-              className="p-4 px-0 bg-gray-200"
+              className="p-4 px-0 bg-gray-200 flex flex-col justify-between"
 
             >
               <List>
@@ -343,6 +345,16 @@ const Navbar = () => {
                   </Typography>
                 </ListItem>
               </List>
+
+
+              <div className='flex gap-2 p-2 s:hidden w-full pb-20'>
+                <Button variant='outlined' onClick={()=>{loginClick();closeDrawerRight()}}>Log In</Button>
+                <Button ref={dropdownRef} color='blue' onClick={toggleDropdown}>Get Started</Button>
+                {registerDropdown && <RegisterDropdown close={closeDrawerRight} />}
+
+
+              </div>
+
 
             </Drawer>
             {/* <button

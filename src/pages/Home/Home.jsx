@@ -12,14 +12,15 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import Hero from '../../components/Hero'
+import { Card, CardBody, Typography, Avatar } from '@material-tailwind/react'
 
 
 
 
 const Home = () => {
   const [books, setBooks] = useState([])
-  const { results, setResults, isSearch, setIsSearch,loading,setLoading,searchInput } = useContext(GlobalStateContext)
-  
+  const { results, setResults, isSearch, setIsSearch, loading, setLoading, searchInput } = useContext(GlobalStateContext)
+
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -45,16 +46,16 @@ const Home = () => {
 
       const bookData = await response.json()
       const booksData = bookData.filter(paper =>
-       paper.is_approved === true
-    );
-    
+        paper.is_approved === true
+      );
 
-     const shuffledPapers = shuffleArray(booksData)
+
+      const shuffledPapers = shuffleArray(booksData)
       setBooks(shuffledPapers)
     } catch (error) {
       console.error(error);
 
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -98,36 +99,36 @@ const Home = () => {
 
 
   return loading ?
-  <div className="grid place-items-center min-h-[80vh]">
-    <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
+    <div className="grid place-items-center min-h-[80vh]">
+      <div className="w-16 h-16 place-content-center border-4 border-gray-400 border-t-orange-800 rounded-full animate-spin">
 
+      </div>
     </div>
-  </div>
-  : (
-    <div>
+    : (
+      <div>
 
 
-      {isSearch ?
-        (<section className="dark:bg-gray-900 features" >
-          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-            <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-              <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
+        {isSearch ?
+          (<section className="dark:bg-gray-900 features" >
+            <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+              <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+                <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Search Results for "{searchInput}"</h2>
+              </div>
+              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+                {results.length > 0 ? (
+                  results.map(book => (
+                    <HomeBookCards key={book.id} book={book} />
+                  ))
+                ) : (
+                  <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
+                )}
+              </div>
             </div>
-            <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-              {results.length > 0 ? (
-                results.map(book => (
-                  <HomeBookCards key={book.id} book={book} />
-                ))
-              ) : (
-                <p className="text-gray-500 sm:text-xl dark:text-gray-400">No results found</p>
-              )}
-            </div>
-          </div>
-        </section>)
-        :
-        (<>
-        <Hero />
-          <section className="dark:bg-gray-900   hero-section dark">
+          </section>)
+          :
+          (<>
+            <Hero />
+            {/* <section className="dark:bg-gray-900   hero-section dark">
             <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
               <div className="mt-4 md:mt-0">
                 <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Africa's finest research platform</h2>
@@ -141,136 +142,215 @@ const Home = () => {
               <img className="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg" alt="dashboard" />
               <img className="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg" alt="dashboard" />
             </div>
-          </section>
+          </section> */}
 
-          <section className="bg-white dark:bg-gray-900 content-section">
-            <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl flex flex-col">
-              <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400 section-info justify-center flex flex-col">
-                <h2 className="mb-4  tracking-tight font-extrabold text-gray-900 dark:text-white">Promoting access to African Research</h2>
-                <div className="content-section-p font-semibold">
-                  <p className="mb-4 "> Iwemi Research is your premier destination for rich African research and intellectual material. Our mission is to partner with institutions across Africa to deliver a comprehensive portal, making African research accessible worldwide.</p>
+            <section className="lg:py-28 py-10 px-8">
+              <div className="container mx-auto mb-10 text-center lg:mb-20">
+
+                <Typography
+                  color="blue-gray"
+                  className="mb-4 !text-2xl font-bold lg:!text-4xl"
+                >
+                  Promoting access to African Research
+                </Typography>
+                <Typography
+                  variant="lead"
+                  className="mx-auto max-w-3xl !text-gray-500"
+                >
+                  Iwemi Research is your premier destination for rich African research and intellectual material.
+                  Our mission is to partner with institutions across Africa to deliver a comprehensive portal, making African research accessible worldwide.
+
+                </Typography>
+              </div>
+              <div className=" container mx-auto grid  grid-cols-1 lg:grid-cols-3">
+                <Card
+                  className="col-span-1 bg-gray-100/50 overflow-hidden"
+                  shadow={false}
+                >
+                  <CardBody className="text-center">
+                    
+                    <img
+                      src={content8}
+                      alt="iphone"
+                      className="w-full  rounded-lg xl:h-[370px] lg:h-[360px] lg:translate-y-8 translate-y-7 object-cover object-center"
+                    />
+                  </CardBody>
+                </Card>
+                <Card
+                  className="col-span-2 bg-gray-100/50 overflow-hidden"
+                  shadow={false}
+                >
+                  <CardBody className="text-center">
+                   
+                    <img
+                     src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+                      alt="laptop"
+                      className="w-full hidden md:block rounded-lg lg:h-[380px] md:h-[300px] h-[220px] lg:translate-y-16 translate-y-10 object-cover object-center"
+                    />
+                  </CardBody>
+                </Card>
+              </div>
+              <div className="container mx-auto grid  grid-cols-1 lg:grid-cols-3">
+                <Card
+                  className="col-span-2 bg-gray-100/50 overflow-hidden"
+                  shadow={false}
+                >
+                  <CardBody className="text-center">
+                   
+                    <img
+                      src={content7}
+                      alt="laptop"
+                      className="w-full hidden md:block rounded-lg xl:h-[355px] lg:h-[380px] md:h-[300px] h-[180px] lg:translate-y-6 translate-y-10 object-cover object-top"
+                    />
+                  </CardBody>
+                </Card>
+                <Card
+                  className="col-span-1  bg-gray-100/50 overflow-hidden"
+                  shadow={false}
+                >
+                  <CardBody className="text-center">
+                    
+                    <img
+                      src={content2}
+                      alt="iphone"
+                      className="w-full rounded-lg xl:h-[370px] lg:h-[360px] lg:translate-y-8 translate-y-7 object-cover object-center"
+                    />
+                  </CardBody>
+                </Card>
+                
+              </div>
+            </section>
+
+            {/* <section className="bg-white dark:bg-gray-900 content-section">
+              <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl flex flex-col">
+                <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400 section-info justify-center flex flex-col">
+                  <Typography variant='h4' className="mb-4   font-extrabold text-gray-900 dark:text-white">Promoting access to African Research</Typography>
+                  <Typography variant='paragraph' className="mb-4 font-semibold w-full max-w-screen-sm">
+                    Iwemi Research is your premier destination for rich African research and intellectual material.
+                    Our mission is to partner with institutions across Africa to deliver a comprehensive portal, making African research accessible worldwide.
+                  </Typography>
+
+
+
                 </div>
 
-
-              </div>
-
-              <div className="flex flex-col gap-y-4 content-grid">
-                <div className="content-grid1">
-                  <img src={content8}
-                    alt="office content 1" className="secton-imgs-long" />
-                  <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
-                    alt="office content 2" className="secton-imgs" />
-                  <img src={content3}
-                    alt="office content 1" className="secton-imgs" />
+                <div className="flex flex-col gap-y-4 ">
+                  <div className=" flex w-full">
+                    <img src={content8}
+                      alt="office content 1" className="secton-imgs-long" />
+                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+                      alt="office content 2" className="secton-imgs " />
+                    <img src={content3}
+                      alt="office content 1" className="secton-imgs " />
+                  </div>
+                  <div className=" flex">
+                    <img src={content2}
+                      alt="office content 2" className="secton-imgs" />
+                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+                      alt="office content 1" className="secton-imgs-long" />
+                    <img src={content7}
+                      alt="office content 2" className="secton-imgs" />
+                  </div>
                 </div>
-                <div className="content-grid2">
-                  <img src={content2}
-                    alt="office content 2" className="secton-imgs" />
-                  <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
-                    alt="office content 1" className="secton-imgs-long" />
-                  <img src={content7}
-                    alt="office content 2" className="secton-imgs" />
+
+              </div>
+            </section> */}
+            <hr />
+            {/**carousel */}
+
+
+
+
+            <section className="dark:bg-gray-900 features " id='resources'>
+              <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+                  <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
+                  <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
+                </div>
+                <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+
+                  {books
+                    .filter((book) => book.type === "Journal") // Ensuring case insensitivity
+                    .slice(0, 4) // Limit to the first 4
+                    .map((book) => (
+                      <HomeBookCards key={book.id} book={book} />
+                    ))}
+                </div>
+                <div className="see-more-button">
+                  <a href="/journals">See more {'>'}</a>
                 </div>
               </div>
+            </section>
+            <hr className="border-t border-gray-300" />
+            <section className="dark:bg-gray-900 features " >
+              <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+                  <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
+                  <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
+                </div>
+                <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
 
-            </div>
-          </section>
-          <hr />
-          {/**carousel */}
+                  {books
+                    .filter((book) => book.type === "Thesis & Dissertations") // Ensuring case insensitivity
+                    .slice(0, 4) // Limit to the first 4
+                    .map((book) => (
+                      <HomeBookCards key={book.id} book={book} />
+                    ))}
 
 
-
-
-          <section className="dark:bg-gray-900 features " id='resources'>
-            <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-              <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Journals</h2>
-                <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
+                </div>
+                <div className="see-more-button">
+                  <a href="/thesis-Dissertations">See more {'>'}</a>
+                </div>
               </div>
-              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+            </section>
+            <hr className="border-t border-gray-300" />
+            <section className="dark:bg-gray-900 features " >
+              <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
+                <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+                  <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Textbooks</h2>
+                  <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
+                </div>
+                <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
-                {books
-                  .filter((book) => book.type === "Journal") // Ensuring case insensitivity
-                  .slice(0, 4) // Limit to the first 4
-                  .map((book) => (
-                    <HomeBookCards key={book.id} book={book} />
-                  ))}
+                  {books
+                    .filter((book) => book.type === "Academic Textbooks") // Ensuring case insensitivity
+                    .slice(0, 4) // Limit to the first 4
+                    .map((book) => (
+                      <HomeBookCards key={book.id} book={book} />
+                    ))}
+                </div>
+                <div className="see-more-button">
+                  <a href="/academic-Textbooks">See more {'>'}</a>
+                </div>
               </div>
-              <div className="see-more-button">
-                <a href="/journals">See more {'>'}</a>
-              </div>
-            </div>
-          </section>
-          <hr className="border-t border-gray-300" />
-          <section className="dark:bg-gray-900 features " >
-            <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-              <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Thesis/Dissertations</h2>
-                <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
-              </div>
-              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 lg:gap-25 md:space-y-0">
-
-                {books
-                  .filter((book) => book.type === "Thesis & Dissertations") // Ensuring case insensitivity
-                  .slice(0, 4) // Limit to the first 4
-                  .map((book) => (
-                    <HomeBookCards key={book.id} book={book} />
-                  ))}
+            </section>
 
 
-              </div>
-              <div className="see-more-button">
-                <a href="/thesis-Dissertations">See more {'>'}</a>
-              </div>
-            </div>
-          </section>
-          <hr className="border-t border-gray-300" />
-          <section className="dark:bg-gray-900 features " >
-            <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
-              <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Academic Textbooks</h2>
-                <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
-              </div>
-              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
+            <hr className="border-t border-gray-300" />
+            <section className="dark:bg-gray-900 features ">
+              <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
+                <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
+                  <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Conference Papers</h2>
+                  <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
+                </div>
+                <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
 
-                {books
-                  .filter((book) => book.type === "Academic Textbooks") // Ensuring case insensitivity
-                  .slice(0, 4) // Limit to the first 4
-                  .map((book) => (
-                    <HomeBookCards key={book.id} book={book} />
-                  ))}
+                  {books
+                    .filter((book) => book.type === "Conference Papers") // Ensuring case insensitivity
+                    .slice(0, 4) // Limit to the first 4
+                    .map((book) => (
+                      <HomeBookCards key={book.id} book={book} />
+                    ))}
+                </div>
+                <div className="see-more-button">
+                  <a href="/conference-Papers">See more {'>'}</a>
+                </div>
               </div>
-              <div className="see-more-button">
-                <a href="/academic-Textbooks">See more {'>'}</a>
-              </div>
-            </div>
-          </section>
+            </section>
 
 
-          <hr className="border-t border-gray-300" />
-          <section className="dark:bg-gray-900 features ">
-            <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ">
-              <div className="max-w-screen-md mb-8 lg:mb-16 features-text">
-                <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Conference Papers</h2>
-                <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Iwemi Research, we focus on areas where research, innovation and collaboration can unlock long term value and drive academic and intellectual growth</p>
-              </div>
-              <div className="space-y-8 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-12 md:space-y-0">
-
-              {books
-                  .filter((book) => book.type === "Conference Papers") // Ensuring case insensitivity
-                  .slice(0, 4) // Limit to the first 4
-                  .map((book) => (
-                    <HomeBookCards key={book.id} book={book} />
-                  ))}
-              </div>
-              <div className="see-more-button">
-                <a href="/conference-Papers">See more {'>'}</a>
-              </div>
-            </div>
-          </section>
-
-
-          {/**<section className="bg-white dark:bg-gray-900 store-section w-full">
+            {/**<section className="bg-white dark:bg-gray-900 store-section w-full">
         <div className="store-div flex ">
           <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400 store-text w-full">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white store-section-title">Let's find more that brings<br /> us together</h2>
@@ -290,29 +370,29 @@ const Home = () => {
           </div>
         </div>
       </section>*/}
-          <hr className="border-t border-gray-300" />
+            <hr className="border-t border-gray-300" />
 
-          <section className=" dark:bg-gray-900 newsletter" >
-            <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 flex justify-center">
-              <div className="max-w-screen-md w-full">
-                <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Sign up for our newsletter</h2>
-                <p className="mb-8 font-light text-gray-500 sm:text-xl dark:text-gray-400">Stay up to date with the roadmap progress, announcements and <br />exclusive dsicounts feel free to sign up with your email</p>
-                <div className="flex newsletter-cta">
-                  <input type="email" id="email" name="email" className="input-email w-full" placeholder="Enter your email" />
-                  <button className="newsletter-button">Subscribe</button>
-                </div>
-                <div className="flex justify-center newsletter-link" >
-                  <span>We care about the protection of your data. Read our <a href="">Privacy Policy</a></span>
+            <section className=" dark:bg-gray-900 newsletter" >
+              <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 flex justify-center">
+                <div className="max-w-screen-md w-full">
+                  <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Sign up for our newsletter</h2>
+                  <p className="mb-8 font-light text-gray-500 sm:text-xl dark:text-gray-400">Stay up to date with the roadmap progress, announcements and <br />exclusive dsicounts feel free to sign up with your email</p>
+                  <div className="flex newsletter-cta">
+                    <input type="email" id="email" name="email" className="input-email w-full" placeholder="Enter your email" />
+                    <button className="newsletter-button">Subscribe</button>
+                  </div>
+                  <div className="flex justify-center newsletter-link" >
+                    <span>We care about the protection of your data. Read our <a href="">Privacy Policy</a></span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-        </>)}
+            </section>
+          </>)}
 
 
-    </div>
+      </div>
 
-  )
+    )
 }
 
 export default Home

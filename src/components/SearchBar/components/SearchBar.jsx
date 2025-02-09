@@ -7,6 +7,13 @@ import {
   SearchButton,
   SearchInput,
 } from "./styles";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
 // function SearchBar() {
 
@@ -42,13 +49,16 @@ export const SearchBar = () => {
   const targetRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
   const showSearchInput = isHovered || isFocused;
 
-  const { setResults, isSearch, setIsSearch, searchInput  ,setSearchInput} = useContext(GlobalStateContext)
+  const { setResults, isSearch, setIsSearch, searchInput, setSearchInput } = useContext(GlobalStateContext)
 
   // console.log(isSearch)
 
   const handleSearch = async () => {
+    handleOpen()
     setIsSearch(true)
 
     if (searchInput.trim() === '') {
@@ -68,14 +78,14 @@ export const SearchBar = () => {
         throw new Error('Failed to fetch journals')
       } else {
         const books = await response.json()
-        
-        const filteredBooks = books.filter(book => 
+
+        const filteredBooks = books.filter(book =>
           book.name.toLowerCase().includes(searchInput.toLowerCase()) ||
           book.author.toLowerCase().includes(searchInput.toLowerCase()) ||
           book.category.toLowerCase().includes(searchInput.toLowerCase()) ||
           book.subcategory.toLowerCase().includes(searchInput.toLowerCase())
         );
-      
+
         setResults(filteredBooks)
       }
 
@@ -98,7 +108,7 @@ export const SearchBar = () => {
     }
      */
 
-   
+
   }
 
   //console.log(isHovered)
@@ -112,11 +122,11 @@ export const SearchBar = () => {
 
   return (
     <Container
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      $hover={showSearchInput}
+    // onMouseEnter={() => setIsHovered(true)}
+    // onMouseLeave={() => setIsHovered(false)}
+    // onFocus={() => setIsFocused(true)}
+    // onBlur={() => setIsFocused(false)}
+    // $hover={showSearchInput}
     >
       <SearchInput className='focus:outline-none' ref={targetRef} $showSearchInput={showSearchInput} placeholder='Search...' value={searchInput} onChange={(e) => setSearchInput(e.target.value)} onKeyDown={(e) => {
         if (e.key === 'Enter') {
@@ -130,8 +140,44 @@ export const SearchBar = () => {
           </SearchButton>
         </>
       ) : (
-        <IconMagnifyingGlass />
+        <div onClick={handleOpen} className='cursor-pointer'>
+          <IconMagnifyingGlass />
+        </div>
+
       )}
+      <Dialog
+        open={open}
+        handler={handleOpen}
+        animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+        size='xl'
+
+      >
+
+        <DialogBody>
+          <div className="flex items-center w-full  bg-white rounded-lg shadow-md overflow-hidden border border-gray-300">
+            <input
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+              value={searchInput} 
+              onChange={(e) => setSearchInput(e.target.value)} 
+              type="text"
+              placeholder="Search books, journals, or research papers..."
+              className="w-full px-4 py-2 text-gray-700 focus:outline-none"
+            />
+            <button className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition" onClick={handleSearch}>
+              🔍
+            </button>
+          </div>
+
+        </DialogBody>
+
+      </Dialog>
     </Container>
   )
 }

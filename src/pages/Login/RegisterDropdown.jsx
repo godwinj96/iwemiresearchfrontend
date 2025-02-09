@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const RegisterDropdown = () => {
+const RegisterDropdown = ({close}) => {
 
     const navigate = useNavigate()
     const dropdownRef = useRef(null)
@@ -20,14 +20,14 @@ const RegisterDropdown = () => {
    
 
     return (
-        <div className="absolute mt-2 bg-white border rounded shadow-lg w-48">
+        <div className="absolute mt-2 bg-white border rounded shadow-lg w-48 z-50">
             <a
                 
                 href="#user-registration"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={(e)=>{
                     e.preventDefault();
-                    
+                    close();
                     startedClick()
                 }}
             >
@@ -38,6 +38,7 @@ const RegisterDropdown = () => {
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={(e)=>{
                     e.preventDefault()
+                    close()
                     signup_publisher()
                 }}
             >

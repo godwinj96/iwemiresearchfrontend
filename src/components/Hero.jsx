@@ -13,11 +13,12 @@ const Hero = () => {
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={50}
+            
             loop={true}
             slidesPerView={1}
-            navigation
-            pagination={false}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            navigation = {false}
+            pagination={true}
+            autoplay={{ delay: 5000, disableOnInteraction: true }}
             className="w-full h-[400px] md:h-[500px] lg:h-[600px]"
         >
             {/* Slide 1 - Regular Slide */}
@@ -26,7 +27,7 @@ const Hero = () => {
                     style={{ backgroundImage: `url(${img3})` }}>
                     <div className="text-left bg-transparent p-6 mt-10 sm:mt-20 rounded-lg">
                         <Typography variant='h1' className=" max-w-md  font-extrabold">Africa's finest research platform</Typography>
-                        <Typography variant='h4' className="max-w-sm sm:max-w-lg font-semibold mt-2 text-gray-200">Get the best research materials from Top African Institutions</Typography>
+                        <Typography  className="max-w-sm sm:max-w-lg lg:text-2xl font-semibold mt-2 text-gray-200">Get the best research materials from Top African Institutions</Typography>
                     </div>
                 </div>
             </SwiperSlide>
@@ -41,7 +42,7 @@ const Hero = () => {
                         <Typography variant="h1" className="font-bold max-w-xl text-3xl md:text-5xl">
                             Discover the Knowledge You Need
                         </Typography>
-                        <Typography variant="lead" className="max-w-sm sm:max-w-lg font-semibold mt-2">
+                        <Typography  className="max-w-sm sm:max-w-lg font-semibold mt-2">
                             Explore thousands of academic books, journals, and research papers
                             from top African institutions. Find exactly what you need today!
                         </Typography>
