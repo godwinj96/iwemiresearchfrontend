@@ -9,11 +9,18 @@ import { useCart } from '../../Context/CartContext';
 import { GlobalStateContext } from '../../Context/GlobalState';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import {
+    Drawer,
+    Button,
+    Typography,
+    IconButton,
+} from "@material-tailwind/react";
 
 const ITEMS_PER_PAGE = 15
 
 const Thesis = () => {
-    const {user,searchInput} = useContext(GlobalStateContext)
+    const [thesis, setThesis] = useState([]);
+    const { user, searchInput } = useContext(GlobalStateContext)
     const normalizeText = (text) => text.toLowerCase().replace(/\s+/g, ' ').trim();
     const matchesFirstThreeLetters = (source, target) =>
         source.toLowerCase().startsWith(target.toLowerCase().slice(0, 3));
@@ -182,19 +189,27 @@ const Thesis = () => {
         veterinaryTeachingHospital: false,
 
     });
-
-    useEffect(() => {
-        // Initialize AOS
-        AOS.init({
-          duration: 1000,
-          once: true,
-          delay: 100 // Add a small delay
-        });
-      }, []);
-
-    const [isOpen, setIsOpen] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
+    const [openLeft, setOpenLeft] = useState(false);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const paginatedThesis = thesis.slice(startIndex, endIndex);
+    
+
+    const { dispatch } = useCart()
+
+    const [filters, setFilters] = useState({
+        citationCount: false,
+        name: false,
+        createdOn: false
+    })
+
+
+
+    
+    const [isOpen, setIsOpen] = useState(false)
+    
     //const [journals, setJournals] = useState([]);
 
     const [categoryCheckValues, setCategoryCheckValues] = useState({
@@ -218,6 +233,9 @@ const Thesis = () => {
     const dropdownRef = useRef(null)
     const buttonRef = useRef(null)
     const menuRef = useRef(null)
+
+    const openDrawerLeft = () => setOpenLeft(true);
+    const closeDrawerLeft = () => setOpenLeft(false);
 
     const handleToggleExpand = (bookId) => {
         setExpandedBookId((prevId) => (prevId === bookId ? null : bookId))
@@ -311,7 +329,14 @@ const Thesis = () => {
             document.removeEventListener('mousedown', handleClickOutsideMenu);
         };
     }, [handleClickOutsideMenu]);
-
+    useEffect(() => {
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            delay: 100 // Add a small delay
+        });
+    }, []);
     useEffect(() => {
         if (!isOpen) {
             removeBackdrop();
@@ -333,7 +358,6 @@ const Thesis = () => {
         return array;
     };
 
-    const [thesis, setThesis] = useState([]);
 
     useEffect(() => {
         const fetchThesis = async () => {
@@ -373,15 +397,6 @@ const Thesis = () => {
 
     }, [currentPage, accessType])
 
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    const paginatedThesis = thesis.slice(startIndex, endIndex);
-
-    const [filters, setFilters] = useState({
-        citationCount: false,
-        name: false,
-        createdOn: false
-    })
 
     const handleFitlerChange = (e) => {
         const { name, checked } = e.target;
@@ -390,6 +405,7 @@ const Thesis = () => {
             [name]: checked,
         }))
     }
+    
 
     const applyFilters = (books) => {
         let filteredBooks = [...books]
@@ -436,10 +452,8 @@ const Thesis = () => {
 
     const filteredPapers = applyFilters(paginatedThesis)
 
-    const { dispatch } = useCart()
-
     const handleAddToCart = (item) => {
-        if(!user){
+        if (!user) {
             toast.warning("Please login to add items to cart")
             return
         }
@@ -509,19 +523,25 @@ const Thesis = () => {
                             <div className="sidebar flex flex-col   relative">
 
                                 <button
-                                    ref={buttonRef}
-                                    onClick={toggleSidebar}
+                                    // ref={buttonRef}
+                                    onClick={() => { openDrawerLeft() }}
                                     data-drawer-target="sidebar-multi-level-sidebar"
                                     data-drawer-toggle="sidebar-multi-level-sidebar"
                                     aria-controls="sidebar-multi-level-sidebar"
                                     type="button"
                                     className="inline-flex items-center p-2 mt-2 mx-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
-                    focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
+                                     focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
                                     <span className="sr-only">Open sidebar</span>
                                     <HiMenuAlt2 size={24} />
 
                                 </button>
-                                <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 '} `} aria-label="Sidebar">
+                                <Drawer
+                                
+                                    placement="left"
+                                    open={openLeft}
+                                    onClose={closeDrawerLeft}
+                                    className="p-4"
+                                >
                                     <div className="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
                                         <ul className="space-y-2 font-medium">
 
@@ -1407,14 +1427,17 @@ const Thesis = () => {
 
                                         </ul>
                                     </div>
-                                </aside>
+                                </Drawer>
+                                {/* <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0 '} `} aria-label="Sidebar">
+
+                                </aside> */}
 
 
 
                             </div>
                             <div className="thesis-papers flex flex-col ">
 
-                                <section className="  dark dark:bg-gray-900 p-3 sm:p-5">
+                                <section className="  dark dark:bg-gray-900 p-3 flex flex-col sm:p-5 min-h-screen">
                                     <div ref={dropdownRef}>
                                         <button
                                             onClick={toggleDropdown}
@@ -1471,7 +1494,7 @@ const Thesis = () => {
                                         </div>}
                                     </div>
 
-                                    <div className="type-papers flex flex-col">
+                                    <div className="type-papers flex flex-col flex-1">
 
                                         {filteredPapers.map((thesis) => (
                                             <BookItem
@@ -1486,20 +1509,22 @@ const Thesis = () => {
 
 
                                     </div>
-                                    <span>Page {currentPage} of {totalPage}</span>
-                                    <div className="next-button flex gap-10">
-                                        <button
-                                            onClick={handlePreviousPage}
-                                            disabled={currentPage === 1}
-                                        >
-                                            {'< Previous'}
-                                        </button>
-                                        {''}
-                                        <button
-                                            onClick={handleNextPage}
-                                            disabled={currentPage === totalPage}
-                                        >Next {'>'}</button>
-                                    </div>
+                                    <div className='mt-auto flex items-center justify-between'>
+                                            <span>Page {currentPage} of {totalPage}</span>
+                                            <div className="next-button flex gap-10">
+                                                <button
+                                                    onClick={handlePreviousPage}
+                                                    disabled={currentPage === 1}
+                                                >
+                                                    {'< Previous'}
+                                                </button>
+                                                {''}
+                                                <button
+                                                    onClick={handleNextPage}
+                                                    disabled={currentPage === totalPage}
+                                                >Next {'>'}</button>
+                                            </div>
+                                        </div>
                                 </section>
                             </div>
                         </div>

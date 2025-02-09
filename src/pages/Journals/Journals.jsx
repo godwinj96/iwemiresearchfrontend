@@ -10,7 +10,14 @@ import BookItem from '../../components/BookCards/BookItem';
 import HomeBookCards from '../../components/BookCards/HomeBookCards';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 15
+import {
+    Drawer,
+    Button,
+    Typography,
+    IconButton,
+} from "@material-tailwind/react";
+
 
 
 const Journals = () => {
@@ -58,7 +65,7 @@ const Journals = () => {
         socialSciences: false,
         veterinaryMedicine: false,
     })
-    const {user,searchInput} = useContext(GlobalStateContext)
+    const { user, searchInput } = useContext(GlobalStateContext)
 
 
     const [checkboxValues, setCheckboxValues] = useState({
@@ -205,6 +212,11 @@ const Journals = () => {
         veterinaryTeachingHospital: false,
 
     });
+
+    const [openLeft, setOpenLeft] = useState(false);
+    const openDrawerLeft = () => setOpenLeft(true);
+    const closeDrawerLeft = () => setOpenLeft(false);
+
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [journals, setJournals] = useState([]);
@@ -392,7 +404,7 @@ const Journals = () => {
         }))
     }
 
-    
+
 
     const applyFilters = (books) => {
         let filteredBooks = [...books]
@@ -442,7 +454,7 @@ const Journals = () => {
     const { state, dispatch } = useCart()
 
     const handleAddToCart = (item) => {
-        if(!user){
+        if (!user) {
             toast.warning("Please login to add items to cart")
             return
         }
@@ -478,11 +490,11 @@ const Journals = () => {
     useEffect(() => {
         // Initialize AOS
         AOS.init({
-          duration: 1000,
-          once: true,
-          delay: 100 // Add a small delay
+            duration: 1000,
+            once: true,
+            delay: 100 // Add a small delay
         });
-      }, []);
+    }, []);
 
 
 
@@ -521,24 +533,29 @@ const Journals = () => {
                         <div className="empty w-full">
 
                         </div>
-                        <div className="thesis-content flex  ">
-                            <div className="sidebar flex flex-col   relative">
+                        <div className="thesis-content !flex !justify-between w-full ">
+                            <div className="sidebar flex flex-col  relative">
 
                                 <button
-                                    ref={buttonRef}
-                                    onClick={toggleSidebar}
+                                    // ref={buttonRef}
+                                    onClick={() => { openDrawerLeft() }}
                                     data-drawer-target="sidebar-multi-level-sidebar"
                                     data-drawer-toggle="sidebar-multi-level-sidebar"
                                     aria-controls="sidebar-multi-level-sidebar"
                                     type="button"
                                     className="inline-flex items-center p-2 mt-2 mx-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none 
-                    focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
+                                     focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sidebar-button">
                                     <span className="sr-only">Open sidebar</span>
                                     <HiMenuAlt2 size={24} />
 
                                 </button>
+                                <Drawer
 
-                                <aside ref={menuRef} id="sidebar-multi-level-sidebar" className={` w-64 h-screen transition-transform duration-300   ${isOpen ? 'translate-x-0' : '-translate-x-full fixed left-0'} `} aria-label="Sidebar">
+                                    placement="left"
+                                    open={openLeft}
+                                    onClose={closeDrawerLeft}
+                                    className="p-4"
+                                >
                                     <div className="h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
                                         <ul className="space-y-2 font-medium">
 
@@ -1424,14 +1441,14 @@ const Journals = () => {
 
                                         </ul>
                                     </div>
-                                </aside>
+                                </Drawer>
 
 
 
                             </div>
                             <div className="thesis-papers ">
 
-                                <section className="  dark dark:bg-gray-900 p-3 sm:p-5">
+                                <section className="dark dark:bg-gray-900 p-3 flex flex-col sm:p-5 min-h-screen">
                                     <div ref={dropdownRef}>
                                         <button
                                             onClick={toggleDropdown}
@@ -1488,7 +1505,7 @@ const Journals = () => {
                                         </div>}
                                     </div>
 
-                                    <div className="type-papers flex flex-col">
+                                    <div className="type-papers flex flex-col flex-1">
 
                                         {filteredPapers.map((journal) => (
                                             <BookItem
@@ -1505,19 +1522,21 @@ const Journals = () => {
 
 
                                     </div>
-                                    <span>Page {currentPage} of {totalPage}</span>
-                                    <div className="next-button flex gap-10">
-                                        <button
-                                            onClick={handlePreviousPage}
-                                            disabled={currentPage === 1}
-                                        >
-                                            {'< Previous'}
-                                        </button>
-                                        {''}
-                                        <button
-                                            onClick={handleNextPage}
-                                            disabled={currentPage === totalPage}
-                                        >Next {'>'}</button>
+                                    <div className='mt-auto flex items-center justify-between'>
+                                        <span>Page {currentPage} of {totalPage}</span>
+                                        <div className="next-button flex gap-10">
+                                            <button
+                                                onClick={handlePreviousPage}
+                                                disabled={currentPage === 1}
+                                            >
+                                                {'< Previous'}
+                                            </button>
+                                            {''}
+                                            <button
+                                                onClick={handleNextPage}
+                                                disabled={currentPage === totalPage}
+                                            >Next {'>'}</button>
+                                        </div>
                                     </div>
                                 </section>
                             </div>

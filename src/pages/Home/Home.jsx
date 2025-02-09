@@ -11,6 +11,7 @@ import 'aos/dist/aos.css'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
 import { GlobalStateContext } from '../../Context/GlobalState'
+import Hero from '../../components/Hero'
 
 
 
@@ -125,6 +126,7 @@ const Home = () => {
         </section>)
         :
         (<>
+        <Hero />
           <section className="dark:bg-gray-900   hero-section dark">
             <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
               <div className="mt-4 md:mt-0">

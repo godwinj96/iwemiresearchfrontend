@@ -12,8 +12,8 @@ const Footer = () => {
 
     return (
         <div>
-            <footer className="bg-grey-200 lg:grid lg:grid-cols-5">
-                <div className="relative block h-32 lg:col-span-2 lg:h-full">
+            <footer className="bg-gray-200 lg:grid lg:grid-cols-5">
+                <div className="relative block h-32 lg:col-span-1 lg:h-56">
                     <img
                         src={logo}
                         alt=""
@@ -21,7 +21,7 @@ const Footer = () => {
                     />
                 </div>
 
-                <div className="px-4 py-16 sm:px-6 lg:col-span-3 lg:px-8">
+                <div className="px-4 py-16 sm:px-6 lg:col-span-4 lg:px-8">
                     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                         <div>
                             <p>
