@@ -113,7 +113,7 @@ const Footer = () => {
                     </div>
 
 
-                    <div className='flex flex-col items-center justify-center mt-12 border-t border-gray-100 pt-12'>
+                    <div className='flex flex-col  mt-12 border-t border-gray-100 pt-12'>
 
                         <Language />
                         <Currency onCurrencyChange={handleCurrencyChange} />

@@ -35,7 +35,7 @@ const Currency = ({ onCurrencyChange }) => {
 
 
     return (
-        <div className="w-full p-2 mx-auto mb-5 flex flex-col  justify-center">
+        <div className="w-3/4 p-2 mx-auto mb-5 flex flex-col  justify-center">
             <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Currency</label>
             <select
                 id="currency"

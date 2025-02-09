@@ -11,8 +11,10 @@ import Testimonial from '../../components/Testimonials/Testimonials'
 import { useLocation } from 'react-router-dom'
 import { GlobalStateContext } from '../../Context/GlobalState'
 import HomeBookCards from '../../components/BookCards/HomeBookCards'
+import about from '../../assets/about-us.jpg'
 import AOS from 'aos'
 import 'aos/dist/aos.css';
+import { Typography } from '@material-tailwind/react'
 
 const About = () => {
 
@@ -59,46 +61,73 @@ const About = () => {
                     {/**<div className='about-heading flex'>
                 <h2>About us</h2>
             </div>**/}
-                    <div className='about-hero flex justify-start items-center !px-0 !sm:px-0' data-aos="fade-up">
-                        <div className='flex about-hero-img'>
-                            <div className=' flex flex-col items-center about-hero-img-left'>
-                                <img src={pic4} alt="" className='a' />
-                                <img src={pic2} alt="" className='b' />
-                            </div>
-                            <div className='about-hero-img-right hidden md:block'>
-                                <img src={pic3} alt="" />
-                            </div>
+                    <div
+                        className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] flex items-center justify-center text-white text-center"
+                        style={{
+                            backgroundImage: `url(${about})`, // Update this path
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                        }}
+                    >
+                        {/* Overlay for better readability */}
+                        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
+                        {/* Text Content */}
+                        <h1 className="relative text-3xl md:text-5xl font-extrabold">
+                            About Us
+                        </h1>
+                    </div>
+
+                    <div className="container mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        {/* Left Side - Image Grid */}
+                        <div className="grid grid-cols-2 gap-4">
+                            <img
+                                src={pic2}// Update with your image path
+                                alt="Research work"
+                                className="w-full h-48 object-cover rounded-lg"
+                            />
+                            <img
+                                src={pic1}
+                                alt="Collaboration"
+                                className="w-full h-48 object-cover rounded-lg"
+                            />
+                            <img
+                                src={pic3}
+                                alt="Library"
+                                className="w-full h-48 object-cover rounded-lg"
+                            />
+                            <img
+                                src={pic4}
+                                alt="Study session"
+                                className="w-full h-48 object-cover rounded-lg"
+                            />
                         </div>
-                        <div className='about-hero-right'>
-                            <span className='about-hero-right-h'>
-                                Who we are
-                            </span>
-                            <h2 className='about-hero-right-sh'>
-                                Iwemi Research: Your Gateway to Comprehensive Research Resources
-                            </h2>
-                            <p className='about-hero-right-t'>
-                                Iwemi Research is a leading online learning platform that collaborates with top universities, colleges, and industry experts to offer a wide range of research papers. Our team is comprised of educators, technologists, and lifelong learners dedicated to creating an engaging and effective online research experience.
-                            </p>
-                            <ul className='about-hero-right-ul text-xs sm:text-[10px] md:text-[14px] lg:text-[14px] xl:text-[15px]'>
-                                <li className='hidden sm:block'>
-                                    Database
-                                </li>
-                                <li>
-                                    Insights
-                                </li>
-                                <li>
-                                    Collaboration
-                                </li>
-                                <li>
-                                    Tools
-                                </li>
 
+                        {/* Right Side - Text Content */}
+                        <div>
+                            <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
+                            <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                                At <strong>Iwemi Research</strong>, we are dedicated to making African research
+                                and intellectual materials accessible worldwide.
+                            </p>
+                            <p className="text-gray-600 mb-6">
+                                We collaborate with top institutions to provide a rich library of
+                                academic books, journals, and research papers.
+                            </p>
+
+                            {/* Bullet Points */}
+                            <ul className="list-disc list-inside text-gray-700 space-y-2">
+                                <li>📚 Access thousands of academic resources</li>
+                                <li>🌍 Connect with top African institutions</li>
+                                <li>🔍 Discover new research opportunities</li>
+                                <li>📖 Expand your knowledge and expertise</li>
                             </ul>
                         </div>
                     </div>
 
-                    <div className='about-section flex flex-col items-center justify-center' data-aos="fade-up">
+                   
+
+                    <div className='about-section flex flex-col items-center justify-center' >
                         <div className='about-section-h'>
                             <h2>Free access to thousands of global research papers, academic insights and journals</h2>
                         </div>

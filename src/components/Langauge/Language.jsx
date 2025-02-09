@@ -26,7 +26,7 @@ const Language = () => {
     console.log('Selected Language:', value); // Optional: Log the selected language for testing
   };
   return (
-    <div className="w-full p-2 mx-auto mb-5 flex flex-col  justify-center">
+    <div className="w-3/4 p-2 mx-auto mb-5 flex flex-col  justify-center">
       <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language</label>
       <select
         id="language"
